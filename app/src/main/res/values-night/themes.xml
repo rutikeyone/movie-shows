@@ -1,0 +1,6 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Base.Theme.MovieShows" parent="Theme.Material3.DayNight.NoActionBar"/>
+    <style name="Theme.MovieShows" parent="Base.Theme.MovieShows">
+        <item name="bottomNavigationStyle" >@style/MovieShows.BottomNavigationView.Light</item>
+    </style>
+</resources>

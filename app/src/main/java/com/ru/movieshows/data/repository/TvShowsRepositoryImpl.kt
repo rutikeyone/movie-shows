@@ -1,0 +1,134 @@
+package com.ru.movieshows.data.repository
+
+import com.ru.movieshows.data.dto.TvShowDto
+import com.ru.movieshows.domain.entity.TvShowsEntity
+import com.ru.movieshows.domain.repository.TvShowRepository
+import com.ru.movieshows.domain.repository.exceptions.TvShowException
+import javax.inject.Inject
+import kotlin.Exception
+
+class TvShowsRepositoryImpl @Inject constructor(private val tvShowsDto: TvShowDto): TvShowRepository {
+    override suspend fun getSimilarTvShows(language: String, page: Int, seriesId: String): Result<ArrayList<TvShowsEntity>> {
+        return try {
+            val getSimilarTvShowsResponse = tvShowsDto.getSimilarTvShows(seriesId, language, page)
+            return if(getSimilarTvShowsResponse.isSuccessful && getSimilarTvShowsResponse.body() != null){
+                val tvShowModels = getSimilarTvShowsResponse.body()!!.results
+                val tvShowEntities = tvShowModels.map { it.toEntity() }
+                val results = ArrayList(tvShowEntities)
+                Result.success(results)
+            } else {
+                val exception = TvShowException()
+                Result.failure(exception)
+            }
+        }  catch (e: Exception) {
+            val exception = TvShowException()
+            exception.initCause(e)
+            Result.failure(exception)
+        }
+    }
+
+    override suspend fun getDiscoverTvShows(
+        language: String,
+        page: Int,
+    ): Result<ArrayList<TvShowsEntity>> {
+        return try {
+            val getDiscoverTvShowsResponse = tvShowsDto.getDiscoverTvShows(language, page)
+            return if(getDiscoverTvShowsResponse.isSuccessful && getDiscoverTvShowsResponse.body() != null){
+                val tvShowModes = getDiscoverTvShowsResponse.body()!!.results
+                val tvShowsEntities = tvShowModes.map { it.toEntity() }
+                Result.success(ArrayList(tvShowsEntities))
+            } else {
+                val exception = TvShowException()
+                Result.failure(exception)
+            }
+        }  catch (e: Exception) {
+            val exception = TvShowException()
+            exception.initCause(e)
+            Result.failure(exception)
+        }
+    }
+
+    override suspend fun getTvShowDetails(
+        language: String,
+        seriesId: String,
+    ): Result<TvShowsEntity> {
+        return try {
+            val getTvShowDetailsResponse = tvShowsDto.getTvShowDetails(seriesId, language)
+            return if(getTvShowDetailsResponse.isSuccessful && getTvShowDetailsResponse.body() != null) {
+                val tvShowDetailsModel = getTvShowDetailsResponse.body()!!
+                val tvShowDetailsEntity = tvShowDetailsModel.toEntity()
+                return Result.success(tvShowDetailsEntity)
+            } else {
+                val exception = TvShowException()
+                Result.failure(exception)
+            }
+        } catch (e: Exception) {
+            val exception = TvShowException()
+            exception.initCause(e)
+            Result.failure(exception)
+        }
+    }
+
+    override suspend fun getTopRatedTvShows(
+        language: String,
+        page: Int,
+    ): Result<ArrayList<TvShowsEntity>> {
+        return try {
+            val getTopRatedTvShows = tvShowsDto.getTopRatedTvShows(language, page)
+            return if(getTopRatedTvShows.isSuccessful && getTopRatedTvShows.body() != null) {
+                val tvShowModels = getTopRatedTvShows.body()!!.result
+                val tvShowEntities = tvShowModels.map { it.toEntity() }
+                Result.success(ArrayList(tvShowEntities))
+            } else {
+                val exception = TvShowException()
+                Result.failure(exception)
+            }
+        } catch (e: Exception) {
+            val exception = TvShowException()
+            exception.initCause(e)
+            Result.failure(exception)
+        }
+    }
+
+    override suspend fun getPopularTvShows(
+        language: String,
+        page: Int,
+    ): Result<ArrayList<TvShowsEntity>> {
+        return try {
+            val getPopularTvShowsResponse = tvShowsDto.getPopularTvShows(language, page)
+            return if(getPopularTvShowsResponse.isSuccessful && getPopularTvShowsResponse.body() != null) {
+                val tvShowModels = getPopularTvShowsResponse.body()!!.results
+                val tvShowEntities = tvShowModels.map { it.toEntity() }
+                Result.success(ArrayList(tvShowEntities))
+            } else {
+                val exception = TvShowException()
+                Result.failure(exception)
+            }
+        } catch (e: Exception) {
+            val exception = TvShowException()
+            exception.initCause(e)
+            Result.failure(exception)
+        }
+    }
+
+    override suspend fun getOnTheAirTvShows(
+        language: String,
+        page: Int,
+    ): Result<ArrayList<TvShowsEntity>> {
+        return try {
+            val getOnTheAirTvShowsResponse = tvShowsDto.getOnTheAirTvShows(language, page)
+            return if(getOnTheAirTvShowsResponse.isSuccessful && getOnTheAirTvShowsResponse.body() != null) {
+                val tvShowModels = getOnTheAirTvShowsResponse.body()!!.results
+                val tvShowEntities = tvShowModels.map { it.toEntity() }
+                Result.success(ArrayList(tvShowEntities))
+            } else {
+                val exception = TvShowException()
+                Result.failure(exception)
+            }
+        } catch (e: Exception) {
+            val exception = TvShowException()
+            exception.initCause(e)
+            Result.failure(exception)
+        }
+    }
+}

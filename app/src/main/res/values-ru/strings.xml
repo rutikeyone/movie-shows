@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MovieShows</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="movies">Фильмы</string>
+    <string name="tvs">Сериалы</string>
+    <string name="watch_lists">Отслеживаемые</string>
+    <string name="an_error_occurred_during_the_operation">В процессе выполнения операции произошла ошибка.</string>
+</resources>
