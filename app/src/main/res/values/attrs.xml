@@ -1,2 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <declare-styleable name="Theme.MovieShows">
+        <attr name="MovieShows.TextAppearance.Headline5" format="reference"/>
+        <attr name="MovieShows.TextAppearance.Headline5.Bold" format="reference"/>
+        <attr name="MovieShows.TextAppearance.Body1" format="reference"/>
+        <attr name="MovieShows.TextAppearance.Headline6" format="reference"/>
+        <attr name="MovieShows.TextAppearance.Headline6.Bold" format="reference"/>
+        <attr name="MovieShows.SelectedDots" format="color"/>
+        <attr name="MovieShows.Dots" format="color"/>
+    </declare-styleable>
+</resources>

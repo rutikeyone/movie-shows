@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="MovieShows.TextAppearance.Headline5.Style.Light" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+
+    <style name="MovieShows.TextAppearance.Headline5.Bold.Style.Light" parent="MovieShows.TextAppearance.Headline5.Style.Light">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="MovieShows.TextAppearance.Headline6.Style.Light" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="MovieShows.TextAppearance.Headline6.Bold.Style.Light" parent="MovieShows.TextAppearance.Headline6.Style.Light">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="MovieShows.TextAppearance.Body1.Style.Light" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+</resources>

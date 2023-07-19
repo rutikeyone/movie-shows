@@ -7,7 +7,9 @@ import com.ru.movieshows.domain.entity.ReviewEntity
 import com.ru.movieshows.domain.entity.TvShowsEntity
 import com.ru.movieshows.domain.entity.VideoEntity
 import com.ru.movieshows.domain.repository.MoviesRepository
-import com.ru.movieshows.domain.repository.exceptions.MoviesException
+import com.ru.movieshows.domain.repository.exceptions.AppFailure
+import kotlinx.coroutines.delay
+import java.net.ConnectException
 import javax.inject.Inject
 import kotlin.Exception
 
@@ -20,11 +22,11 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
                 val movieEntities = movieModels.map { it.toEntity() }
                 Result.success(ArrayList(movieEntities))
             } else {
-                val movieException = MoviesException()
+                val movieException = AppFailure.Pure
                 Result.failure(movieException)
             }
         } catch (e: Exception) {
-            val movieException = MoviesException()
+            val movieException = AppFailure.Pure
             Result.failure(movieException)
         }
     }
@@ -40,12 +42,11 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
                 val videoEntities = videoModels.map { it.toEntity() }
                 Result.success(ArrayList(videoEntities))
             } else {
-                val movieException = MoviesException()
+                val movieException = AppFailure.Pure
                 Result.failure(movieException)
             }
         } catch (e: Exception) {
-            val movieException = MoviesException()
-            movieException.initCause(e)
+            val movieException = AppFailure.Pure
             Result.failure(movieException)
         }
     }
@@ -58,12 +59,11 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
                 val similarTvShowEntities = similarTvShowModels.map { it.toEntity() }
                 Result.success(ArrayList(similarTvShowEntities))
             } else {
-                val movieException = MoviesException()
+                val movieException = AppFailure.Pure
                 Result.failure(movieException)
             }
         } catch (e: Exception) {
-            val movieException = MoviesException()
-            movieException.initCause(e)
+            val movieException = AppFailure.Pure
             Result.failure(movieException)
         }
     }
@@ -80,12 +80,11 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
                 val similarTvShowEntities = similarTvShowModels.map { it.toEntity() }
                 Result.success(ArrayList(similarTvShowEntities))
             } else {
-                val movieException = MoviesException()
+                val movieException = AppFailure.Pure
                 Result.failure(movieException)
             }
         } catch (e: Exception) {
-            val movieException = MoviesException()
-            movieException.initCause(e)
+            val movieException = AppFailure.Pure
             Result.failure(movieException)
         }
     }
@@ -101,12 +100,11 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
                 val movieDetailsEntity = movieDetailsModels.toEntity()
                 Result.success(movieDetailsEntity)
             } else {
-                val movieException = MoviesException()
+                val movieException = AppFailure.Pure
                 Result.failure(movieException)
             }
         } catch (e: Exception) {
-            val movieException = MoviesException()
-            movieException.initCause(e)
+            val movieException = AppFailure.Pure
             Result.failure(movieException)
         }
     }
@@ -119,12 +117,17 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
                 val movieEntities = movieModels.map { it.toEntity() }
                 Result.success(ArrayList(movieEntities))
             } else {
-                val movieException = MoviesException()
+                val movieException = AppFailure.Pure
                 Result.failure(movieException)
             }
-        } catch (e: Exception) {
-            val movieException = MoviesException()
-            movieException.initCause(e)
+        }
+        catch (e: ConnectException) {
+            val movieException = AppFailure.Connection
+            delay(1000)
+            Result.failure(movieException)
+        }
+        catch (e: Exception) {
+            val movieException = AppFailure.Pure
             Result.failure(movieException)
         }
     }
@@ -140,11 +143,11 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
                 val moviesEntities = moviesModels.map { it.toEntity() }
                 Result.success(ArrayList(moviesEntities))
             } else {
-                val movieException = MoviesException()
+                val movieException = AppFailure.Pure
                 Result.failure(movieException)
             }
         } catch (e: Exception) {
-            val movieException = MoviesException()
+            val movieException = AppFailure.Pure
             movieException.initCause(e)
             Result.failure(movieException)
         }
@@ -161,11 +164,11 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
                 val moviesEntities = moviesModels.map { it.toEntity() }
                 Result.success(ArrayList(moviesEntities))
             } else {
-                val movieException = MoviesException()
+                val movieException = AppFailure.Pure
                 Result.failure(movieException)
             }
         } catch (e: Exception) {
-            val movieException = MoviesException()
+            val movieException = AppFailure.Pure
             Result.failure(movieException)
         }
     }
@@ -181,11 +184,11 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
                 val topRatedMoviesEntity = topRatedMovieModels.map { it.toEntity() }
                 Result.success(ArrayList(topRatedMoviesEntity))
             } else {
-                val movieException = MoviesException()
+                val movieException = AppFailure.Pure
                 Result.failure(movieException)
             }
         } catch (e: Exception) {
-            val movieException = MoviesException()
+            val movieException = AppFailure.Pure
             Result.failure(movieException)
         }
     }

@@ -8,4 +8,7 @@
     <color name="colorPrimaryVariant2">#151C24</color>
     <color name="yellow">#C19609</color>
     <color name="unselectedColorVariant1">#4B4E57</color>
+    <color name="colorAccent">#03DAC5</color>
+    <color name="tintColorValiant1">#6F000000</color>
+    <color name="blueGrey">#6A717D</color>
 </resources>

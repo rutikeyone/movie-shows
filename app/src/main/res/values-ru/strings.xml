@@ -6,4 +6,8 @@
     <string name="tvs">Сериалы</string>
     <string name="watch_lists">Отслеживаемые</string>
     <string name="an_error_occurred_during_the_operation">В процессе выполнения операции произошла ошибка.</string>
+    <string name="connect_to_the_internet">Подключитесь к Интернету</string>
+    <string name="check_your_connection">Проверьте свое подключение.</string>
+    <string name="retry">Повторить</string>
+    <string name="error_header">Ошибка!</string>
 </resources>

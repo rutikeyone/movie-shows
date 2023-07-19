@@ -65,4 +65,5 @@ open class BaseFragment(@LayoutRes contentLayoutId: Int): Fragment(contentLayout
     }
 
     private fun createToast(toastIntent: ToastIntent) = Toast.makeText(requireContext(), toastIntent.message, toastIntent.duration).show()
+
 }

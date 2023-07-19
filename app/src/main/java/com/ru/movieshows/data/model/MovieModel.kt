@@ -1,6 +1,7 @@
 package com.ru.movieshows.data.model
 
 import com.google.gson.annotations.SerializedName
+import com.ru.movieshows.BuildConfig
 import com.ru.movieshows.domain.entity.MovieEntity
 
 data class MovieModel(
@@ -17,5 +18,5 @@ data class MovieModel(
     @SerializedName("overview")
     val overview: String?
 ) {
-    fun toEntity(): MovieEntity = MovieEntity(id, rating, title, backDrop, poster, overview)
+    fun toEntity(): MovieEntity = MovieEntity(id, rating, title, if(this.backDrop != null) BuildConfig.TMDB_IMAGE_URL + this.backDrop else null, poster, overview)
 }

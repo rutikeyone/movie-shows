@@ -2,9 +2,16 @@
     <style name="Base.Theme.MovieShows" parent="Theme.Material3.DayNight.NoActionBar"/>
 
     <style name="Theme.MovieShows" parent="Base.Theme.MovieShows">
-<!--        <item name="android:windowBackground">@color/colorPrimaryVariant2</item>-->
-<!--        <item name="bottomNavigationStyle" >@style/MovieShows.BottomNavigationView.Light</item>-->
-<!--        <item name="android:statusBarColor">@color/colorPrimaryValiant1</item>-->
-<!--        <item name="toolbarStyle">@style/MovieShows.Toolbar.Light</item>-->
+        <item name="android:windowBackground">@color/colorPrimaryVariant2</item>
+        <item name="bottomNavigationStyle" >@style/MovieShows.BottomNavigationView.Light</item>
+        <item name="android:statusBarColor">@color/colorPrimaryValiant1</item>
+        <item name="toolbarStyle">@style/MovieShows.Toolbar.Light</item>
+        <item name="MovieShows.TextAppearance.Headline5">@style/MovieShows.TextAppearance.Headline5.Style.Light</item>
+        <item name="MovieShows.TextAppearance.Headline5.Bold">@style/MovieShows.TextAppearance.Headline5.Bold.Style.Light</item>
+        <item name="MovieShows.TextAppearance.Body1">@style/MovieShows.TextAppearance.Body1.Style.Light</item>
+        <item name="MovieShows.TextAppearance.Headline6">@style/MovieShows.TextAppearance.Headline6.Style.Light</item>
+        <item name="MovieShows.TextAppearance.Headline6.Bold">@style/MovieShows.TextAppearance.Headline6.Bold.Style.Light</item>
+        <item name="MovieShows.SelectedDots">@color/yellow</item>
+        <item name="MovieShows.Dots">@color/blueGrey</item>
     </style>
 </resources>
