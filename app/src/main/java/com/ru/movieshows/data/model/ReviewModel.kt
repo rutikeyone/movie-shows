@@ -10,6 +10,8 @@ data class ReviewModel(
     val author: String?,
     @SerializedName("content")
     val content: String?,
+    @SerializedName("author_details")
+    val authorDetails: AuthorDetailsModel?
 ) {
-    fun toEntity(): ReviewEntity = ReviewEntity(id, author, content)
+    fun toEntity(): ReviewEntity = ReviewEntity(id, author, content, authorDetails?.toEntity())
 }

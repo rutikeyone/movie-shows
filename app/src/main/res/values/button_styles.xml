@@ -1,2 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+
+    <style name="MovieShows.TextButton.Body3.Hint.Bold.Style" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/darkGreyPurple</item>
+        <item name="rippleColor">@color/yellow</item>
+    </style>
+
+</resources>

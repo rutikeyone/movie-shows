@@ -10,4 +10,16 @@
     <string name="check_your_connection">Проверьте свое подключение.</string>
     <string name="retry">Повторить</string>
     <string name="error_header">Ошибка!</string>
+    <string name="upcoming_movies">Ожидаемые фильмы</string>
+    <string name="popular_movies">Популярные фильмы</string>
+    <string name="top_rated_movies">Фильмы с наивысшей оценкой</string>
+    <string name="movies_details">Детали</string>
+    <string name="duration">Длительность</string>
+    <string name="min">мин.</string>
+    <string name="release_date">Дата выхода</string>
+    <string name="overview">Краткий обзор</string>
+    <string name="genres">Жанры</string>
+    <string name="similar_movies">Похожие фильмы</string>
+    <string name="reviews">Обзоры</string>
+    <string name="show_all">Показать все</string>
 </resources>

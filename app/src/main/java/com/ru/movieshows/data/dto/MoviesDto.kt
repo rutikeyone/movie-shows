@@ -16,7 +16,7 @@ import retrofit2.http.Query
 
 interface MoviesDto {
     @GET("movie/{movie_id}/reviews")
-    suspend fun getMovieReviews(@Path("movieId") movieId: String, @Query("language") language: String): Response<GetMovieReviewsResponse>
+    suspend fun getMovieReviews(@Path("movie_id") movieId: String, @Query("language") language: String): Response<GetMovieReviewsResponse>
 
     @GET("movie/{movie_id}/videos")
     suspend fun getVideosByMoviesId(@Path("movie_id") movieId: String, @Query("language") language: String): Response<GetVideosByMovieIdResponse>
@@ -28,7 +28,7 @@ interface MoviesDto {
     suspend fun getDiscoverMovies(@Query("language") language: String, @Query("page") page: Int, @Query("with_genres") withGenresId: String): Response<GetDiscoverMoviesResponse>
 
     @GET("movie/{movie_id}")
-    suspend fun getMovieDetails(@Path("movie_id") movieId: String, @Query("language") language: String): Response<MovieDetailsModel>
+    suspend fun getMovieDetails(@Path("movie_id") movieId: Int, @Query("language") language: String): Response<MovieDetailsModel>
 
     @GET("movie/now_playing")
     suspend fun getMoviesNowPlaying(@Query("language") language: String, @Query("page") page: Int): Response<GetMoviesNowPlayingResponse>

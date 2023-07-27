@@ -1,136 +1,254 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView
+    android:id="@+id/scrollView"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true"
     tools:context=".presentation.screens.movies.MoviesFragment">
 
-    <LinearLayout
-        android:id="@+id/successLinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:orientation="vertical">
-
-        <FrameLayout
-            android:id="@+id/nowPlayingFrameLayout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_220">
-
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/nowPlayingViewPager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-            <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-                android:id="@+id/dotsIndicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:dotsColor="?attr/MovieShows.Dots"
-                app:dotsCornerRadius="@dimen/dp_8"
-                app:dotsSize="@dimen/dp_12"
-                app:dotsSpacing="4dp"
-                app:dotsWidthFactor="2.5"
-                app:selectedDotColor="?attr/MovieShows.SelectedDots"
-                app:progressMode="false"
-                android:layout_gravity="center|bottom"
-                android:layout_margin="@dimen/dp_6"
-                />
-
-        </FrameLayout>
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/genresTabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabMode="scrollable"
-            android:background="@android:color/transparent"/>
-
-    </LinearLayout>
-
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/successContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:constraint_referenced_ids="successLinearLayout"/>
-
-    <LinearLayout
-        android:id="@+id/failureLinearLayout"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_16"
-        android:layout_marginEnd="@dimen/dp_16"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        tools:context=".presentation.screens.movies.MoviesFragment">
 
-        <TextView
-            android:id="@+id/failureTextHeader"
+        <LinearLayout
+            android:id="@+id/successLinearLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="Header"
-            style="?attr/MovieShows.TextAppearance.Headline5.Bold"
-            android:textAlignment="center"/>
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/failureTextMessage"
+            <FrameLayout
+                android:id="@+id/nowPlayingFrameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_220">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/nowPlayingViewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                    android:id="@+id/dotsIndicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:dotsColor="?attr/MovieShows.Dots"
+                    app:dotsCornerRadius="@dimen/dp_8"
+                    app:dotsSize="@dimen/dp_12"
+                    app:dotsSpacing="4dp"
+                    app:dotsWidthFactor="2.5"
+                    app:selectedDotColor="?attr/MovieShows.SelectedDots"
+                    app:progressMode="false"
+                    android:layout_gravity="center|bottom"
+                    android:layout_margin="@dimen/dp_6"
+                    />
+
+            </FrameLayout>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/genresTabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/discoverMoviesContainer"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_270">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/discoverMovies"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_250"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/movie_tile_variant1"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:layout_marginStart="@dimen/dp_8"
+                    android:layout_marginEnd="@dimen/dp_8"
+                    android:visibility="gone"/>
+
+                <ProgressBar
+                    android:id="@+id/discoverMoviesInPendingProgressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/discoverMoviesFailureTextMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="message"
+                    style="?attr/MovieShows.TextAppearance.Body1"
+                    android:textAlignment="center"
+                    android:layout_marginTop="@dimen/dp_4"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/discoverMoviesRetryButton"
+                    app:layout_constraintVertical_chainStyle="packed"/>
+
+                <Button
+                    android:id="@+id/discoverMoviesRetryButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/retry"
+                    android:layout_marginTop="@dimen/dp_12"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/discoverMoviesFailureTextMessage"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintVertical_bias="0"/>
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/discoverMoviesSuccessContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:constraint_referenced_ids="discoverMovies"
+                    android:visibility="visible"
+                    android:layout_marginStart="@dimen/dp_8"
+                    android:layout_marginEnd="@dimen/dp_8"
+                    />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/discoverMoviesInPendingContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:constraint_referenced_ids="discoverMoviesInPendingProgressBar"
+                    android:visibility="gone"
+                    />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/discoverMoviesFailureContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    app:constraint_referenced_ids="discoverMoviesFailureTextMessage, discoverMoviesRetryButton"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <TextView
+                android:id="@+id/upcomingMoviesHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="?attr/MovieShows.TextAppearance.Headline6.Bold"
+                android:text="@string/upcoming_movies"
+                android:layout_marginTop="@dimen/dp_16"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginEnd="@dimen/dp_16"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/upcomingMovies"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_250"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/movie_tile_variant1"
+                android:layout_marginTop="@dimen/dp_16"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_marginEnd="@dimen/dp_8"
+                />
+
+            <TextView
+                android:id="@+id/popularMoviesHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="?attr/MovieShows.TextAppearance.Headline6.Bold"
+                android:text="@string/popular_movies"
+                android:layout_marginTop="@dimen/dp_8"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginEnd="@dimen/dp_16"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/popularMovies"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_250"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/movie_tile_variant1"
+                android:layout_marginTop="@dimen/dp_16"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_marginEnd="@dimen/dp_8"
+                />
+
+            <TextView
+                android:id="@+id/topRatedHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="?attr/MovieShows.TextAppearance.Headline6.Bold"
+                android:text="@string/top_rated_movies"
+                android:layout_marginTop="@dimen/dp_16"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginEnd="@dimen/dp_16"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/topRatedMovies"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_250"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/movie_tile_variant1"
+                android:layout_marginTop="@dimen/dp_16"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_marginEnd="@dimen/dp_8"
+                />
+
+        </LinearLayout>
+
+        <include
+            android:id="@+id/failurePart"
+            layout="@layout/failure_part" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/successContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="message"
-            style="?attr/MovieShows.TextAppearance.Body1"
-            android:textAlignment="center"
-            android:layout_marginTop="@dimen/dp_4"/>
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:constraint_referenced_ids="successLinearLayout"
+            android:visibility="visible"/>
 
-        <Button
-            android:id="@+id/retryButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/retry"
-            android:layout_marginTop="@dimen/dp_12"/>
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/failureContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:constraint_referenced_ids="failurePart"
+            android:visibility="gone"
+            />
 
-    </LinearLayout>
+        <include
+            android:id="@+id/inPendingPart"
+            layout="@layout/in_pending_part"/>
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/failureContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:constraint_referenced_ids="failureLinearLayout"
-        android:visibility="gone"
-        />
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/inPendingContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:constraint_referenced_ids="inPendingPart"
+            tools:visibility="gone"/>
 
-    <ProgressBar
-        android:id="@+id/inPendingProgressBar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/inPendingContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:constraint_referenced_ids="inPendingProgressBar"
-        tools:visibility="gone"/>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

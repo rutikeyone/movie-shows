@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/failureLinearLayout"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/failureTextHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Header"
+        style="?attr/MovieShows.TextAppearance.Headline5.Bold"
+        android:textAlignment="center"
+        />
+
+    <TextView
+        android:id="@+id/failureTextMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="message"
+        style="?attr/MovieShows.TextAppearance.Body1"
+        android:textAlignment="center"
+        android:layout_marginTop="@dimen/dp_4"/>
+
+    <Button
+        android:id="@+id/retryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/retry"
+        android:layout_marginTop="@dimen/dp_12"/>
+
+</LinearLayout>

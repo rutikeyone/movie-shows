@@ -4,9 +4,15 @@
         <attr name="MovieShows.TextAppearance.Headline5" format="reference"/>
         <attr name="MovieShows.TextAppearance.Headline5.Bold" format="reference"/>
         <attr name="MovieShows.TextAppearance.Body1" format="reference"/>
+        <attr name="MovieShows.TextAppearance.Body3" format="reference"/>
+        <attr name="MovieShows.TextAppearance.Body2.Hint" format="reference"/>
+        <attr name="MovieShows.TextAppearance.Body3.Hint.Bold" format="reference"/>
+        <attr name="MovieShows.TextAppearance.Body3.Bold" format="reference"/>
+        <attr name="MovieShows.TextAppearance.Body3.Bold.Accent" format="reference"/>
         <attr name="MovieShows.TextAppearance.Headline6" format="reference"/>
         <attr name="MovieShows.TextAppearance.Headline6.Bold" format="reference"/>
         <attr name="MovieShows.SelectedDots" format="color"/>
         <attr name="MovieShows.Dots" format="color"/>
+        <attr name="MovieShows.TextButton.Body3.Hint.Bold" format="reference"/>
     </declare-styleable>
 </resources>

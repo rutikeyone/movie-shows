@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_220"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".presentation.screens.movies.MovieTileVariant1Fragment">
+    tools:context=".presentation.screens.movies.MovieTileFragmentVariant1">
 
     <ImageView
         android:id="@+id/movieBackground"
@@ -15,7 +15,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:tintMode="src_atop"
-        app:tint="@color/tintColorValiant1"
         tools:background="@color/cardview_dark_background"/>
 
     <TextView

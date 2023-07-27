@@ -1,7 +1,10 @@
 package com.ru.movieshows.data.model
 
+import android.annotation.SuppressLint
 import com.google.gson.annotations.SerializedName
+import com.ru.movieshows.BuildConfig
 import com.ru.movieshows.domain.entity.MovieDetailsEntity
+import java.text.SimpleDateFormat
 
 data class MovieDetailsModel(
     @SerializedName("id")
@@ -20,6 +23,23 @@ data class MovieDetailsModel(
     val rating: Double?,
     @SerializedName("title")
     val title: String?,
+    @SerializedName("runtime")
+    val runtime: String?,
 ) {
-    fun toEntity(): MovieDetailsEntity = MovieDetailsEntity(id, genres, releaseDate, overview, backDrop, poster, rating, title)
+    @SuppressLint("SimpleDateFormat")
+    fun toEntity(): MovieDetailsEntity {
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val date = if(releaseDate != null) simpleDateFormat.parse(releaseDate) else null
+        return MovieDetailsEntity(
+            id,
+            ArrayList(genres.map { it.toEntity() }),
+            date,
+            overview,
+            if(this.backDrop != null) BuildConfig.TMDB_IMAGE_URL + this.backDrop else null,
+            if(this.poster != null) BuildConfig.TMDB_IMAGE_URL + this.poster else null,
+            rating,
+            title,
+            runtime,
+        )
+    }
 }

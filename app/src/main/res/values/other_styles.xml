@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="MovieShows.BottomNavigationView.Light" parent="Widget.MaterialComponents.BottomNavigationView">
-        <item name="android:background">@color/colorPrimaryValiant1</item>
+    <style name="MovieShows.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="android:background">@color/darkCharcoalGrey</item>
         <item name="itemIconTint">@drawable/navigation_bar_item_tint</item>
         <item name="itemTextColor">@drawable/navigation_bar_item_tint</item>
     </style>
 
-    <style name="MovieShows.Toolbar.Light" parent="Widget.Material3.Toolbar">
-        <item name="android:background">@color/colorPrimaryValiant1</item>
+    <style name="MovieShows.Toolbar" parent="Widget.Material3.Toolbar">
+        <item name="android:background">@color/darkCharcoalGrey</item>
         <item name="titleTextColor">@color/white</item>
      </style>
+
+    <style name="MovieShows.TabLayout" parent="Widget.Material3.TabLayout">
+        <item name="tabMode">scrollable</item>
+        <item name="tabTextColor">@color/lightGrey</item>
+        <item name="tabSelectedTextColor">@color/white</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="tabIndicatorColor">@color/yellow</item>
+        <item name="tabRippleColor">@color/yellow</item>
+    </style>
 </resources>

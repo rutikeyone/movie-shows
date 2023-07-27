@@ -2,16 +2,78 @@ package com.ru.movieshows.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
-import androidx.activity.viewModels
+import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.ru.movieshows.R
+import com.ru.movieshows.presentation.screens.tabs.TabsFragment
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.HiltAndroidApp
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+    private val rootNavController get() = rootNavController()
+    private var currentNavController: NavController? = null
+
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() = executeOnHandleBack(this)
+    }
+
+    private val fragmentListener = object : FragmentManager.FragmentLifecycleCallbacks() {
+        override fun onFragmentCreated(fragmentManager: FragmentManager, fragment: Fragment, savedInstanceState: Bundle?) {
+            super.onFragmentCreated(fragmentManager, fragment, savedInstanceState)
+            if(fragment is NavHostFragment) return
+            onNavControllerActivated(fragment.findNavController())
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setupNavigation()
+    }
+
+    override fun onDestroy() {
+        supportFragmentManager.unregisterFragmentLifecycleCallbacks(fragmentListener)
+        super.onDestroy()
+    }
+
+    private fun isRootNestedRoute(): Boolean {
+        val destinationId = currentNavController?.currentDestination?.id
+        return TabsFragment.tabsTopLevelFragment.any { it == destinationId }
+    }
+
+    private fun popToBackIfCan(): Boolean {
+        return currentNavController != null && currentNavController?.popBackStack() == true
+    }
+
+    private fun executeOnHandleBack(onBackPressedCallback: OnBackPressedCallback) {
+        when (isRootNestedRoute()) {
+            true -> finish()
+            false -> {
+                if(popToBackIfCan()) return
+                onBackPressedCallback.isEnabled = false
+                onBackPressedDispatcher.onBackPressed()
+            }
+        }
+    }
+
+    private fun rootNavController(): NavController {
+        val fragmentContainer = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
+        val navHostFragment = fragmentContainer as NavHostFragment
+        return navHostFragment.navController
+    }
+
+    private fun setupNavigation() {
+        onNavControllerActivated(rootNavController)
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+        supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentListener, true)
+    }
+
+    private fun onNavControllerActivated(navController: NavController) {
+        if(this.currentNavController == navController) return
+        this.currentNavController = navController
     }
 }

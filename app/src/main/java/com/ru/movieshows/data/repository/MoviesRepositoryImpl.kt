@@ -4,7 +4,6 @@ import com.ru.movieshows.data.dto.MoviesDto
 import com.ru.movieshows.domain.entity.MovieDetailsEntity
 import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.entity.ReviewEntity
-import com.ru.movieshows.domain.entity.TvShowsEntity
 import com.ru.movieshows.domain.entity.VideoEntity
 import com.ru.movieshows.domain.repository.MoviesRepository
 import com.ru.movieshows.domain.repository.exceptions.AppFailure
@@ -26,6 +25,7 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
                 Result.failure(movieException)
             }
         } catch (e: Exception) {
+            print(e);
             val movieException = AppFailure.Pure
             Result.failure(movieException)
         }
@@ -51,13 +51,13 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
         }
     }
 
-    override suspend fun getSimilarMovies(language: String, movieId: String, page: Int): Result<ArrayList<TvShowsEntity>> {
+    override suspend fun getSimilarMovies(language: String, movieId: String, page: Int): Result<ArrayList<MovieEntity>> {
         return try {
             val getSimilarTvShowsResponse = moviesDto.getSimilarMovies(movieId, language, page)
             return if(getSimilarTvShowsResponse.isSuccessful && getSimilarTvShowsResponse.body() != null) {
-                val similarTvShowModels = getSimilarTvShowsResponse.body()!!.results
-                val similarTvShowEntities = similarTvShowModels.map { it.toEntity() }
-                Result.success(ArrayList(similarTvShowEntities))
+                val similarMovies = getSimilarTvShowsResponse.body()!!.results
+                val similarMovieEntities = similarMovies.map { it.toEntity() }
+                Result.success(ArrayList(similarMovieEntities))
             } else {
                 val movieException = AppFailure.Pure
                 Result.failure(movieException)
@@ -90,7 +90,7 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
     }
 
     override suspend fun getMovieDetails(
-        movieId: String,
+        movieId: Int,
         language: String,
     ): Result<MovieDetailsEntity> {
         return try {

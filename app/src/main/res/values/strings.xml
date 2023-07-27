@@ -9,4 +9,17 @@
     <string name="check_your_connection">Check your connection.</string>
     <string name="retry">Retry</string>
     <string name="error_header">Error!</string>
+    <string name="upcoming_movies">Upcoming movies</string>
+    <string name="popular_movies">Popular movies</string>
+    <string name="top_rated_movies">Top rated movies</string>
+    <string name="movies_details">Details</string>
+    <string name="duration">Duration</string>
+    <string name="min">min.</string>
+    <string name="release_date">Release Date</string>
+    <string name="overview">Overview</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</string>
+    <string name="genres">Genres</string>
+    <string name="similar_movies">Similar movies</string>
+    <string name="reviews">Reviews</string>
+    <string name="show_all">Show All</string>
 </resources>

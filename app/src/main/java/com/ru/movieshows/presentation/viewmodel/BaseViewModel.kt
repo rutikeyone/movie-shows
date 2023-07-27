@@ -21,7 +21,7 @@ open class BaseViewModel: ViewModel(), PermissionListener {
     private val showDialogEvent = MutableLiveEvent<DialogIntent>()
     val showDialogShareEvent = showDialogEvent.share();
 
-    private val navigationEvent = MutableLiveEvent<NavigationIntent>()
+    protected val navigationEvent = MutableLiveEvent<NavigationIntent>()
     val navigationShareEvent = navigationEvent.share();
 
     private val toastEvent = MutableLiveEvent<ToastIntent>()

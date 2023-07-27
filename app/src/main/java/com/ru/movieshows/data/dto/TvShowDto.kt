@@ -5,6 +5,7 @@ import com.ru.movieshows.data.response.GetSimilarMoviesResponse
 import com.ru.movieshows.data.model.TvShowsModel
 import com.ru.movieshows.data.response.GetOnTheAirTvShowsResponse
 import com.ru.movieshows.data.response.GetPopularTvShowsResponse
+import com.ru.movieshows.data.response.GetSimilarTvShowsResponse
 import com.ru.movieshows.data.response.GetTopRatedTvShowsResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -13,7 +14,7 @@ import retrofit2.http.Query
 
 interface TvShowDto {
     @GET("tv/{series_id}/similar")
-    suspend fun getSimilarTvShows(@Path("series_id") seriesId: String, @Query("language") language: String, @Query("page") page: Int): Response<GetSimilarMoviesResponse>
+    suspend fun getSimilarTvShows(@Path("series_id") seriesId: String, @Query("language") language: String, @Query("page") page: Int): Response<GetSimilarTvShowsResponse>
 
     @GET("discover/tv")
     suspend fun getDiscoverTvShows(@Query("language") language: String, @Query("page") page: Int): Response<GetDiscoverTvShowsResponse>
