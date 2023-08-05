@@ -1,5 +1,9 @@
 package com.ru.movieshows.data.repository
 
+import android.util.Log
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.ru.movieshows.data.dto.MoviesDto
 import com.ru.movieshows.domain.entity.MovieDetailsEntity
 import com.ru.movieshows.domain.entity.MovieEntity
@@ -7,15 +11,43 @@ import com.ru.movieshows.domain.entity.ReviewEntity
 import com.ru.movieshows.domain.entity.VideoEntity
 import com.ru.movieshows.domain.repository.MoviesRepository
 import com.ru.movieshows.domain.repository.exceptions.AppFailure
+import com.ru.movieshows.presentation.screens.movie_reviews.ReviewsPageLoader
+import com.ru.movieshows.presentation.screens.movie_reviews.ReviewsPagingSource
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import java.lang.IllegalStateException
 import java.net.ConnectException
 import javax.inject.Inject
 import kotlin.Exception
 
 class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto): MoviesRepository {
-    override suspend fun getMovieReviews(language: String, movieId: String, ): Result<ArrayList<ReviewEntity>> {
+
+    override fun getPagedMovieReview(
+        language: String,
+        movieId: String
+    ): Flow<PagingData<ReviewEntity>> {
+        val loader: ReviewsPageLoader = { pageIndex ->
+            val response = moviesDto.getMovieReviews(movieId, language, pageIndex)
+            if(!response.isSuccessful || response.body() == null) throw IllegalStateException("Response must be successful")
+            val body = response.body()!!
+            val result = body.results
+            val totalPages = body.totalPages
+            val movieEntities = result.map { it.toEntity() }
+            Pair(movieEntities.toList(), totalPages)
+        }
+
+        return Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { ReviewsPagingSource(loader, PAGE_SIZE) }
+        ).flow
+    }
+
+    override suspend fun getMovieReviews(language: String, movieId: String, page: Int): Result<ArrayList<ReviewEntity>> {
         return try {
-            val getMovieReviewsResponse = moviesDto.getMovieReviews(movieId, language)
+            val getMovieReviewsResponse = moviesDto.getMovieReviews(movieId, language, page)
             return if(getMovieReviewsResponse.isSuccessful && getMovieReviewsResponse.body() != null) {
                 val movieModels = getMovieReviewsResponse.body()!!.results
                 val movieEntities = movieModels.map { it.toEntity() }
@@ -191,5 +223,9 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
             val movieException = AppFailure.Pure
             Result.failure(movieException)
         }
+    }
+
+    private companion object {
+        const val PAGE_SIZE = 10
     }
 }

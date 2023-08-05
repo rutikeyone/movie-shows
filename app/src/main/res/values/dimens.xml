@@ -23,4 +23,6 @@
     <dimen name="dp_5">5dp</dimen>
     <dimen name="dp_2">2dp</dimen>
     <dimen name="dp_48">48dp</dimen>
+    <dimen name="list_item_spacing">16dp</dimen>
+    <dimen name="list_item_spacing_half">8dp</dimen>
 </resources>

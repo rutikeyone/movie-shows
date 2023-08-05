@@ -24,7 +24,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
-    
+
     <ImageView
         android:id="@+id/moviePoster"
         android:layout_width="120dp"
@@ -246,7 +246,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintVertical_bias="0"
-            android:layout_marginTop="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_16"
             android:layout_marginStart="@dimen/dp_12"
             android:layout_marginEnd="@dimen/dp_16"
             android:textAllCaps="true"
@@ -317,7 +317,6 @@
         similarMoviesHeader,
         similarMovies,
         reviewsHeader,
-        reviewsHeaderView,
         reviewTile,
         showAllReviews
         "

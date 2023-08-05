@@ -1,6 +1,7 @@
 package com.ru.movieshows.presentation.screens.movie_details
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.os.Bundle
 import android.view.TextureView
 import android.view.View
@@ -16,6 +17,8 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FailurePartBinding
 import com.ru.movieshows.databinding.FragmentMovieDetailsBinding
@@ -25,6 +28,7 @@ import com.ru.movieshows.domain.entity.ReviewEntity
 import com.ru.movieshows.presentation.adapters.GenresAdapter
 import com.ru.movieshows.presentation.adapters.MoviesAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
+import com.ru.movieshows.presentation.screens.movie_reviews.MovieReviewsFragment
 import com.ru.movieshows.presentation.utils.viewBinding
 import com.ru.movieshows.presentation.viewmodel.movie_details.MovieDetailsState
 import com.ru.movieshows.presentation.viewmodel.movie_details.MovieDetailsViewModel
@@ -92,7 +96,7 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
         if(reviews.isNotEmpty()) {
             val review = reviews.first()
             if(review.author != null) authorHeader?.text = review.author
-            if(review.authorDetails?.rating != null && review.authorDetails?.rating > 2) {
+            if(review.authorDetails?.rating != null && review.authorDetails.rating > 2) {
                 val value = review.authorDetails.rating.toFloat() / 2
                 ratingBar?.rating = value
             } else {
@@ -108,7 +112,10 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
             } else {
                 avatarView?.visibility = View.GONE
             }
-        }else {
+            binding.showAllReviews.setOnClickListener {
+                viewModel.navigateToReviews(reviews)
+            }
+        } else {
             binding.reviewsHeader.visibility = View.GONE
             binding.showAllReviews.visibility = View.GONE
             reviewTile?.visibility = View.GONE
@@ -214,5 +221,9 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
 
     private fun renderInPendingUI() {
         binding.progressContainer.visibility = View.VISIBLE
+    }
+
+    companion object {
+        const val reviewsModalBottomSheet = "ReviewsModalBottomSheet"
     }
 }

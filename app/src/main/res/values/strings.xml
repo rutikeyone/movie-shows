@@ -22,4 +22,6 @@
     <string name="similar_movies">Similar movies</string>
     <string name="reviews">Reviews</string>
     <string name="show_all">Show All</string>
+    <string name="load_error">Oops, can\'t load data</string>
+    <string name="try_again">Try again</string>
 </resources>

@@ -19,4 +19,5 @@
         <item name="tabIndicatorColor">@color/yellow</item>
         <item name="tabRippleColor">@color/yellow</item>
     </style>
+
 </resources>

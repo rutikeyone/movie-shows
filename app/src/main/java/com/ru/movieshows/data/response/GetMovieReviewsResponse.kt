@@ -9,5 +9,7 @@ data class GetMovieReviewsResponse(
     @SerializedName("page")
     val page: Int,
     @SerializedName("results")
-    val results: ArrayList<ReviewModel>
+    val results: ArrayList<ReviewModel>,
+    @SerializedName("total_pages")
+    val totalPages: Int,
 )

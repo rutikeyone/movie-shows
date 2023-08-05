@@ -66,13 +66,20 @@ class MovieDetailsViewModel @AssistedInject constructor(
 
     private suspend fun fetchReviews(): ArrayList<ReviewEntity> {
         val id = movieId.toString()
-        val fetchReviews = moviesRepository.getMovieReviews(currentLanguage, id)
+        val fetchReviews = moviesRepository.getMovieReviews(currentLanguage, id, 1)
         return fetchReviews.getOrThrow()
     }
 
     fun navigateToMovieDetails(movie: MovieEntity){
         if(movie.id == null) return;
         navigationEvent.publishEvent(NavigationIntent.To(MovieDetailsFragmentDirections.actionMovieDetailsFragmentSelf(movie.id)))
+    }
+
+    fun navigateToReviews(reviews: ArrayList<ReviewEntity>) {
+        val navigationIntent = NavigationIntent.To(
+            MovieDetailsFragmentDirections.actionMovieDetailsFragmentToMovieReviewsFragment(reviews.toTypedArray(), movieId)
+        )
+        navigationEvent.publishEvent(navigationIntent)
     }
 
     @AssistedFactory

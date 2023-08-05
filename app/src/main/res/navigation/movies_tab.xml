@@ -29,6 +29,25 @@
         <action
             android:id="@+id/action_movieDetailsFragment_self"
             app:destination="@id/movieDetailsFragment" />
+        <action
+            android:id="@+id/action_movieDetailsFragment_to_movieReviewsFragment"
+            app:destination="@id/movieReviewsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/movieReviewsFragment"
+        android:name="com.ru.movieshows.presentation.screens.movie_reviews.MovieReviewsFragment"
+        android:label="@string/reviews"
+        tools:layout="@layout/fragment_movie_reviews" >
+        <argument
+            android:name="reviews"
+            app:argType="com.ru.movieshows.domain.entity.ReviewEntity[]" />
+        <argument
+            android:name="movieId"
+            app:argType="integer" />
     </fragment>
 
 </navigation>
