@@ -19,6 +19,7 @@
         android:name=".MovieShowsApplication"
         tools:targetApi="31">
         <activity
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:name=".presentation.MainActivity"
             android:exported="true">
             <intent-filter>

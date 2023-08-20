@@ -36,11 +36,23 @@ class DefaultLoadStateAdapter(
     ): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(loadState: LoadState) = with(binding) {
+            setupFailurePart(loadState)
+            if (swipeRefreshLayout != null) {
+                swipeRefreshLayout.isRefreshing = loadState is LoadState.Loading
+                progressBar.isVisible = false
+            } else {
+                progressBar.isVisible = loadState is LoadState.Loading
+            }
+        }
+
+        private fun setupFailurePart(loadState: LoadState) {
             binding.failurePart.root.isVisible = loadState is LoadState.Error
-            if(loadState is LoadState.Error) {
+            if (loadState is LoadState.Error) {
                 binding.failurePart.root.forEach { it.isVisible = true }
-                val headerError = if(loadState.error is AppFailure) (loadState.error as AppFailure).headerResource() else R.string.error_header
-                val messageError = if(loadState.error is AppFailure) (loadState.error as AppFailure).errorResource() else R.string.an_error_occurred_during_the_operation
+                val headerError =
+                    if (loadState.error is AppFailure) (loadState.error as AppFailure).headerResource() else R.string.error_header
+                val messageError =
+                    if (loadState.error is AppFailure) (loadState.error as AppFailure).errorResource() else R.string.an_error_occurred_during_the_operation
                 val header = context.resources.getString(headerError)
                 val message = context.resources.getString(messageError)
                 binding.failurePart.failureTextHeader.text = header
@@ -48,12 +60,6 @@ class DefaultLoadStateAdapter(
                 binding.failurePart.retryButton.setOnClickListener { tryAgainAction() }
             } else {
                 binding.failurePart.root.forEach { it.isVisible = false }
-            }
-            if (swipeRefreshLayout != null) {
-                swipeRefreshLayout.isRefreshing = loadState is LoadState.Loading
-                progressBar.isVisible = false
-            } else {
-                progressBar.isVisible = loadState is LoadState.Loading
             }
         }
     }

@@ -24,4 +24,5 @@
     <string name="show_all">Show All</string>
     <string name="load_error">Oops, can\'t load data</string>
     <string name="try_again">Try again</string>
+    <string name="trailer">Trailer</string>
 </resources>

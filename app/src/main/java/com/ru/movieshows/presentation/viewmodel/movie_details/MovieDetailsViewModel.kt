@@ -1,32 +1,32 @@
 package com.ru.movieshows.presentation.viewmodel.movie_details
 
+import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.ru.movieshows.R
 import com.ru.movieshows.domain.entity.MovieDetailsEntity
 import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.entity.ReviewEntity
-import com.ru.movieshows.domain.entity.TvShowsEntity
+import com.ru.movieshows.domain.entity.VideoEntity
 import com.ru.movieshows.domain.repository.MoviesRepository
 import com.ru.movieshows.domain.repository.exceptions.AppFailure
 import com.ru.movieshows.presentation.screens.movie_details.MovieDetailsFragmentDirections
-import com.ru.movieshows.presentation.screens.movies.MoviesFragmentDirections
 import com.ru.movieshows.presentation.utils.NavigationIntent
 import com.ru.movieshows.presentation.utils.publishEvent
 import com.ru.movieshows.presentation.utils.share
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
-import com.ru.movieshows.presentation.viewmodel.movies.MoviesState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
 import java.util.Locale
+import javax.inject.Inject
 
 
 class MovieDetailsViewModel @AssistedInject constructor(
     @Assisted private val movieId: Int,
     private val moviesRepository: MoviesRepository,
-) : BaseViewModel() {
+) : BaseViewModel(), DefaultLifecycleObserver {
     private val currentLanguage get() = Locale.getDefault().toLanguageTag()
     private val _state = MutableLiveData<MovieDetailsState>(MovieDetailsState.InPending)
     val state = _state.share()
@@ -44,7 +44,8 @@ class MovieDetailsViewModel @AssistedInject constructor(
             val movieDetails = fetchMovieDetails()
             val similarMovies = fetchSimilarMovies()
             val reviews = fetchReviews()
-            _state.value = MovieDetailsState.Success(movieDetails, similarMovies, reviews)
+            val videos = fetchVideos()
+            _state.value = MovieDetailsState.Success(movieDetails, similarMovies, reviews, videos)
             _title.value = movieDetails.title
 
         } catch (e: AppFailure) {
@@ -66,8 +67,14 @@ class MovieDetailsViewModel @AssistedInject constructor(
 
     private suspend fun fetchReviews(): ArrayList<ReviewEntity> {
         val id = movieId.toString()
-        val fetchReviews = moviesRepository.getMovieReviews(currentLanguage, id, 1)
-        return fetchReviews.getOrThrow()
+        val fetchReviewsResult = moviesRepository.getMovieReviews(currentLanguage, id, 1)
+        return fetchReviewsResult.getOrThrow()
+    }
+
+    private suspend fun fetchVideos(): ArrayList<VideoEntity> {
+        val id = movieId.toString()
+        val fetchVideosResult = moviesRepository.getVideosByMovieId(currentLanguage, id)
+        return fetchVideosResult.getOrThrow()
     }
 
     fun navigateToMovieDetails(movie: MovieEntity){
