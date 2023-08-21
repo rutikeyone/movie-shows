@@ -33,7 +33,6 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
             val result = body.results
             val totalPages = body.totalPages
             val movieEntities = result.map { it.toEntity() }
-            throw Exception()
             Pair(movieEntities.toList(), totalPages)
         }
 
