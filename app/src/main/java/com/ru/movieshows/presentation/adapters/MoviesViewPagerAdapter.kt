@@ -5,13 +5,13 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.presentation.screens.movies.MovieTileFragmentVariant1
 
-class NowPlayingViewPagerAdapter(
+class MoviesViewPagerAdapter(
     private val fragment: Fragment,
-    private val nowPlayingMovies: ArrayList<MovieEntity>
+    private val movies: ArrayList<MovieEntity>
 ): FragmentStateAdapter(fragment) {
-    override fun getItemCount(): Int = if(nowPlayingMovies.size < 8) nowPlayingMovies.size else 8
+    override fun getItemCount(): Int = if(movies.size < 8) movies.size else 8
 
     override fun createFragment(position: Int): Fragment {
-        return MovieTileFragmentVariant1.newInstance(nowPlayingMovies[position])
+        return MovieTileFragmentVariant1.newInstance(movies[position])
     }
 }

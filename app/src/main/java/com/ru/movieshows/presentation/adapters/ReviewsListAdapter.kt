@@ -8,9 +8,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ru.movieshows.databinding.ReviewTileBinding
+import com.ru.movieshows.domain.entity.AuthorDetailsEntity
 import com.ru.movieshows.domain.entity.ReviewEntity
 
-class ReviewsAdapter: PagingDataAdapter<ReviewEntity, ReviewsAdapter.Holder>(ReviewsDiffCallback()) {
+class ReviewsListAdapter: PagingDataAdapter<ReviewEntity, ReviewsListAdapter.Holder>(ReviewsDiffCallback()) {
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val review = getItem(position) ?: return
@@ -28,15 +29,27 @@ class ReviewsAdapter: PagingDataAdapter<ReviewEntity, ReviewsAdapter.Holder>(Rev
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(review: ReviewEntity) = with(binding) {
-            if(review.author != null) reviewerHeaderView.text = review.author
-            if(review.authorDetails?.rating != null && review.authorDetails.rating > 2) {
+            if (review.author != null) reviewerHeaderView.text = review.author
+            renderRating(review)
+            if(review.content != null) reviewTextView.text = review.content
+            renderAvatarImageView(review)
+        }
+
+        private fun ReviewTileBinding.renderRating(
+            review: ReviewEntity,
+        ) {
+            if (review.authorDetails?.rating != null && review.authorDetails.rating > 2) {
                 val value = review.authorDetails.rating.toFloat() / 2
                 ratingBar.rating = value
             } else {
                 ratingBar.visibility = View.GONE
             }
-            if(review.content != null) reviewTextView.text = review.content
-            if(review.authorDetails?.avatar != null && avatarImageView != null) {
+        }
+
+        private fun ReviewTileBinding.renderAvatarImageView(
+            review: ReviewEntity,
+        ) {
+            if (review.authorDetails?.avatar != null) {
                 Glide
                     .with(binding.root)
                     .load(review.authorDetails.avatar)
@@ -48,15 +61,4 @@ class ReviewsAdapter: PagingDataAdapter<ReviewEntity, ReviewsAdapter.Holder>(Rev
         }
 
     }
-}
-
-class ReviewsDiffCallback: DiffUtil.ItemCallback<ReviewEntity>() {
-    override fun areItemsTheSame(oldItem: ReviewEntity, newItem: ReviewEntity): Boolean {
-        return oldItem.id != newItem.id
-    }
-
-    override fun areContentsTheSame(oldItem: ReviewEntity, newItem: ReviewEntity): Boolean {
-        return oldItem != newItem
-    }
-
 }

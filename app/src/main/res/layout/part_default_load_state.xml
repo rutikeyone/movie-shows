@@ -19,33 +19,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
-<!--    <TextView-->
-<!--        android:id="@+id/messageTextView"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="@string/load_error"-->
-<!--        android:visibility="gone"-->
-<!--        tools:visibility="visible"-->
-<!--        style="?attr/MovieShows.TextAppearance.Body3"-->
-<!--        app:layout_constraintVertical_chainStyle="packed"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintBottom_toTopOf="@id/tryAgainButton"/>-->
-
-<!--    <Button-->
-<!--        android:id="@+id/tryAgainButton"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="@string/try_again"-->
-<!--        android:layout_marginTop="2dp"-->
-<!--        android:visibility="gone"-->
-<!--        tools:visibility="visible"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/messageTextView"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"/>-->
-
     <include
         android:id="@+id/failurePart"
         layout="@layout/failure_part"

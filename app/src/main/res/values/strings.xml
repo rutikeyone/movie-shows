@@ -25,4 +25,6 @@
     <string name="load_error">Oops, can\'t load data</string>
     <string name="try_again">Try again</string>
     <string name="trailer">Trailer</string>
+    <string name="hide">Hide</string>
+    <string name="read_more">Read more</string>
 </resources>

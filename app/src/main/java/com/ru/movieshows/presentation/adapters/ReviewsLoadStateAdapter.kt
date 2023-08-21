@@ -8,17 +8,15 @@ import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ru.movieshows.R
-import com.ru.movieshows.databinding.FailurePartBinding
 import com.ru.movieshows.databinding.PartDefaultLoadStateBinding
 import com.ru.movieshows.domain.repository.exceptions.AppFailure
 
 typealias TryAgainAction = () -> Unit
-class DefaultLoadStateAdapter(
+class ReviewsLoadStateAdapter(
     private val tryAgainAction: TryAgainAction,
     private val context: Context,
-): LoadStateAdapter<DefaultLoadStateAdapter.Holder>() {
+): LoadStateAdapter<ReviewsLoadStateAdapter.Holder>() {
     override fun onBindViewHolder(holder: Holder, loadState: LoadState) {
         holder.bind(loadState)
     }
@@ -26,23 +24,16 @@ class DefaultLoadStateAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): Holder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = PartDefaultLoadStateBinding.inflate(inflater, parent, false)
-        return Holder(binding, null, tryAgainAction, context)
+        return Holder(binding, tryAgainAction, context)
     }
     class Holder(
         private val binding: PartDefaultLoadStateBinding,
-        private val swipeRefreshLayout: SwipeRefreshLayout?,
         private val tryAgainAction: TryAgainAction,
         private val context: Context,
     ): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(loadState: LoadState) = with(binding) {
             setupFailurePart(loadState)
-            if (swipeRefreshLayout != null) {
-                swipeRefreshLayout.isRefreshing = loadState is LoadState.Loading
-                progressBar.isVisible = false
-            } else {
-                progressBar.isVisible = loadState is LoadState.Loading
-            }
         }
 
         private fun setupFailurePart(loadState: LoadState) {

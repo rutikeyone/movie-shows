@@ -24,4 +24,6 @@
     <string name="show_all">Показать все</string>
     <string name="try_again">Try again</string>
     <string name="trailer">Трейлер</string>
+    <string name="hide">Скрыть</string>
+    <string name="read_more">Подробнее</string>
 </resources>

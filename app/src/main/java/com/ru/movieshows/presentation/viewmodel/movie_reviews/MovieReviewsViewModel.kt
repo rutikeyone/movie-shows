@@ -1,7 +1,5 @@
 package com.ru.movieshows.presentation.viewmodel.movie_reviews
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -12,9 +10,6 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.retry
 import java.util.Locale
 
 class MovieReviewsViewModel @AssistedInject constructor(
@@ -23,7 +18,7 @@ class MovieReviewsViewModel @AssistedInject constructor(
 ) : BaseViewModel() {
     private val currentLanguage get() = Locale.getDefault().toLanguageTag()
 
-    val reviewsPaginationFlow: Flow<PagingData<ReviewEntity>> =
+    val reviews: Flow<PagingData<ReviewEntity>> =
             moviesRepository.getPagedMovieReview(currentLanguage, movieId.toString())
             .cachedIn(viewModelScope)
 

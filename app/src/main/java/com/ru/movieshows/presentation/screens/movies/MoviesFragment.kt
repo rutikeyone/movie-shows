@@ -8,11 +8,10 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayout
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FailurePartBinding
-import com.ru.movieshows.databinding.FragmentMovieTileVariant1Binding
 import com.ru.movieshows.databinding.FragmentMoviesBinding
 import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.presentation.adapters.MoviesAdapter
-import com.ru.movieshows.presentation.adapters.NowPlayingViewPagerAdapter
+import com.ru.movieshows.presentation.adapters.MoviesViewPagerAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.utils.viewBinding
 import com.ru.movieshows.presentation.viewmodel.movies.MoviesDiscoverState
@@ -111,7 +110,7 @@ class MoviesFragment : BaseFragment(R.layout.fragment_movies) {
     }
 
     private fun setupNotPlayingPager(state: MoviesState.Success) {
-        val adapter = NowPlayingViewPagerAdapter(this, state.nowPlayingMovies)
+        val adapter = MoviesViewPagerAdapter(this, state.nowPlayingMovies)
         binding.nowPlayingViewPager.adapter = adapter
     }
 
