@@ -9,6 +9,7 @@ class ReviewsPagingSource(
     private val loader: ReviewsPageLoader,
     private val pageSize: Int,
 ) : PagingSource<Int, ReviewEntity>() {
+
     override fun getRefreshKey(state: PagingState<Int, ReviewEntity>): Int? {
         val anchorPosition = state.anchorPosition ?: return null
         val page = state.closestPageToPosition(anchorPosition) ?: return null
@@ -22,8 +23,7 @@ class ReviewsPagingSource(
             return LoadResult.Page(
                 data = loaderResult.first,
                 prevKey = if (pageIndex == 1) null else pageIndex - 1,
-                //nextKey = if(loaderResult.second > pageIndex)  pageIndex + 1 else null
-                nextKey = 2,
+                nextKey = if(loaderResult.second > pageIndex)  pageIndex + 1 else null
             )
             } catch (e: Exception) {
             LoadResult.Error(throwable = e)
