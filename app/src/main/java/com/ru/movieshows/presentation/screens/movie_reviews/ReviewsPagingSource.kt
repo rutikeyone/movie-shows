@@ -22,7 +22,8 @@ class ReviewsPagingSource(
             return LoadResult.Page(
                 data = loaderResult.first,
                 prevKey = if (pageIndex == 1) null else pageIndex - 1,
-                nextKey = if(loaderResult.second > pageIndex)  pageIndex + 1 else null
+                //nextKey = if(loaderResult.second > pageIndex)  pageIndex + 1 else null
+                nextKey = 2,
             )
             } catch (e: Exception) {
             LoadResult.Error(throwable = e)

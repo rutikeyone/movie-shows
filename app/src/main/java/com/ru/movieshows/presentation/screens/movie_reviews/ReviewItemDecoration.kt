@@ -18,6 +18,7 @@ class ReviewItemDecoration(
         parent: RecyclerView,
         state: RecyclerView.State,
     ) {
+
         val itemPosition = parent.getChildAdapterPosition(view);
         if (itemPosition == RecyclerView.NO_POSITION) {
             return;

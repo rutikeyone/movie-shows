@@ -27,6 +27,11 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
         movieId: String
     ): Flow<PagingData<ReviewEntity>> {
         val loader: ReviewsPageLoader = { pageIndex ->
+            if(pageIndex == 2) {
+                delay(2000)
+                throw Exceptiпше ыефегы on()
+            }
+
             val response = moviesDto.getMovieReviews(movieId, language, pageIndex)
             if(!response.isSuccessful || response.body() == null) throw IllegalStateException("Response must be successful")
             val body = response.body()!!

@@ -47,6 +47,9 @@ class MovieReviewsFragment : BaseFragment(R.layout.fragment_movie_reviews) {
             footer = ReviewsLoadStateAdapter(tryAgainAction, requireContext())
         )
         adapter?.addLoadStateListener { loadState -> renderUi(loadState) }
+        binding.rvReviews.adapter = adapter
+        val itemDecoration = ReviewItemDecoration(resources.displayMetrics)
+        binding.rvReviews.addItemDecoration(itemDecoration)
         binding.failurePart.retryButton.setOnClickListener { adapter?.retry() }
     }
 
