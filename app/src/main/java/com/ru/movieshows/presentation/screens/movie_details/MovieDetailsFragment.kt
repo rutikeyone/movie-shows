@@ -49,7 +49,6 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
     private var _binding: FragmentMovieDetailsBinding? = null
     private val binding get() = _binding!!
     private var _savedBinding: FragmentMovieDetailsBinding? = null
-
     private var _savedYoutubePlayer: YouTubePlayer? = null
 
     private val fragmentListener = object : FragmentManager.FragmentLifecycleCallbacks() {
@@ -136,23 +135,23 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
         }
 
         private fun setupTrailerView(videos: ArrayList<VideoEntity>) {
-//            val key = videos.firstOrNull()?.key
-//            val keyIsNotNull = key != null
-//
-//            binding.youtubePlayerView.isVisible = keyIsNotNull
-//            binding.trailersHeader.isVisible = keyIsNotNull
-//
-//            if(key != null) {
-//                val youtubeCallback = object : YouTubePlayerCallback {
-//                    override fun onYouTubePlayer(youTubePlayer: YouTubePlayer) {
-//                        if(_savedYoutubePlayer == null) {
-//                            youTubePlayer.cueVideo(key, 0F)
-//                            _savedYoutubePlayer = youTubePlayer
-//                        }
-//                    }
-//                }
-//                binding.youtubePlayerView.getYouTubePlayerWhenReady(youtubeCallback)
-//            }
+            val key = videos.firstOrNull()?.key
+            val keyIsNotNull = key != null
+
+            binding.youtubePlayerView.isVisible = keyIsNotNull
+            binding.trailersHeader.isVisible = keyIsNotNull
+
+            if(key != null) {
+                val youtubeCallback = object : YouTubePlayerCallback {
+                    override fun onYouTubePlayer(youTubePlayer: YouTubePlayer) {
+                        if(_savedYoutubePlayer == null) {
+                            youTubePlayer.cueVideo(key, 0F)
+                            _savedYoutubePlayer = youTubePlayer
+                        }
+                    }
+                }
+                binding.youtubePlayerView.getYouTubePlayerWhenReady(youtubeCallback)
+            }
         }
 
     private fun setupReview(reviews: ArrayList<ReviewEntity>) {
