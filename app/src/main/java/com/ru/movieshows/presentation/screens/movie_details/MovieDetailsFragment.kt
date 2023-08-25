@@ -48,29 +48,13 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
     override val viewModel by viewModelCreator { factory.create(args.id) }
     private var _binding: FragmentMovieDetailsBinding? = null
     private val binding get() = _binding!!
-    private var _savedBinding: FragmentMovieDetailsBinding? = null
-
-    private var _savedYoutubePlayer: YouTubePlayer? = null
-
-    private val fragmentListener = object : FragmentManager.FragmentLifecycleCallbacks() {
-        override fun onFragmentCreated(fragmentManager: FragmentManager, fragment: Fragment, savedInstanceState: Bundle?) {
-            super.onFragmentCreated(fragmentManager, fragment, savedInstanceState)
-            _savedBinding = _binding
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        requireActivity().supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentListener, true)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        _binding = _savedBinding ?: FragmentMovieDetailsBinding.inflate(inflater, container, false)
-        if(_savedBinding != null) _savedBinding = null
+        _binding = FragmentMovieDetailsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -80,21 +64,15 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
         viewModel.title.observe(viewLifecycleOwner, ::renderTitle)
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            binding.youtubePlayerView.layoutParams.height = resources.getDimensionPixelSize(R.dimen.dp_200)
-        } else if(newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            binding.youtubePlayerView.wrapContent()
-        }
-        binding.movieBackDrop.scaleType = ImageView.ScaleType.CENTER_CROP
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
-    override fun onDestroy() {
-        _savedBinding = null
-        _savedYoutubePlayer = null
-        requireActivity().supportFragmentManager.unregisterFragmentLifecycleCallbacks(fragmentListener)
-        super.onDestroy()
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        binding.videoImageTile.posterImageView.scaleType = ImageView.ScaleType.CENTER_CROP
+        binding.movieBackDrop.scaleType = ImageView.ScaleType.CENTER_CROP
     }
 
         private fun renderTitle(value: String?) {
@@ -132,27 +110,21 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
             setupGenres(movieDetailsEntity)
             setupSimilarMovies(similarMovies)
             setupReview(reviews)
-            setupTrailerView(videos)
+            setupTrailerView(movieDetailsEntity, videos)
         }
 
-        private fun setupTrailerView(videos: ArrayList<VideoEntity>) {
-//            val key = videos.firstOrNull()?.key
-//            val keyIsNotNull = key != null
-//
-//            binding.youtubePlayerView.isVisible = keyIsNotNull
-//            binding.trailersHeader.isVisible = keyIsNotNull
-//
-//            if(key != null) {
-//                val youtubeCallback = object : YouTubePlayerCallback {
-//                    override fun onYouTubePlayer(youTubePlayer: YouTubePlayer) {
-//                        if(_savedYoutubePlayer == null) {
-//                            youTubePlayer.cueVideo(key, 0F)
-//                            _savedYoutubePlayer = youTubePlayer
-//                        }
-//                    }
-//                }
-//                binding.youtubePlayerView.getYouTubePlayerWhenReady(youtubeCallback)
-//            }
+        private fun setupTrailerView(
+            movieDetailsEntity: MovieDetailsEntity,
+            videos: ArrayList<VideoEntity>
+        ) {
+            binding.trailersHeader.isVisible = videos.isNotEmpty() && movieDetailsEntity.backDrop != null
+            binding.videoImageTile.root.isVisible = videos.isNotEmpty() && movieDetailsEntity.backDrop != null
+            binding.videoImageTile.nameOfTrailer.isVisible = false
+            Glide
+                .with(this)
+                .load(movieDetailsEntity.backDrop)
+                .centerCrop()
+                .into(binding.videoImageTile.posterImageView)
         }
 
     private fun setupReview(reviews: ArrayList<ReviewEntity>) {
