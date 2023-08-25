@@ -119,7 +119,6 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
         ) {
             binding.trailersHeader.isVisible = videos.isNotEmpty() && movieDetailsEntity.backDrop != null
             binding.videoImageTile.root.isVisible = videos.isNotEmpty() && movieDetailsEntity.backDrop != null
-            binding.videoImageTile.nameOfTrailer.isVisible = false
             Glide
                 .with(this)
                 .load(movieDetailsEntity.backDrop)
