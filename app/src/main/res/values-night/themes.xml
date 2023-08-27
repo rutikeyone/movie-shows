@@ -22,5 +22,6 @@
         <item name="MovieShows.TextAppearance.Body3.Bold.Accent">@style/MovieShows.TextAppearance.Body3.Bold.Accent.Style</item>
         <item name="MovieShows.TextAppearance.Body3.Bold">@style/MovieShows.TextAppearance.Body3.Bold.Style</item>
         <item name="cardBackgroundColor">@color/greyBlueColor</item>
+        <item name="bottomSheetDialogTheme">@style/MovieShows.BottomSheetDialog</item>
     </style>
 </resources>

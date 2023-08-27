@@ -12,16 +12,12 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.android.material.appbar.MaterialToolbar
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerCallback
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FailurePartBinding
 import com.ru.movieshows.databinding.FragmentMovieDetailsBinding
@@ -29,9 +25,11 @@ import com.ru.movieshows.domain.entity.MovieDetailsEntity
 import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.entity.ReviewEntity
 import com.ru.movieshows.domain.entity.VideoEntity
+import com.ru.movieshows.presentation.MainActivity
 import com.ru.movieshows.presentation.adapters.GenresAdapter
 import com.ru.movieshows.presentation.adapters.MoviesAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
+import com.ru.movieshows.presentation.screens.tabs.TabsFragmentDirections
 import com.ru.movieshows.presentation.viewmodel.movie_details.MovieDetailsState
 import com.ru.movieshows.presentation.viewmodel.movie_details.MovieDetailsViewModel
 import com.ru.movieshows.presentation.viewmodel.viewModelCreator
@@ -117,13 +115,19 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
             movieDetailsEntity: MovieDetailsEntity,
             videos: ArrayList<VideoEntity>
         ) {
-            binding.trailersHeader.isVisible = videos.isNotEmpty() && movieDetailsEntity.backDrop != null
-            binding.videoImageTile.root.isVisible = videos.isNotEmpty() && movieDetailsEntity.backDrop != null
+            val video = videos.firstOrNull()
+            val isVisible = video != null && movieDetailsEntity.backDrop != null
+            binding.trailersHeader.isVisible = isVisible
+            binding.videoImageTile.root.isVisible = isVisible
+            if(video == null) return
             Glide
                 .with(this)
                 .load(movieDetailsEntity.backDrop)
                 .centerCrop()
                 .into(binding.videoImageTile.posterImageView)
+            val route = TabsFragmentDirections.actionTabsFragmentToYoutubeVideoPlayerFragment(video, movieDetailsEntity.backDrop)
+            val activity = requireActivity() as MainActivity
+            binding.videoImageTile.imageVideoView.setOnClickListener { activity.rootNavController.navigate(route) }
         }
 
     private fun setupReview(reviews: ArrayList<ReviewEntity>) {

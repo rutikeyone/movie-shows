@@ -9,5 +9,26 @@
         android:id="@+id/tabsFragment"
         android:name="com.ru.movieshows.presentation.screens.tabs.TabsFragment"
         android:label="fragment_tabs"
-        tools:layout="@layout/fragment_tabs" />
+        tools:layout="@layout/fragment_tabs" >
+        <action
+            android:id="@+id/action_tabsFragment_to_youtubeVideoPlayerFragment"
+            app:destination="@id/youtubeVideoPlayerFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/youtubeVideoPlayerFragment"
+        android:name="com.ru.movieshows.presentation.screens.youtube_video_player.YoutubeVideoPlayerFragment"
+        android:label="fragment_youtube_video_player"
+        tools:layout="@layout/fragment_youtube_video_player" >
+        <argument
+            android:name="video"
+            app:argType="com.ru.movieshows.domain.entity.VideoEntity" />
+        <argument
+            android:name="poster"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 </navigation>

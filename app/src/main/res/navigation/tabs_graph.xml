@@ -7,4 +7,8 @@
     <include app:graph="@navigation/movies_tab" />
     <include app:graph="@navigation/tvs_tab" />
     <include app:graph="@navigation/watch_list_tab" />
+    <fragment
+        android:id="@+id/videoPlayerFragment"
+        android:name="com.ru.movieshows.presentation.screens.youtube_video_player.VideoPlayerFragment"
+        android:label="VideoPlayerFragment" />
 </navigation>

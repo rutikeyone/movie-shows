@@ -20,4 +20,21 @@
         <item name="tabRippleColor">@color/yellow</item>
     </style>
 
+    <style name="MovieShows.BottomSheetDialog" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/MovieShows.BottomSheet</item>
+    </style>
+
+    <style name="MovieShows.BottomSheet" parent="Widget.MaterialComponents.BottomSheet">
+        <item name="shapeAppearanceOverlay">@style/MovieShows.ShapeAppearanceOverlay</item>
+        <item name="backgroundTint">@color/darkBlueGray</item>
+    </style>
+
+    <style name="MovieShows.ShapeAppearanceOverlay" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+    </style>
+
 </resources>

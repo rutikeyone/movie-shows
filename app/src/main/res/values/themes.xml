@@ -24,5 +24,6 @@
         <item name="MovieShows.TextAppearance.Body3.Bold">@style/MovieShows.TextAppearance.Body3.Bold.Style</item>
         <item name="cardBackgroundColor">@color/greyBlueColor</item>
         <item name="MovieShows.TextButton.Body3.Hint.Bold">@style/MovieShows.TextButton.Body3.Hint.Bold.Style</item>
+        <item name="bottomSheetDialogTheme">@style/MovieShows.BottomSheetDialog</item>
     </style>
 </resources>

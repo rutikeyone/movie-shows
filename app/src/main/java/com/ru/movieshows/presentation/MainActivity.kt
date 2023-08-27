@@ -14,8 +14,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private val rootNavController get() = rootNavController()
-    private var currentNavController: NavController? = null
+    val rootNavController get() = rootNavController()
+
+    private var _currentNavController: NavController? = null
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() = executeOnHandleBack(this)
@@ -41,19 +42,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun isRootNestedRoute(): Boolean {
-        val destinationId = currentNavController?.currentDestination?.id
+        val destinationId = _currentNavController?.currentDestination?.id
         return TabsFragment.tabsTopLevelFragment.any { it == destinationId }
     }
 
-    private fun popToBackIfCan(): Boolean {
-        return currentNavController != null && currentNavController?.popBackStack() == true
+    private fun popToBackInCurrentNavControllerIfCan(): Boolean {
+        return _currentNavController != null && _currentNavController?.popBackStack() == true
     }
 
     private fun executeOnHandleBack(onBackPressedCallback: OnBackPressedCallback) {
         when (isRootNestedRoute()) {
             true -> finish()
             false -> {
-                if(popToBackIfCan()) return
+                val rootCurrentDestinationId = rootNavController.currentDestination?.id
+                val currentDestinationId = _currentNavController?.currentDestination?.id
+                val isYoutubePlayerDestination = rootCurrentDestinationId ==  R.id.youtubeVideoPlayerFragment
+                if(isYoutubePlayerDestination) {
+                    rootNavController.popBackStack()
+                    return
+                }
+                if(popToBackInCurrentNavControllerIfCan()) return
                 onBackPressedCallback.isEnabled = false
                 onBackPressedDispatcher.onBackPressed()
             }
@@ -73,7 +81,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onNavControllerActivated(navController: NavController) {
-        if(this.currentNavController == navController) return
-        this.currentNavController = navController
+        if(this._currentNavController == navController || navController == rootNavController) return
+        this._currentNavController = navController
     }
 }
