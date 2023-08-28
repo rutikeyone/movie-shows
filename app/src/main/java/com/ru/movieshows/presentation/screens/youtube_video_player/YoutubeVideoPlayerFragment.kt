@@ -42,27 +42,30 @@ class YoutubeVideoPlayerFragment : Fragment(R.layout.fragment_youtube_video_play
     private var isFullscreen = false
 
     private val fullScreenListener = object : FullscreenListener {
-        override fun onEnterFullscreen(fullscreenView: View, exitFullscreen: () -> Unit) {
-            isFullscreen = true
-            binding.videoImageTile.root.visibility = View.GONE
-            binding.toolBar.visibility = View.GONE
-            binding.youtubePlayerView.visibility = View.GONE
-            binding.fullScreenViewContainer.visibility = View.VISIBLE
-            binding.fullScreenViewContainer.addView(fullscreenView)
+        override fun onEnterFullscreen(fullscreenView: View, exitFullscreen: () -> Unit) = executeOnEnterFullScreen(fullscreenView)
+        override fun onExitFullscreen() = executeOnExitFullScreen()
+    }
 
-        }
+    private fun executeOnEnterFullScreen(fullscreenView: View) {
+        isFullscreen = true
+        binding.videoImageTile.root.visibility = View.GONE
+        binding.toolBar.visibility = View.GONE
+        binding.youtubePlayerView.visibility = View.GONE
+        binding.fullScreenViewContainer.visibility = View.VISIBLE
+        binding.fullScreenViewContainer.addView(fullscreenView)
+    }
 
-        override fun onExitFullscreen() {
-            isFullscreen = false
-            binding.toolBar.visibility = View.VISIBLE
-            binding.youtubePlayerView.visibility = View.VISIBLE
-            binding.fullScreenViewContainer.visibility = View.GONE
-            binding.fullScreenViewContainer.removeAllViews()
-        }
+    private fun executeOnExitFullScreen() {
+        isFullscreen = false
+        binding.toolBar.visibility = View.VISIBLE
+        binding.youtubePlayerView.visibility = View.VISIBLE
+        binding.fullScreenViewContainer.visibility = View.GONE
+        binding.fullScreenViewContainer.removeAllViews()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupYoutubePlayerViewByOrientation(resources.configuration)
         renderView()
     }
 
@@ -89,16 +92,6 @@ class YoutubeVideoPlayerFragment : Fragment(R.layout.fragment_youtube_video_play
         lifecycle.addObserver(binding.youtubePlayerView)
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-
-    if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-      binding.youtubePlayerView.matchParent();
-    } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-        binding.youtubePlayerView.wrapContent();
-    }
-    }
-
     private fun renderToolbar() {
         val mainActivity = requireActivity() as MainActivity
         val rootController = mainActivity.rootNavController
@@ -107,6 +100,25 @@ class YoutubeVideoPlayerFragment : Fragment(R.layout.fragment_youtube_video_play
         binding.toolBar.isTitleCentered = true
         if(video.name != null) {
             binding.toolBar.title = video.name
+        }
+    }
+
+    override fun onDestroy() {
+        youTubePlayer = null
+        super.onDestroy()
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        binding.toolBar.isVisible = newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE && !isFullscreen
+        setupYoutubePlayerViewByOrientation(newConfig)
+    }
+
+    private fun setupYoutubePlayerViewByOrientation(config: Configuration) {
+        if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            binding.youtubePlayerView.matchParent()
+        } else if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            binding.youtubePlayerView.wrapContent()
         }
     }
 }
