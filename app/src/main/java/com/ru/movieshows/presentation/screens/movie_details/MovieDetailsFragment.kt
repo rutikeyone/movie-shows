@@ -30,11 +30,13 @@ import com.ru.movieshows.presentation.adapters.GenresAdapter
 import com.ru.movieshows.presentation.adapters.MoviesAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.tabs.TabsFragmentDirections
+import com.ru.movieshows.presentation.utils.getYouTubeId
 import com.ru.movieshows.presentation.viewmodel.movie_details.MovieDetailsState
 import com.ru.movieshows.presentation.viewmodel.movie_details.MovieDetailsViewModel
 import com.ru.movieshows.presentation.viewmodel.viewModelCreator
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
+import java.util.regex.Pattern
 import javax.inject.Inject
 
 
@@ -79,7 +81,8 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
         }
 
         private fun renderUI(movieDetailsState: MovieDetailsState) {
-            listOf(binding.progressContainer, binding.failureContainer, binding.successContainer).forEach { it.visibility = View.GONE }
+            val viewParts = listOf(binding.progressContainer, binding.failureContainer, binding.successContainer)
+            viewParts.forEach { it.visibility = View.GONE }
             when (movieDetailsState) {
                 MovieDetailsState.InPending -> renderInPendingUI();
                 is MovieDetailsState.Failure -> renderFailureUI(movieDetailsState.header, movieDetailsState.error)
@@ -111,21 +114,22 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
             setupTrailerView(movieDetailsEntity, videos)
         }
 
-        private fun setupTrailerView(
-            movieDetailsEntity: MovieDetailsEntity,
-            videos: ArrayList<VideoEntity>
-        ) {
+        private fun setupTrailerView(movieDetailsEntity: MovieDetailsEntity, videos: ArrayList<VideoEntity>) {
             val video = videos.firstOrNull()
-            val isVisible = video != null && movieDetailsEntity.backDrop != null
-            binding.trailersHeader.isVisible = isVisible
-            binding.videoImageTile.root.isVisible = isVisible
-            if(video == null) return
+            val visible = video != null && movieDetailsEntity.backDrop != null && videos.isNotEmpty()
+            binding.trailersHeader.isVisible = visible
+            binding.videoImageTile.root.isVisible = visible
+            binding.showAllVideosButton.setOnClickListener { viewModel.navigateToMovieVideos(video?.id) }
+            if(video?.id == null || video.key == null) return
+            val url: String = resources.getString(R.string.youtube_url) + video.key
+            val imageId = url.getYouTubeId()
+            val image = resources.getString(R.string.thumbnail_firstPart) + imageId + resources.getString(R.string.thumbnail_secondPart)
             Glide
                 .with(this)
-                .load(movieDetailsEntity.backDrop)
+                .load(image)
                 .centerCrop()
                 .into(binding.videoImageTile.posterImageView)
-            val route = TabsFragmentDirections.actionTabsFragmentToYoutubeVideoPlayerFragment(video, movieDetailsEntity.backDrop)
+            val route = TabsFragmentDirections.actionTabsFragmentToYoutubeVideoPlayerFragment(video)
             val activity = requireActivity() as MainActivity
             binding.videoImageTile.imageVideoView.setOnClickListener { activity.rootNavController.navigate(route) }
         }

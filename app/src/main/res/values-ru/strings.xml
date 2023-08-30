@@ -26,4 +26,9 @@
     <string name="trailer">Трейлер</string>
     <string name="hide">Скрыть</string>
     <string name="read_more">Подробнее</string>
+    <string name="videos">Видео</string>
+    <string name="the_video_list_is_empty">Список видео пуст</string>
+    <string name="thumbnail_firstPart">https://i1.ytimg.com/vi/</string>
+    <string name="thumbnail_secondPart">/hqdefault.jpg</string>
+    <string name="youtube_url">https://www.youtube.com/watch?v=</string>
 </resources>

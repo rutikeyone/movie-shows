@@ -28,10 +28,21 @@
             app:argType="integer" />
         <action
             android:id="@+id/action_movieDetailsFragment_self"
-            app:destination="@id/movieDetailsFragment" />
+            app:destination="@id/movieDetailsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_movieDetailsFragment_to_movieReviewsFragment"
             app:destination="@id/movieReviewsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_movieDetailsFragment_to_movieVideosFragment"
+            app:destination="@id/movieVideosFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -48,6 +59,15 @@
         <argument
             android:name="movieId"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/movieVideosFragment"
+        android:name="com.ru.movieshows.presentation.screens.movie_videos.MovieVideosFragment"
+        android:label="@string/videos"
+        tools:layout="@layout/fragment_movie_videos">
+        <argument
+            android:name="id"
+            app:argType="string" />
     </fragment>
 
 </navigation>

@@ -22,9 +22,6 @@ class MovieReviewsViewModel @AssistedInject constructor(
             moviesRepository.getPagedMovieReview(currentLanguage, movieId.toString())
             .cachedIn(viewModelScope)
 
-    fun refresh() {
-    }
-
     @AssistedFactory
     interface Factory {
         fun create(movieId: Int): MovieReviewsViewModel

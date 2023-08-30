@@ -2,7 +2,6 @@ package com.ru.movieshows.presentation.viewmodel.movie_details
 
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.ru.movieshows.domain.entity.MovieDetailsEntity
 import com.ru.movieshows.domain.entity.MovieEntity
@@ -20,7 +19,6 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
 import java.util.Locale
-import javax.inject.Inject
 
 
 class MovieDetailsViewModel @AssistedInject constructor(
@@ -87,6 +85,12 @@ class MovieDetailsViewModel @AssistedInject constructor(
             MovieDetailsFragmentDirections.actionMovieDetailsFragmentToMovieReviewsFragment(reviews.toTypedArray(), movieId)
         )
         navigationEvent.publishEvent(navigationIntent)
+    }
+
+    fun navigateToMovieVideos(id: String?) {
+        if(id == null) return
+        val intent = NavigationIntent.To(MovieDetailsFragmentDirections.actionMovieDetailsFragmentToMovieVideosFragment(id))
+        navigationEvent.publishEvent(intent)
     }
 
     @AssistedFactory

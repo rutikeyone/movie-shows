@@ -2,9 +2,16 @@ package com.ru.movieshows.presentation.screens.youtube_video_player
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -17,14 +24,15 @@ import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FragmentYoutubeVideoPlayerBinding
 import com.ru.movieshows.presentation.MainActivity
 import com.ru.movieshows.presentation.screens.tabs.TabsFragment
+import com.ru.movieshows.presentation.utils.getYouTubeId
 import com.ru.movieshows.presentation.utils.viewBinding
+
 
 class YoutubeVideoPlayerFragment : Fragment(R.layout.fragment_youtube_video_player) {
     private val binding by viewBinding<FragmentYoutubeVideoPlayerBinding>()
 
     private val arguments by navArgs<YoutubeVideoPlayerFragmentArgs>()
     private val video get() = arguments.video
-    private val poster get() = arguments.poster
 
     private var youTubePlayer: YouTubePlayer? = null
 
@@ -61,16 +69,32 @@ class YoutubeVideoPlayerFragment : Fragment(R.layout.fragment_youtube_video_play
         }
     }
 
+    private val mainActivity get() = requireActivity() as MainActivity
+    private val rootController get() = mainActivity.rootNavController
+
+    private val destinationChangedListener =
+        NavController.OnDestinationChangedListener { _, _, _ -> binding.toolBar.title = video.name ?: ""  }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         renderView()
+        setYoutubePlayerContent(resources.configuration)
+        rootController.addOnDestinationChangedListener(destinationChangedListener)
+    }
+
+    override fun onDestroyView() {
+        rootController.removeOnDestinationChangedListener(destinationChangedListener)
+        super.onDestroyView()
     }
 
     private fun renderView() {
-        if(poster != null) {
+        if(video.key != null) {
+            val url: String = resources.getString(R.string.youtube_url) + video.key
+            val imageId = url.getYouTubeId()
+            val image = resources.getString(R.string.thumbnail_firstPart) + imageId + resources.getString(R.string.thumbnail_secondPart)
             Glide
                 .with(this)
-                .load(poster)
+                .load(image)
                 .centerCrop()
                 .into(binding.videoImageTile.posterImageView)
         }
@@ -87,26 +111,26 @@ class YoutubeVideoPlayerFragment : Fragment(R.layout.fragment_youtube_video_play
         binding.youtubePlayerView.initialize(youtubePlayerListener, iFramePlayerOptions)
         binding.youtubePlayerView.addFullscreenListener(fullScreenListener)
         lifecycle.addObserver(binding.youtubePlayerView)
+
+
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-
-    if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-      binding.youtubePlayerView.matchParent();
-    } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-        binding.youtubePlayerView.wrapContent();
+        setYoutubePlayerContent(newConfig)
     }
+
+    private fun setYoutubePlayerContent(newConfig: Configuration) {
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            binding.youtubePlayerView.matchParent();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            binding.youtubePlayerView.wrapContent();
+        }
     }
 
     private fun renderToolbar() {
-        val mainActivity = requireActivity() as MainActivity
-        val rootController = mainActivity.rootNavController
-        val appConfiguration = AppBarConfiguration(TabsFragment.tabsTopLevelFragment)
-        binding.toolBar.setupWithNavController(rootController, appConfiguration)
+        binding.toolBar.setupWithNavController(rootController)
         binding.toolBar.isTitleCentered = true
-        if(video.name != null) {
-            binding.toolBar.title = video.name
-        }
+        binding.toolBar.title = video.name ?: ""
     }
 }

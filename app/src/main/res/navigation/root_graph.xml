@@ -26,9 +26,5 @@
         <argument
             android:name="video"
             app:argType="com.ru.movieshows.domain.entity.VideoEntity" />
-        <argument
-            android:name="poster"
-            app:argType="string"
-            app:nullable="true" />
     </fragment>
 </navigation>

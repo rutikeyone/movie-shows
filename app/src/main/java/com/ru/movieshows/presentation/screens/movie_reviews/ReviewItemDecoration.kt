@@ -6,9 +6,7 @@ import android.util.TypedValue
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class ReviewItemDecoration(
-    private val metrics: DisplayMetrics,
-) : RecyclerView.ItemDecoration() {
+class ReviewItemDecoration(metrics: DisplayMetrics) : RecyclerView.ItemDecoration() {
     private val paddingsInDips = 16F
     private val paddings: Int = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, paddingsInDips, metrics).toInt()
 

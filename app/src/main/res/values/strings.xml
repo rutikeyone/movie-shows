@@ -27,4 +27,10 @@
     <string name="trailer">Trailer</string>
     <string name="hide">Hide</string>
     <string name="read_more">Read more</string>
+    <string name="videos">Videos</string>
+    <string name="the_video_list_is_empty">The video list is empty</string>
+    <string name="thumbnail_firstPart">https://i1.ytimg.com/vi/</string>
+    <string name="thumbnail_secondPart">/hqdefault.jpg</string>
+    <string name="youtube_url">https://www.youtube.com/watch?v=</string>
+
 </resources>

@@ -19,7 +19,3 @@ sealed class MovieDetailsState {
         @StringRes val error: Int? = null,
     ): MovieDetailsState()
 }
-
-fun MovieDetailsState.Success.isVideosNotEmpty(): Boolean {
-    return videos.isNotEmpty()
-}
