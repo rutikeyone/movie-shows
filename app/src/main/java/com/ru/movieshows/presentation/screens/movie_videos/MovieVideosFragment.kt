@@ -12,7 +12,11 @@ import com.ru.movieshows.databinding.FailurePartBinding
 import com.ru.movieshows.databinding.FragmentMovieVideosBinding
 import com.ru.movieshows.databinding.FragmentMoviesBinding
 import com.ru.movieshows.domain.entity.VideoEntity
+import com.ru.movieshows.presentation.MainActivity
+import com.ru.movieshows.presentation.adapters.VideosAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
+import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
+import com.ru.movieshows.presentation.screens.tabs.TabsFragmentDirections
 import com.ru.movieshows.presentation.utils.viewBinding
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
 import com.ru.movieshows.presentation.viewmodel.movie_videos.MovieVideosState
@@ -58,5 +62,17 @@ class MovieVideosFragment : BaseFragment(R.layout.fragment_movie_videos) {
         if(error != null) failurePartBinding.failureTextMessage.text = resources.getString(error)
     }
 
-    private fun renderSuccessUI(videos: ArrayList<VideoEntity>) {}
+    private fun renderSuccessUI(videos: ArrayList<VideoEntity>) {
+        val adapter = VideosAdapter(videos, ::onVideoTap)
+        val itemDecoration = ItemDecoration(resources.displayMetrics)
+        binding.rvVideosView.isVisible = true
+        binding.rvVideosView.addItemDecoration(itemDecoration)
+        binding.rvVideosView.adapter = adapter
+    }
+
+    private fun onVideoTap(video: VideoEntity) {
+        val route = TabsFragmentDirections.actionTabsFragmentToYoutubeVideoPlayerFragment(video)
+        val activity = requireActivity() as MainActivity
+        activity.rootNavController.navigate(route)
+    }
 }

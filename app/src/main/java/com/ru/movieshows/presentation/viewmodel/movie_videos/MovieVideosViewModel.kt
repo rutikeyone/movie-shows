@@ -1,5 +1,6 @@
 package com.ru.movieshows.presentation.viewmodel.movie_videos
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -28,6 +29,7 @@ class MovieVideosViewModel @AssistedInject constructor(
     }
 
     fun fetchVideos() = viewModelScope.launch {
+        Log.e("TAG", movieId);
         val fetchVideos = moviesRepository.getVideosByMovieId(currentLanguage, movieId)
         fetchVideos.fold(::executeSuccessFetchVideos, ::executeFailureFetchVideos);
     }

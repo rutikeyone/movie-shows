@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
@@ -22,12 +22,28 @@
             android:src="@color/yellow"/>
 
         <ImageView
-            android:id="@+id/play_icon"
+            android:id="@+id/playIcon"
             android:layout_width="@dimen/dp_75"
             android:layout_height="@dimen/dp_75"
             android:layout_centerInParent="true"
             android:src="@drawable/ic_youtube_play_button" />
 
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/headerVideoView"
+        style="?attr/MovieShows.TextAppearance.Headline6.Bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/imageVideoView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/dp_16"
+        android:layout_marginBottom="@dimen/dp_16"
+        tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+        app:layout_constraintVertical_bias="0"
+        tools:visibility="visible"
+        android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -115,11 +115,12 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
         }
 
         private fun setupTrailerView(movieDetailsEntity: MovieDetailsEntity, videos: ArrayList<VideoEntity>) {
+            val movieId = args.id.toString()
             val video = videos.firstOrNull()
-            val visible = video != null && movieDetailsEntity.backDrop != null && videos.isNotEmpty()
+            val visible = video != null && videos.isNotEmpty()
             binding.trailersHeader.isVisible = visible
             binding.videoImageTile.root.isVisible = visible
-            binding.showAllVideosButton.setOnClickListener { viewModel.navigateToMovieVideos(video?.id) }
+            binding.showAllVideosButton.setOnClickListener { viewModel.navigateToMovieVideos(movieId) }
             if(video?.id == null || video.key == null) return
             val url: String = resources.getString(R.string.youtube_url) + video.key
             val imageId = url.getYouTubeId()

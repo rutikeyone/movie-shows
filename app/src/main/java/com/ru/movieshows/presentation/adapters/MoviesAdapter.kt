@@ -25,7 +25,10 @@ class MoviesAdapter(
         holder.bind(movies[position])
     }
 
-    class MoviesHolder(private val view: View, private val onTap: (MovieEntity) -> Unit) : RecyclerView.ViewHolder(view) {
+    class MoviesHolder(
+        private val view: View,
+        private val onTap: (MovieEntity) -> Unit
+    ) : RecyclerView.ViewHolder(view) {
         fun bind(movie: MovieEntity) {
             val binding = MovieTileVariant1Binding.bind(view)
             setupMovieName(movie, binding)
