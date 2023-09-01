@@ -17,6 +17,22 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_moviesFragment_to_upcomingMoviesFragment"
+            app:destination="@id/upcomingMoviesFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim" />
+        <action
+            android:id="@+id/action_moviesFragment_to_popularMoviesFragment2"
+            app:destination="@id/popularMoviesFragment" />
+        <action
+            android:id="@+id/action_moviesFragment_to_topRatedMoviesFragment"
+            app:destination="@id/topRatedMoviesFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/movieDetailsFragment"
@@ -69,5 +85,20 @@
             android:name="id"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/upcomingMoviesFragment"
+        android:name="com.ru.movieshows.presentation.screens.uncoming_movies.UpcomingMoviesFragment"
+        android:label="@string/upcoming_movies"
+        tools:layout="@layout/fragment_upcoming_movies" />
+    <fragment
+        android:id="@+id/popularMoviesFragment"
+        android:name="com.ru.movieshows.presentation.screens.popular_movies.PopularMoviesFragment"
+        android:label="@string/popular_movies"
+        tools:layout="@layout/fragment_popular_movies" />
+    <fragment
+        android:id="@+id/topRatedMoviesFragment"
+        android:name="com.ru.movieshows.presentation.screens.top_rated_movies.TopRatedMoviesFragment"
+        android:label="@string/top_rated_movies"
+        tools:layout="@layout/fragment_top_rated_movies" />
 
 </navigation>

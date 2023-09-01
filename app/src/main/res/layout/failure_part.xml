@@ -31,6 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/retry"
+        style="?attr/MovieShows.TextAppearance.Body1"
         android:layout_marginTop="@dimen/dp_12"/>
 
 </LinearLayout>

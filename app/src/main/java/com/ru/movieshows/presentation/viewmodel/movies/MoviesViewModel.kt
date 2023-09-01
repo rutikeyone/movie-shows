@@ -113,4 +113,19 @@ class MoviesViewModel @Inject constructor(
         if(movie.id == null) return;
         navigationEvent.publishEvent(NavigationIntent.To(MoviesFragmentDirections.actionMoviesFragmentToMovieDetailsFragment(movie.id)))
     }
+
+    fun navigateToUpcomingMovies() {
+        val intent = NavigationIntent.To(MoviesFragmentDirections.actionMoviesFragmentToUpcomingMoviesFragment())
+        navigationEvent.publishEvent(intent)
+    }
+
+    fun navigateToPopularMovies() {
+        val intent = NavigationIntent.To(MoviesFragmentDirections.actionMoviesFragmentToPopularMoviesFragment2())
+        navigationEvent.publishEvent(intent)
+    }
+
+    fun navigateToTopRatedMovies() {
+        val intent = NavigationIntent.To(MoviesFragmentDirections.actionMoviesFragmentToTopRatedMoviesFragment())
+        navigationEvent.publishEvent(intent)
+    }
 }

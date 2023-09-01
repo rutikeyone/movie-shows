@@ -84,7 +84,7 @@ class MoviesFragment : BaseFragment(R.layout.fragment_movies) {
 
     private fun renderSuccessUI(state: MoviesState.Success) {
         binding.successContainer.visibility = View.VISIBLE
-        setupNotPlayingPager(state)
+        setupNowPlayingPager(state)
         setupDots()
         setupGenresTab(state)
         setupUpcomingMoviesRecyclerView(state)
@@ -96,20 +96,23 @@ class MoviesFragment : BaseFragment(R.layout.fragment_movies) {
     private fun setupTopRatedRecyclerView(state: MoviesState.Success) {
         val adapter = MoviesAdapter(state.topRatedMovies, ::navigateToMovieDetails)
         binding.topRatedMovies.adapter = adapter
+        binding.showAllTopRatedMoviesButton.setOnClickListener { viewModel.navigateToTopRatedMovies() }
     }
 
 
     private fun setupPopularMoviesRecyclerView(state: MoviesState.Success) {
         val adapter = MoviesAdapter(state.popularMovies, ::navigateToMovieDetails)
         binding.popularMovies.adapter = adapter
+        binding.showAllPopularVideosButton.setOnClickListener { viewModel.navigateToPopularMovies() }
     }
 
     private fun setupUpcomingMoviesRecyclerView(state: MoviesState.Success) {
         val adapter = MoviesAdapter(state.upcomingMovies, ::navigateToMovieDetails)
         binding.upcomingMovies.adapter = adapter
+        binding.showAllUpcomingVideosButton.setOnClickListener { viewModel.navigateToUpcomingMovies() }
     }
 
-    private fun setupNotPlayingPager(state: MoviesState.Success) {
+    private fun setupNowPlayingPager(state: MoviesState.Success) {
         val adapter = MoviesViewPagerAdapter(this, state.nowPlayingMovies)
         binding.nowPlayingViewPager.adapter = adapter
     }
