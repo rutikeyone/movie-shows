@@ -32,5 +32,12 @@
     <string name="thumbnail_firstPart">https://i1.ytimg.com/vi/</string>
     <string name="thumbnail_secondPart">/hqdefault.jpg</string>
     <string name="youtube_url">https://www.youtube.com/watch?v=</string>
+    <string name="the_list_of_films_is_empty">The list of films is empty</string>
+    <string name="title_activity_youtube_video_player">YoutubeVideoPlayerActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
 
 </resources>

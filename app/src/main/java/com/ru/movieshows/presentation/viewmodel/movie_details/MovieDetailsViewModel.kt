@@ -42,8 +42,7 @@ class MovieDetailsViewModel @AssistedInject constructor(
             val movieDetails = fetchMovieDetails()
             val similarMovies = fetchSimilarMovies()
             val reviews = fetchReviews()
-            val videos = fetchVideos()
-            _state.value = MovieDetailsState.Success(movieDetails, similarMovies, reviews, videos)
+            _state.value = MovieDetailsState.Success(movieDetails, similarMovies, reviews)
             _title.value = movieDetails.title
 
         } catch (e: AppFailure) {
@@ -69,12 +68,6 @@ class MovieDetailsViewModel @AssistedInject constructor(
         return fetchReviewsResult.getOrThrow()
     }
 
-    private suspend fun fetchVideos(): ArrayList<VideoEntity> {
-        val id = movieId.toString()
-        val fetchVideosResult = moviesRepository.getVideosByMovieId(currentLanguage, id)
-        return fetchVideosResult.getOrThrow()
-    }
-
     fun navigateToMovieDetails(movie: MovieEntity){
         if(movie.id == null) return;
         navigationEvent.publishEvent(NavigationIntent.To(MovieDetailsFragmentDirections.actionMovieDetailsFragmentSelf(movie.id)))
@@ -85,12 +78,6 @@ class MovieDetailsViewModel @AssistedInject constructor(
             MovieDetailsFragmentDirections.actionMovieDetailsFragmentToMovieReviewsFragment(reviews.toTypedArray(), movieId)
         )
         navigationEvent.publishEvent(navigationIntent)
-    }
-
-    fun navigateToMovieVideos(id: String?) {
-        if(id == null) return
-        val intent = NavigationIntent.To(MovieDetailsFragmentDirections.actionMovieDetailsFragmentToMovieVideosFragment(id))
-        navigationEvent.publishEvent(intent)
     }
 
     @AssistedFactory

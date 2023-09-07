@@ -6,9 +6,8 @@ import com.ru.movieshows.data.response.GetMovieReviewsResponse
 import com.ru.movieshows.data.response.GetSimilarMoviesResponse
 import com.ru.movieshows.data.response.GetVideosByMovieIdResponse
 import com.ru.movieshows.data.model.MovieDetailsModel
-import com.ru.movieshows.data.response.GetPopularMoviesResponse
 import com.ru.movieshows.data.response.GetTopRatedMoviesResponse
-import com.ru.movieshows.data.response.GetUpcomingMoviesResponse
+import com.ru.movieshows.data.response.MoviesResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -34,10 +33,10 @@ interface MoviesDto {
     suspend fun getMoviesNowPlaying(@Query("language") language: String, @Query("page") page: Int): Response<GetMoviesNowPlayingResponse>
 
     @GET("movie/upcoming")
-    suspend fun getUpcomingMovies(@Query("language") language: String, @Query("page") page: Int): Response<GetUpcomingMoviesResponse>
+    suspend fun getUpcomingMovies(@Query("language") language: String, @Query("page") page: Int): Response<MoviesResponse>
 
     @GET("movie/popular")
-    suspend fun getPopularMovies(@Query("language") language: String, @Query("page") page: Int): Response<GetPopularMoviesResponse>
+    suspend fun getPopularMovies(@Query("language") language: String, @Query("page") page: Int): Response<MoviesResponse>
 
     @GET("movie/top_rated")
     suspend fun getTopRatedMovies(@Query("language") language: String, @Query("page") page: Int): Response<GetTopRatedMoviesResponse>

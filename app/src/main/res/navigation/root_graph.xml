@@ -11,15 +11,15 @@
         android:label="fragment_tabs"
         tools:layout="@layout/fragment_tabs" >
         <action
-            android:id="@+id/action_tabsFragment_to_youtubeVideoPlayerFragment"
-            app:destination="@id/youtubeVideoPlayerFragment"
+            android:id="@+id/action_tabsFragment_to_youtubeVideoPlayerFragment2"
+            app:destination="@id/youtubeVideoPlayerFragment2"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
-        android:id="@+id/youtubeVideoPlayerFragment"
+        android:id="@+id/youtubeVideoPlayerFragment2"
         android:name="com.ru.movieshows.presentation.screens.youtube_video_player.YoutubeVideoPlayerFragment"
         android:label="fragment_youtube_video_player"
         tools:layout="@layout/fragment_youtube_video_player" >

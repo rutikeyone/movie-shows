@@ -13,6 +13,7 @@ import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.presentation.adapters.MoviesAdapter
 import com.ru.movieshows.presentation.adapters.MoviesViewPagerAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
+import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
 import com.ru.movieshows.presentation.utils.viewBinding
 import com.ru.movieshows.presentation.viewmodel.movies.MoviesDiscoverState
 import com.ru.movieshows.presentation.viewmodel.movies.MoviesState
@@ -57,9 +58,11 @@ class MoviesFragment : BaseFragment(R.layout.fragment_movies) {
     }
 
     private fun renderDiscoverMoviesSuccessUI(movies: ArrayList<MovieEntity>) {
+        val itemDecorator = ItemDecoration(8F, resources.displayMetrics)
         val adapter = MoviesAdapter(movies, ::navigateToMovieDetails)
         binding.discoverMoviesSuccessContainer.visibility = View.VISIBLE
         binding.discoverMovies.adapter = adapter
+        binding.discoverMovies.addItemDecoration(itemDecorator)
     }
 
     private fun renderDiscoverMoviesInPendingUI() {
@@ -94,22 +97,28 @@ class MoviesFragment : BaseFragment(R.layout.fragment_movies) {
     }
 
     private fun setupTopRatedRecyclerView(state: MoviesState.Success) {
+        val itemDecorator = ItemDecoration(8F, resources.displayMetrics)
         val adapter = MoviesAdapter(state.topRatedMovies, ::navigateToMovieDetails)
         binding.topRatedMovies.adapter = adapter
         binding.showAllTopRatedMoviesButton.setOnClickListener { viewModel.navigateToTopRatedMovies() }
+        binding.topRatedMovies.addItemDecoration(itemDecorator)
     }
 
 
     private fun setupPopularMoviesRecyclerView(state: MoviesState.Success) {
+        val itemDecorator = ItemDecoration(8F, resources.displayMetrics)
         val adapter = MoviesAdapter(state.popularMovies, ::navigateToMovieDetails)
         binding.popularMovies.adapter = adapter
         binding.showAllPopularVideosButton.setOnClickListener { viewModel.navigateToPopularMovies() }
+        binding.popularMovies.addItemDecoration(itemDecorator)
     }
 
     private fun setupUpcomingMoviesRecyclerView(state: MoviesState.Success) {
+        val itemDecorator = ItemDecoration(8F, resources.displayMetrics)
         val adapter = MoviesAdapter(state.upcomingMovies, ::navigateToMovieDetails)
         binding.upcomingMovies.adapter = adapter
         binding.showAllUpcomingVideosButton.setOnClickListener { viewModel.navigateToUpcomingMovies() }
+        binding.upcomingMovies.addItemDecoration(itemDecorator)
     }
 
     private fun setupNowPlayingPager(state: MoviesState.Success) {

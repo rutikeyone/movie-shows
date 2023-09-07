@@ -1,6 +1,6 @@
 package com.ru.movieshows.data.repository
 
-import android.util.Log
+import android.graphics.pdf.PdfDocument.Page
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -11,8 +11,8 @@ import com.ru.movieshows.domain.entity.ReviewEntity
 import com.ru.movieshows.domain.entity.VideoEntity
 import com.ru.movieshows.domain.repository.MoviesRepository
 import com.ru.movieshows.domain.repository.exceptions.AppFailure
-import com.ru.movieshows.presentation.screens.movie_reviews.ReviewsPageLoader
-import com.ru.movieshows.presentation.screens.movie_reviews.ReviewsPagingSource
+import com.ru.movieshows.presentation.screens.movie_reviews.PageLoader
+import com.ru.movieshows.presentation.screens.movie_reviews.PagingSource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import java.lang.IllegalStateException
@@ -26,7 +26,7 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
         language: String,
         movieId: String
     ): Flow<PagingData<ReviewEntity>> {
-        val loader: ReviewsPageLoader = { pageIndex ->
+        val loader: PageLoader<List<ReviewEntity>> = { pageIndex ->
             val response = moviesDto.getMovieReviews(movieId, language, pageIndex)
             if(!response.isSuccessful || response.body() == null) throw IllegalStateException("Response must be successful")
             val body = response.body()!!
@@ -41,7 +41,49 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
                 pageSize = PAGE_SIZE,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { ReviewsPagingSource(loader, PAGE_SIZE) }
+            pagingSourceFactory = { PagingSource(loader, PAGE_SIZE) }
+        ).flow
+    }
+
+    override fun getPagedPopularMovies(language: String): Flow<PagingData<MovieEntity>> {
+        val loader: PageLoader<List<MovieEntity>> = { pageIndex ->
+            val response = moviesDto.getPopularMovies(language, pageIndex)
+            if(!response.isSuccessful || response.body() == null) throw IllegalStateException("Response must be successful")
+            val body = response.body()!!
+            val result = body.results
+            val totalPages = body.page
+            val movieEntities = result.map { it.toEntity() }
+            Pair(movieEntities.toList(), totalPages)
+        }
+
+        return Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { PagingSource(loader, PAGE_SIZE) }
+        ).flow
+    }
+
+    override fun getPagedUnComingMovies(
+        language: String,
+    ): Flow<PagingData<MovieEntity>> {
+        val loader: PageLoader<List<MovieEntity>> = { pageIndex ->
+            val response = moviesDto.getUpcomingMovies(language, pageIndex)
+            if(!response.isSuccessful || response.body() == null) throw IllegalStateException("Response must be successful")
+            val body = response.body()!!
+            val result = body.results
+            val totalPages = body.totalPages
+            val movieEntities = result.map { it.toEntity() }
+            Pair(movieEntities.toList(), totalPages)
+        }
+
+        return Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { PagingSource(loader, PAGE_SIZE) }
         ).flow
     }
 
@@ -192,7 +234,7 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
         return try {
             val getPopularMoviesResponse = moviesDto.getPopularMovies(language, page)
             return if(getPopularMoviesResponse.isSuccessful && getPopularMoviesResponse.body() != null) {
-                val moviesModels = getPopularMoviesResponse.body()!!.result
+                val moviesModels = getPopularMoviesResponse.body()!!.results
                 val moviesEntities = moviesModels.map { it.toEntity() }
                 Result.success(ArrayList(moviesEntities))
             } else {

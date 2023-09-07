@@ -11,5 +11,5 @@ class ReviewsDiffCallback: DiffUtil.ItemCallback<ReviewEntity>() {
     override fun areContentsTheSame(oldItem: ReviewEntity, newItem: ReviewEntity): Boolean {
         return oldItem != newItem
     }
-
 }
+

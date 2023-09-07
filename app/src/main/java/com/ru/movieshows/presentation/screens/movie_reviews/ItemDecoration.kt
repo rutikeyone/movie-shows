@@ -6,8 +6,10 @@ import android.util.TypedValue
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class ItemDecoration(metrics: DisplayMetrics) : RecyclerView.ItemDecoration() {
-    private val paddingsInDips = 16F
+class ItemDecoration(
+    private val paddingsInDips: Float = 16F,
+    private val metrics: DisplayMetrics
+) : RecyclerView.ItemDecoration() {
     private val paddings: Int = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, paddingsInDips, metrics).toInt()
 
     override fun getItemOffsets(

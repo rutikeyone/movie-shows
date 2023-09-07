@@ -3,7 +3,9 @@ package com.ru.movieshows.presentation.screens.movie_details
 import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.OrientationEventListener
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -12,6 +14,7 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.google.android.flexbox.FlexDirection
@@ -29,8 +32,8 @@ import com.ru.movieshows.presentation.MainActivity
 import com.ru.movieshows.presentation.adapters.GenresAdapter
 import com.ru.movieshows.presentation.adapters.MoviesAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
+import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
 import com.ru.movieshows.presentation.screens.tabs.TabsFragmentDirections
-import com.ru.movieshows.presentation.utils.getYouTubeId
 import com.ru.movieshows.presentation.viewmodel.movie_details.MovieDetailsState
 import com.ru.movieshows.presentation.viewmodel.movie_details.MovieDetailsViewModel
 import com.ru.movieshows.presentation.viewmodel.viewModelCreator
@@ -48,6 +51,7 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
     override val viewModel by viewModelCreator { factory.create(args.id) }
     private var _binding: FragmentMovieDetailsBinding? = null
     private val binding get() = _binding!!
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,12 +73,6 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
         _binding = null
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        binding.videoImageTile.posterImageView.scaleType = ImageView.ScaleType.CENTER_CROP
-        binding.movieBackDrop.scaleType = ImageView.ScaleType.CENTER_CROP
-    }
-
         private fun renderTitle(value: String?) {
             val toolBar = activity?.findViewById<MaterialToolbar>(R.id.tabsToolbar) ?: return
             toolBar.title = value
@@ -90,7 +88,6 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
                     movieDetailsState.movieDetails,
                     movieDetailsState.similarMovies,
                     movieDetailsState.reviews,
-                    movieDetailsState.videos,
                 )
             }
         }
@@ -99,7 +96,6 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
             movieDetailsEntity: MovieDetailsEntity,
             similarMovies: ArrayList<MovieEntity>,
             reviews: ArrayList<ReviewEntity>,
-            videos: ArrayList<VideoEntity>,
         ) {
             binding.successContainer.visibility = View.VISIBLE
             setupMovieBackDrop(movieDetailsEntity)
@@ -111,28 +107,6 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
             setupGenres(movieDetailsEntity)
             setupSimilarMovies(similarMovies)
             setupReview(reviews)
-            setupTrailerView(movieDetailsEntity, videos)
-        }
-
-        private fun setupTrailerView(movieDetailsEntity: MovieDetailsEntity, videos: ArrayList<VideoEntity>) {
-            val movieId = args.id.toString()
-            val video = videos.firstOrNull()
-            val visible = video != null && videos.isNotEmpty()
-            binding.trailersHeader.isVisible = visible
-            binding.videoImageTile.root.isVisible = visible
-            binding.showAllVideosButton.setOnClickListener { viewModel.navigateToMovieVideos(movieId) }
-            if(video?.id == null || video.key == null) return
-            val url: String = resources.getString(R.string.youtube_url) + video.key
-            val imageId = url.getYouTubeId()
-            val image = resources.getString(R.string.thumbnail_firstPart) + imageId + resources.getString(R.string.thumbnail_secondPart)
-            Glide
-                .with(this)
-                .load(image)
-                .centerCrop()
-                .into(binding.videoImageTile.posterImageView)
-            val route = TabsFragmentDirections.actionTabsFragmentToYoutubeVideoPlayerFragment(video)
-            val activity = requireActivity() as MainActivity
-            binding.videoImageTile.imageVideoView.setOnClickListener { activity.rootNavController.navigate(route) }
         }
 
     private fun setupReview(reviews: ArrayList<ReviewEntity>) {
@@ -173,8 +147,10 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
 
     private fun setupSimilarMovies(similarMovies: ArrayList<MovieEntity>) {
         if (similarMovies.isNotEmpty()) {
+            val itemDecorator = ItemDecoration(8F, resources.displayMetrics)
             val adapter = MoviesAdapter(similarMovies, ::onSimilarMovieTap)
             binding.similarMovies.adapter = adapter
+            binding.similarMovies.addItemDecoration(itemDecorator)
         } else {
             binding.similarMoviesHeader.visibility = View.GONE
             binding.similarMovies.visibility = View.GONE

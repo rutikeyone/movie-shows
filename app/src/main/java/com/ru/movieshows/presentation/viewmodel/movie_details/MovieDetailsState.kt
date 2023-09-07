@@ -12,7 +12,6 @@ sealed class MovieDetailsState {
         val movieDetails: MovieDetailsEntity,
         val similarMovies: ArrayList<MovieEntity>,
         val reviews: ArrayList<ReviewEntity>,
-        val videos: ArrayList<VideoEntity>,
     ): MovieDetailsState()
     data class Failure(
         @StringRes val header: Int? = null,

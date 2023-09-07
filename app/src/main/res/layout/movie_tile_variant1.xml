@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/dp_120"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_gravity="center"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginStart="@dimen/dp_8"
-    android:layout_marginEnd="@dimen/dp_8">
+    xmlns:tools="http://schemas.android.com/tools">
 
 
     <androidx.cardview.widget.CardView
@@ -37,7 +36,6 @@
         android:id="@+id/movieName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="Movie name"
         android:layout_marginStart="@dimen/dp_4"
         android:layout_marginEnd="@dimen/dp_4"
         app:layout_constraintTop_toBottomOf="@id/discoverMovieImageCard"
@@ -51,6 +49,7 @@
         android:gravity="center"
         android:layout_marginTop="@dimen/dp_4"
         android:layout_marginBottom="@dimen/dp_4"
+        tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
         />
 
 

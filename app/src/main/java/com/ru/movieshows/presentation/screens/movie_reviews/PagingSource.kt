@@ -4,19 +4,20 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.ru.movieshows.domain.entity.ReviewEntity
 
-typealias ReviewsPageLoader = suspend (pageIndex: Int) -> Pair<List<ReviewEntity>, Int>
-class ReviewsPagingSource(
-    private val loader: ReviewsPageLoader,
-    private val pageSize: Int,
-) : PagingSource<Int, ReviewEntity>() {
+typealias PageLoader<T> = suspend (pageIndex: Int) -> Pair<T, Int>
 
-    override fun getRefreshKey(state: PagingState<Int, ReviewEntity>): Int? {
+class PagingSource<T : Any>(
+    private val loader: PageLoader<List<T>>,
+    private val pageSize: Int,
+) : PagingSource<Int, T>() {
+
+    override fun getRefreshKey(state: PagingState<Int, T>): Int? {
         val anchorPosition = state.anchorPosition ?: return null
         val page = state.closestPageToPosition(anchorPosition) ?: return null
         return page.prevKey?.plus(1) ?: page.nextKey?.minus(1)
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ReviewEntity> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, T> {
         val pageIndex = params.key ?: 1
         return try {
             val loaderResult = loader.invoke(pageIndex)

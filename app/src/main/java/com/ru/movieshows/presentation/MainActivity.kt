@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
             false -> {
                 val rootCurrentDestinationId = rootNavController.currentDestination?.id
                 val currentDestinationId = _currentNavController?.currentDestination?.id
-                val isYoutubePlayerDestination = rootCurrentDestinationId ==  R.id.youtubeVideoPlayerFragment
+                val isYoutubePlayerDestination = rootCurrentDestinationId ==  R.id.youtubeVideoPlayerFragment2
                 if(isYoutubePlayerDestination) {
                     rootNavController.popBackStack()
                     return

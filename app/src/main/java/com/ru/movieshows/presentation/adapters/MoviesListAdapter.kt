@@ -1,54 +1,44 @@
 package com.ru.movieshows.presentation.adapters
 
-import android.app.ActionBar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.ru.movieshows.R
 import com.ru.movieshows.databinding.MovieTileVariant1Binding
 import com.ru.movieshows.domain.entity.MovieEntity
 
-class MoviesAdapter(
-    private val movies: ArrayList<MovieEntity>,
+class MoviesListAdapter(
     private val onTap: (MovieEntity) -> Unit,
-): RecyclerView.Adapter<MoviesAdapter.MoviesHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val tile = inflater.inflate(R.layout.movie_tile_variant1, parent, false)
-        return MoviesHolder(tile, onTap)
-    }
+) : PagingDataAdapter<MovieEntity, MoviesListAdapter.Holder>(MoviesDiffCallback()) {
 
     override fun getItemViewType(position: Int): Int {
         return if (position == itemCount) MOVIE_ITEM else LOADING_ITEM
     }
 
-    override fun getItemCount(): Int = movies.size
-
-    override fun onBindViewHolder(holder: MoviesHolder, position: Int) {
-        holder.bind(movies[position])
+    override fun onBindViewHolder(holder: Holder, position: Int) {
+        val review = getItem(position) ?: return
+        holder.bind(review)
     }
 
-    class MoviesHolder(
-        private val view: View,
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = MovieTileVariant1Binding.inflate(inflater, parent, false)
+        return Holder(binding, onTap)
+    }
+
+
+    class Holder(
+        private val binding: MovieTileVariant1Binding,
         private val onTap: (MovieEntity) -> Unit,
-    ) : RecyclerView.ViewHolder(view) {
+    ) : RecyclerView.ViewHolder(binding.root) {
+
         fun bind(movie: MovieEntity) {
-            val binding = MovieTileVariant1Binding.bind(view)
-            setupLayoutParams(binding)
             setupMovieName(movie, binding)
             setupMovieImage(movie, binding)
             setupMovieRating(binding, movie.rating)
             binding.root.setOnClickListener { onTap(movie) }
-        }
-
-        private fun setupLayoutParams(binding: MovieTileVariant1Binding) {
-            val layoutParams = ActionBar.LayoutParams(
-                binding.root.resources.getDimensionPixelOffset(R.dimen.dp_120),
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-            binding.root.layoutParams = layoutParams
         }
 
         private fun setupMovieRating(
@@ -84,6 +74,7 @@ class MoviesAdapter(
         ) {
             if (movie.title != null) binding.movieName.text = movie.title
         }
+
     }
 
     companion object {

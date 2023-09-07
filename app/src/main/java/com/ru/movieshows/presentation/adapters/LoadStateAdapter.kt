@@ -6,7 +6,7 @@ import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 
 typealias TryAgainAction = () -> Unit
-class ReviewsLoadStateAdapter(
+class LoadStateAdapter(
     private val tryAgainAction: TryAgainAction,
     private val context: Context,
 ): LoadStateAdapter<DefaultLoadStateViewHolder>() {

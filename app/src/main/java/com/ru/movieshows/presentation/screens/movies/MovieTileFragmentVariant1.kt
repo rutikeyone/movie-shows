@@ -1,9 +1,11 @@
 package com.ru.movieshows.presentation.screens.movies
 
+import android.app.ActionBar.LayoutParams
 import android.content.res.Configuration
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -27,11 +29,6 @@ class MovieTileFragmentVariant1 : Fragment(R.layout.fragment_movie_tile_variant1
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupUI()
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        binding.movieBackground.scaleType = ImageView.ScaleType.CENTER_CROP
     }
 
     private fun setupUI() {

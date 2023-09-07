@@ -258,7 +258,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintHorizontal_bias="0"
                     style="?attr/MovieShows.TextAppearance.Headline6.Bold"
-                    android:text="@string/popular_movies"
+                        android:text="@string/top_rated_movies"
                     />
 
                 <Button
