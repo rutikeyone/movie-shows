@@ -148,7 +148,7 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
     private fun setupSimilarMovies(similarMovies: ArrayList<MovieEntity>) {
         if (similarMovies.isNotEmpty()) {
             val itemDecorator = ItemDecoration(8F, resources.displayMetrics)
-            val adapter = MoviesAdapter(similarMovies, ::onSimilarMovieTap)
+            val adapter = MoviesAdapter(::onSimilarMovieTap).also { it.updateData(similarMovies) }
             binding.similarMovies.adapter = adapter
             binding.similarMovies.addItemDecoration(itemDecorator)
         } else {
@@ -185,7 +185,7 @@ class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
     @SuppressLint("SimpleDateFormat")
     private fun setupReleaseDate(movieDetailsEntity: MovieDetailsEntity) {
         if (movieDetailsEntity.releaseDate != null) {
-            val simpleDateFormatter = SimpleDateFormat("yyyy-MM-dd")
+            val simpleDateFormatter = SimpleDateFormat("d MMMM yyyy")
             val date = simpleDateFormatter.format(movieDetailsEntity.releaseDate)
             binding.releaseDateValue.text = date
         } else {

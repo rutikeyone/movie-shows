@@ -11,9 +11,10 @@ import com.ru.movieshows.databinding.MovieTileVariant1Binding
 import com.ru.movieshows.domain.entity.MovieEntity
 
 class MoviesAdapter(
-    private val movies: ArrayList<MovieEntity>,
     private val onTap: (MovieEntity) -> Unit,
 ): RecyclerView.Adapter<MoviesAdapter.MoviesHolder>() {
+    private var movies = arrayListOf<MovieEntity>()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesHolder {
         val inflater = LayoutInflater.from(parent.context)
         val tile = inflater.inflate(R.layout.movie_tile_variant1, parent, false)
@@ -28,6 +29,12 @@ class MoviesAdapter(
 
     override fun onBindViewHolder(holder: MoviesHolder, position: Int) {
         holder.bind(movies[position])
+    }
+
+    fun updateData(data: ArrayList<MovieEntity>) {
+        this.movies.clear()
+        this.movies.addAll(data)
+        notifyDataSetChanged()
     }
 
     class MoviesHolder(

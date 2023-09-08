@@ -61,7 +61,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/discoverMoviesContainer"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_270">
+                android:layout_height="@dimen/dp_280">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/discoverMovies"

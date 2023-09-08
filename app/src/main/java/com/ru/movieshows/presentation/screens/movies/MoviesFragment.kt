@@ -23,8 +23,11 @@ import java.util.Locale
 
 @AndroidEntryPoint
 class MoviesFragment : BaseFragment(R.layout.fragment_movies) {
+    private var adapter: MoviesAdapter? = null
+
     override val viewModel by viewModels<MoviesViewModel>()
     private val binding by viewBinding<FragmentMoviesBinding>()
+
     private val tabSelectedListener = object : TabLayout.OnTabSelectedListener {
         override fun onTabSelected(tab: TabLayout.Tab?) {
             val index = tab?.position ?: return
@@ -59,10 +62,18 @@ class MoviesFragment : BaseFragment(R.layout.fragment_movies) {
 
     private fun renderDiscoverMoviesSuccessUI(movies: ArrayList<MovieEntity>) {
         val itemDecorator = ItemDecoration(8F, resources.displayMetrics)
-        val adapter = MoviesAdapter(movies, ::navigateToMovieDetails)
-        binding.discoverMoviesSuccessContainer.visibility = View.VISIBLE
-        binding.discoverMovies.adapter = adapter
+        if(adapter == null) {
+            adapter = MoviesAdapter(::navigateToMovieDetails)
+        }
+
+        while (binding.discoverMovies.itemDecorationCount > 0) {
+            binding.discoverMovies.removeItemDecorationAt(0);
+        }
+
+        adapter?.updateData(movies)
         binding.discoverMovies.addItemDecoration(itemDecorator)
+        binding.discoverMovies.adapter = adapter
+        binding.discoverMoviesSuccessContainer.visibility = View.VISIBLE
     }
 
     private fun renderDiscoverMoviesInPendingUI() {
@@ -98,7 +109,7 @@ class MoviesFragment : BaseFragment(R.layout.fragment_movies) {
 
     private fun setupTopRatedRecyclerView(state: MoviesState.Success) {
         val itemDecorator = ItemDecoration(8F, resources.displayMetrics)
-        val adapter = MoviesAdapter(state.topRatedMovies, ::navigateToMovieDetails)
+        val adapter = MoviesAdapter(::navigateToMovieDetails).also { it.updateData(state.topRatedMovies) }
         binding.topRatedMovies.adapter = adapter
         binding.showAllTopRatedMoviesButton.setOnClickListener { viewModel.navigateToTopRatedMovies() }
         binding.topRatedMovies.addItemDecoration(itemDecorator)
@@ -107,7 +118,7 @@ class MoviesFragment : BaseFragment(R.layout.fragment_movies) {
 
     private fun setupPopularMoviesRecyclerView(state: MoviesState.Success) {
         val itemDecorator = ItemDecoration(8F, resources.displayMetrics)
-        val adapter = MoviesAdapter(state.popularMovies, ::navigateToMovieDetails)
+        val adapter = MoviesAdapter(::navigateToMovieDetails).also { it.updateData(state.popularMovies) }
         binding.popularMovies.adapter = adapter
         binding.showAllPopularVideosButton.setOnClickListener { viewModel.navigateToPopularMovies() }
         binding.popularMovies.addItemDecoration(itemDecorator)
@@ -115,7 +126,7 @@ class MoviesFragment : BaseFragment(R.layout.fragment_movies) {
 
     private fun setupUpcomingMoviesRecyclerView(state: MoviesState.Success) {
         val itemDecorator = ItemDecoration(8F, resources.displayMetrics)
-        val adapter = MoviesAdapter(state.upcomingMovies, ::navigateToMovieDetails)
+        val adapter = MoviesAdapter(::navigateToMovieDetails).also { it.updateData(state.upcomingMovies) }
         binding.upcomingMovies.adapter = adapter
         binding.showAllUpcomingVideosButton.setOnClickListener { viewModel.navigateToUpcomingMovies() }
         binding.upcomingMovies.addItemDecoration(itemDecorator)

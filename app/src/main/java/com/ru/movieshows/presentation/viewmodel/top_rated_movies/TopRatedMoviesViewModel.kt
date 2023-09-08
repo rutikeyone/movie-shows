@@ -1,4 +1,4 @@
-package com.ru.movieshows.presentation.viewmodel.popular_movies
+package com.ru.movieshows.presentation.viewmodel.top_rated_movies
 
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -6,7 +6,7 @@ import androidx.paging.cachedIn
 import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.repository.MoviesRepository
 import com.ru.movieshows.presentation.screens.popular_movies.PopularMoviesFragmentDirections
-import com.ru.movieshows.presentation.screens.uncoming_movies.UpcomingMoviesFragmentDirections
+import com.ru.movieshows.presentation.screens.top_rated_movies.TopRatedMoviesFragmentDirections
 import com.ru.movieshows.presentation.utils.NavigationIntent
 import com.ru.movieshows.presentation.utils.publishEvent
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
@@ -16,15 +16,14 @@ import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
-class PopularMoviesViewModel @Inject constructor(moviesRepository: MoviesRepository): BaseViewModel() {
+class TopRatedMoviesViewModel @Inject constructor(moviesRepository: MoviesRepository) : BaseViewModel() {
     private val currentLanguage get() = Locale.getDefault().toLanguageTag()
 
-    val popularMovies: Flow<PagingData<MovieEntity>> =
-        moviesRepository.getPagedPopularMovies(currentLanguage)
+    val topRatedMovies: Flow<PagingData<MovieEntity>> = moviesRepository.getPagedTopRatedMovies(currentLanguage)
         .cachedIn(viewModelScope)
 
-    fun navigateToMovieDetails(movie: MovieEntity){
-        if(movie.id == null) return;
-        navigationEvent.publishEvent(NavigationIntent.To(PopularMoviesFragmentDirections.actionPopularMoviesFragmentToMovieDetailsFragment(movie.id)))
+    fun navigateToMovieDetails(movie: MovieEntity) {
+        if(movie.id == null) return
+        navigationEvent.publishEvent(NavigationIntent.To(TopRatedMoviesFragmentDirections.actionTopRatedMoviesFragmentToMovieDetailsFragment(movie.id)))
     }
 }

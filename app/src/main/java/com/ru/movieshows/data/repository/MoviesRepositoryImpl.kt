@@ -22,6 +22,26 @@ import kotlin.Exception
 
 class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto): MoviesRepository {
 
+    override fun getPagedTopRatedMovies(language: String): Flow<PagingData<MovieEntity>> {
+        val loader: PageLoader<List<MovieEntity>> = { pageIndex ->
+            val response = moviesDto.getTopRatedMovies(language, pageIndex)
+            if(!response.isSuccessful || response.body() == null) throw IllegalStateException("Response must be successful")
+            val body = response.body()!!
+            val result = body.results
+            val totalPages = body.page
+            val movieEntities = result.map { it.toEntity() }
+            Pair(movieEntities.toList(), totalPages)
+        }
+
+        return Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { PagingSource(loader, PAGE_SIZE) }
+        ).flow
+    }
+
     override fun getPagedMovieReview(
         language: String,
         movieId: String

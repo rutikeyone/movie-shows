@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface MoviesRepository {
     fun getPagedMovieReview(language: String = "en_US", movieId: String): Flow<PagingData<ReviewEntity>>
+    fun getPagedTopRatedMovies(language: String = "en_US") : Flow<PagingData<MovieEntity>>
     fun getPagedPopularMovies(language: String = "en_US") : Flow<PagingData<MovieEntity>>
     fun getPagedUnComingMovies(language: String = "en_US") : Flow<PagingData<MovieEntity>>
     suspend fun getMovieReviews(language: String = "en_US", movieId: String, page: Int): Result<ArrayList<ReviewEntity>>
