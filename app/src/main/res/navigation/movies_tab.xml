@@ -37,6 +37,13 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_moviesFragment_to_movieSearchFragment"
+            app:destination="@id/movieSearchFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/movieDetailsFragment"
@@ -112,5 +119,10 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
+    <fragment
+        android:id="@+id/movieSearchFragment"
+        android:name="com.ru.movieshows.presentation.screens.movie_search.MovieSearchFragment"
+        android:label="@string/search"
+        tools:layout="@layout/fragment_movie_search" />
 
 </navigation>

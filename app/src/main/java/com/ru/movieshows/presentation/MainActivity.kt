@@ -14,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    val rootNavController get() = rootNavController()
+    private val rootNavController get() = rootNavController()
 
     private var _currentNavController: NavController? = null
 
@@ -55,7 +55,6 @@ class MainActivity : AppCompatActivity() {
             true -> finish()
             false -> {
                 val rootCurrentDestinationId = rootNavController.currentDestination?.id
-                val currentDestinationId = _currentNavController?.currentDestination?.id
                 val isYoutubePlayerDestination = rootCurrentDestinationId ==  R.id.youtubeVideoPlayerFragment2
                 if(isYoutubePlayerDestination) {
                     rootNavController.popBackStack()

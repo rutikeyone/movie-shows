@@ -128,4 +128,9 @@ class MoviesViewModel @Inject constructor(
         val intent = NavigationIntent.To(MoviesFragmentDirections.actionMoviesFragmentToTopRatedMoviesFragment())
         navigationEvent.publishEvent(intent)
     }
+
+    fun navigateToMovieSearch() {
+        val intent = NavigationIntent.To(MoviesFragmentDirections.actionMoviesFragmentToMovieSearchFragment())
+        navigationEvent.publishEvent(intent)
+    }
 }

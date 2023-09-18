@@ -22,11 +22,6 @@
         android:theme="@style/Theme.MovieShows"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.screens.youtube_video_player.YoutubeVideoPlayerActivity"
-            android:exported="false"
-            android:label="@string/title_activity_youtube_video_player"
-            android:theme="@style/Theme.MovieShows" />
-        <activity
             android:name=".presentation.MainActivity"
             android:exported="true">
             <intent-filter>

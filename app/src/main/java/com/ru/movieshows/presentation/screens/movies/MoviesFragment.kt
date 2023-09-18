@@ -1,10 +1,26 @@
 package com.ru.movieshows.presentation.screens.movies
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.StringRes
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.core.view.children
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.tabs.TabLayout
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FailurePartBinding
@@ -14,6 +30,7 @@ import com.ru.movieshows.presentation.adapters.MoviesAdapter
 import com.ru.movieshows.presentation.adapters.MoviesViewPagerAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
+import com.ru.movieshows.presentation.screens.tabs.TabsFragment
 import com.ru.movieshows.presentation.utils.viewBinding
 import com.ru.movieshows.presentation.viewmodel.movies.MoviesDiscoverState
 import com.ru.movieshows.presentation.viewmodel.movies.MoviesState
@@ -37,6 +54,30 @@ class MoviesFragment : BaseFragment(R.layout.fragment_movies) {
         override fun onTabReselected(tab: TabLayout.Tab?) {}
     }
 
+    private val toolbar: MaterialToolbar? get() = requireActivity().findViewById(R.id.tabsToolbar)
+
+    private val menuProvider = object : MenuProvider {
+        override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+            menuInflater.inflate(R.menu.movie_menu, menu)
+        }
+        override fun onMenuItemSelected(menuItem: MenuItem): Boolean = when(menuItem.itemId) {
+                R.id.search -> {
+                    navigateToMovieSearch()
+                    true
+                }
+                else -> false
+            }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        toolbar?.addMenuProvider(menuProvider)
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun onDestroyView() {
+        toolbar?.removeMenuProvider(menuProvider)
+        super.onDestroyView()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -166,5 +207,7 @@ class MoviesFragment : BaseFragment(R.layout.fragment_movies) {
     }
 
     private fun navigateToMovieDetails(movieEntity: MovieEntity) = viewModel.navigateToMovieDetails(movieEntity)
+
+    private fun navigateToMovieSearch() = viewModel.navigateToMovieSearch()
 }
 

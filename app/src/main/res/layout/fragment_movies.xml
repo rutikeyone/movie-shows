@@ -143,23 +143,23 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <RelativeLayout
                 android:id="@+id/upcomingMoviesHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_16"
                 android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginEnd="@dimen/dp_16"
-                android:orientation="horizontal">
+                android:layout_marginEnd="@dimen/dp_16">
 
                 <TextView
                     android:id="@+id/upcomingMoviesTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="@id/showAllUpcomingVideosButton"
-                    app:layout_constraintBottom_toBottomOf="@id/showAllUpcomingVideosButton"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintHorizontal_bias="0"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@+id/showAllUpcomingVideosButton"
                     style="?attr/MovieShows.TextAppearance.Headline6.Bold"
                     android:text="@string/upcoming_movies"
                      />
@@ -170,14 +170,13 @@
                     android:layout_height="wrap_content"
                     style="?attr/MovieShows.TextAppearance.Body3.Bold"
                     app:layout_constraintStart_toEndOf="@id/upcomingMoviesTextView"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHorizontal_bias="1"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
                     android:text="@string/show_all"
                     />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/upcomingMovies"
@@ -191,7 +190,7 @@
                 android:layout_marginEnd="@dimen/dp_8"
                 />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <RelativeLayout
                 android:id="@+id/popularMoviesHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -203,10 +202,11 @@
                     android:id="@+id/popularMoviesTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="@id/showAllPopularVideosButton"
-                    app:layout_constraintBottom_toBottomOf="@id/showAllPopularVideosButton"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintHorizontal_bias="0"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@+id/showAllPopularVideosButton"
                     style="?attr/MovieShows.TextAppearance.Headline6.Bold"
                     android:text="@string/popular_movies"
                     />
@@ -216,16 +216,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="?attr/MovieShows.TextAppearance.Body3.Bold"
-
-                    app:layout_constraintStart_toEndOf="@id/popularMoviesTextView"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHorizontal_bias="1"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
                     android:text="@string/show_all"
                     />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/popularMovies"
@@ -239,26 +236,26 @@
                 android:layout_marginEnd="@dimen/dp_8"
                 />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <RelativeLayout
                 android:id="@+id/topRatedHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="?attr/MovieShows.TextAppearance.Headline6.Bold"
-                android:text="@string/top_rated_movies"
                 android:layout_marginTop="@dimen/dp_16"
                 android:layout_marginStart="@dimen/dp_16"
                 android:layout_marginEnd="@dimen/dp_16" >
 
                 <TextView
                     android:id="@+id/topRatedMoviesTextView"
+                    style="?attr/MovieShows.TextAppearance.Headline6.Bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="@id/showAllTopRatedMoviesButton"
-                    app:layout_constraintBottom_toBottomOf="@id/showAllTopRatedMoviesButton"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintHorizontal_bias="0"
-                    style="?attr/MovieShows.TextAppearance.Headline6.Bold"
-                        android:text="@string/top_rated_movies"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@+id/showAllTopRatedMoviesButton"
+                    android:text="@string/top_rated_movies"
                     />
 
                 <Button
@@ -266,15 +263,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="?attr/MovieShows.TextAppearance.Body3.Bold"
-                    app:layout_constraintStart_toEndOf="@id/topRatedMoviesTextView"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHorizontal_bias="1"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
                     android:text="@string/show_all"
                     />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/topRatedMovies"

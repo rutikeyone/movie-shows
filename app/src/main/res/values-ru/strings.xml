@@ -32,4 +32,5 @@
     <string name="thumbnail_secondPart">/hqdefault.jpg</string>
     <string name="youtube_url">https://www.youtube.com/watch?v=</string>
     <string name="the_list_of_films_is_empty">Список фильмов пуст</string>
+    <string name="search">Поиск</string>
 </resources>
