@@ -54,7 +54,7 @@ class MoviesFragment : BaseFragment(R.layout.fragment_movies) {
         override fun onTabReselected(tab: TabLayout.Tab?) {}
     }
 
-    private val toolbar: MaterialToolbar? get() = requireActivity().findViewById(R.id.tabsToolbar)
+    private val toolbar: MaterialToolbar get() = requireActivity().findViewById(R.id.tabsToolbar)
 
     private val menuProvider = object : MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -67,16 +67,7 @@ class MoviesFragment : BaseFragment(R.layout.fragment_movies) {
                 }
                 else -> false
             }
-    }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        toolbar?.addMenuProvider(menuProvider)
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
-    override fun onDestroyView() {
-        toolbar?.removeMenuProvider(menuProvider)
-        super.onDestroyView()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -84,6 +75,12 @@ class MoviesFragment : BaseFragment(R.layout.fragment_movies) {
         viewModel.state.observe(viewLifecycleOwner, ::renderUI)
         viewModel.discoverMoviesState.observe(viewLifecycleOwner, ::renderDiscoverMoviesUI)
     }
+
+    override fun onStart() {
+        toolbar.addMenuProvider(menuProvider, viewLifecycleOwner)
+        super.onStart()
+    }
+
 
     private fun renderDiscoverMoviesUI(moviesDiscoverState: MoviesDiscoverState?) {
         binding.discoverMoviesContainer.children.forEach { it.visibility = View.GONE }
@@ -123,9 +120,9 @@ class MoviesFragment : BaseFragment(R.layout.fragment_movies) {
 
     override fun onStop() {
         binding.genresTabLayout.removeOnTabSelectedListener(tabSelectedListener)
+        toolbar.removeMenuProvider(menuProvider)
         super.onStop()
     }
-
 
     private fun renderUI(moviesState: MoviesState) {
         binding.root.children.forEach { it.visibility = View.GONE }

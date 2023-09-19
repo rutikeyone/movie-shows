@@ -9,7 +9,7 @@
         android:id="@+id/moviesFragment"
         android:name="com.ru.movieshows.presentation.screens.movies.MoviesFragment"
         android:label="@string/movies"
-        tools:layout="@layout/fragment_movies" >
+        tools:layout="@layout/fragment_movies">
         <action
             android:id="@+id/action_moviesFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment"
@@ -49,7 +49,7 @@
         android:id="@+id/movieDetailsFragment"
         android:name="com.ru.movieshows.presentation.screens.movie_details.MovieDetailsFragment"
         android:label=""
-        tools:layout="@layout/fragment_movie_details" >
+        tools:layout="@layout/fragment_movie_details">
         <argument
             android:name="id"
             app:argType="integer" />
@@ -72,7 +72,7 @@
         android:id="@+id/movieReviewsFragment"
         android:name="com.ru.movieshows.presentation.screens.movie_reviews.MovieReviewsFragment"
         android:label="@string/reviews"
-        tools:layout="@layout/fragment_movie_reviews" >
+        tools:layout="@layout/fragment_movie_reviews">
         <argument
             android:name="reviews"
             app:argType="com.ru.movieshows.domain.entity.ReviewEntity[]" />
@@ -84,7 +84,7 @@
         android:id="@+id/upcomingMoviesFragment"
         android:name="com.ru.movieshows.presentation.screens.uncoming_movies.UpcomingMoviesFragment"
         android:label="@string/upcoming_movies"
-        tools:layout="@layout/fragment_upcoming_movies" >
+        tools:layout="@layout/fragment_upcoming_movies">
         <action
             android:id="@+id/action_upcomingMoviesFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment"
@@ -97,7 +97,7 @@
         android:id="@+id/popularMoviesFragment"
         android:name="com.ru.movieshows.presentation.screens.popular_movies.PopularMoviesFragment"
         android:label="@string/popular_movies"
-        tools:layout="@layout/fragment_popular_movies" >
+        tools:layout="@layout/fragment_popular_movies">
         <action
             android:id="@+id/action_popularMoviesFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment"
@@ -110,7 +110,7 @@
         android:id="@+id/topRatedMoviesFragment"
         android:name="com.ru.movieshows.presentation.screens.top_rated_movies.TopRatedMoviesFragment"
         android:label="@string/top_rated_movies"
-        tools:layout="@layout/fragment_top_rated_movies" >
+        tools:layout="@layout/fragment_top_rated_movies">
         <action
             android:id="@+id/action_topRatedMoviesFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment"
