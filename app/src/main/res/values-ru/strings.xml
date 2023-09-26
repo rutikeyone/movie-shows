@@ -33,4 +33,5 @@
     <string name="youtube_url">https://www.youtube.com/watch?v=</string>
     <string name="the_list_of_films_is_empty">Список фильмов пуст</string>
     <string name="search">Поиск</string>
+    <string name="the_search_yielded_no_results">Поиск не дал результатов</string>
 </resources>

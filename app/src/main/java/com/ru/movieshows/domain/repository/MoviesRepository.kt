@@ -1,5 +1,6 @@
 package com.ru.movieshows.domain.repository
 
+import androidx.lifecycle.LiveData
 import androidx.paging.PagingData
 import com.ru.movieshows.domain.entity.MovieDetailsEntity
 import com.ru.movieshows.domain.entity.MovieEntity
@@ -9,6 +10,7 @@ import com.ru.movieshows.domain.entity.VideoEntity
 import kotlinx.coroutines.flow.Flow
 
 interface MoviesRepository {
+    fun searchPagedMovies(language: String = "en_US", query: String? = null) : LiveData<PagingData<MovieEntity>>
     fun getPagedMovieReview(language: String = "en_US", movieId: String): Flow<PagingData<ReviewEntity>>
     fun getPagedTopRatedMovies(language: String = "en_US") : Flow<PagingData<MovieEntity>>
     fun getPagedPopularMovies(language: String = "en_US") : Flow<PagingData<MovieEntity>>
@@ -22,5 +24,5 @@ interface MoviesRepository {
     suspend fun getUpcomingMovies(language: String = "en_US", page: Int = 1): Result<ArrayList<MovieEntity>>
     suspend fun getPopularMovies(language: String = "en_US", page: Int = 1): Result<ArrayList<MovieEntity>>
     suspend fun getTopRatedMovies(language: String = "en_US", page: Int = 1): Result<ArrayList<MovieEntity>>
-
+    suspend fun searchMovies(language: String = "en_US", page: Int = 1, query: String? = null) : Result<ArrayList<MovieEntity>>
 }

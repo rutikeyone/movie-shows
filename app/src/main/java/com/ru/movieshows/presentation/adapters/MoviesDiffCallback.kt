@@ -7,7 +7,7 @@ import com.ru.movieshows.domain.entity.ReviewEntity
 
 class MoviesDiffCallback :  DiffUtil.ItemCallback<MovieEntity>() {
     override fun areItemsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean {
-        return oldItem.id != newItem.id
+        return oldItem != newItem
     }
 
     override fun areContentsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean {

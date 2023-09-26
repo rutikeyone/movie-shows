@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_180"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/discoverMovieImageCard"
+        android:layout_width="@dimen/dp_120"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="@dimen/dp_8"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="@android:color/transparent">
+
+        <ImageView
+            android:id="@+id/discoverMovieImage"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            tools:background="@color/yellow"
+            />
+
+    </androidx.cardview.widget.CardView>
+
+
+
+    <LinearLayout
+        android:id="@+id/movieInfoContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@id/discoverMovieImageCard"
+        android:layout_alignEnd="@id/discoverMovieImageCard"
+        android:padding="@dimen/dp_16">
+
+        <TextView
+            android:id="@+id/movieHeaderText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Lorem Ipsum is simply dummy text of the printing"
+            style="?attr/MovieShows.TextAppearance.Body3.Bold"
+            android:layout_marginBottom="@dimen/dp_8"
+            android:maxLines="3"
+            android:ellipsize="end"
+            />
+
+        <LinearLayout
+            android:id="@+id/ratingBarContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_8">
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:rating="1"
+                android:numStars="1"/>
+
+            <TextView
+                android:id="@+id/ratingValue"
+                style="?attr/MovieShows.TextAppearance.Body3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="3.3"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:textAlignment="center"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/descriptionText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+            when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+            It has survived not only five centuries, but also the leap into electronic typesetting,
+            remaining essentially unchanged. It was popularised in the 1960s with the
+            release of Letraset sheets containing Lorem Ipsum passages, and more recently
+            with desktop publishing software like Aldus PageMaker including versions
+            of Lorem Ipsum."
+            style="?attr/MovieShows.TextAppearance.Body3"
+            android:maxLines="5"
+            android:ellipsize="end"
+            android:layout_marginBottom="@dimen/dp_8"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

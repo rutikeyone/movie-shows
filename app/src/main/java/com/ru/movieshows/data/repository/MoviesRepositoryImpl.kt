@@ -1,9 +1,11 @@
 package com.ru.movieshows.data.repository
 
 import android.graphics.pdf.PdfDocument.Page
+import androidx.lifecycle.LiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.liveData
 import com.ru.movieshows.data.dto.MoviesDto
 import com.ru.movieshows.domain.entity.MovieDetailsEntity
 import com.ru.movieshows.domain.entity.MovieEntity
@@ -28,7 +30,7 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
             if(!response.isSuccessful || response.body() == null) throw IllegalStateException("Response must be successful")
             val body = response.body()!!
             val result = body.results
-            val totalPages = body.page
+            val totalPages = body.totalPages
             val movieEntities = result.map { it.toEntity() }
             Pair(movieEntities.toList(), totalPages)
         }
@@ -40,6 +42,26 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
             ),
             pagingSourceFactory = { PagingSource(loader, PAGE_SIZE) }
         ).flow
+    }
+
+    override fun searchPagedMovies(language: String, query: String?): LiveData<PagingData<MovieEntity>> {
+        val loader: PageLoader<List<MovieEntity>> = { pageIndex ->
+            val response = moviesDto.searchMovies(language, pageIndex, query)
+            if(!response.isSuccessful || response.body() == null) throw IllegalStateException("Response must be successful")
+            val body = response.body()!!
+            val result = body.results
+            val totalPages = body.totalPages
+            val movieEntities = result.map { it.toEntity() }
+            Pair(movieEntities.toList(), totalPages)
+        }
+
+        return Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { PagingSource(loader, PAGE_SIZE) }
+        ).liveData
     }
 
     override fun getPagedMovieReview(
@@ -277,6 +299,23 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
                 val topRatedMovieModels = getTopRatedMovies.body()!!.results
                 val topRatedMoviesEntity = topRatedMovieModels.map { it.toEntity() }
                 Result.success(ArrayList(topRatedMoviesEntity))
+            } else {
+                val movieException = AppFailure.Pure
+                Result.failure(movieException)
+            }
+        } catch (e: Exception) {
+            val movieException = AppFailure.Pure
+            Result.failure(movieException)
+        }
+    }
+
+    override suspend fun searchMovies(language: String, page: Int, query: String?): Result<ArrayList<MovieEntity>> {
+        return try {
+            val searchMovies = moviesDto.searchMovies(language, page, "Форс")
+            if(searchMovies.isSuccessful && searchMovies.body() != null) {
+                val moviesModels = searchMovies.body()!!.results
+                val moviesEntity = moviesModels.map { it.toEntity() }
+                Result.success(ArrayList(moviesEntity))
             } else {
                 val movieException = AppFailure.Pure
                 Result.failure(movieException)

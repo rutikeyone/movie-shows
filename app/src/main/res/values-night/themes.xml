@@ -43,5 +43,6 @@
         </item>
         <item name="cardBackgroundColor">@color/greyBlueColor</item>
         <item name="bottomSheetDialogTheme">@style/MovieShows.BottomSheetDialog</item>
+        <item name="android:editTextColor">@android:color/white</item>
     </style>
 </resources>

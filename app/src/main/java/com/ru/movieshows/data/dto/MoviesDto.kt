@@ -39,4 +39,7 @@ interface MoviesDto {
 
     @GET("movie/top_rated")
     suspend fun getTopRatedMovies(@Query("language") language: String, @Query("page") page: Int): Response<MoviesResponse>
+
+    @GET("search/movie")
+    suspend fun searchMovies(@Query("language") language: String, @Query("page") page: Int, @Query("query") query: String?) : Response<MoviesResponse>
 }
