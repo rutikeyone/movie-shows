@@ -9,7 +9,9 @@ import com.bumptech.glide.Glide
 import com.ru.movieshows.databinding.MovieSearchTileBinding
 import com.ru.movieshows.domain.entity.MovieEntity
 
-class MoviesSearchAdapter : PagingDataAdapter<MovieEntity, MoviesSearchAdapter.Holder>(MoviesDiffCallback()) {
+class MoviesSearchAdapter(
+    private val onTap: (MovieEntity) -> Unit,
+) : PagingDataAdapter<MovieEntity, MoviesSearchAdapter.Holder>(MoviesDiffCallback()) {
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val movie = getItem(position) ?: return
@@ -19,15 +21,17 @@ class MoviesSearchAdapter : PagingDataAdapter<MovieEntity, MoviesSearchAdapter.H
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = MovieSearchTileBinding.inflate(inflater, parent, false)
-        return Holder(binding)
+        return Holder(binding, onTap)
     }
 
 
-    class Holder(
-        private val binding: MovieSearchTileBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
+class Holder(
+    private val binding: MovieSearchTileBinding,
+    private val onTap: (MovieEntity) -> Unit,
+) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(movie: MovieEntity) = with(binding) {
+            binding.root.setOnClickListener { onTap(movie) }
             setupTitle(movie)
             if(movie.backDrop != null) setupBackDrop(movie)
             setupRating(movie)

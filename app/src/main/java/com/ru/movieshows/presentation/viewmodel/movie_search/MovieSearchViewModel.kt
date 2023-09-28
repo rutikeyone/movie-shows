@@ -11,7 +11,10 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.repository.MoviesRepository
+import com.ru.movieshows.presentation.screens.movie_search.MovieSearchFragmentDirections
+import com.ru.movieshows.presentation.screens.movies.MoviesFragmentDirections
 import com.ru.movieshows.presentation.utils.MutableUnitLiveEvent
+import com.ru.movieshows.presentation.utils.NavigationIntent
 import com.ru.movieshows.presentation.utils.publishEvent
 import com.ru.movieshows.presentation.utils.share
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
@@ -47,5 +50,10 @@ class MovieSearchViewModel @Inject constructor(
 
     fun changeQuery(query: String) {
         _query.postValue(query)
+    }
+
+    fun navigateToMovieDetails(movie: MovieEntity){
+        if(movie.id == null) return;
+        navigationEvent.publishEvent(NavigationIntent.To(MovieSearchFragmentDirections.actionMovieSearchFragmentToMovieDetailsFragment(movie.id)))
     }
 }

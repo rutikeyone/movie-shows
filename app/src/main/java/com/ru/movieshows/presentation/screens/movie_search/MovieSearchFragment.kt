@@ -93,7 +93,7 @@ class MovieSearchFragment : BaseFragment(R.layout.fragment_movie_search) {
         val itemDecorator = ItemDecoration(16F, resources.displayMetrics)
         val tryAgainAction: TryAgainAction = { adapter?.refresh() }
         val footerAdapter = LoadStateAdapter(tryAgainAction, requireContext())
-        adapter = MoviesSearchAdapter()
+        adapter = MoviesSearchAdapter(::navigateToMovieDetails)
         val layoutManager = LinearLayoutManager(requireContext())
         binding.movies.layoutManager = layoutManager
         adapter?.addLoadStateListener { loadState -> renderUi(loadState) }
@@ -103,12 +103,15 @@ class MovieSearchFragment : BaseFragment(R.layout.fragment_movie_search) {
         binding.movies.itemAnimator = null
     }
 
+    private fun navigateToMovieDetails(movieEntity: MovieEntity) = viewModel.navigateToMovieDetails(movieEntity)
+
     private fun renderUi(loadState: CombinedLoadStates) {
         val searchMode = viewModel.searchQueryMode
         val isListEmpty = loadState.refresh is LoadState.NotLoading && adapter?.itemCount == 0
         val showMovies = !isListEmpty && loadState.source.refresh is LoadState.NotLoading && searchMode
         binding.movies.isVisible = showMovies
         binding.progressContainer.isVisible = loadState.source.refresh is LoadState.Loading && searchMode
+        binding.successEmptyContainer.isVisible = loadState.source.refresh is LoadState.NotLoading && searchMode && isListEmpty
         setupFailurePart(loadState, searchMode)
     }
 
