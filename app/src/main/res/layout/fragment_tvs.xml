@@ -1,10 +1,132 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    android:id="@+id/scrollView"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".presentation.screens.tvs.TvsFragment">
+    android:fillViewport="true"
+    tools:context=".presentation.screens.movies.MoviesFragment">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".presentation.screens.movies.MoviesFragment">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:id="@+id/successLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/nowPlayingFrameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_220">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/trendingTvShowsViewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                    android:id="@+id/dotsIndicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:dotsColor="?attr/MovieShows.Dots"
+                    app:dotsCornerRadius="@dimen/dp_8"
+                    app:dotsSize="@dimen/dp_12"
+                    app:dotsSpacing="4dp"
+                    app:dotsWidthFactor="2.5"
+                    app:selectedDotColor="?attr/MovieShows.SelectedDots"
+                    app:progressMode="false"
+                    android:layout_gravity="center|bottom"
+                    android:layout_margin="@dimen/dp_6"
+                    />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <include
+            android:id="@+id/failurePart"
+            layout="@layout/failure_part" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/successContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:constraint_referenced_ids="successLinearLayout"
+            android:visibility="visible"/>
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/failureContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:constraint_referenced_ids="failurePart"
+            android:visibility="gone"
+            />
+
+        <include
+            android:id="@+id/inPendingPart"
+            layout="@layout/in_pending_part"/>
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/inPendingContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:constraint_referenced_ids="inPendingPart"
+            tools:visibility="gone"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    tools:context=".presentation.screens.tvs.TvsFragment">-->
+
+<!--    <include-->
+<!--        android:id="@+id/failurePart"-->
+<!--        layout="@layout/failure_part" />-->
+
+<!--    <androidx.constraintlayout.widget.Group-->
+<!--        android:id="@+id/failureContainer"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:constraint_referenced_ids="failurePart"-->
+<!--        android:visibility="gone"-->
+<!--        />-->
+
+<!--    <include-->
+<!--        android:id="@+id/inPendingPart"-->
+<!--        layout="@layout/in_pending_part"/>-->
+
+<!--    <androidx.constraintlayout.widget.Group-->
+<!--        android:id="@+id/inPendingContainer"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        app:constraint_referenced_ids="inPendingPart"-->
+<!--        tools:visibility="gone"/>-->
+
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->

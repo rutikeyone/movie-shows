@@ -9,7 +9,7 @@ class MoviesViewPagerAdapter(
     private val fragment: Fragment,
     private val movies: ArrayList<MovieEntity>
 ): FragmentStateAdapter(fragment) {
-    override fun getItemCount(): Int = if(movies.size < 8) movies.size else 8
+    override fun getItemCount(): Int = if(movies.size < 10) movies.size else 10
 
     override fun createFragment(position: Int): Fragment {
         return MovieTileFragmentVariant1.newInstance(movies[position])

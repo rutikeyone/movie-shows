@@ -1,11 +1,11 @@
 package com.ru.movieshows.data.response
 
 import com.google.gson.annotations.SerializedName
-import com.ru.movieshows.data.model.MovieModel
+import com.ru.movieshows.data.model.TvShowsModel
 
-data class GetDiscoverMoviesResponse(
+data class TvShowsResponse(
     @SerializedName("page")
     val page: Int,
     @SerializedName("results")
-    val results: List<MovieModel>,
+    val result: ArrayList<TvShowsModel>
 )

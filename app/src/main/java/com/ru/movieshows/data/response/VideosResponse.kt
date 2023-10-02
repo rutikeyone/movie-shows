@@ -3,7 +3,7 @@ package com.ru.movieshows.data.response
 import com.google.gson.annotations.SerializedName
 import com.ru.movieshows.data.model.VideoModel
 
-data class GetVideosByMovieIdResponse(
+data class VideosResponse(
     @SerializedName("id")
     val id: String?,
     @SerializedName("results")
