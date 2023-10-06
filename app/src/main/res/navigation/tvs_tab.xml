@@ -9,5 +9,18 @@
         android:id="@+id/tvsFragment"
         android:name="com.ru.movieshows.presentation.screens.tvs.TvsFragment"
         android:label="@string/tvs"
-        tools:layout="@layout/fragment_tvs" />
+        tools:layout="@layout/fragment_tvs" >
+        <action
+            android:id="@+id/action_tvsFragment_to_tvShowSearchFragment"
+            app:destination="@id/tvShowSearchFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/tvShowSearchFragment"
+        android:name="com.ru.movieshows.presentation.screens.tv_show_search.TvShowSearchFragment"
+        android:label="@string/search"
+        tools:layout="@layout/fragment_tv_show_search" />
 </navigation>

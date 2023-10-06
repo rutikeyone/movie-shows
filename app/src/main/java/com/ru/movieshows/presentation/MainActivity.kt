@@ -55,12 +55,6 @@ class MainActivity : AppCompatActivity() {
         when (isRootNestedRoute()) {
             true -> finish()
             false -> {
-                val rootCurrentDestinationId = rootNavController.currentDestination?.id
-                val isYoutubePlayerDestination = rootCurrentDestinationId ==  R.id.youtubeVideoPlayerFragment2
-                if(isYoutubePlayerDestination) {
-                    rootNavController.popBackStack()
-                    return
-                }
                 if(popToBackInCurrentNavControllerIfCan()) return
                 onBackPressedCallback.isEnabled = false
                 onBackPressedDispatcher.onBackPressed()

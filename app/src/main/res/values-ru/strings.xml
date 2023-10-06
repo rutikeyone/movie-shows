@@ -34,4 +34,7 @@
     <string name="the_list_of_films_is_empty">Список фильмов пуст</string>
     <string name="search">Поиск</string>
     <string name="the_search_yielded_no_results">Поиск не дал результатов</string>
+    <string name="on_the_air">В прямом эфире</string>
+    <string name="top_rated_tv_show">Телешоу с наивысшей оценкой</string>
+    <string name="popular_tv_shows">Популярные телешоу</string>
 </resources>

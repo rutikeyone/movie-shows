@@ -14,5 +14,6 @@
         <attr name="MovieShows.SelectedDots" format="color"/>
         <attr name="MovieShows.Dots" format="color"/>
         <attr name="MovieShows.TextButton.Body3.Hint.Bold" format="reference"/>
+        <attr name="MovieShows.Darken" format="color"/>
     </declare-styleable>
 </resources>

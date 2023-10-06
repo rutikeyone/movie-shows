@@ -32,7 +32,6 @@ class MoviesViewModel @Inject constructor(
 
     private val _tabIndex = MutableLiveData(0)
     val tabIndex get() = _tabIndex.value ?: 0
-    private val currentLanguage get() = Locale.getDefault().toLanguageTag()
 
     init {
         fetchMoviesData()

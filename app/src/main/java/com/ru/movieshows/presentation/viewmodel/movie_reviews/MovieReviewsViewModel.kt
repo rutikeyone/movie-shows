@@ -16,7 +16,6 @@ class MovieReviewsViewModel @AssistedInject constructor(
     @Assisted movieId: Int,
     moviesRepository: MoviesRepository,
 ) : BaseViewModel() {
-    private val currentLanguage get() = Locale.getDefault().toLanguageTag()
 
     val reviews: Flow<PagingData<ReviewEntity>> =
             moviesRepository.getPagedMovieReview(currentLanguage, movieId.toString())

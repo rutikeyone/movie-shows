@@ -9,6 +9,9 @@ sealed class TvShowsState {
 
     data class Success(
         val trendingMovies: ArrayList<TvShowsEntity>,
+        val onAirTvShows: ArrayList<TvShowsEntity>,
+        val topRatedTvShows: ArrayList<TvShowsEntity>,
+        val popularTvShows: ArrayList<TvShowsEntity>,
     ) : TvShowsState()
 
     data class Failure(

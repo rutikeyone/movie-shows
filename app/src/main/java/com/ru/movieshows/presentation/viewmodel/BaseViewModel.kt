@@ -13,8 +13,11 @@ import com.ru.movieshows.presentation.utils.PermissionIntent
 import com.ru.movieshows.presentation.utils.SnackBarIntent
 import com.ru.movieshows.presentation.utils.ToastIntent
 import com.ru.movieshows.presentation.utils.share
+import java.util.Locale
 
 open class BaseViewModel: ViewModel(), PermissionListener {
+    protected val currentLanguage get() = Locale.getDefault().toLanguageTag()
+
     private val showSnackBarEvent = MutableLiveEvent<SnackBarIntent>()
     val showSnackBarShareEvent = showSnackBarEvent.share()
 

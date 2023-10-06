@@ -3,7 +3,6 @@ package com.ru.movieshows.presentation.screens.movie_search
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -46,12 +45,12 @@ class MovieSearchFragment : BaseFragment(R.layout.fragment_movie_search) {
 
     private val menuProvider = object : MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-           menuInflater.inflate(R.menu.movie_search_menu, menu)
+           menuInflater.inflate(R.menu.search_view_menu, menu)
            searchItem  = searchItem ?: menu.findItem(R.id.search_action)
            searchView = searchView ?: searchItem?.actionView as SearchView?
            searchView?.maxWidth = Int.MAX_VALUE
 
-            searchView?.setOnQueryTextListener(onQueryTextListener)
+           searchView?.setOnQueryTextListener(onQueryTextListener)
         }
 
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean = when (menuItem.itemId) {
@@ -125,6 +124,7 @@ class MovieSearchFragment : BaseFragment(R.layout.fragment_movie_search) {
     }
 
     override fun onDestroyView() {
+        toolbar.removeMenuProvider(menuProvider)
         searchItem = null
         searchView = null
         adapter = null

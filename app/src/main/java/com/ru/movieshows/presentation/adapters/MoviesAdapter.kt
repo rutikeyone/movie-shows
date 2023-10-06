@@ -41,6 +41,7 @@ class MoviesAdapter(
         private val view: View,
         private val onTap: (MovieEntity) -> Unit,
     ) : RecyclerView.ViewHolder(view) {
+
         fun bind(movie: MovieEntity) {
             val binding = MovieTileVariant1Binding.bind(view)
             setupLayoutParams(binding)
@@ -81,7 +82,7 @@ class MoviesAdapter(
                     .with(binding.root)
                     .load(movie.backDrop)
                     .centerCrop()
-                    .into(binding.discoverMovieImage);
+                    .into(binding.discoverMovieImage)
             }
         }
 

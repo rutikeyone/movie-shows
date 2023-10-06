@@ -51,34 +51,160 @@
 
             </FrameLayout>
 
+            <RelativeLayout
+                android:id="@+id/onAirTvShowsHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginEnd="@dimen/dp_16">
+
+                <TextView
+                    android:id="@+id/onAirTvShowTextView"
+                    style="?attr/MovieShows.TextAppearance.Headline6.Bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@+id/showAllOnAirTvShowsButton"
+                    android:text="@string/on_the_air" />
+
+                <Button
+                    android:id="@+id/showAllOnAirTvShowsButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?attr/MovieShows.TextAppearance.Body3.Bold"
+                    app:layout_constraintStart_toEndOf="@id/onAirTvShowTextView"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:text="@string/show_all"
+                    />
+
+
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/onAirTvShows"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_260"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/tv_shows_tile_variant1"
+                android:layout_marginTop="@dimen/dp_8"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_marginEnd="@dimen/dp_8"
+                />
+
+            <RelativeLayout
+                android:id="@+id/topRatedTvShowsHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginEnd="@dimen/dp_16">
+
+                <TextView
+                    android:id="@+id/topRatedTextView"
+                    style="?attr/MovieShows.TextAppearance.Headline6.Bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@+id/showTopRatedTvShowsButton"
+                    android:text="@string/top_rated_tv_show" />
+
+                <Button
+                    android:id="@+id/showTopRatedTvShowsButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?attr/MovieShows.TextAppearance.Body3.Bold"
+                    app:layout_constraintStart_toEndOf="@id/topRatedTextView"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:text="@string/show_all"
+                    />
+
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/topRatedTvShows"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_260"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/tv_shows_tile_variant1"
+                android:layout_marginTop="@dimen/dp_8"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_marginEnd="@dimen/dp_8"
+                />
+
+
+            <RelativeLayout
+                android:id="@+id/popularTvShowHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginEnd="@dimen/dp_16">
+
+                <TextView
+                    android:id="@+id/popularTvShowTextView"
+                    style="?attr/MovieShows.TextAppearance.Headline6.Bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@+id/popularTvShowsButton"
+                    android:text="@string/popular_tv_shows" />
+
+                <Button
+                    android:id="@+id/popularTvShowsButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?attr/MovieShows.TextAppearance.Body3.Bold"
+                    app:layout_constraintStart_toEndOf="@id/popularTvShowTextView"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:text="@string/show_all"
+                    />
+
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/popularTvShows"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_260"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/tv_shows_tile_variant1"
+                android:layout_marginTop="@dimen/dp_8"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_marginEnd="@dimen/dp_8"
+                />
+
         </LinearLayout>
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/successContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            app:constraint_referenced_ids="successLinearLayout" />
 
         <include
             android:id="@+id/failurePart"
             layout="@layout/failure_part" />
 
         <androidx.constraintlayout.widget.Group
-            android:id="@+id/successContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:constraint_referenced_ids="successLinearLayout"
-            android:visibility="visible"/>
-
-        <androidx.constraintlayout.widget.Group
             android:id="@+id/failureContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:constraint_referenced_ids="failurePart"
-            android:visibility="gone"
-            />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone" />
 
         <include
             android:id="@+id/inPendingPart"
@@ -89,7 +215,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:constraint_referenced_ids="inPendingPart"
-            tools:visibility="gone"/>
+            tools:visibility="gone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

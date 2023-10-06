@@ -28,4 +28,7 @@ interface TvShowDto {
 
     @GET("trending/tv/day")
     suspend fun getTrendingTbShows(@Query("language") language: String, @Query("page") page: Int) :Response<TvShowsResponse>
+
+    @GET("search/tv")
+    suspend fun searchTvShows(@Query("language") language: String, @Query("page") page: Int, @Query("query") query: String?) : Response<TvShowsResponse>
 }

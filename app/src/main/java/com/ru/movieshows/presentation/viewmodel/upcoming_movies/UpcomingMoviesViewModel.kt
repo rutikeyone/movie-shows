@@ -18,8 +18,6 @@ import javax.inject.Inject
 class UpcomingMoviesViewModel @Inject constructor(
     moviesRepository: MoviesRepository,
 ) : BaseViewModel() {
-    private val currentLanguage get() = Locale.getDefault().toLanguageTag()
-
     val upcomingMovies: Flow<PagingData<MovieEntity>> =
         moviesRepository.getPagedUnComingMovies(currentLanguage)
             .cachedIn(viewModelScope)

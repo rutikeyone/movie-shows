@@ -8,6 +8,7 @@
 
     <ImageView
         android:id="@+id/movieBackground"
+        app:tint="?attr/MovieShows.Darken"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"

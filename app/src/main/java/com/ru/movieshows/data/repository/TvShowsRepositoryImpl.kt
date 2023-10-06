@@ -1,10 +1,20 @@
 package com.ru.movieshows.data.repository
 
+import android.graphics.pdf.PdfDocument.Page
+import androidx.lifecycle.LiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
 import com.ru.movieshows.data.dto.TvShowDto
 import com.ru.movieshows.domain.entity.TvShowsEntity
 import com.ru.movieshows.domain.repository.TvShowRepository
 import com.ru.movieshows.domain.repository.exceptions.AppFailure
 import com.ru.movieshows.domain.repository.exceptions.TvShowException
+import com.ru.movieshows.presentation.screens.movie_reviews.PageLoader
+import com.ru.movieshows.presentation.screens.movie_reviews.PagingSource
+import kotlinx.coroutines.flow.Flow
+import java.lang.IllegalStateException
 import java.net.ConnectException
 import javax.inject.Inject
 import kotlin.Exception
@@ -189,5 +199,34 @@ class TvShowsRepositoryImpl @Inject constructor(private val tvShowsDto: TvShowDt
             val failure = AppFailure.Pure
             Result.failure(failure)
         }
+    }
+
+    override fun searchPagedMovies(
+        language: String,
+        query: String?,
+    ): LiveData<PagingData<TvShowsEntity>> {
+       val loader: PageLoader<List<TvShowsEntity>> = { pageIndex ->
+           val response = tvShowsDto.searchTvShows(language, pageIndex, query)
+           val isSuccessful = response.isSuccessful
+           val body = response.body()
+           if(!isSuccessful || body == null) {
+               throw IllegalStateException("Response must be successful")
+           }
+           val result = body.result
+           val totalPages = body.totalPages
+           val tvShowEntities = result.map { it.toEntity() }
+           Pair(tvShowEntities.toList(), totalPages)
+       }
+        return Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { PagingSource(loader, PAGE_SIZE) }
+        ).liveData
+    }
+
+    private companion object {
+        const val PAGE_SIZE = 10
     }
 }

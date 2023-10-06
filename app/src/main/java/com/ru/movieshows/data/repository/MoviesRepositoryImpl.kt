@@ -348,9 +348,13 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
         }
     }
 
-    override suspend fun searchMovies(language: String, page: Int, query: String?): Result<ArrayList<MovieEntity>> {
+    override suspend fun searchMovies(
+        language: String,
+        page: Int,
+        query: String?
+    ): Result<ArrayList<MovieEntity>> {
         return try {
-            val searchMovies = moviesDto.searchMovies(language, page, "Форс")
+            val searchMovies = moviesDto.searchMovies(language, page, query)
             if(searchMovies.isSuccessful && searchMovies.body() != null) {
                 val moviesModels = searchMovies.body()!!.results
                 val moviesEntity = moviesModels.map { it.toEntity() }

@@ -19,7 +19,6 @@ class MovieVideosViewModel @AssistedInject constructor(
     @Assisted private val movieId: String,
     private val moviesRepository: MoviesRepository,
 ) : BaseViewModel() {
-    private val currentLanguage get() = Locale.getDefault().toLanguageTag()
 
     private val _state = MutableLiveData<MovieVideosState>(MovieVideosState.InPending)
     val state = _state.share()

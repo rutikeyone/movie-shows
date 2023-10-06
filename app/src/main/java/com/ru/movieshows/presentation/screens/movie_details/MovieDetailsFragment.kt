@@ -33,7 +33,6 @@ import com.ru.movieshows.presentation.adapters.GenresAdapter
 import com.ru.movieshows.presentation.adapters.MoviesAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
-import com.ru.movieshows.presentation.screens.tabs.TabsFragmentDirections
 import com.ru.movieshows.presentation.viewmodel.movie_details.MovieDetailsState
 import com.ru.movieshows.presentation.viewmodel.movie_details.MovieDetailsViewModel
 import com.ru.movieshows.presentation.viewmodel.viewModelCreator

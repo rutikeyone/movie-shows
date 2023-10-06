@@ -25,7 +25,6 @@ class MovieDetailsViewModel @AssistedInject constructor(
     @Assisted private val movieId: Int,
     private val moviesRepository: MoviesRepository,
 ) : BaseViewModel(), DefaultLifecycleObserver {
-    private val currentLanguage get() = Locale.getDefault().toLanguageTag()
     private val _state = MutableLiveData<MovieDetailsState>(MovieDetailsState.InPending)
     val state = _state.share()
     private val _title = MutableLiveData<String?>("")

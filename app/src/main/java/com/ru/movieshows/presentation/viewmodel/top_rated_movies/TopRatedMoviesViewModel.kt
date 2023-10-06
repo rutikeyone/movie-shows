@@ -17,8 +17,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TopRatedMoviesViewModel @Inject constructor(moviesRepository: MoviesRepository) : BaseViewModel() {
-    private val currentLanguage get() = Locale.getDefault().toLanguageTag()
-
     val topRatedMovies: Flow<PagingData<MovieEntity>> = moviesRepository.getPagedTopRatedMovies(currentLanguage)
         .cachedIn(viewModelScope)
 

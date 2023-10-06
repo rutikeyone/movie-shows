@@ -27,8 +27,6 @@ import javax.inject.Inject
 class MovieSearchViewModel @Inject constructor(
     private val moviesRepository: MoviesRepository,
 ) : BaseViewModel(){
-    private val currentLanguage get() = Locale.getDefault().toLanguageTag()
-
     private var _query = MutableLiveData("")
     val query = _query.share()
 
@@ -38,7 +36,7 @@ class MovieSearchViewModel @Inject constructor(
     private val queryValue get() = if(_query.value.isNullOrEmpty()) null else _query.value
     val searchQueryMode: Boolean get() = !_query.value.isNullOrEmpty()
 
-    var searchMovies = _query.switchMap {
+    val searchMovies = _query.switchMap {
         moviesRepository.searchPagedMovies(currentLanguage, queryValue)
         .cachedIn(viewModelScope)
     }

@@ -43,5 +43,8 @@
     <string name="search_title">Search title</string>
     <string name="search_hint">Search hint</string>
     <string name="the_search_yielded_no_results">The search yielded no results</string>
+    <string name="on_the_air">On the air</string>
+    <string name="top_rated_tv_show">Top rated Tv show</string>
+    <string name="popular_tv_shows">Popular Tv Shows</string>
 
 </resources>

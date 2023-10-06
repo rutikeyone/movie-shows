@@ -13,4 +13,5 @@
     <color name="lightGrey">#6A717D</color>
     <color name="darkGreyPurple">#49454F</color>
     <color name="greyBlueColor">#4E545E</color>
+    <color name="darken_color">#6F000000</color>
 </resources>

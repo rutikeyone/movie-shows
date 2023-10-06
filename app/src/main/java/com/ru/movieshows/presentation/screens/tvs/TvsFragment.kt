@@ -1,16 +1,23 @@
 package com.ru.movieshows.presentation.screens.tvs
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.annotation.StringRes
+import androidx.core.view.MenuProvider
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import com.google.android.material.appbar.MaterialToolbar
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FailurePartBinding
 import com.ru.movieshows.databinding.FragmentTvsBinding
+import com.ru.movieshows.presentation.adapters.TvShowsAdapter
 import com.ru.movieshows.presentation.adapters.TvShowsViewPagerAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
+import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
 import com.ru.movieshows.presentation.utils.viewBinding
 import com.ru.movieshows.presentation.viewmodel.tv_shows.TvShowsState
 import com.ru.movieshows.presentation.viewmodel.tv_shows.TvShowsViewModel
@@ -21,9 +28,34 @@ class TvsFragment : BaseFragment(R.layout.fragment_tvs) {
     override val viewModel by viewModels<TvShowsViewModel>()
     private val binding by viewBinding<FragmentTvsBinding>()
 
+    private val toolbar: MaterialToolbar get() = requireActivity().findViewById(R.id.tabsToolbar)
+
+    private val menuProvider = object : MenuProvider {
+        override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+            menuInflater.inflate(R.menu.search_menu, menu)
+        }
+        override fun onMenuItemSelected(menuItem: MenuItem): Boolean = when(menuItem.itemId) {
+            R.id.search -> {
+                viewModel.navigateToTvShowSearch()
+                true
+            }
+            else -> false
+        }
+
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.observe(viewLifecycleOwner, ::renderUI)
+    }
+
+    override fun onStart() {
+        toolbar.addMenuProvider(menuProvider, viewLifecycleOwner)
+        super.onStart()
+    }
+
+    override fun onStop() {
+        toolbar.removeMenuProvider(menuProvider)
+        super.onStop()
     }
 
     private fun renderUI(tvShowsState: TvShowsState) {
@@ -39,6 +71,9 @@ class TvsFragment : BaseFragment(R.layout.fragment_tvs) {
         binding.successContainer.isVisible = true 
         setupTrendingTvShowsPager(successState)
         setupDots()
+        setupOnAirTvShowsRecyclerView(successState)
+        setupTopRatedTvShowsRecyclerView(successState)
+        setupPopularTvShowsRecyclerView(successState)
     }
 
     private fun renderInPendingUI() {
@@ -52,6 +87,33 @@ class TvsFragment : BaseFragment(R.layout.fragment_tvs) {
 
     private fun setupDots() {
         binding.dotsIndicator.attachTo(binding.trendingTvShowsViewPager)
+    }
+
+    private fun setupOnAirTvShowsRecyclerView(state: TvShowsState.Success) {
+        val tvShows = state.onAirTvShows
+        val itemDecoration = ItemDecoration(8F, resources.displayMetrics)
+        val adapter = TvShowsAdapter(tvShows)
+        binding.onAirTvShows.adapter = adapter
+        binding.showAllOnAirTvShowsButton.setOnClickListener { }
+        binding.onAirTvShows.addItemDecoration(itemDecoration)
+    }
+
+    private fun setupTopRatedTvShowsRecyclerView(state: TvShowsState.Success) {
+        val tvShows = state.topRatedTvShows
+        val itemDecoration = ItemDecoration(8F, resources.displayMetrics)
+        val adapter = TvShowsAdapter(tvShows)
+        binding.topRatedTvShows.adapter = adapter
+        binding.showTopRatedTvShowsButton.setOnClickListener {  }
+        binding.topRatedTvShows.addItemDecoration(itemDecoration)
+    }
+
+    private fun setupPopularTvShowsRecyclerView(state: TvShowsState.Success) {
+        val tvShows = state.popularTvShows
+        val itemDecoration = ItemDecoration(8F, resources.displayMetrics)
+        val adapter = TvShowsAdapter(tvShows)
+        binding.popularTvShows.adapter = adapter
+        binding.popularTvShowsButton.setOnClickListener {  }
+        binding.popularTvShows.addItemDecoration(itemDecoration)
     }
 
     private fun renderFailureUI(@StringRes header: Int?, @StringRes error: Int?) {
