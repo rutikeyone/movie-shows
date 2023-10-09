@@ -15,6 +15,7 @@ import com.ru.movieshows.domain.entity.TvShowsEntity
 
 class TvShowsAdapter(
     private val tvShows: ArrayList<TvShowsEntity>,
+    private val onTap: (TvShowsEntity) -> Unit,
 ) : RecyclerView.Adapter<TvShowsAdapter.TvShowHolder>(){
 
 
@@ -28,15 +29,19 @@ class TvShowsAdapter(
 
     override fun onBindViewHolder(holder: TvShowHolder, position: Int) {
         val tvShow = tvShows[position]
-        holder.bind(tvShow)
+        holder.bind(tvShow, onTap)
     }
 
     class TvShowHolder(
         private val view: View,
     ) : RecyclerView.ViewHolder(view) {
 
-        fun bind(tvShow: TvShowsEntity) {
+        fun bind(
+            tvShow: TvShowsEntity,
+            onTap: (TvShowsEntity) -> Unit,
+        ) {
             val binding = TvShowsTileVariant1Binding.bind(view)
+            binding.root.setOnClickListener { onTap(tvShow) }
             setupLayoutParams(binding)
             setupTvShowName(tvShow, binding)
             setupTvShowImage(tvShow, binding)

@@ -21,6 +21,7 @@ import com.ru.movieshows.presentation.adapters.MoviesAdapter
 import com.ru.movieshows.presentation.adapters.MoviesViewPagerAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
+import com.ru.movieshows.presentation.utils.Listener
 import com.ru.movieshows.presentation.utils.viewBinding
 import com.ru.movieshows.presentation.viewmodel.movies.MoviesDiscoverState
 import com.ru.movieshows.presentation.viewmodel.movies.MoviesState
@@ -165,7 +166,8 @@ class MoviesFragment : BaseFragment() {
     }
 
     private fun setupNowPlayingPager(state: MoviesState.Success) {
-        val adapter = MoviesViewPagerAdapter(this, state.nowPlayingMovies)
+        val listener = Listener(::navigateToMovieDetails);
+        val adapter = MoviesViewPagerAdapter(this, state.nowPlayingMovies, listener)
         binding.nowPlayingViewPager.adapter = adapter
     }
 

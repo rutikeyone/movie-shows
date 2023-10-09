@@ -40,7 +40,7 @@
         app:constraint_referenced_ids="movies"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:visibility="gone" />
+        tools:visibility="visible" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/failureContainer"

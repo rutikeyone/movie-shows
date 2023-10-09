@@ -109,8 +109,10 @@ class MoviesViewModel @Inject constructor(
     }
 
     fun navigateToMovieDetails(movie: MovieEntity){
-        if(movie.id == null) return;
-        navigationEvent.publishEvent(NavigationIntent.To(MoviesFragmentDirections.actionMoviesFragmentToMovieDetailsFragment(movie.id)))
+        val id = movie.id ?: return
+        val action = MoviesFragmentDirections.actionMoviesFragmentToMovieDetailsFragment(id)
+        val intent = NavigationIntent.To(action)
+        navigationEvent.publishEvent(intent)
     }
 
     fun navigateToUpcomingMovies() {

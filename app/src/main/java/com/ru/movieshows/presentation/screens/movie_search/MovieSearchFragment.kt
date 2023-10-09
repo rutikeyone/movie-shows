@@ -40,7 +40,7 @@ class MovieSearchFragment : BaseFragment() {
     private var _binding: FragmentMovieSearchBinding? = null
     val binding get() = _binding!!
 
-    private var adapter: MoviesSearchAdapter = MoviesSearchAdapter(::navigateToMovieDetails)
+    private val adapter: MoviesSearchAdapter = MoviesSearchAdapter(::navigateToMovieDetails)
     private var searchView : SearchView? = null
     private var searchItem : MenuItem? = null
 
@@ -49,7 +49,7 @@ class MovieSearchFragment : BaseFragment() {
     private val menuProvider = object : MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
            menuInflater.inflate(R.menu.search_view_menu, menu)
-           searchItem  = menu.findItem(R.id.search_action)
+           searchItem = menu.findItem(R.id.search_action)
            searchView = searchItem?.actionView as SearchView?
            searchView?.setOnQueryTextListener(onQueryTextListener)
            searchView?.maxWidth = Int.MAX_VALUE

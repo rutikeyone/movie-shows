@@ -6,6 +6,7 @@ import com.ru.movieshows.domain.entity.TvShowsEntity
 import com.ru.movieshows.domain.repository.MoviesRepository
 import com.ru.movieshows.domain.repository.TvShowRepository
 import com.ru.movieshows.domain.repository.exceptions.AppFailure
+import com.ru.movieshows.presentation.screens.tv_show_search.TvShowSearchFragmentDirections
 import com.ru.movieshows.presentation.screens.tvs.TvsFragmentDirections
 import com.ru.movieshows.presentation.utils.NavigationIntent
 import com.ru.movieshows.presentation.utils.publishEvent
@@ -64,6 +65,13 @@ class TvShowsViewModel @Inject constructor(
 
     fun navigateToTvShowSearch() {
         val intent = NavigationIntent.To(TvsFragmentDirections.actionTvsFragmentToTvShowSearchFragment())
+        navigationEvent.publishEvent(intent)
+    }
+
+    fun navigateToTvShowDetails(tvShow: TvShowsEntity) {
+        val id = tvShow.id ?: return
+        val action = TvsFragmentDirections.actionTvsFragmentToTvShowDetailsFragment(id)
+        val intent = NavigationIntent.To(action)
         navigationEvent.publishEvent(intent)
     }
 }

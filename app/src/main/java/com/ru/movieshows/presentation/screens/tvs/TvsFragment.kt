@@ -16,10 +16,12 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FailurePartBinding
 import com.ru.movieshows.databinding.FragmentTvsBinding
+import com.ru.movieshows.domain.entity.TvShowsEntity
 import com.ru.movieshows.presentation.adapters.TvShowsAdapter
 import com.ru.movieshows.presentation.adapters.TvShowsViewPagerAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
+import com.ru.movieshows.presentation.utils.Listener
 import com.ru.movieshows.presentation.utils.viewBinding
 import com.ru.movieshows.presentation.viewmodel.tv_shows.TvShowsState
 import com.ru.movieshows.presentation.viewmodel.tv_shows.TvShowsViewModel
@@ -89,7 +91,8 @@ class TvsFragment : BaseFragment() {
     }
 
     private fun setupTrendingTvShowsPager(state: TvShowsState.Success) {
-        val adapter = TvShowsViewPagerAdapter(this, state.trendingMovies)
+        val listener = Listener(::navigateToTvShowDetails)
+        val adapter = TvShowsViewPagerAdapter(this, state.trendingMovies, listener)
         binding.trendingTvShowsViewPager.adapter = adapter
     }
 
@@ -100,7 +103,7 @@ class TvsFragment : BaseFragment() {
     private fun setupOnAirTvShowsRecyclerView(state: TvShowsState.Success) {
         val tvShows = state.onAirTvShows
         val itemDecoration = ItemDecoration(8F, resources.displayMetrics)
-        val adapter = TvShowsAdapter(tvShows)
+        val adapter = TvShowsAdapter(tvShows, ::navigateToTvShowDetails)
         binding.onAirTvShows.adapter = adapter
         binding.showAllOnAirTvShowsButton.setOnClickListener { }
         binding.onAirTvShows.addItemDecoration(itemDecoration)
@@ -109,7 +112,7 @@ class TvsFragment : BaseFragment() {
     private fun setupTopRatedTvShowsRecyclerView(state: TvShowsState.Success) {
         val tvShows = state.topRatedTvShows
         val itemDecoration = ItemDecoration(8F, resources.displayMetrics)
-        val adapter = TvShowsAdapter(tvShows)
+        val adapter = TvShowsAdapter(tvShows, ::navigateToTvShowDetails)
         binding.topRatedTvShows.adapter = adapter
         binding.showTopRatedTvShowsButton.setOnClickListener {  }
         binding.topRatedTvShows.addItemDecoration(itemDecoration)
@@ -118,7 +121,7 @@ class TvsFragment : BaseFragment() {
     private fun setupPopularTvShowsRecyclerView(state: TvShowsState.Success) {
         val tvShows = state.popularTvShows
         val itemDecoration = ItemDecoration(8F, resources.displayMetrics)
-        val adapter = TvShowsAdapter(tvShows)
+        val adapter = TvShowsAdapter(tvShows, ::navigateToTvShowDetails)
         binding.popularTvShows.adapter = adapter
         binding.popularTvShowsButton.setOnClickListener {  }
         binding.popularTvShows.addItemDecoration(itemDecoration)
@@ -131,4 +134,7 @@ class TvsFragment : BaseFragment() {
         if(header != null) failurePartBinding.failureTextHeader.text = resources.getString(header)
         if(error != null) failurePartBinding.failureTextMessage.text = resources.getString(error)
     }
+
+    private fun navigateToTvShowDetails(tvShows: TvShowsEntity) = viewModel.navigateToTvShowDetails(tvShows)
+
 }

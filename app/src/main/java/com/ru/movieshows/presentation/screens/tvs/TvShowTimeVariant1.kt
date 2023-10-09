@@ -10,17 +10,22 @@ import com.ru.movieshows.databinding.FragmentTvShowTimeVariant1Binding
 import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.entity.TvShowsEntity
 import com.ru.movieshows.presentation.screens.movies.MovieTileFragmentVariant1
+import com.ru.movieshows.presentation.utils.Listener
 import com.ru.movieshows.presentation.utils.viewBinding
 
 private const val TV_SHOWS_ARGS = "tvShowsArgs";
+private const val LISTENER = "listener";
 
 class TvShowTimeVariant1 : Fragment(R.layout.fragment_tv_show_time_variant1) {
     private val binding by viewBinding<FragmentTvShowTimeVariant1Binding>()
+
     private var tvShow: TvShowsEntity? = null
+    private var listener: Listener<TvShowsEntity>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         tvShow = arguments?.getParcelable(TV_SHOWS_ARGS)
+        listener = arguments?.getParcelable(LISTENER)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -29,16 +34,10 @@ class TvShowTimeVariant1 : Fragment(R.layout.fragment_tv_show_time_variant1) {
     }
 
     private fun setupUI() {
-        val tvShow = this.tvShow
-        val id = tvShow?.id
-        if(tvShow == null || id == null) {
-            binding.root.isVisible = false
-            return
-        }
-
         setupTitle()
         setupTvShowBackground()
-        binding.root.setOnClickListener { }
+        val tvShow = tvShow ?: return
+        binding.root.setOnClickListener { listener?.onClick(tvShow) }
     }
 
     private fun setupTvShowBackground() {
@@ -66,10 +65,14 @@ class TvShowTimeVariant1 : Fragment(R.layout.fragment_tv_show_time_variant1) {
 
     companion object {
         @JvmStatic
-        fun newInstance(tvShow: TvShowsEntity) =
+        fun newInstance(
+            tvShow: TvShowsEntity,
+            listener: Listener<TvShowsEntity>,
+        ) =
             TvShowTimeVariant1().apply {
                 arguments = Bundle().apply {
                     putParcelable(TV_SHOWS_ARGS, tvShow)
+                    putParcelable(LISTENER, listener)
                 }
             }
     }
