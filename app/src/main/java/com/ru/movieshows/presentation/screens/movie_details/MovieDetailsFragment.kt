@@ -43,11 +43,13 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class MovieDetailsFragment : BaseFragment(R.layout.fragment_movie_details) {
+class MovieDetailsFragment : BaseFragment() {
     @Inject
     lateinit var factory: MovieDetailsViewModel.Factory
-    private val args by navArgs<MovieDetailsFragmentArgs>()
     override val viewModel by viewModelCreator { factory.create(args.id) }
+
+    private val args by navArgs<MovieDetailsFragmentArgs>()
+
     private var _binding: FragmentMovieDetailsBinding? = null
     private val binding get() = _binding!!
 

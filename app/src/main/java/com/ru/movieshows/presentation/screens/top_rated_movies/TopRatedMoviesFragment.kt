@@ -29,11 +29,17 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class TopRatedMoviesFragment : BaseFragment(R.layout.fragment_top_rated_movies) {
+class TopRatedMoviesFragment : BaseFragment() {
     override val viewModel by viewModels<TopRatedMoviesViewModel>()
     private val binding by viewBinding<FragmentTopRatedMoviesBinding>()
 
     private var adapter: MoviesListAdapter? = null
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.fragment_top_rated_movies, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

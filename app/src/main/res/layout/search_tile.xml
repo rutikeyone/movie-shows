@@ -8,7 +8,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/discoverMovieImageCard"
+        android:id="@+id/imageCard"
         android:layout_width="@dimen/dp_120"
         android:layout_height="match_parent"
         app:cardCornerRadius="@dimen/dp_8"
@@ -19,7 +19,7 @@
         app:cardBackgroundColor="@android:color/transparent">
 
         <ImageView
-            android:id="@+id/discoverMovieImage"
+            android:id="@+id/imageView"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             tools:background="@color/yellow"
@@ -35,12 +35,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@id/discoverMovieImageCard"
-        android:layout_alignEnd="@id/discoverMovieImageCard"
+        android:layout_toEndOf="@id/imageCard"
+        android:layout_alignEnd="@id/imageCard"
         android:padding="@dimen/dp_16">
 
         <TextView
-            android:id="@+id/movieHeaderText"
+            android:id="@+id/headerText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:text="Lorem Ipsum is simply dummy text of the printing"

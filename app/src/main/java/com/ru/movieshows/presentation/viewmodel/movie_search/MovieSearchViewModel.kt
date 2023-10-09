@@ -1,5 +1,6 @@
 package com.ru.movieshows.presentation.viewmodel.movie_search
 
+import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
@@ -30,10 +31,7 @@ class MovieSearchViewModel @Inject constructor(
     private var _query = MutableLiveData("")
     val query = _query.share()
 
-    private var _expanded: Boolean = false
-    val expanded get() = _expanded
-
-    private val queryValue get() = if(_query.value.isNullOrEmpty()) null else _query.value
+    val queryValue get() = if(_query.value.isNullOrEmpty()) null else _query.value
     val searchQueryMode: Boolean get() = !_query.value.isNullOrEmpty()
 
     val searchMovies = _query.switchMap {
@@ -41,17 +39,16 @@ class MovieSearchViewModel @Inject constructor(
         .cachedIn(viewModelScope)
     }
 
-    fun setExpanded(value: Boolean) {
-        if(value == expanded) return
-        _expanded = value
-    }
-
     fun changeQuery(query: String) {
-        _query.postValue(query)
+        if(queryValue != query) {
+            _query.postValue(query)
+        }
     }
 
     fun navigateToMovieDetails(movie: MovieEntity){
-        if(movie.id == null) return;
-        navigationEvent.publishEvent(NavigationIntent.To(MovieSearchFragmentDirections.actionMovieSearchFragmentToMovieDetailsFragment(movie.id)))
+        val id = movie.id ?: return
+        val direction = MovieSearchFragmentDirections.actionMovieSearchFragmentToMovieDetailsFragment(id)
+        val intent = NavigationIntent.To(direction)
+        navigationEvent.publishEvent(intent)
     }
 }

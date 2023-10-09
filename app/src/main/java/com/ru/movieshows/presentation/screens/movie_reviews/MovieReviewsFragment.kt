@@ -1,7 +1,9 @@
 package com.ru.movieshows.presentation.screens.movie_reviews
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
@@ -23,7 +25,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MovieReviewsFragment : BaseFragment(R.layout.fragment_movie_reviews) {
+class MovieReviewsFragment : BaseFragment() {
     private val args by navArgs<MovieReviewsFragmentArgs>()
 
     @Inject
@@ -32,6 +34,12 @@ class MovieReviewsFragment : BaseFragment(R.layout.fragment_movie_reviews) {
 
     private val binding by viewBinding<FragmentMovieReviewsBinding>()
     private var adapter: ReviewsListAdapter? = null
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.fragment_movie_reviews, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

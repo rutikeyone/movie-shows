@@ -3,10 +3,12 @@ package com.ru.movieshows.presentation.screens.movie_search
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
@@ -26,18 +28,19 @@ import com.ru.movieshows.presentation.adapters.MoviesSearchAdapter
 import com.ru.movieshows.presentation.adapters.TryAgainAction
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
-import com.ru.movieshows.presentation.utils.viewBinding
 import com.ru.movieshows.presentation.viewmodel.movie_search.MovieSearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MovieSearchFragment : BaseFragment(R.layout.fragment_movie_search) {
+class MovieSearchFragment : BaseFragment() {
     override val viewModel by viewModels<MovieSearchViewModel>()
-    private val toolbar get() = requireActivity().findViewById<MaterialToolbar>(R.id.tabsToolbar)
-    private val binding by viewBinding<FragmentMovieSearchBinding>()
+    private val toolbar get() = activity?.findViewById<MaterialToolbar>(R.id.tabsToolbar)
 
-    private var adapter: MoviesSearchAdapter? = null
+    private var _binding: FragmentMovieSearchBinding? = null
+    val binding get() = _binding!!
+
+    private var adapter: MoviesSearchAdapter = MoviesSearchAdapter(::navigateToMovieDetails)
     private var searchView : SearchView? = null
     private var searchItem : MenuItem? = null
 
@@ -46,11 +49,10 @@ class MovieSearchFragment : BaseFragment(R.layout.fragment_movie_search) {
     private val menuProvider = object : MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
            menuInflater.inflate(R.menu.search_view_menu, menu)
-           searchItem  = searchItem ?: menu.findItem(R.id.search_action)
-           searchView = searchView ?: searchItem?.actionView as SearchView?
-           searchView?.maxWidth = Int.MAX_VALUE
-
+           searchItem  = menu.findItem(R.id.search_action)
+           searchView = searchItem?.actionView as SearchView?
            searchView?.setOnQueryTextListener(onQueryTextListener)
+           searchView?.maxWidth = Int.MAX_VALUE
         }
 
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean = when (menuItem.itemId) {
@@ -61,43 +63,64 @@ class MovieSearchFragment : BaseFragment(R.layout.fragment_movie_search) {
     }
 
     private val onQueryTextListener = object : SearchView.OnQueryTextListener {
-        override fun onQueryTextSubmit(query: String?): Boolean = true
+        override fun onQueryTextSubmit(query: String): Boolean {
+            val isEmpty = query.isEmpty()
+            val delay = if(isEmpty) 0L else 500
+            handler.removeCallbacksAndMessages(null)
+            handler.postDelayed({
+                viewModel.changeQuery(query)
+            }, delay)
+            return false
+        }
 
         override fun onQueryTextChange(newText: String): Boolean {
+            val isEmpty = newText.isEmpty()
+            val delay = if(isEmpty) 0L else 500
             handler.removeCallbacksAndMessages(null)
             handler.postDelayed({
                 viewModel.changeQuery(newText)
-            }, 500)
+            }, delay)
             return true
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        toolbar.addMenuProvider(menuProvider, viewLifecycleOwner)
-        if(!viewModel.expanded) {
-            searchItem?.expandActionView()
-            viewModel.setExpanded(true)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        if(_binding == null) {
+            _binding = FragmentMovieSearchBinding.inflate(inflater, container, false)
+            initView()
         }
         viewModel.searchMovies.observe(viewLifecycleOwner, ::collectUiState)
-        initView()
+        adapter.addLoadStateListener(::renderUi)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        toolbar?.addMenuProvider(menuProvider)
+        searchItem?.expandActionView()
+        val query = viewModel.queryValue
+        if(query != null) {
+            searchView?.setQuery(query, false)
+        }
         super.onViewCreated(view, savedInstanceState)
     }
 
     private fun collectUiState(pagingData: PagingData<MovieEntity>?) = lifecycleScope.launch {
         if (pagingData == null) return@launch
-        adapter?.submitData(pagingData)
+        adapter.submitData(pagingData)
     }
 
     private fun initView() {
         val itemDecorator = ItemDecoration(16F, resources.displayMetrics)
-        val tryAgainAction: TryAgainAction = { adapter?.refresh() }
+        val tryAgainAction: TryAgainAction = { adapter.refresh() }
         val footerAdapter = LoadStateAdapter(tryAgainAction, requireContext())
-        adapter = MoviesSearchAdapter(::navigateToMovieDetails)
         val layoutManager = LinearLayoutManager(requireContext())
         binding.movies.layoutManager = layoutManager
-        adapter?.addLoadStateListener { loadState -> renderUi(loadState) }
-        binding.failurePart.retryButton.setOnClickListener { adapter?.retry() }
-        binding.movies.adapter = adapter!!.withLoadStateFooter(footerAdapter)
+        binding.failurePart.retryButton.setOnClickListener { adapter.retry() }
+        binding.movies.adapter = adapter.withLoadStateFooter(footerAdapter)
         binding.movies.addItemDecoration(itemDecorator)
         binding.movies.itemAnimator = null
     }
@@ -106,7 +129,7 @@ class MovieSearchFragment : BaseFragment(R.layout.fragment_movie_search) {
 
     private fun renderUi(loadState: CombinedLoadStates) {
         val searchMode = viewModel.searchQueryMode
-        val isListEmpty = loadState.refresh is LoadState.NotLoading && adapter?.itemCount == 0
+        val isListEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
         val showMovies = !isListEmpty && loadState.source.refresh is LoadState.NotLoading && searchMode
         binding.movies.isVisible = showMovies
         binding.progressContainer.isVisible = loadState.source.refresh is LoadState.Loading && searchMode
@@ -115,7 +138,8 @@ class MovieSearchFragment : BaseFragment(R.layout.fragment_movie_search) {
     }
 
     private fun setupFailurePart(loadState: CombinedLoadStates, searchMode: Boolean) {
-        binding.failurePart.root.isVisible = loadState.source.refresh is LoadState.Error && searchMode
+        val showFailure = loadState.source.refresh is LoadState.Error && searchMode
+        binding.failureContainer.isVisible = showFailure
         if(loadState.source.refresh !is LoadState.Error) return
         val errorState = loadState.refresh as LoadState.Error
         val error = errorState.error as? AppFailure
@@ -124,10 +148,11 @@ class MovieSearchFragment : BaseFragment(R.layout.fragment_movie_search) {
     }
 
     override fun onDestroyView() {
-        toolbar.removeMenuProvider(menuProvider)
+        searchView?.setOnQueryTextListener(null)
+        toolbar?.removeMenuProvider(menuProvider)
         searchItem = null
         searchView = null
-        adapter = null
+        _binding = null
         super.onDestroyView()
     }
 }

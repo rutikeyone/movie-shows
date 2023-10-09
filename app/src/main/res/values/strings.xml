@@ -46,5 +46,8 @@
     <string name="on_the_air">On the air</string>
     <string name="top_rated_tv_show">Top rated Tv show</string>
     <string name="popular_tv_shows">Popular Tv Shows</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="popular">Popular</string>
+    <string name="top_rated">Top rated</string>
 
 </resources>

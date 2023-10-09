@@ -81,7 +81,6 @@ class MoviesAdapter(
                 Glide
                     .with(binding.root)
                     .load(movie.backDrop)
-                    .centerCrop()
                     .into(binding.discoverMovieImage)
             }
         }

@@ -1,7 +1,9 @@
 package com.ru.movieshows.presentation.screens.uncoming_movies
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -28,11 +30,17 @@ import kotlinx.coroutines.launch
 
 @Suppress("DEPRECATED_IDENTITY_EQUALS")
 @AndroidEntryPoint
-class UpcomingMoviesFragment : BaseFragment(R.layout.fragment_upcoming_movies) {
+class UpcomingMoviesFragment : BaseFragment() {
     override val viewModel by viewModels<UpcomingMoviesViewModel>()
     private val binding by viewBinding<FragmentUpcomingMoviesBinding>()
 
     private var adapter: MoviesListAdapter? = null
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.fragment_upcoming_movies, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

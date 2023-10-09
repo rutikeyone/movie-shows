@@ -211,7 +211,7 @@
                     android:id="@+id/genresView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:layout_height="40dp"
+                    tools:layout_height="@dimen/dp_40"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/genresHeader"
@@ -236,20 +236,19 @@
                     tools:visibility="visible"
                     />
 
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/similarMovies"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:layout_height="220dp"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/movie_tile_variant1"
-                    android:layout_marginTop="@dimen/dp_8"
+                    android:layout_height="@dimen/dp_260"
                     android:layout_marginStart="@dimen/dp_8"
+                    android:layout_marginTop="@dimen/dp_8"
                     android:layout_marginEnd="@dimen/dp_8"
                     android:layout_marginBottom="@dimen/dp_16"
-                    />
-
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:layout_height="wrap_content"
+                    tools:listitem="@layout/movie_tile_variant1" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -323,7 +322,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:constraint_referenced_ids="successPart"
-        tools:visibility="gone" />
+        tools:visibility="visible" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/failureContainer"

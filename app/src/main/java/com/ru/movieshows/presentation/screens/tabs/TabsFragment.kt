@@ -1,7 +1,9 @@
 package com.ru.movieshows.presentation.screens.tabs
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
@@ -17,10 +19,16 @@ import com.ru.movieshows.presentation.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class TabsFragment : BaseFragment(R.layout.fragment_tabs) {
+class TabsFragment : BaseFragment() {
     private val binding by viewBinding<FragmentTabsBinding>()
     private val navHost: NavHostFragment get() = childFragmentManager.findFragmentById(R.id.tabsContainer) as NavHostFragment
     private val navController: NavController get() = navHost.navController
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.fragment_tabs, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

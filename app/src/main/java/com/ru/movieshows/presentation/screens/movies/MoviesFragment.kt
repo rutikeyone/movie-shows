@@ -1,10 +1,12 @@
 package com.ru.movieshows.presentation.screens.movies
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.core.view.MenuProvider
 import androidx.core.view.children
@@ -27,7 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 
 @AndroidEntryPoint
-class MoviesFragment : BaseFragment(R.layout.fragment_movies) {
+class MoviesFragment : BaseFragment() {
     private var adapter: MoviesAdapter? = null
 
     override val viewModel by viewModels<MoviesViewModel>()
@@ -55,8 +57,13 @@ class MoviesFragment : BaseFragment(R.layout.fragment_movies) {
                 }
                 else -> false
             }
-
     }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.fragment_movies, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -68,7 +75,6 @@ class MoviesFragment : BaseFragment(R.layout.fragment_movies) {
         toolbar.addMenuProvider(menuProvider, viewLifecycleOwner)
         super.onStart()
     }
-
 
     private fun renderDiscoverMoviesUI(moviesDiscoverState: MoviesDiscoverState?) {
         binding.discoverMoviesContainer.children.forEach { it.visibility = View.GONE }

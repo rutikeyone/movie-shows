@@ -1,6 +1,8 @@
 package com.ru.movieshows.presentation.screens.tv_show_search
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
@@ -11,10 +13,12 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
+import androidx.paging.PagingData
 import com.google.android.material.appbar.MaterialToolbar
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FragmentMoviesBinding
 import com.ru.movieshows.databinding.FragmentTvShowSearchBinding
+import com.ru.movieshows.domain.entity.TvShowsEntity
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.utils.viewBinding
 import com.ru.movieshows.presentation.viewmodel.movies.MoviesViewModel
@@ -23,11 +27,13 @@ import com.ru.movieshows.presentation.viewmodel.tv_shows.TvShowsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class TvShowSearchFragment : BaseFragment(R.layout.fragment_tv_show_search) {
+class TvShowSearchFragment : BaseFragment() {
     override val viewModel by viewModels<TvShowSearchViewModel>()
     private val binding by viewBinding<FragmentTvShowSearchBinding>()
 
     private val toolbar get() = requireActivity().findViewById<MaterialToolbar>(R.id.tabsToolbar)
+
+    private val handler = Handler(Looper.getMainLooper())
 
     private var searchView: SearchView? = null
     private var searchItem: MenuItem? = null
@@ -52,10 +58,20 @@ class TvShowSearchFragment : BaseFragment(R.layout.fragment_tv_show_search) {
             override fun onQueryTextSubmit(query: String?): Boolean = true
 
             override fun onQueryTextChange(newText: String): Boolean {
+                handler.removeCallbacksAndMessages(null)
+                handler.postDelayed ({
+                    viewModel.changeQuery(newText)
+                }, 500)
                 return true
             }
         }
     }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.fragment_tv_show_search, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         toolbar.addMenuProvider(menuProvider, viewLifecycleOwner)
@@ -63,7 +79,12 @@ class TvShowSearchFragment : BaseFragment(R.layout.fragment_tv_show_search) {
             searchItem?.expandActionView()
             viewModel.setExpanded(true)
         }
+        viewModel.searchMovies.observe(viewLifecycleOwner, ::collectUiState)
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun collectUiState(pagingData: PagingData<TvShowsEntity>?) {
+        if(pagingData == null) return
     }
 
     override fun onDestroyView() {

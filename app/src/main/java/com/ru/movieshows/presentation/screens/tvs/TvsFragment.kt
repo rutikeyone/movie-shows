@@ -1,10 +1,12 @@
 package com.ru.movieshows.presentation.screens.tvs
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.core.view.MenuProvider
 import androidx.core.view.children
@@ -24,7 +26,7 @@ import com.ru.movieshows.presentation.viewmodel.tv_shows.TvShowsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class TvsFragment : BaseFragment(R.layout.fragment_tvs) {
+class TvsFragment : BaseFragment() {
     override val viewModel by viewModels<TvShowsViewModel>()
     private val binding by viewBinding<FragmentTvsBinding>()
 
@@ -41,8 +43,14 @@ class TvsFragment : BaseFragment(R.layout.fragment_tvs) {
             }
             else -> false
         }
-
     }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.fragment_tvs, container, false)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.observe(viewLifecycleOwner, ::renderUI)

@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TvShowSearchViewModel @Inject constructor(
-    val tvShowRepository: TvShowRepository,
+    private val tvShowRepository: TvShowRepository,
 ) : BaseViewModel() {
     private var _query = MutableLiveData("")
     val query = _query.share()

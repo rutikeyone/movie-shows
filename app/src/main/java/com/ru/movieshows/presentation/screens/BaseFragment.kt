@@ -17,7 +17,7 @@ import com.ru.movieshows.presentation.utils.ToastIntent
 import com.ru.movieshows.presentation.utils.observeEvent
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
 
-open class BaseFragment(@LayoutRes contentLayoutId: Int): Fragment(contentLayoutId) {
+open class BaseFragment(): Fragment() {
     protected open val viewModel by viewModels<BaseViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {

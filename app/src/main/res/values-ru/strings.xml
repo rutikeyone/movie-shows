@@ -37,4 +37,7 @@
     <string name="on_the_air">В прямом эфире</string>
     <string name="top_rated_tv_show">Телешоу с наивысшей оценкой</string>
     <string name="popular_tv_shows">Популярные телешоу</string>
+    <string name="upcoming">Ожидаемые</string>
+    <string name="popular">Популярные</string>
+    <string name="top_rated">С наивысшей оценкой</string>
 </resources>

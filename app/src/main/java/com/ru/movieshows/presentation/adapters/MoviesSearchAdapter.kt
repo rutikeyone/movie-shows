@@ -6,7 +6,7 @@ import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.ru.movieshows.databinding.MovieSearchTileBinding
+import com.ru.movieshows.databinding.SearchTileBinding
 import com.ru.movieshows.domain.entity.MovieEntity
 
 class MoviesSearchAdapter(
@@ -20,13 +20,13 @@ class MoviesSearchAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = MovieSearchTileBinding.inflate(inflater, parent, false)
+        val binding = SearchTileBinding.inflate(inflater, parent, false)
         return Holder(binding, onTap)
     }
 
 
 class Holder(
-    private val binding: MovieSearchTileBinding,
+    private val binding: SearchTileBinding,
     private val onTap: (MovieEntity) -> Unit,
 ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -40,7 +40,7 @@ class Holder(
 
         private fun setupTitle(movie: MovieEntity) {
             if(movie.title == null) return
-            binding.movieHeaderText.text = movie.title
+            binding.headerText.text = movie.title
         }
 
         private fun setupDescription(movie: MovieEntity) {
@@ -60,14 +60,14 @@ class Holder(
 
         private fun setupBackDrop(movie: MovieEntity) {
             if(movie.backDrop == null) {
-                binding.discoverMovieImage.isVisible = false
+                binding.imageView.isVisible = false
                 return
             }
             Glide
                 .with(binding.root)
                 .load(movie.backDrop)
                 .centerCrop()
-                .into(binding.discoverMovieImage)
+                .into(binding.imageView)
         }
 
     }

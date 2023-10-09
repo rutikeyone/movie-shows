@@ -61,12 +61,14 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/discoverMoviesContainer"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_280">
+                android:layout_height="@dimen/dp_260"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_marginEnd="@dimen/dp_8">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/discoverMovies"
+                    android:layout_height="@dimen/dp_260"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_250"
                     android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -74,19 +76,16 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/movie_tile_variant1"
-                    android:layout_marginTop="@dimen/dp_16"
-                    android:layout_marginStart="@dimen/dp_8"
-                    android:layout_marginEnd="@dimen/dp_8"
                     android:visibility="gone"/>
 
                 <ProgressBar
                     android:id="@+id/discoverMoviesInPendingProgressBar"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" />
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
 
                 <TextView
@@ -119,11 +118,8 @@
                     android:id="@+id/discoverMoviesSuccessContainer"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:constraint_referenced_ids="discoverMovies"
                     android:visibility="visible"
-                    android:layout_marginStart="@dimen/dp_8"
-                    android:layout_marginEnd="@dimen/dp_8"
-                    />
+                    app:constraint_referenced_ids="discoverMovies" />
 
                 <androidx.constraintlayout.widget.Group
                     android:id="@+id/discoverMoviesInPendingContainer"
@@ -161,7 +157,7 @@
                     android:layout_centerVertical="true"
                     android:layout_toStartOf="@+id/showAllUpcomingVideosButton"
                     style="?attr/MovieShows.TextAppearance.Headline6.Bold"
-                    android:text="@string/upcoming_movies"
+                    android:text="@string/upcoming"
                      />
 
                 <Button
@@ -181,7 +177,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/upcomingMovies"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_250"
+                android:layout_height="@dimen/dp_260"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/movie_tile_variant1"
@@ -208,7 +204,7 @@
                     android:layout_centerVertical="true"
                     android:layout_toStartOf="@+id/showAllPopularVideosButton"
                     style="?attr/MovieShows.TextAppearance.Headline6.Bold"
-                    android:text="@string/popular_movies"
+                    android:text="@string/popular"
                     />
 
                 <Button
@@ -227,7 +223,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/popularMovies"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_250"
+                android:layout_height="@dimen/dp_260"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/movie_tile_variant1"
@@ -255,7 +251,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_centerVertical="true"
                     android:layout_toStartOf="@+id/showAllTopRatedMoviesButton"
-                    android:text="@string/top_rated_movies"
+                    android:text="@string/top_rated"
                     />
 
                 <Button
@@ -274,14 +270,13 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/topRatedMovies"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_250"
+                android:layout_height="@dimen/dp_260"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_16"
+                android:layout_marginEnd="@dimen/dp_8"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/movie_tile_variant1"
-                android:layout_marginTop="@dimen/dp_16"
-                android:layout_marginStart="@dimen/dp_8"
-                android:layout_marginEnd="@dimen/dp_8"
-                />
+                tools:listitem="@layout/movie_tile_variant1" />
 
         </LinearLayout>
 
