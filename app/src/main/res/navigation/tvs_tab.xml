@@ -41,10 +41,17 @@
     <fragment
         android:id="@+id/tvShowDetailsFragment"
         android:name="com.ru.movieshows.presentation.screens.tv_show_details.TvShowDetailsFragment"
-        android:label="fragment_tv_show_details"
-        tools:layout="@layout/fragment_tv_show_details" >
+        android:label="@string/empty"
+        tools:layout="@layout/fragment_tv_show_details">
         <argument
             android:name="id"
             app:argType="string" />
     </fragment>
+    <action
+        android:id="@+id/action_global_tvShowDetailsFragment"
+        app:destination="@id/tvShowDetailsFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 </navigation>

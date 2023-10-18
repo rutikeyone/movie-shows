@@ -21,7 +21,6 @@ import com.ru.movieshows.presentation.adapters.TvShowsAdapter
 import com.ru.movieshows.presentation.adapters.TvShowsViewPagerAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
-import com.ru.movieshows.presentation.utils.Listener
 import com.ru.movieshows.presentation.utils.viewBinding
 import com.ru.movieshows.presentation.viewmodel.tv_shows.TvShowsState
 import com.ru.movieshows.presentation.viewmodel.tv_shows.TvShowsViewModel
@@ -91,8 +90,7 @@ class TvsFragment : BaseFragment() {
     }
 
     private fun setupTrendingTvShowsPager(state: TvShowsState.Success) {
-        val listener = Listener(::navigateToTvShowDetails)
-        val adapter = TvShowsViewPagerAdapter(this, state.trendingMovies, listener)
+        val adapter = TvShowsViewPagerAdapter(this, state.trendingMovies)
         binding.trendingTvShowsViewPager.adapter = adapter
     }
 

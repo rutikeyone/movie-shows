@@ -32,4 +32,6 @@
     <dimen name="dp_260">260dp</dimen>
     <dimen name="dp_240">240dp</dimen>
     <dimen name="dp_190">190dp</dimen>
+    <dimen name="dp_100">100dp</dimen>
+    <dimen name="dp_0">0dp</dimen>
 </resources>

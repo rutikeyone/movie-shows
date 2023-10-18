@@ -1,19 +1,18 @@
 package com.ru.movieshows.data.repository
 
-import android.graphics.pdf.PdfDocument.Page
 import androidx.lifecycle.LiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
 import com.ru.movieshows.data.dto.TvShowDto
+import com.ru.movieshows.domain.entity.TvShowDetailsEntity
 import com.ru.movieshows.domain.entity.TvShowsEntity
 import com.ru.movieshows.domain.repository.TvShowRepository
 import com.ru.movieshows.domain.repository.exceptions.AppFailure
 import com.ru.movieshows.domain.repository.exceptions.TvShowException
 import com.ru.movieshows.presentation.screens.movie_reviews.PageLoader
 import com.ru.movieshows.presentation.screens.movie_reviews.PagingSource
-import kotlinx.coroutines.flow.Flow
 import java.lang.IllegalStateException
 import java.net.ConnectException
 import javax.inject.Inject
@@ -72,17 +71,17 @@ class TvShowsRepositoryImpl @Inject constructor(private val tvShowsDto: TvShowDt
 
     override suspend fun getTvShowDetails(
         language: String,
-        seriesId: String,
-    ): Result<TvShowsEntity> {
+        id: String,
+    ): Result<TvShowDetailsEntity> {
         return try {
-            val getTvShowDetailsResponse = tvShowsDto.getTvShowDetails(seriesId, language)
+            val getTvShowDetailsResponse = tvShowsDto.getTvShowDetails(id, language)
             return if(getTvShowDetailsResponse.isSuccessful && getTvShowDetailsResponse.body() != null) {
                 val tvShowDetailsModel = getTvShowDetailsResponse.body()!!
                 val tvShowDetailsEntity = tvShowDetailsModel.toEntity()
                 return Result.success(tvShowDetailsEntity)
             } else {
-                val exception = TvShowException()
-                Result.failure(exception)
+                val failure = AppFailure.Pure
+                Result.failure(failure)
             }
         }
         catch (e: ConnectException) {
@@ -90,9 +89,8 @@ class TvShowsRepositoryImpl @Inject constructor(private val tvShowsDto: TvShowDt
             Result.failure(movieException)
         }
         catch (e: Exception) {
-            val exception = TvShowException()
-            exception.initCause(e)
-            Result.failure(exception)
+            val failure = AppFailure.Pure
+            Result.failure(failure)
         }
     }
 

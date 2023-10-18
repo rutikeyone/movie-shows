@@ -1,13 +1,16 @@
 package com.ru.movieshows.data.model
 
+import android.annotation.SuppressLint
 import com.google.gson.annotations.SerializedName
-import com.ru.movieshows.domain.entity.TvDetailsEntity
+import com.ru.movieshows.BuildConfig
+import com.ru.movieshows.domain.entity.TvShowDetailsEntity
+import java.text.SimpleDateFormat
 
 data class TvShowDetailsModel(
     @SerializedName("id")
     val id: Int?,
     @SerializedName("genres")
-    val genres: ArrayList<GenreModel>,
+    val genres: ArrayList<GenreModel>?,
     @SerializedName("first_air_date")
     val firstAirDate: String?,
     @SerializedName("overview")
@@ -24,6 +27,28 @@ data class TvShowDetailsModel(
     val numberOfEpisodes: Int?,
     @SerializedName("number_of_seasons")
     val numberOfSeasons: Int?,
+    @SerializedName("created_by")
+    val createdBy: ArrayList<CreatorModel>?,
+    @SerializedName("seasons")
+    val seasons: ArrayList<SeasonModel>?,
 ){
-    fun toEntity(): TvDetailsEntity = TvDetailsEntity(id, genres, firstAirDate, overview, backDrop, poster, rating, name, numberOfEpisodes, numberOfSeasons)
+    @SuppressLint("SimpleDateFormat")
+    fun toEntity(): TvShowDetailsEntity {
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val date = if(firstAirDate != null) simpleDateFormat.parse(firstAirDate) else null
+        return TvShowDetailsEntity(
+            id,
+            genres?.map { it.toEntity() }?.let { ArrayList(it) },
+            date,
+            overview,
+            if(this.backDrop != null) BuildConfig.TMDB_IMAGE_URL + this.backDrop else null,
+            if(this.poster != null) BuildConfig.TMDB_IMAGE_URL + this.poster else null,
+            rating,
+            name,
+            numberOfEpisodes,
+            numberOfSeasons,
+            createdBy?.map { it.toEntity() }?.let { ArrayList(it) },
+            seasons?.map { it.toEntity() }?.let { ArrayList(it) },
+        )
+    }
 }

@@ -31,8 +31,8 @@
 
     <style name="MovieShows.ShapeAppearanceOverlay" parent="">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSizeTopRight">0dp</item>
-        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeTopRight">@dimen/dp_16</item>
+        <item name="cornerSizeTopLeft">@dimen/dp_16</item>
         <item name="cornerSizeBottomRight">0dp</item>
         <item name="cornerSizeBottomLeft">0dp</item>
     </style>

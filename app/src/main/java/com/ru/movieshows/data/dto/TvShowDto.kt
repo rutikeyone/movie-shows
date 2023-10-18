@@ -1,5 +1,6 @@
 package com.ru.movieshows.data.dto
 
+import com.ru.movieshows.data.model.TvShowDetailsModel
 import com.ru.movieshows.data.model.TvShowsModel
 import com.ru.movieshows.data.response.TvShowsResponse
 import retrofit2.Response
@@ -14,8 +15,8 @@ interface TvShowDto {
     @GET("discover/tv")
     suspend fun getDiscoverTvShows(@Query("language") language: String, @Query("page") page: Int): Response<TvShowsResponse>
 
-    @GET("tv/{series_id}")
-    suspend fun getTvShowDetails(@Path("series_id") seriesId: String, @Query("language") language: String): Response<TvShowsModel>
+    @GET("tv/{id}")
+    suspend fun getTvShowDetails(@Path("id") id: String, @Query("language") language: String): Response<TvShowDetailsModel>
 
     @GET("tv/top_rated")
     suspend fun getTopRatedTvShows(@Query("language") language: String, @Query("page") page: Int): Response<TvShowsResponse>

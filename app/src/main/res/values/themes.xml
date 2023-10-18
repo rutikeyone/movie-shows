@@ -46,7 +46,6 @@
             @style/MovieShows.TextButton.Body3.Hint.Bold.Style
         </item>
         <item name="bottomSheetDialogTheme">@style/MovieShows.BottomSheetDialog</item>
-
         <item name="android:editTextColor">@android:color/white</item>
         <item name="MovieShows.Darken">@color/darken_color</item>
     </style>

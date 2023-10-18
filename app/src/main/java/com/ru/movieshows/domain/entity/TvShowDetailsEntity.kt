@@ -1,11 +1,11 @@
 package com.ru.movieshows.domain.entity
 
-import com.ru.movieshows.data.model.GenreModel
+import java.util.Date
 
-data class TvDetailsEntity(
+ data class TvShowDetailsEntity(
     val id: Int?,
-    val genres: ArrayList<GenreModel>,
-    val firstAirDate: String?,
+    val genres: ArrayList<GenreEntity>?,
+    val firstAirDate: Date?,
     val overview: String?,
     val backDrop: String?,
     val poster: String?,
@@ -13,4 +13,6 @@ data class TvDetailsEntity(
     val name: String?,
     val numberOfEpisodes: Int?,
     val numberOfSeasons: Int?,
-)
+    val createdBy: ArrayList<CreatorEntity>?,
+    val seasons: ArrayList<SeasonEntity>?,
+    )

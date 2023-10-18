@@ -31,8 +31,9 @@ class TvShowSearchViewModel @Inject constructor(
     }
 
     fun changeQuery(query: String) {
-        _query.postValue(query)
-    }
+        if(queryValue != query) {
+            _query.postValue(query)
+        }    }
 
     fun navigateToTvShowDetails(tvShow: TvShowsEntity) {
         val id = tvShow.id ?: return

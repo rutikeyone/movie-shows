@@ -48,7 +48,7 @@
     <fragment
         android:id="@+id/movieDetailsFragment"
         android:name="com.ru.movieshows.presentation.screens.movie_details.MovieDetailsFragment"
-        android:label=""
+        android:label="@string/empty"
         tools:layout="@layout/fragment_movie_details">
         <argument
             android:name="id"
@@ -132,5 +132,12 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
+    <action
+        android:id="@+id/action_global_movieDetailsFragment"
+        app:destination="@id/movieDetailsFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
 </navigation>

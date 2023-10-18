@@ -4,28 +4,24 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FragmentTvShowTimeVariant1Binding
-import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.entity.TvShowsEntity
-import com.ru.movieshows.presentation.screens.movies.MovieTileFragmentVariant1
-import com.ru.movieshows.presentation.utils.Listener
 import com.ru.movieshows.presentation.utils.viewBinding
 
 private const val TV_SHOWS_ARGS = "tvShowsArgs";
-private const val LISTENER = "listener";
+private const val ID = "id"
 
 class TvShowTimeVariant1 : Fragment(R.layout.fragment_tv_show_time_variant1) {
     private val binding by viewBinding<FragmentTvShowTimeVariant1Binding>()
 
     private var tvShow: TvShowsEntity? = null
-    private var listener: Listener<TvShowsEntity>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         tvShow = arguments?.getParcelable(TV_SHOWS_ARGS)
-        listener = arguments?.getParcelable(LISTENER)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,8 +32,13 @@ class TvShowTimeVariant1 : Fragment(R.layout.fragment_tv_show_time_variant1) {
     private fun setupUI() {
         setupTitle()
         setupTvShowBackground()
-        val tvShow = tvShow ?: return
-        binding.root.setOnClickListener { listener?.onClick(tvShow) }
+        val navController = findNavController()
+        val id = tvShow?.id ?: return
+        binding.root.setOnClickListener {
+            val bundle = Bundle().apply { putString(ID, id) }
+            navController.navigate(R.id.action_global_tvShowDetailsFragment, bundle)
+        }
+
     }
 
     private fun setupTvShowBackground() {
@@ -66,13 +67,11 @@ class TvShowTimeVariant1 : Fragment(R.layout.fragment_tv_show_time_variant1) {
     companion object {
         @JvmStatic
         fun newInstance(
-            tvShow: TvShowsEntity,
-            listener: Listener<TvShowsEntity>,
+            tvShow: TvShowsEntity
         ) =
             TvShowTimeVariant1().apply {
                 arguments = Bundle().apply {
                     putParcelable(TV_SHOWS_ARGS, tvShow)
-                    putParcelable(LISTENER, listener)
                 }
             }
     }
