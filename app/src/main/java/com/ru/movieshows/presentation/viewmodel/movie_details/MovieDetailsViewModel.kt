@@ -6,9 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.ru.movieshows.domain.entity.MovieDetailsEntity
 import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.entity.ReviewEntity
-import com.ru.movieshows.domain.entity.VideoEntity
-import com.ru.movieshows.domain.repository.MoviesRepository
-import com.ru.movieshows.domain.repository.exceptions.AppFailure
+import com.ru.movieshows.data.repository.MoviesRepository
+import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.screens.movie_details.MovieDetailsFragmentDirections
 import com.ru.movieshows.presentation.utils.NavigationIntent
 import com.ru.movieshows.presentation.utils.publishEvent
@@ -18,7 +17,6 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
-import java.util.Locale
 
 
 class MovieDetailsViewModel @AssistedInject constructor(

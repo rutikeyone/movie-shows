@@ -1,6 +1,5 @@
-package com.ru.movieshows.data.repository
+package com.ru.movieshows.domain.repository
 
-import android.graphics.pdf.PdfDocument.Page
 import androidx.lifecycle.LiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -11,11 +10,10 @@ import com.ru.movieshows.domain.entity.MovieDetailsEntity
 import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.entity.ReviewEntity
 import com.ru.movieshows.domain.entity.VideoEntity
-import com.ru.movieshows.domain.repository.MoviesRepository
-import com.ru.movieshows.domain.repository.exceptions.AppFailure
+import com.ru.movieshows.data.repository.MoviesRepository
+import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.screens.movie_reviews.PageLoader
 import com.ru.movieshows.presentation.screens.movie_reviews.PagingSource
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import java.lang.IllegalStateException
 import java.net.ConnectException

@@ -1,9 +1,9 @@
 package com.ru.movieshows.presentation
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
@@ -11,13 +11,19 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.ru.movieshows.R
 import com.ru.movieshows.presentation.screens.tabs.TabsFragment
+import com.ru.movieshows.presentation.viewmodel.main.AuthState
+import com.ru.movieshows.presentation.viewmodel.main.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.properties.Delegates.notNull
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val rootNavController get() = rootNavController()
 
     private var _currentNavController: NavController? = null
+
+    private val viewModel by viewModels<MainViewModel>()
+
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() = executeOnHandleBack(this)
@@ -35,6 +41,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setupNavigation()
+        viewModel.state.observe(this, ::stateChanged)
+    }
+
+    private fun stateChanged(state: AuthState) {
+        var route by notNull<Int>()
+
+        route = when (state) {
+            is AuthState.Authenticated -> R.id.action_global_tabsFragment
+            AuthState.NotAuthenticated -> R.id.action_global_signInFragment
+            else -> R.id.action_global_splashFragment
+        }
+        rootNavController.navigate(route)
     }
 
     override fun onDestroy() {

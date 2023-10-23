@@ -4,16 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.navigation.NavigationBarView
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FragmentTabsBinding
-import com.ru.movieshows.presentation.MainActivity
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,6 +21,16 @@ class TabsFragment : BaseFragment() {
     private val binding by viewBinding<FragmentTabsBinding>()
     private val navHost: NavHostFragment get() = childFragmentManager.findFragmentById(R.id.tabsContainer) as NavHostFragment
     private val navController: NavController get() = navHost.navController
+
+    private val itemReselectedListener = NavigationBarView.OnItemReselectedListener {
+        val destination = when(it.itemId) {
+            R.id.movies_tab -> R.id.moviesFragment
+            R.id.tvs_tab -> R.id.tvsFragment
+            R.id.watch_list_tab -> R.id.watchListFragment
+            else -> null
+        } ?: return@OnItemReselectedListener
+        navController.popBackStack(destination, inclusive = false)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,11 +43,12 @@ class TabsFragment : BaseFragment() {
         setupNavController()
     }
 
-    private fun setupNavController() {
+    private fun setupNavController() = with (binding) {
         val appConfiguration = AppBarConfiguration(tabsTopLevelFragment)
-        NavigationUI.setupWithNavController(binding.bottomNavigationView, navController)
-        binding.tabsToolbar.setupWithNavController(navController, appConfiguration)
-        binding.tabsToolbar.isTitleCentered = true
+        NavigationUI.setupWithNavController(bottomNavigationView, navController)
+        tabsToolbar.setupWithNavController(navController, appConfiguration)
+        tabsToolbar.isTitleCentered = true
+        bottomNavigationView.setOnItemReselectedListener(itemReselectedListener)
     }
 
     companion object {

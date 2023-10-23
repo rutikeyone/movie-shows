@@ -22,7 +22,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FragmentMovieSearchBinding
 import com.ru.movieshows.domain.entity.MovieEntity
-import com.ru.movieshows.domain.repository.exceptions.AppFailure
+import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.adapters.LoadStateAdapter
 import com.ru.movieshows.presentation.adapters.MoviesSearchAdapter
 import com.ru.movieshows.presentation.adapters.TryAgainAction

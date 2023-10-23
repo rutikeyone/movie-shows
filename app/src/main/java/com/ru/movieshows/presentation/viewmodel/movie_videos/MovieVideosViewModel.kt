@@ -2,18 +2,16 @@ package com.ru.movieshows.presentation.viewmodel.movie_videos
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ru.movieshows.domain.entity.VideoEntity
-import com.ru.movieshows.domain.repository.MoviesRepository
-import com.ru.movieshows.domain.repository.exceptions.AppFailure
+import com.ru.movieshows.data.repository.MoviesRepository
+import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.utils.share
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
-import java.util.Locale
 
 class MovieVideosViewModel @AssistedInject constructor(
     @Assisted private val movieId: String,

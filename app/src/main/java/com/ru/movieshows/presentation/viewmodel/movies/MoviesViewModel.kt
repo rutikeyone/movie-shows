@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.ru.movieshows.R
 import com.ru.movieshows.domain.entity.GenreEntity
 import com.ru.movieshows.domain.entity.MovieEntity
-import com.ru.movieshows.domain.repository.GenresRepository
-import com.ru.movieshows.domain.repository.MoviesRepository
-import com.ru.movieshows.domain.repository.exceptions.AppFailure
+import com.ru.movieshows.data.repository.GenresRepository
+import com.ru.movieshows.data.repository.MoviesRepository
+import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.screens.movies.MoviesFragmentDirections
 import com.ru.movieshows.presentation.utils.NavigationIntent
 import com.ru.movieshows.presentation.utils.publishEvent
@@ -15,7 +15,6 @@ import com.ru.movieshows.presentation.utils.share
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel

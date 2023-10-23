@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.ru.movieshows.domain.entity.MovieEntity
-import com.ru.movieshows.domain.repository.MoviesRepository
+import com.ru.movieshows.data.repository.MoviesRepository
 import com.ru.movieshows.presentation.screens.uncoming_movies.UpcomingMoviesFragmentDirections
 import com.ru.movieshows.presentation.utils.NavigationIntent
 import com.ru.movieshows.presentation.utils.publishEvent

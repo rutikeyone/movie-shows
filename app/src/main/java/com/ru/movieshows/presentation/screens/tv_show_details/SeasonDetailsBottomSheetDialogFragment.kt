@@ -1,5 +1,6 @@
 package com.ru.movieshows.presentation.screens.tv_show_details
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ru.movieshows.databinding.SeasonModalSheetBinding
 import com.ru.movieshows.domain.entity.SeasonEntity
+import java.text.SimpleDateFormat
 
 class SeasonDetailsBottomSheetDialogFragment : BottomSheetDialogFragment() {
     private var season: SeasonEntity? = null
@@ -39,6 +41,45 @@ class SeasonDetailsBottomSheetDialogFragment : BottomSheetDialogFragment() {
         setupImage()
         setupHeader()
         setupOverview()
+        setupAirDate()
+        setupCountEpisodes()
+        setupRating()
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun setupRating() = with(binding) {
+        val rating = season?.rating
+        ratingBar.isEnabled = false;
+        if (rating != null && rating > 0) {
+            ratingText.text = "%.2f".format(rating)
+            ratingBar.rating = (rating.toFloat() / 2)
+        } else {
+            ratingText.isVisible = false
+            ratingBar.isVisible = false
+        }
+    }
+
+    private fun setupCountEpisodes() = with(binding) {
+        val countEpisodes = season?.episodeCount
+        if(countEpisodes != null) {
+            countEpisodesValue.text = countEpisodes.toString()
+        } else {
+            countEpisodesHeader.isVisible = false
+            countEpisodesValue.isVisible = false
+        }
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun setupAirDate() = with(binding){
+        val airDate = season?.airDate
+        val simpleDateFormatter = SimpleDateFormat("d MMMM yyyy")
+        val date = airDate?.let { simpleDateFormatter.format(it) }
+        if(date != null) {
+            releaseDateValue.text = date
+        } else {
+            releaseDateHeader.isVisible = false
+            releaseDateValue.isVisible = false
+        }
     }
 
     private fun setupOverview() = with(binding) {

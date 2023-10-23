@@ -1,4 +1,4 @@
-package com.ru.movieshows.domain.repository
+package com.ru.movieshows.data.repository
 
 import com.ru.movieshows.domain.entity.GenreEntity
 

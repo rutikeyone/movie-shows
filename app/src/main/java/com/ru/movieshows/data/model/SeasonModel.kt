@@ -2,8 +2,8 @@ package com.ru.movieshows.data.model
 
 import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
-import com.ru.movieshows.data.model.converter.DateConverter
-import com.ru.movieshows.data.model.converter.ImageConverter
+import com.ru.movieshows.data.utils.DateConverter
+import com.ru.movieshows.data.utils.ImageConverter
 import com.ru.movieshows.domain.entity.SeasonEntity
 import java.util.Date
 

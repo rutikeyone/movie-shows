@@ -1,7 +1,6 @@
 package com.ru.movieshows.presentation.screens.popular_movies
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +12,8 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FragmentPopularMoviesBinding
-import com.ru.movieshows.databinding.FragmentUpcomingMoviesBinding
 import com.ru.movieshows.domain.entity.MovieEntity
-import com.ru.movieshows.domain.repository.exceptions.AppFailure
+import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.adapters.LoadStateAdapter
 import com.ru.movieshows.presentation.adapters.MoviesAdapter
 import com.ru.movieshows.presentation.adapters.MoviesListAdapter
@@ -23,9 +21,7 @@ import com.ru.movieshows.presentation.adapters.TryAgainAction
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
 import com.ru.movieshows.presentation.utils.viewBinding
-import com.ru.movieshows.presentation.viewmodel.BaseViewModel
 import com.ru.movieshows.presentation.viewmodel.popular_movies.PopularMoviesViewModel
-import com.ru.movieshows.presentation.viewmodel.upcoming_movies.UpcomingMoviesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

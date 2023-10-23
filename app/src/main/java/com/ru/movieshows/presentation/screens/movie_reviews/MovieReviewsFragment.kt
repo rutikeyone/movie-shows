@@ -11,7 +11,7 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FragmentMovieReviewsBinding
-import com.ru.movieshows.domain.repository.exceptions.AppFailure
+import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.adapters.ReviewsListAdapter
 import com.ru.movieshows.presentation.adapters.LoadStateAdapter
 import com.ru.movieshows.presentation.adapters.TryAgainAction

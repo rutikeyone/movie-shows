@@ -1,11 +1,9 @@
-package com.ru.movieshows.data.repository
+package com.ru.movieshows.domain.repository
 
 import com.ru.movieshows.data.dto.GenresDto
+import com.ru.movieshows.data.repository.GenresRepository
 import com.ru.movieshows.domain.entity.GenreEntity
-import com.ru.movieshows.domain.repository.GenresRepository
-import com.ru.movieshows.domain.repository.exceptions.GenresException
-import java.lang.Exception
-import java.lang.IllegalStateException
+import com.ru.movieshows.domain.utils.GenresException
 import javax.inject.Inject
 
 class GenresRepositoryImpl @Inject constructor(private val genresDto: GenresDto): GenresRepository {

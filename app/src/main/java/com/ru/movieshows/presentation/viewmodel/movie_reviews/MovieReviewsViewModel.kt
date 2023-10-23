@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.ru.movieshows.domain.entity.ReviewEntity
-import com.ru.movieshows.domain.repository.MoviesRepository
+import com.ru.movieshows.data.repository.MoviesRepository
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory

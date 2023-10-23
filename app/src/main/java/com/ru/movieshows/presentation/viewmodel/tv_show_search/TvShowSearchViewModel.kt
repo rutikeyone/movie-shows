@@ -5,7 +5,7 @@ import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.ru.movieshows.domain.entity.TvShowsEntity
-import com.ru.movieshows.domain.repository.TvShowRepository
+import com.ru.movieshows.data.repository.TvShowRepository
 import com.ru.movieshows.presentation.screens.movies.MoviesFragmentDirections
 import com.ru.movieshows.presentation.screens.tv_show_search.TvShowSearchFragmentDirections
 import com.ru.movieshows.presentation.utils.NavigationIntent

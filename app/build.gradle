@@ -84,7 +84,6 @@ dependencies {
     implementation "androidx.paging:paging-runtime-ktx:$pagination_version"
     implementation "com.pierfrancescosoffritti.androidyoutubeplayer:core:$youtube_player_version"
     implementation "com.webtoonscorp.android:readmore-view:$read_more_version"
-
 }
 
 kapt {

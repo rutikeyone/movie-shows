@@ -2,12 +2,10 @@ package com.ru.movieshows.dependencies
 
 import com.google.gson.GsonBuilder
 import com.ru.movieshows.BuildConfig
+import com.ru.movieshows.data.dto.AccountDto
 import com.ru.movieshows.data.dto.GenresDto
 import com.ru.movieshows.data.dto.MoviesDto
 import com.ru.movieshows.data.dto.TvShowDto
-import com.ru.movieshows.data.model.SeasonModel
-import com.ru.movieshows.data.model.converter.DateConverter
-import com.ru.movieshows.data.model.converter.ImageConverter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,7 +15,6 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.Date
 import javax.inject.Singleton
 
 @Module
@@ -63,4 +60,8 @@ class RetrofitModule {
     @Provides
     @Singleton
     fun provideTvShowsDto(retrofit: Retrofit): TvShowDto = retrofit.create(TvShowDto::class.java)
+
+    @Provides
+    @Singleton
+    fun provideAccountDto(retrofit: Retrofit): AccountDto = retrofit.create(AccountDto::class.java)
 }

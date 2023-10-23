@@ -1,4 +1,4 @@
-package com.ru.movieshows.domain.repository.exceptions
+package com.ru.movieshows.domain.utils
 
 import com.ru.movieshows.R
 

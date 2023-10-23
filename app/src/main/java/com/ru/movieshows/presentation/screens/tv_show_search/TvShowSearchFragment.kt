@@ -3,7 +3,6 @@ package com.ru.movieshows.presentation.screens.tv_show_search
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -21,20 +20,15 @@ import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.MaterialToolbar
 import com.ru.movieshows.R
-import com.ru.movieshows.databinding.FragmentMovieSearchBinding
-import com.ru.movieshows.databinding.FragmentMoviesBinding
 import com.ru.movieshows.databinding.FragmentTvShowSearchBinding
 import com.ru.movieshows.domain.entity.TvShowsEntity
-import com.ru.movieshows.domain.repository.exceptions.AppFailure
+import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.adapters.LoadStateAdapter
 import com.ru.movieshows.presentation.adapters.TryAgainAction
 import com.ru.movieshows.presentation.adapters.TvShowSearchAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
-import com.ru.movieshows.presentation.utils.viewBinding
-import com.ru.movieshows.presentation.viewmodel.movies.MoviesViewModel
 import com.ru.movieshows.presentation.viewmodel.tv_show_search.TvShowSearchViewModel
-import com.ru.movieshows.presentation.viewmodel.tv_shows.TvShowsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

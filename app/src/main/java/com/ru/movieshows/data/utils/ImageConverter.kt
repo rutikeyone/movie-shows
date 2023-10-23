@@ -1,4 +1,4 @@
-package com.ru.movieshows.data.model.converter
+package com.ru.movieshows.data.utils
 
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer

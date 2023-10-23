@@ -8,7 +8,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.PartDefaultLoadStateBinding
-import com.ru.movieshows.domain.repository.exceptions.AppFailure
+import com.ru.movieshows.domain.utils.AppFailure
 
 class DefaultLoadStateViewHolder(
     private val binding: PartDefaultLoadStateBinding,

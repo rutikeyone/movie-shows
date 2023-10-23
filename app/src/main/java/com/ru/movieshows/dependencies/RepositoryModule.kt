@@ -1,15 +1,23 @@
 package com.ru.movieshows.dependencies
 
-import com.ru.movieshows.data.repository.GenresRepositoryImpl
-import com.ru.movieshows.data.repository.MoviesRepositoryImpl
-import com.ru.movieshows.data.repository.TvShowsRepositoryImpl
-import com.ru.movieshows.domain.repository.GenresRepository
-import com.ru.movieshows.domain.repository.MoviesRepository
-import com.ru.movieshows.domain.repository.TvShowRepository
+import com.ru.movieshows.data.repository.AccountRepository
+import com.ru.movieshows.data.repository.AppSettingsRepository
+import com.ru.movieshows.data.repository.GenresRepository
+import com.ru.movieshows.data.repository.MoviesRepository
+import com.ru.movieshows.data.repository.TvShowRepository
+import com.ru.movieshows.domain.repository.AccountRepositoryImpl
+import com.ru.movieshows.domain.repository.AppSettingsRepositoryImpl
+import com.ru.movieshows.domain.repository.GenresRepositoryImpl
+import com.ru.movieshows.domain.repository.MoviesRepositoryImpl
+import com.ru.movieshows.domain.repository.TvShowsRepositoryImpl
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -22,4 +30,21 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindTvShowsRepository(tvShowsRepositoryImpl: TvShowsRepositoryImpl): TvShowRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindAppSettingsRepository(repository: AppSettingsRepositoryImpl): AppSettingsRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindAccountsRepository(repository: AccountRepositoryImpl) : AccountRepository
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+class RepositoryUtilsModule {
+    @Provides
+    fun provideCoroutineDispatcher(): CoroutineDispatcher {
+        return Dispatchers.Default
+    }
 }

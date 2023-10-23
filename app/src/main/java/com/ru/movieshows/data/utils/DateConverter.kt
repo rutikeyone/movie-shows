@@ -1,4 +1,4 @@
-package com.ru.movieshows.data.model.converter
+package com.ru.movieshows.data.utils
 
 import android.annotation.SuppressLint
 import com.google.gson.JsonDeserializationContext

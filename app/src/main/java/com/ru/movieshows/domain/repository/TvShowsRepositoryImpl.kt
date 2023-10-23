@@ -1,4 +1,4 @@
-package com.ru.movieshows.data.repository
+package com.ru.movieshows.domain.repository
 
 import androidx.lifecycle.LiveData
 import androidx.paging.Pager
@@ -8,9 +8,9 @@ import androidx.paging.liveData
 import com.ru.movieshows.data.dto.TvShowDto
 import com.ru.movieshows.domain.entity.TvShowDetailsEntity
 import com.ru.movieshows.domain.entity.TvShowsEntity
-import com.ru.movieshows.domain.repository.TvShowRepository
-import com.ru.movieshows.domain.repository.exceptions.AppFailure
-import com.ru.movieshows.domain.repository.exceptions.TvShowException
+import com.ru.movieshows.data.repository.TvShowRepository
+import com.ru.movieshows.domain.utils.AppFailure
+import com.ru.movieshows.domain.utils.TvShowException
 import com.ru.movieshows.presentation.screens.movie_reviews.PageLoader
 import com.ru.movieshows.presentation.screens.movie_reviews.PagingSource
 import java.lang.IllegalStateException
@@ -18,7 +18,8 @@ import java.net.ConnectException
 import javax.inject.Inject
 import kotlin.Exception
 
-class TvShowsRepositoryImpl @Inject constructor(private val tvShowsDto: TvShowDto): TvShowRepository {
+class TvShowsRepositoryImpl @Inject constructor(private val tvShowsDto: TvShowDto):
+    TvShowRepository {
     override suspend fun getSimilarTvShows(language: String, page: Int, seriesId: String): Result<ArrayList<TvShowsEntity>> {
         return try {
             val getSimilarTvShowsResponse = tvShowsDto.getSimilarTvShows(seriesId, language, page)
