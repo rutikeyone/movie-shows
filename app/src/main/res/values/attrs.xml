@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="Theme.MovieShows">
+        <attr name="MovieShows.TextAppearance.Headline4" format="reference"/>
+        <attr name="MovieShows.TextAppearance.Headline4.Bold" format="reference"/>
         <attr name="MovieShows.TextAppearance.Headline5" format="reference"/>
         <attr name="MovieShows.TextAppearance.Headline5.Bold" format="reference"/>
+        <attr name="MovieShows.TextAppearance.Headline5.Primary" format="reference"/>
+        <attr name="MovieShows.TextAppearance.Headline5.Primary.Bold" format="reference"/>
         <attr name="MovieShows.TextAppearance.Body1" format="reference"/>
         <attr name="MovieShows.TextAppearance.Body3" format="reference"/>
         <attr name="MovieShows.TextAppearance.Body2.Hint" format="reference"/>

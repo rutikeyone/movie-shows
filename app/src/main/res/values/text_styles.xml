@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <style name="MovieShows.TextAppearance.Headline4.Style" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="MovieShows.TextAppearance.Headline4.Bold.Style" parent="MovieShows.TextAppearance.Headline4.Style">
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="MovieShows.TextAppearance.Headline5.Style" parent="TextAppearance.MaterialComponents.Headline5">
         <item name="android:textColor">@color/white</item>
     </style>
 
-
     <style name="MovieShows.TextAppearance.Headline5.Bold.Style" parent="MovieShows.TextAppearance.Headline5.Style">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="MovieShows.TextAppearance.Headline5.Primary.Style" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="android:textColor">@color/darkGreyPurple</item>
+    </style>
+
+    <style name="MovieShows.TextAppearance.Headline5.Primary.Bold.Style" parent="MovieShows.TextAppearance.Headline5.Primary.Style">
         <item name="android:textStyle">bold</item>
     </style>
 

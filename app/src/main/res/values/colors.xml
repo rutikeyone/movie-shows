@@ -15,4 +15,6 @@
     <color name="greyBlueColor">#4E545E</color>
     <color name="darken_color">#6F000000</color>
     <color name="blue_slate">#272c30</color>
+    <color name="sunny_lemon">#F1D982</color>
+    <color name="darkCrimson">#443020</color>
 </resources>

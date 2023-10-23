@@ -37,4 +37,9 @@
         <item name="cornerSizeBottomLeft">0dp</item>
     </style>
 
+    <style name="MovieShow.Widget.MaterialComponents.CardView" parent="@style/Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/MovieShows.ShapeAppearanceOverlay</item>
+        <item name="cardBackgroundColor">@color/white</item>
+    </style>
+
 </resources>

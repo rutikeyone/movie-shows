@@ -48,5 +48,9 @@
     <string name="email">Почта</string>
     <string name="password">Пароль</string>
     <string name="create_account">Создать аккаунт</string>
-    <string name="sign_in">Войти</string>
+    <string name="sign_in">Войти в систему</string>
+    <string name="welcome_back">С возвращением</string>
+    <string name="hello_there_sign_in_continue">Войдите в систему и продолжайте.</string>
+    <string name="enter_your_email">Введите почту</string>
+    <string name="enter_the_password">Введите пароль</string>
 </resources>
