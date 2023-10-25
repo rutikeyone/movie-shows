@@ -1,5 +1,6 @@
 package com.ru.movieshows.presentation.viewmodel.sign_in
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ru.movieshows.domain.entity.EmailField
@@ -18,6 +19,7 @@ class SignInViewModel @Inject constructor() : BaseViewModel() {
 
 
     fun changeEmail(value: String) {
+        Log.e("TAG", value)
         val prevState = _state.value ?: return
         if(prevState.email.isPure && value.isEmpty()) return
         val status = EmailField.validate(value)

@@ -1,8 +1,10 @@
 package com.ru.movieshows.presentation.screens
 
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
-import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,12 +18,24 @@ import com.ru.movieshows.presentation.utils.SnackBarIntent
 import com.ru.movieshows.presentation.utils.ToastIntent
 import com.ru.movieshows.presentation.utils.observeEvent
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
+import com.ru.movieshows.receiver.LanguageChangedReceiver
+import com.ru.movieshows.receiver.ReceiverListener
 
-open class BaseFragment(): Fragment() {
+open class BaseFragment: Fragment() {
+
     protected open val viewModel by viewModels<BaseViewModel>()
+
+    private val receiverListener = object : ReceiverListener {
+        override fun update() {
+            Log.e("TAG", "Update")
+        }
+    }
+
+    private val languageChangedReceiver = LanguageChangedReceiver(receiverListener)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         observeSideEffectIntents()
+        registerLanguageChangedReceiver()
         super.onCreate(savedInstanceState)
     }
 
@@ -64,6 +78,16 @@ open class BaseFragment(): Fragment() {
         }
     }
 
-    private fun createToast(toastIntent: ToastIntent) = Toast.makeText(requireContext(), toastIntent.message, toastIntent.duration).show()
+    private fun createToast(toastIntent: ToastIntent) =
+        Toast.makeText(requireContext(), toastIntent.message, toastIntent.duration).show()
 
+    private fun registerLanguageChangedReceiver() =
+        requireActivity().registerReceiver(languageChangedReceiver, IntentFilter(Intent.ACTION_LOCALE_CHANGED))
+
+    private fun unregisterLanguageChangedReceiver() = requireActivity().unregisterReceiver(languageChangedReceiver)
+
+    override fun onDestroy() {
+        unregisterLanguageChangedReceiver()
+        super.onDestroy()
+    }
 }

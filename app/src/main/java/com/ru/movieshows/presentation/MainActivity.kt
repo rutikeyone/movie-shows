@@ -10,11 +10,13 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.ru.movieshows.R
+import com.ru.movieshows.presentation.screens.sign_in.SignInFragmentDirections
+import com.ru.movieshows.presentation.screens.splash.SplashFragmentDirections
 import com.ru.movieshows.presentation.screens.tabs.TabsFragment
+import com.ru.movieshows.presentation.screens.tabs.TabsFragmentDirections
 import com.ru.movieshows.presentation.viewmodel.main.AuthState
 import com.ru.movieshows.presentation.viewmodel.main.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.properties.Delegates.notNull
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -45,19 +47,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun stateChanged(state: AuthState) {
-        var route by notNull<Int>()
-
-        route = when (state) {
-            is AuthState.Authenticated -> R.id.action_global_tabsFragment
-            AuthState.NotAuthenticated -> R.id.action_global_signInFragment
-            else -> R.id.action_global_splashFragment
+        when (state) {
+            is AuthState.Authenticated -> navigateByAuthenticatedState()
+            AuthState.NotAuthenticated -> navigateByNotAuthenticatedState()
+            else -> setStartDestination()
         }
-        rootNavController.navigate(route)
-    }
-
-    override fun onDestroy() {
-        supportFragmentManager.unregisterFragmentLifecycleCallbacks(fragmentListener)
-        super.onDestroy()
     }
 
     private fun isRootNestedRoute(): Boolean {
@@ -96,4 +90,35 @@ class MainActivity : AppCompatActivity() {
         if(this._currentNavController == navController || navController == rootNavController) return
         this._currentNavController = navController
     }
+
+    private fun setStartDestination() {
+        val graph = rootNavController.navInflater.inflate(getAppNavigationGraphId())
+        graph.setStartDestination(getSplashDestination())
+        rootNavController.graph = graph
+        _currentNavController = rootNavController
+    }
+
+    private fun navigateByNotAuthenticatedState() {
+        when(rootNavController.currentDestination?.id) {
+            R.id.splashFragment -> rootNavController.navigate(SplashFragmentDirections.actionSplashFragmentToSignInFragment())
+            R.id.tabsFragment -> rootNavController.navigate(TabsFragmentDirections.actionTabsFragmentToSignInFragment4())
+        }
+    }
+
+    private fun navigateByAuthenticatedState() {
+        when(rootNavController.currentDestination?.id) {
+            R.id.splashFragment -> rootNavController.navigate(SplashFragmentDirections.actionSplashFragmentToTabsFragment())
+            R.id.signInFragment -> rootNavController.navigate(SignInFragmentDirections.actionSignInFragmentToTabsFragment3())
+        }
+    }
+
+    private fun getAppNavigationGraphId(): Int = R.navigation.app_graph
+
+    private fun getSplashDestination(): Int = R.id.splashFragment
+
+    override fun onDestroy() {
+        supportFragmentManager.unregisterFragmentLifecycleCallbacks(fragmentListener)
+        super.onDestroy()
+    }
+
 }

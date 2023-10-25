@@ -62,4 +62,7 @@
     <string name="hello_there_sign_in_continue">Hello there, sign in continue.</string>
     <string name="enter_your_email">Enter your email</string>
     <string name="enter_the_password">Enter the password</string>
+    <string name="empty_text_field">Empty text field</string>
+    <string name="incorrect_email">Incorrect email</string>
+    <string name="the_password_must_contain_more_than_second_characters">The password must contain more than second characters.</string>
 </resources>

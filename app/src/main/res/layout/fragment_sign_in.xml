@@ -1,16 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.screens.sign_in.SignInFragment"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:fitsSystemWindows="true">
 
         <TextView
             app:layout_constraintTop_toTopOf="parent"
@@ -67,7 +68,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/emailTextInput"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/dp_60"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -79,7 +80,8 @@
                         android:layout_height="wrap_content"
                         android:lines="1"
                         android:inputType="textEmailAddress"
-                        android:imeOptions="actionNext" />
+                        android:imeOptions="actionNext"
+                        android:freezesText="true"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -94,7 +96,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/passwordTextInput"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/dp_60"
                     android:hint="@string/enter_the_password">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -103,17 +105,17 @@
                         android:layout_height="wrap_content"
                         android:lines="1"
                         android:inputType="numberPassword"
-                        android:imeOptions="actionDone" />
+                        android:imeOptions="actionDone"
+                        android:freezesText="true"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/signInButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_12"
+                    android:layout_height="@dimen/dp_55"
+                    android:layout_marginTop="@dimen/dp_16"
                     android:text="@string/sign_in"
-                    style="@style/MovieShows.Widget.Material3.Button.ElevatedButton"
                     />
 
             </LinearLayout>
@@ -122,6 +124,6 @@
         </com.google.android.material.card.MaterialCardView>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-</ScrollView>
+    </ScrollView>
