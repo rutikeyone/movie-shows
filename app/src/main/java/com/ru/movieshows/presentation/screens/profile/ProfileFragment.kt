@@ -1,4 +1,4 @@
-package com.ru.movieshows.presentation.screens.watch_list
+package com.ru.movieshows.presentation.screens.profile
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,12 +9,12 @@ import com.ru.movieshows.presentation.screens.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class WatchListFragment : BaseFragment() {
+class ProfileFragment : BaseFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_watch_list, container, false);
+    ): View? = inflater.inflate(R.layout.profile, container, false);
 
 }

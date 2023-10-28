@@ -2,8 +2,8 @@ package com.ru.movieshows.presentation.viewmodel.tv_shows
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.ru.movieshows.domain.entity.TvShowsEntity
 import com.ru.movieshows.data.repository.TvShowRepository
+import com.ru.movieshows.domain.entity.TvShowsEntity
 import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.screens.tvs.TvsFragmentDirections
 import com.ru.movieshows.presentation.utils.NavigationIntent
@@ -26,35 +26,37 @@ class TvShowsViewModel @Inject constructor(
     }
 
     fun fetchTvShowsData() = viewModelScope.launch {
-        _state.value = TvShowsState.InPending
-        try {
-            val trendingTvShows = fetchTrendingTvShows()
-            val onAirTvShows = fetchOnAirTvShows()
-            val topRatedTvShows = fetchTopRatedTvShows()
-            val popularTvShows = fetchPopularTvShows()
-            _state.value = TvShowsState.Success(trendingTvShows, onAirTvShows, topRatedTvShows, popularTvShows)
-        } catch (e: AppFailure) {
-            _state.value = TvShowsState.Failure(e.headerResource(), e.errorResource())
+        currentLanguage.collect {
+            _state.value = TvShowsState.InPending
+            try {
+                val trendingTvShows = fetchTrendingTvShows(it)
+                val onAirTvShows = fetchOnAirTvShows(it)
+                val topRatedTvShows = fetchTopRatedTvShows(it)
+                val popularTvShows = fetchPopularTvShows(it)
+                _state.value = TvShowsState.Success(trendingTvShows, onAirTvShows, topRatedTvShows, popularTvShows)
+            } catch (e: AppFailure) {
+                _state.value = TvShowsState.Failure(e.headerResource(), e.errorResource())
+            }
         }
     }
 
-    private suspend fun fetchTrendingTvShows(): ArrayList<TvShowsEntity> {
-        val fetchTrendingTvShowsResult = tvShowsRepository.getTrendingTvShows(currentLanguage)
+    private suspend fun fetchTrendingTvShows(language: String): ArrayList<TvShowsEntity> {
+        val fetchTrendingTvShowsResult = tvShowsRepository.getTrendingTvShows(language)
         return fetchTrendingTvShowsResult.getOrThrow()
     }
 
-    private suspend fun fetchOnAirTvShows(): ArrayList<TvShowsEntity> {
-        val fetchOnAirTvShowsResult = tvShowsRepository.getOnTheAirTvShows(currentLanguage)
+    private suspend fun fetchOnAirTvShows(language: String): ArrayList<TvShowsEntity> {
+        val fetchOnAirTvShowsResult = tvShowsRepository.getOnTheAirTvShows(language)
         return fetchOnAirTvShowsResult.getOrThrow()
     }
 
-    private suspend fun fetchTopRatedTvShows(): ArrayList<TvShowsEntity> {
-        val fetchTopRatedTvShowsResult = tvShowsRepository.getTopRatedTvShows(currentLanguage)
+    private suspend fun fetchTopRatedTvShows(language: String): ArrayList<TvShowsEntity> {
+        val fetchTopRatedTvShowsResult = tvShowsRepository.getTopRatedTvShows(language)
         return fetchTopRatedTvShowsResult.getOrThrow()
     }
 
-    private suspend fun fetchPopularTvShows(): ArrayList<TvShowsEntity> {
-        val fetchPopularTvShows = tvShowsRepository.getPopularTvShows(currentLanguage)
+    private suspend fun fetchPopularTvShows(language: String): ArrayList<TvShowsEntity> {
+        val fetchPopularTvShows = tvShowsRepository.getPopularTvShows(language)
         return fetchPopularTvShows.getOrThrow()
     }
 

@@ -1,6 +1,7 @@
 package com.ru.movieshows.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
@@ -13,10 +14,16 @@ import com.ru.movieshows.presentation.utils.PermissionIntent
 import com.ru.movieshows.presentation.utils.SnackBarIntent
 import com.ru.movieshows.presentation.utils.ToastIntent
 import com.ru.movieshows.presentation.utils.share
+import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.Locale
 
 open class BaseViewModel: ViewModel(), PermissionListener {
-    protected val currentLanguage: String get() = Locale.getDefault().toLanguageTag()
+    protected val languageTag: String get() = Locale.getDefault().toLanguageTag()
+
+    private val _currentLanguage = MutableStateFlow(languageTag)
+    protected val currentLanguage get() = _currentLanguage
+
+    protected val currentLanguageData get() = _currentLanguage.asLiveData()
 
     private val showSnackBarEvent = MutableLiveEvent<SnackBarIntent>()
     val showSnackBarShareEvent = showSnackBarEvent.share()
@@ -36,4 +43,8 @@ open class BaseViewModel: ViewModel(), PermissionListener {
     override fun onPermissionGranted(response: PermissionGrantedResponse?) {}
     override fun onPermissionDenied(response: PermissionDeniedResponse?) {}
     override fun onPermissionRationaleShouldBeShown(response: PermissionRequest?, token: PermissionToken?) {}
+
+    fun updateCurrentLanguage() {
+        _currentLanguage.value = languageTag
+    }
 }

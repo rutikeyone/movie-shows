@@ -3,10 +3,10 @@ package com.ru.movieshows.presentation.viewmodel.movie_details
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.ru.movieshows.data.repository.MoviesRepository
 import com.ru.movieshows.domain.entity.MovieDetailsEntity
 import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.entity.ReviewEntity
-import com.ru.movieshows.data.repository.MoviesRepository
 import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.screens.movie_details.MovieDetailsFragmentDirections
 import com.ru.movieshows.presentation.utils.NavigationIntent
@@ -33,35 +33,37 @@ class MovieDetailsViewModel @AssistedInject constructor(
     }
 
     fun fetchData() = viewModelScope.launch {
-        _state.value = MovieDetailsState.InPending
-        _title.value = ""
-        try {
-            val movieDetails = fetchMovieDetails()
-            val similarMovies = fetchSimilarMovies()
-            val reviews = fetchReviews()
-            _state.value = MovieDetailsState.Success(movieDetails, similarMovies, reviews)
-            _title.value = movieDetails.title
+        currentLanguage.collect {
+            _state.value = MovieDetailsState.InPending
+            _title.value = ""
+            try {
+                val movieDetails = fetchMovieDetails(it)
+                val similarMovies = fetchSimilarMovies(it)
+                val reviews = fetchReviews(it)
+                _state.value = MovieDetailsState.Success(movieDetails, similarMovies, reviews)
+                _title.value = movieDetails.title
 
-        } catch (e: AppFailure) {
-            _state.value = MovieDetailsState.Failure(e.headerResource(), e.errorResource())
+            } catch (e: AppFailure) {
+                _state.value = MovieDetailsState.Failure(e.headerResource(), e.errorResource())
+            }
         }
     }
 
-    private suspend fun fetchMovieDetails(): MovieDetailsEntity {
-        val fetchMovieDetailsResult = moviesRepository.getMovieDetails(movieId, currentLanguage)
+    private suspend fun fetchMovieDetails(language: String): MovieDetailsEntity {
+        val fetchMovieDetailsResult = moviesRepository.getMovieDetails(movieId, language)
         return fetchMovieDetailsResult.getOrThrow()
     }
 
-    private suspend fun fetchSimilarMovies(): ArrayList<MovieEntity> {
+    private suspend fun fetchSimilarMovies(language: String): ArrayList<MovieEntity> {
         val page = 1
         val id = movieId.toString()
-        val fetchSimilarMoviesResult = moviesRepository.getSimilarMovies(currentLanguage, id, page)
+        val fetchSimilarMoviesResult = moviesRepository.getSimilarMovies(language, id, page)
         return fetchSimilarMoviesResult.getOrThrow()
     }
 
-    private suspend fun fetchReviews(): ArrayList<ReviewEntity> {
+    private suspend fun fetchReviews(language: String): ArrayList<ReviewEntity> {
         val id = movieId.toString()
-        val fetchReviewsResult = moviesRepository.getMovieReviews(currentLanguage, id, 1)
+        val fetchReviewsResult = moviesRepository.getMovieReviews(language, id, 1)
         return fetchReviewsResult.getOrThrow()
     }
 

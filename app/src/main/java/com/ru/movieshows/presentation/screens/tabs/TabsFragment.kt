@@ -26,7 +26,7 @@ class TabsFragment : BaseFragment() {
         val destination = when(it.itemId) {
             R.id.movies_tab -> R.id.moviesFragment
             R.id.tvs_tab -> R.id.tvsFragment
-            R.id.watch_list_tab -> R.id.watchListFragment
+            R.id.profile_tab -> R.id.profileFragment
             else -> null
         } ?: return@OnItemReselectedListener
         navController.popBackStack(destination, inclusive = false)
@@ -52,6 +52,6 @@ class TabsFragment : BaseFragment() {
     }
 
     companion object {
-        val tabsTopLevelFragment = setOf(R.id.moviesFragment, R.id.tvsFragment, R.id.watchListFragment)
+        val tabsTopLevelFragment = setOf(R.id.moviesFragment, R.id.tvsFragment, R.id.profileFragment)
     }
 }

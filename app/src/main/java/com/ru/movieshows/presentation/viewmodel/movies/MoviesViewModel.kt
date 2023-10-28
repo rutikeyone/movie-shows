@@ -3,10 +3,10 @@ package com.ru.movieshows.presentation.viewmodel.movies
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ru.movieshows.R
-import com.ru.movieshows.domain.entity.GenreEntity
-import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.data.repository.GenresRepository
 import com.ru.movieshows.data.repository.MoviesRepository
+import com.ru.movieshows.domain.entity.GenreEntity
+import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.screens.movies.MoviesFragmentDirections
 import com.ru.movieshows.presentation.utils.NavigationIntent
@@ -36,18 +36,21 @@ class MoviesViewModel @Inject constructor(
         fetchMoviesData()
     }
 
+
     fun fetchMoviesData() = viewModelScope.launch {
-        _state.value = MoviesState.InPending
-        try {
-            val nowPlayingMovies = fetchNowPlayingMovies()
-            val genres = fetchGenres()
-            val upcomingMovies = fetchUpcomingMovies()
-            val popularMovies = fetchPopularMovies()
-            val topRatedMovies = fetchTopRatedMovies()
-            _state.value  = MoviesState.Success(nowPlayingMovies, genres, upcomingMovies, popularMovies, topRatedMovies)
-            fetchDiscoverMovies()
-        } catch (e: AppFailure) {
-            _state.value = MoviesState.Failure(e.headerResource(), e.errorResource())
+        currentLanguage.collect {
+            _state.value = MoviesState.InPending
+            try {
+                val nowPlayingMovies = fetchNowPlayingMovies(it)
+                val genres = fetchGenres(it)
+                val upcomingMovies = fetchUpcomingMovies(it)
+                val popularMovies = fetchPopularMovies(it)
+                val topRatedMovies = fetchTopRatedMovies(it)
+                _state.value  = MoviesState.Success(nowPlayingMovies, genres, upcomingMovies, popularMovies, topRatedMovies)
+                fetchDiscoverMovies()
+            } catch (e: AppFailure) {
+                _state.value = MoviesState.Failure(e.headerResource(), e.errorResource())
+            }
         }
     }
 
@@ -56,13 +59,13 @@ class MoviesViewModel @Inject constructor(
         fetchDiscoverMovies()
     }
 
-    private suspend fun fetchNowPlayingMovies(): ArrayList<MovieEntity> {
-        val fetchMoviesNowPlayingResult = moviesRepository.getMoviesNowPlaying(page = 1, language = currentLanguage)
+    private suspend fun fetchNowPlayingMovies(language: String): ArrayList<MovieEntity> {
+        val fetchMoviesNowPlayingResult = moviesRepository.getMoviesNowPlaying(page = 1, language = language)
         return fetchMoviesNowPlayingResult.getOrThrow()
     }
 
-    private suspend fun fetchGenres(): ArrayList<GenreEntity> {
-        val fetchGenresResult = genresRepository.getGenres(currentLanguage)
+    private suspend fun fetchGenres(language: String): ArrayList<GenreEntity> {
+        val fetchGenresResult = genresRepository.getGenres(language)
         return fetchGenresResult.getOrThrow()
     }
 
@@ -85,25 +88,25 @@ class MoviesViewModel @Inject constructor(
 
     private suspend fun fetchDiscoverMoviesByGenre(genre: GenreEntity): ArrayList<MovieEntity> {
         val page = 1
-        val fetchDiscoverMovies = moviesRepository.getDiscoverMovies(currentLanguage, page, genre.id!!)
+        val fetchDiscoverMovies = moviesRepository.getDiscoverMovies(languageTag, page, genre.id!!)
         return fetchDiscoverMovies.getOrThrow()
     }
 
-    private suspend fun fetchUpcomingMovies(): ArrayList<MovieEntity> {
+    private suspend fun fetchUpcomingMovies(language: String): ArrayList<MovieEntity> {
         val page = 1
-        val fetchUpcomingMovies = moviesRepository.getUpcomingMovies(currentLanguage, page)
+        val fetchUpcomingMovies = moviesRepository.getUpcomingMovies(language, page)
         return fetchUpcomingMovies.getOrThrow()
     }
 
-    private suspend fun fetchPopularMovies(): ArrayList<MovieEntity> {
+    private suspend fun fetchPopularMovies(language: String): ArrayList<MovieEntity> {
         val page = 1
-        val fetchPopularMovies = moviesRepository.getPopularMovies(currentLanguage, page)
+        val fetchPopularMovies = moviesRepository.getPopularMovies(language, page)
         return fetchPopularMovies.getOrThrow()
     }
 
-    private suspend fun fetchTopRatedMovies(): ArrayList<MovieEntity> {
+    private suspend fun fetchTopRatedMovies(language: String): ArrayList<MovieEntity> {
         val page = 1
-        val fetchTopRatedMovies = moviesRepository.getTopRatedMovies(currentLanguage, page)
+        val fetchTopRatedMovies = moviesRepository.getTopRatedMovies(language, page)
         return  fetchTopRatedMovies.getOrThrow()
     }
 

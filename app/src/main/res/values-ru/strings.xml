@@ -56,4 +56,5 @@
     <string name="empty_text_field">Пустое текстовое поле</string>
     <string name="incorrect_email">Некорректная почта</string>
     <string name="the_password_must_contain_more_than_second_characters">Пароль должен содержать больше двух символов</string>
+    <string name="profile">Профиль</string>
 </resources>
