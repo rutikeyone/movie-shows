@@ -54,6 +54,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun navigateByAnonymousState() {
+        when(rootNavController.currentDestination?.id) {
+            R.id.signInFragment -> rootNavController.navigate(SignInFragmentDirections.actionSignInFragmentToTabsFragment3())
+        }
+    }
+
     private fun isRootNestedRoute(): Boolean {
         val destinationId = _currentNavController?.currentDestination?.id
         return TabsFragment.tabsTopLevelFragment.any { it == destinationId }

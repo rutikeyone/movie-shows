@@ -32,5 +32,6 @@
         <item name="bottomSheetDialogTheme">@style/MovieShows.BottomSheetDialog</item>
         <item name="android:editTextColor">@android:color/white</item>
         <item name="MovieShows.Darken">@color/darken_color</item>
+        <item name="color.default">@color/white</item>
     </style>
 </resources>

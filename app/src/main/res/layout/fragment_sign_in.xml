@@ -35,6 +35,11 @@
             style="@style/MovieShow.Widget.MaterialComponents.CardView">
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <LinearLayout
                 android:id="@+id/inputForms"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,27 +66,27 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/email"
+                    android:text="@string/username"
                     android:layout_marginTop="@dimen/dp_16"
                     style="?attr/MovieShows.TextAppearance.Body2.Hint"/>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/emailTextInput"
+                    android:id="@+id/usernameTextInput"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_60"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:hint="@string/enter_your_email">
+                    android:layout_marginTop="@dimen/dp_4"
+                    android:hint="@string/enter_username">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/emailEditText"
+                        android:id="@+id/usernameEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:lines="1"
                         android:inputType="textEmailAddress"
-                        android:imeOptions="actionNext"
-                        android:freezesText="true"/>
+                        android:imeOptions="actionNext" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -97,6 +102,7 @@
                     android:id="@+id/passwordTextInput"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_60"
+                    android:layout_marginTop="@dimen/dp_4"
                     android:hint="@string/enter_the_password">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -104,9 +110,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:lines="1"
-                        android:inputType="numberPassword"
-                        android:imeOptions="actionDone"
-                        android:freezesText="true"/>
+                        android:inputType="text"
+                        android:imeOptions="actionDone" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -118,11 +123,19 @@
                     android:text="@string/sign_in"
                     />
 
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:visibility="gone"/>
+
             </LinearLayout>
 
+            </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -4,16 +4,19 @@ import android.content.Context
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import com.ru.movieshows.R
-import com.ru.movieshows.domain.entity.EmailField
-import com.ru.movieshows.domain.entity.EmailValidationStatus
 import com.ru.movieshows.domain.entity.PasswordField
 import com.ru.movieshows.domain.entity.PasswordValidationStatus
+import com.ru.movieshows.domain.entity.UsernameField
+import com.ru.movieshows.domain.entity.UsernameValidationStatus
 import com.ru.movieshows.presentation.screens.BaseFragment
 
-fun BaseFragment.validateEmail(value: EmailField): String? = when(value.status) {
-    EmailValidationStatus.EMPTY -> getString(R.string.empty_text_field)
-    EmailValidationStatus.INVALID_EMAIL -> getString(R.string.incorrect_email)
-    else -> null
+fun BaseFragment.validateUsername(value: UsernameField): String? {
+    val s = when (value.status) {
+        UsernameValidationStatus.EMPTY -> getString(R.string.empty_text_field)
+        UsernameValidationStatus.INVALID -> getString(R.string.invalid_user_name)
+        else -> null
+    }
+    return s
 }
 
 fun BaseFragment.validatePassword(value: PasswordField): String? = when(value.status) {

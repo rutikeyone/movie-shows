@@ -6,19 +6,17 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
 import com.ru.movieshows.data.dto.MoviesDto
+import com.ru.movieshows.data.repository.MoviesRepository
 import com.ru.movieshows.domain.entity.MovieDetailsEntity
 import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.entity.ReviewEntity
 import com.ru.movieshows.domain.entity.VideoEntity
-import com.ru.movieshows.data.repository.MoviesRepository
 import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.screens.movie_reviews.PageLoader
 import com.ru.movieshows.presentation.screens.movie_reviews.PagingSource
 import kotlinx.coroutines.flow.Flow
-import java.lang.IllegalStateException
 import java.net.ConnectException
 import javax.inject.Inject
-import kotlin.Exception
 
 class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto): MoviesRepository {
 
@@ -144,7 +142,6 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
             Result.failure(movieException)
         }
         catch (e: Exception) {
-            print(e);
             val movieException = AppFailure.Pure
             Result.failure(movieException)
         }

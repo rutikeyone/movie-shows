@@ -6,11 +6,12 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.ru.movieshows.databinding.FragmentSignInBinding
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.utils.hideKeyboard
-import com.ru.movieshows.presentation.utils.validateEmail
+import com.ru.movieshows.presentation.utils.validateUsername
 import com.ru.movieshows.presentation.utils.validatePassword
 import com.ru.movieshows.presentation.viewmodel.sign_in.SignInState
 import com.ru.movieshows.presentation.viewmodel.sign_in.SignInViewModel
@@ -28,12 +29,12 @@ class SignInFragment : BaseFragment() {
         viewModel.signIn()
     }
 
-    private val emailTextWatched = object : TextWatcher {
+    private val usernameTextWatched = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
             val value = s.toString()
-            viewModel.changeEmail(value)
+            viewModel.changeUsername(value)
         }
 
         override fun afterTextChanged(s: Editable?) {}
@@ -69,7 +70,7 @@ class SignInFragment : BaseFragment() {
     }
 
     override fun onDestroy() = with(binding) {
-        emailEditText.removeTextChangedListener(emailTextWatched)
+        usernameEditText.removeTextChangedListener(usernameTextWatched)
         passwordEditText.removeTextChangedListener(passwordTextWatched)
         _binding = null
         super.onDestroy()
@@ -77,19 +78,17 @@ class SignInFragment : BaseFragment() {
 
     private fun setupUI() = with(binding) {
         signInButton.setOnClickListener(signInOnClickListener)
-        emailEditText.addTextChangedListener(emailTextWatched)
+        usernameEditText.addTextChangedListener(usernameTextWatched)
         passwordEditText.addTextChangedListener(passwordTextWatched)
     }
 
     private fun observeState() =
         viewModel.state.observe(viewLifecycleOwner, ::changeUIWhenStateChanged)
 
-    private fun changeUIWhenStateChanged(state: SignInState) {
-        binding.emailEditText.error = validateEmail(state.email)
-        binding.passwordEditText.error = validatePassword(state.password)
-
-        binding.signInButton.isEnabled = state.isCanSignIn
-        binding.emailTextInput.isEnabled = state.enableView
-        binding.passwordTextInput.isEnabled = state.enableView
+    private fun changeUIWhenStateChanged(state: SignInState) = with(binding) {
+        usernameEditText.error = validateUsername(state.email)
+        passwordEditText.error = validatePassword(state.password)
+        progressBar.isVisible = state.signInInProgress
+        signInButton.isEnabled = state.canSignIn
     }
 }

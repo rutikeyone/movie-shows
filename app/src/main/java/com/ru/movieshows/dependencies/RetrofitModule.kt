@@ -1,5 +1,6 @@
 package com.ru.movieshows.dependencies
 
+import com.beust.klaxon.Klaxon
 import com.google.gson.GsonBuilder
 import com.ru.movieshows.BuildConfig
 import com.ru.movieshows.data.dto.AccountDto
@@ -23,6 +24,12 @@ class RetrofitModule {
 
     @Provides
     fun provideBaseUrl() = "https://api.themoviedb.org/3/";
+
+    @Provides
+    @Singleton
+    fun provideKlaxon(): Klaxon {
+        return Klaxon()
+    }
 
     @Provides
     @Singleton

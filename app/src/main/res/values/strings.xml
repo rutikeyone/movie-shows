@@ -17,12 +17,12 @@
     <string name="min">min.</string>
     <string name="release_date">Release Date</string>
     <string name="overview">Overview</string>
-    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</string>
+    <string name="lorem_ipsum" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</string>
     <string name="genres">Genres</string>
     <string name="similar_movies">Similar movies</string>
     <string name="reviews">Reviews</string>
     <string name="show_all">Show All</string>
-    <string name="load_error">Oops, can\'t load data</string>
+    <string name="load_error" translatable="false">Oops, can\'t load data</string>
     <string name="try_again">Try again</string>
     <string name="trailer">Trailer</string>
     <string name="hide">Hide</string>
@@ -33,15 +33,13 @@
     <string name="thumbnail_secondPart">/hqdefault.jpg</string>
     <string name="youtube_url">https://www.youtube.com/watch?v=</string>
     <string name="the_list_of_films_is_empty">The list of films is empty</string>
-    <string name="title_activity_youtube_video_player">YoutubeVideoPlayerActivity</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
+    <string name="first_fragment_label" translatable="false">First Fragment</string>
+    <string name="second_fragment_label" translatable="false">Second Fragment</string>
+    <string name="next" translatable="false">Next</string>
+    <string name="previous" translatable="false">Previous</string>
     <string name="search">Search</string>
-    <string name="search_title">Search title</string>
-    <string name="search_hint">Search hint</string>
+    <string name="search_title" translatable="false">Search title</string>
+    <string name="search_hint" translatable="false">Search hint</string>
     <string name="the_search_yielded_no_results">The search yielded no results</string>
     <string name="on_the_air">On the air</string>
     <string name="top_rated_tv_show">Top rated Tv show</string>
@@ -66,4 +64,12 @@
     <string name="incorrect_email">Incorrect email</string>
     <string name="the_password_must_contain_more_than_second_characters">The password must contain more than second characters.</string>
     <string name="profile">Profile</string>
+    <string name="continue_as_a_guest">Continue as a guest</string>
+    <string name="the_email_was_not_found_in_the_system">The email was not found in the system</string>
+    <string name="invalid_password">Invalid password</string>
+    <string name="invalid_username_or_password">Invalid username or password</string>
+    <string name="enter_username">Enter username</string>
+    <string name="username">Username</string>
+    <string name="invalid_user_name">Invalid user name</string>
+    <string name="sign_out">Sign out</string>
 </resources>

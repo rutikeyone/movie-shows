@@ -1,13 +1,13 @@
 package com.ru.movieshows.presentation.viewmodel.sign_in
 
-import com.ru.movieshows.domain.entity.EmailField
 import com.ru.movieshows.domain.entity.PasswordField
+import com.ru.movieshows.domain.entity.UsernameField
 
 data class SignInState(
-    val email: EmailField = EmailField(),
+    val email: UsernameField = UsernameField(),
     val password: PasswordField = PasswordField(),
     val signInInProgress: Boolean = false,
 ) {
-    val isCanSignIn = email.isValid && password.isValid && !signInInProgress
+    val canSignIn = email.isValid && password.isValid && !signInInProgress
     val enableView = !signInInProgress
 }

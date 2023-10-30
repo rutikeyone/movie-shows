@@ -25,7 +25,7 @@ open class BaseViewModel: ViewModel(), PermissionListener {
 
     protected val currentLanguageData get() = _currentLanguage.asLiveData()
 
-    private val showSnackBarEvent = MutableLiveEvent<SnackBarIntent>()
+    protected val showSnackBarEvent = MutableLiveEvent<SnackBarIntent>()
     val showSnackBarShareEvent = showSnackBarEvent.share()
 
     private val showDialogEvent = MutableLiveEvent<DialogIntent>()
@@ -34,7 +34,7 @@ open class BaseViewModel: ViewModel(), PermissionListener {
     protected val navigationEvent = MutableLiveEvent<NavigationIntent>()
     val navigationShareEvent = navigationEvent.share();
 
-    private val toastEvent = MutableLiveEvent<ToastIntent>()
+    protected val toastEvent = MutableLiveEvent<ToastIntent>()
     val toastShareEvent = toastEvent.share();
 
     private val permissionEvent = MutableLiveEvent<PermissionIntent>()
