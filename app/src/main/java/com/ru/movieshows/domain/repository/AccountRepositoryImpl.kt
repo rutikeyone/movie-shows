@@ -6,8 +6,9 @@ import com.ru.movieshows.R
 import com.ru.movieshows.data.dto.AccountDto
 import com.ru.movieshows.data.repository.AccountRepository
 import com.ru.movieshows.data.repository.AppSettingsRepository
-import com.ru.movieshows.data.response.CreateSessionWithLoginErrorBody
-import com.ru.movieshows.data.response.CreateSessionWithLoginResponse
+import com.ru.movieshows.data.response.AutenticatedResponse
+import com.ru.movieshows.data.response.AuthenticationErrorBody
+import com.ru.movieshows.data.response.CreateSessionResponse
 import com.ru.movieshows.domain.entity.AccountEntity
 import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.domain.utils.AsyncLoader
@@ -17,7 +18,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
-import retrofit2.Response
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 
@@ -25,11 +27,18 @@ class AccountRepositoryImpl @Inject constructor(
     private val accountDto: AccountDto,
     private val appSettingsRepository: AppSettingsRepository,
     private val ioDispatcher: CoroutineDispatcher,
+    private val gson: Gson,
 ) : AccountRepository {
 
     private val currentSessionIdFlow = AsyncLoader {
         MutableStateFlow(appSettingsRepository.getCurrentSessionId())
     }
+
+    private val _authenticatedFailureFlow = AsyncLoader {
+        MutableStateFlow<AppFailure?>(null)
+    }
+
+    override suspend fun getAuthenticatedFailureFlow() = _authenticatedFailureFlow.get()
 
     override suspend fun isSignedIn(): Boolean {
         return appSettingsRepository.getCurrentSessionId() != null
@@ -37,20 +46,27 @@ class AccountRepositoryImpl @Inject constructor(
 
     override suspend fun signIn(email: String, password: String) : Either<AppFailure, String> {
         return try {
-            val createRequestToken = accountDto.createRequestToken()
-            val createRequestBody = createRequestToken.body() ?: return Either.Left(AppFailure.Pure)
-            val createRequestTokenValue = createRequestBody.requestToken ?: return Either.Left(AppFailure.Pure)
-            val createSessionWithLogin = accountDto.createSessionWithLogin(email, password, createRequestTokenValue)
-            val createSessionWithLoginError = getCreateSessionWithLoginError(createSessionWithLogin)
-            if(createSessionWithLoginError != null) return createSessionWithLoginError
-            val createSessionWithLoginBody = createSessionWithLogin.body() ?: return Either.Left(AppFailure.Pure)
-            val createSessionRequestTokenValue = createSessionWithLoginBody.requestToken ?: return Either.Left(AppFailure.Pure)
-            val createSession = accountDto.createSession(createSessionRequestTokenValue)
-            val createSessionBody = createSession.body() ?: return Either.Left(AppFailure.Pure)
-            val sessionId = createSessionBody.sessionId ?: return Either.Left(AppFailure.Pure)
+            val createRequestTokenResult = createRequestToken()
+            val createRequestTokenSuccessResult = createRequestTokenResult.getOrNull()
+            val createRequestFailure = createRequestTokenResult.leftOrNull()
+            if(createRequestFailure != null || createRequestTokenSuccessResult == null) return Either.Left(createRequestFailure ?: AppFailure.Pure)
+            val requestToken = createRequestTokenSuccessResult.requestToken
+
+           val createSessionWithLogin = createSessionWithLogin(email, password, requestToken)
+           val createSessionWithLoginSuccessResult = createSessionWithLogin.getOrNull()
+           val createSessionWithLoginFailure = createSessionWithLogin.leftOrNull()
+           if(createSessionWithLoginFailure != null || createSessionWithLoginSuccessResult == null) return Either.Left(createSessionWithLoginFailure ?: AppFailure.Pure)
+           val sessionToken = createSessionWithLoginSuccessResult.requestToken
+
+           val createSessionResult = createSession(sessionToken)
+            val createSessionSuccessResult = createSessionResult.getOrNull()
+            val createSessionFailure = createSessionResult.leftOrNull()
+            if(createSessionFailure != null || createSessionSuccessResult == null) return Either.Left(createSessionFailure ?: AppFailure.Pure)
+            val sessionId = createSessionSuccessResult.sessionId
+
             currentSessionIdFlow.get().value = sessionId
             appSettingsRepository.setCurrentSessionId(sessionId)
-            return  Either.Right(sessionId)
+            return Either.Right(sessionId)
         }
         catch (e: Exception) {
             currentSessionIdFlow.get().value = null
@@ -58,19 +74,83 @@ class AccountRepositoryImpl @Inject constructor(
         }
     }
 
-    private fun getCreateSessionWithLoginError(createSessionWithLogin: Response<CreateSessionWithLoginResponse>) : Either<AppFailure, String>? {
-        if(createSessionWithLogin.code() == 401) {
-            val errorBody = createSessionWithLogin.errorBody() ?: return Either.Left(AppFailure.Pure)
-            val charBody = errorBody.charStream() ?: return Either.Left(AppFailure.Pure)
-            val createSessionWithLoginErrorBody = Gson().fromJson(charBody.readText(), CreateSessionWithLoginErrorBody::class.java)
-            val statusCode = createSessionWithLoginErrorBody.statusCode ?: return Either.Left(AppFailure.Pure)
-            if(statusCode == emailNotVerifiedStatusCode || statusCode == invalidPassword) {
-                val messageFailure = AppFailure.Message(R.string.invalid_username_or_password)
-                return Either.Left(messageFailure)
+    private suspend fun createSession(sessionToken: String) : Either<AppFailure, CreateSessionResponse> {
+        return try {
+            val createSession = accountDto.createSession(sessionToken)
+            val body = createSession.body()
+            val errorBody = createSession.errorBody()
+            val statusCode = createSession.code()
+            if(statusCode == 200 && body != null) {
+                return Either.Right(body)
+            } else if (errorBody != null) {
+                val error = gson.fromJson(errorBody.charStream().readText(), AuthenticationErrorBody::class.java)
+                val statusCode = error.statusCode
+                if(statusCode == sessionDenied) {
+                    return Either.Left(AppFailure.Message(R.string.session_creation_denied))
+                }
+                return Either.Left(AppFailure.Pure)
             }
             return Either.Left(AppFailure.Pure)
+        } catch (e: SocketTimeoutException) {
+            return Either.Left(AppFailure.Connection)
         }
-        return null
+        catch (e: UnknownHostException) {
+            return Either.Left(AppFailure.Connection)
+        }
+        catch (e: Exception) {
+            return Either.Left(AppFailure.Pure)
+        }
+    }
+
+    private suspend fun createSessionWithLogin(email: String, password: String, requestToken: String) : Either<AppFailure, AutenticatedResponse> {
+        return try {
+            val createSessionWithLogin = accountDto.createSessionWithLogin(email, password, requestToken)
+            val body = createSessionWithLogin.body()
+            val errorBody = createSessionWithLogin.errorBody()
+            val statusCode = createSessionWithLogin.code()
+            if(statusCode == 200 && body != null) {
+                return Either.Right(body)
+            } else if(statusCode == 401 && errorBody != null) {
+                val error = gson.fromJson(errorBody.charStream().readText(), AuthenticationErrorBody::class.java)
+                val statusCode = error.statusCode
+                val invalidUsernameOrPassword = statusCode == invalidUsernameOrPassword;
+                if(invalidUsernameOrPassword) return Either.Left(AppFailure.Message(R.string.invalid_username_or_password))
+                return Either.Left(AppFailure.Pure)
+            }
+            return Either.Left(AppFailure.Pure)
+        } catch (e: SocketTimeoutException) {
+            return Either.Left(AppFailure.Connection)
+        }
+        catch (e: UnknownHostException) {
+            return Either.Left(AppFailure.Connection)
+        }
+        catch (e: Exception) {
+            return Either.Left(AppFailure.Pure)
+        }
+    }
+
+    private suspend fun createRequestToken() : Either<AppFailure, AutenticatedResponse> {
+        return try {
+            val createRequestToken = accountDto.createRequestToken()
+            val body = createRequestToken.body()
+            val errorBody = createRequestToken.errorBody()
+            if(createRequestToken.code() == 200 && body != null) {
+                return Either.Right(body)
+            } else if(createRequestToken.code() == 401 && errorBody != null) {
+                val error = gson.fromJson(errorBody.charStream().readText(), AuthenticationErrorBody::class.java)
+                if(error.statusCode == invalidAPIKey) return Either.Left(AppFailure.Message(R.string.incorrect_api_key))
+                return Either.Left(AppFailure.Pure)
+            }
+            return Either.Left(AppFailure.Pure)
+        } catch (e: SocketTimeoutException) {
+            return Either.Left(AppFailure.Connection)
+        }
+        catch (e: UnknownHostException) {
+            return Either.Left(AppFailure.Connection)
+        }
+        catch (e: Exception) {
+            return Either.Left(AppFailure.Pure)
+        }
     }
 
     override suspend fun logout() {
@@ -97,17 +177,30 @@ class AccountRepositoryImpl @Inject constructor(
             if(isSuccess && accountModel != null) {
                 return accountModel.toEntity()
             } else {
+                _authenticatedFailureFlow.get().value = AppFailure.Connection
+                appSettingsRepository.cleanCurrentSessionId()
                 return null
             }
-
-        } catch (e: Exception) {
+        } catch (e: SocketTimeoutException) {
+            _authenticatedFailureFlow.get().value = AppFailure.Connection
+            appSettingsRepository.cleanCurrentSessionId()
+            return null
+        }
+        catch (e: UnknownHostException) {
+            _authenticatedFailureFlow.get().value = AppFailure.Connection
+            appSettingsRepository.cleanCurrentSessionId()
+            return null
+        }
+        catch (e: Exception) {
+            _authenticatedFailureFlow.get().value = AppFailure.Pure
             appSettingsRepository.cleanCurrentSessionId()
             return null
         }
     }
 
     companion object {
-        const val emailNotVerifiedStatusCode = 32
-        const val invalidPassword = 30
+        const val invalidUsernameOrPassword = 30
+        const val invalidAPIKey = 7
+        const val sessionDenied = 17
     }
 }

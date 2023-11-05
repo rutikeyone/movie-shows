@@ -6,7 +6,7 @@
     <string name="watch_lists">Watch Lists</string>
     <string name="an_error_occurred_during_the_operation">An error occurred during the operation.</string>
     <string name="connect_to_the_internet">Connect to the internet</string>
-    <string name="check_your_connection">Check your connection.</string>
+    <string name="check_your_connection">Check your internet connection.</string>
     <string name="retry">Retry</string>
     <string name="error_header">Error!</string>
     <string name="upcoming_movies">Upcoming movies</string>
@@ -72,4 +72,7 @@
     <string name="username">Username</string>
     <string name="invalid_user_name">Invalid user name</string>
     <string name="sign_out">Sign out</string>
+    <string name="incorrect_api_key">Incorrect API key</string>
+    <string name="session_creation_denied">Session creation denied</string>
+    <string name="there_was_a_problem_with_authorization">There was a problem with authorization</string>
 </resources>

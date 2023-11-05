@@ -1,6 +1,7 @@
 package com.ru.movieshows.presentation
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.ru.movieshows.R
+import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.screens.sign_in.SignInFragmentDirections
 import com.ru.movieshows.presentation.screens.splash.SplashFragmentDirections
 import com.ru.movieshows.presentation.screens.tabs.TabsFragment
@@ -44,6 +46,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setupNavigation()
         viewModel.state.observe(this, ::stateChanged)
+        viewModel.authFailureState.observe(this, ::authFailureStateChanged)
+    }
+
+    private fun authFailureStateChanged(failure: AppFailure?) {
+        if(failure == null) return
+        val message = when (failure) {
+            AppFailure.Pure -> R.string.there_was_a_problem_with_authorization
+            AppFailure.Connection -> R.string.connect_to_the_internet
+            is AppFailure.Message -> failure.value
+        }
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
     private fun stateChanged(state: AuthState) {
@@ -51,12 +64,6 @@ class MainActivity : AppCompatActivity() {
             is AuthState.Authenticated -> navigateByAuthenticatedState()
             AuthState.NotAuthenticated -> navigateByNotAuthenticatedState()
             else -> setStartDestination()
-        }
-    }
-
-    private fun navigateByAnonymousState() {
-        when(rootNavController.currentDestination?.id) {
-            R.id.signInFragment -> rootNavController.navigate(SignInFragmentDirections.actionSignInFragmentToTabsFragment3())
         }
     }
 

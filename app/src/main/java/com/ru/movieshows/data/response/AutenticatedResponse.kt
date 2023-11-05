@@ -2,11 +2,11 @@ package com.ru.movieshows.data.response
 
 import com.google.gson.annotations.SerializedName
 
-data class CreateRequestTokenResponse(
+data class AutenticatedResponse(
     @SerializedName("success")
-    val success: Boolean?,
+    val success: Boolean,
     @SerializedName("expires_at")
-    val expiresAt: String?,
+    val expiresAt: String,
     @SerializedName("request_token")
-    val requestToken: String?
+    val requestToken: String
 )

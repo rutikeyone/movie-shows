@@ -1,6 +1,6 @@
 package com.ru.movieshows.dependencies
 
-import com.beust.klaxon.Klaxon
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.ru.movieshows.BuildConfig
 import com.ru.movieshows.data.dto.AccountDto
@@ -27,8 +27,8 @@ class RetrofitModule {
 
     @Provides
     @Singleton
-    fun provideKlaxon(): Klaxon {
-        return Klaxon()
+    fun provideKlaxon(): Gson {
+        return  GsonBuilder().create()
     }
 
     @Provides

@@ -7,7 +7,7 @@
     <string name="watch_lists">Отслеживаемые</string>
     <string name="an_error_occurred_during_the_operation">В процессе выполнения операции произошла ошибка.</string>
     <string name="connect_to_the_internet">Подключитесь к Интернету</string>
-    <string name="check_your_connection">Проверьте свое подключение.</string>
+    <string name="check_your_connection">Проверьте подключение к интернету.</string>
     <string name="retry">Повторить</string>
     <string name="error_header">Ошибка!</string>
     <string name="upcoming_movies">Ожидаемые фильмы</string>
@@ -65,4 +65,7 @@
     <string name="username">Имя пользователя</string>
     <string name="invalid_user_name">Некорректное имя пользователя</string>
     <string name="sign_out">Выйти</string>
+    <string name="incorrect_api_key">Неверный ключ API</string>
+    <string name="session_creation_denied">В создании сессии отказано </string>
+    <string name="there_was_a_problem_with_authorization">Возникла проблема при авторизации</string>
 </resources>
