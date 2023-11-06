@@ -68,4 +68,5 @@
     <string name="incorrect_api_key">Неверный ключ API</string>
     <string name="session_creation_denied">В создании сессии отказано </string>
     <string name="there_was_a_problem_with_authorization">Возникла проблема при авторизации</string>
+    <string name="problems_may_arise_when_connecting_from_russia_use_a_vpn_service">При подключении из России могут возникнуть проблемы. Используйте VPN сервис.</string>
 </resources>

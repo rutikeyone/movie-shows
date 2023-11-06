@@ -18,8 +18,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
+import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
+import java.util.Locale
 import javax.inject.Inject
 
 
@@ -97,6 +99,14 @@ class AccountRepositoryImpl @Inject constructor(
         catch (e: UnknownHostException) {
             return Either.Left(AppFailure.Connection)
         }
+        catch (e: ConnectException) {
+            val tag = Locale.getDefault().toLanguageTag()
+            if(tag == russiaLanguageTag) {
+                val failure = AppFailure.Message(R.string.problems_may_arise_when_connecting_from_russia_use_a_vpn_service)
+                return Either.Left(failure)
+            }
+            return Either.Left(AppFailure.Connection)
+        }
         catch (e: Exception) {
             return Either.Left(AppFailure.Pure)
         }
@@ -124,6 +134,14 @@ class AccountRepositoryImpl @Inject constructor(
         catch (e: UnknownHostException) {
             return Either.Left(AppFailure.Connection)
         }
+        catch (e: ConnectException) {
+            val tag = Locale.getDefault().toLanguageTag()
+            if(tag == russiaLanguageTag) {
+                val failure = AppFailure.Message(R.string.problems_may_arise_when_connecting_from_russia_use_a_vpn_service)
+                return Either.Left(failure)
+            }
+            return Either.Left(AppFailure.Connection)
+        }
         catch (e: Exception) {
             return Either.Left(AppFailure.Pure)
         }
@@ -146,6 +164,14 @@ class AccountRepositoryImpl @Inject constructor(
             return Either.Left(AppFailure.Connection)
         }
         catch (e: UnknownHostException) {
+            return Either.Left(AppFailure.Connection)
+        }
+        catch (e: ConnectException) {
+            val tag = Locale.getDefault().toLanguageTag()
+            if(tag == russiaLanguageTag) {
+                val failure = AppFailure.Message(R.string.problems_may_arise_when_connecting_from_russia_use_a_vpn_service)
+                return Either.Left(failure)
+            }
             return Either.Left(AppFailure.Connection)
         }
         catch (e: Exception) {
@@ -177,7 +203,7 @@ class AccountRepositoryImpl @Inject constructor(
             if(isSuccess && accountModel != null) {
                 return accountModel.toEntity()
             } else {
-                _authenticatedFailureFlow.get().value = AppFailure.Connection
+                _authenticatedFailureFlow.get().value = AppFailure.Pure
                 appSettingsRepository.cleanCurrentSessionId()
                 return null
             }
@@ -188,6 +214,17 @@ class AccountRepositoryImpl @Inject constructor(
         }
         catch (e: UnknownHostException) {
             _authenticatedFailureFlow.get().value = AppFailure.Connection
+            appSettingsRepository.cleanCurrentSessionId()
+            return null
+        }
+        catch (e: ConnectException) {
+            val tag = Locale.getDefault().toLanguageTag()
+            val failure = if(tag == russiaLanguageTag) {
+                AppFailure.Message(R.string.problems_may_arise_when_connecting_from_russia_use_a_vpn_service)
+            } else {
+                AppFailure.Connection
+            }
+            _authenticatedFailureFlow.get().value = failure
             appSettingsRepository.cleanCurrentSessionId()
             return null
         }
@@ -202,5 +239,6 @@ class AccountRepositoryImpl @Inject constructor(
         const val invalidUsernameOrPassword = 30
         const val invalidAPIKey = 7
         const val sessionDenied = 17
+        const val russiaLanguageTag = "ru-RU"
     }
 }
