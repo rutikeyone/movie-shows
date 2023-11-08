@@ -8,17 +8,77 @@
     tools:context=".presentation.screens.profile.ProfileFragment"
     android:padding="@dimen/dp_16">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/sign_out"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/avatarCardView"
+        android:layout_width="@dimen/dp_128"
+        android:layout_height="@dimen/dp_128"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0"
-        android:backgroundTint="?attr/MovieShows.Color.Default"
+        android:layout_marginTop="@dimen/dp_48"
+        app:cardCornerRadius="@dimen/dp_64">
+
+        <ImageView
+            android:id="@+id/avatarImageView"
+            tools:src="@drawable/avatar_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <TextView
+        android:id="@+id/nameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/avatarCardView"
+        android:layout_marginTop="@dimen/dp_16"
+        tools:text="@string/ivanov_ivan"
+        style="?attr/MovieShows.TextAppearance.Headline5"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/logoutButton"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_55"
+        android:text="@string/sign_out"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:textColor="?attr/MovieShows.Color.Default"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nameTextView"
+        android:layout_marginTop="@dimen/dp_16"
+        android:textAlignment="textStart"
+        android:paddingStart="@dimen/dp_16"
+        android:paddingEnd="@dimen/dp_16"
+        />
+
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="visible"/>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/progressGroup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:constraint_referenced_ids="progressBar"
+        android:visibility="gone"/>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/authenticatedGroup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:constraint_referenced_ids="avatarCardView, nameTextView, logoutButton"
+        android:visibility="visible"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

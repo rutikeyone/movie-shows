@@ -76,4 +76,5 @@
     <string name="session_creation_denied">Session creation denied</string>
     <string name="there_was_a_problem_with_authorization">There was a problem with authorization</string>
     <string name="problems_may_arise_when_connecting_from_russia_use_a_vpn_service">Problems may arise when connecting from Russia. Use a VPN service.</string>
+    <string name="ivanov_ivan">Ivanov Ivan</string>
 </resources>

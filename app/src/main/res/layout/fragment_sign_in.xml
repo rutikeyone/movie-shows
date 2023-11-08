@@ -65,12 +65,14 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/usernameTextInput"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_60"
+                        android:layout_height="wrap_content"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         android:layout_marginTop="@dimen/dp_4"
-                        android:hint="@string/enter_username">
+                        android:hint="@string/enter_username"
+                        app:errorEnabled="true"
+                        app:helperTextEnabled="true">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/usernameEditText"
@@ -78,8 +80,7 @@
                             android:layout_height="wrap_content"
                             android:lines="1"
                             android:inputType="textEmailAddress"
-                            android:imeOptions="actionNext"
-                            app:errorEnabled="true"/>
+                            android:imeOptions="actionNext" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,15 +89,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/password"
-                        android:layout_marginTop="@dimen/dp_16"
                         style="?attr/MovieShows.TextAppearance.Body2.Hint"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/passwordTextInput"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_60"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_4"
-                        android:hint="@string/enter_the_password">
+                        android:hint="@string/enter_the_password"
+                        app:errorEnabled="true"
+                        app:helperTextEnabled="true">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/passwordEditText"

@@ -3,7 +3,7 @@ package com.ru.movieshows.domain.repository
 import com.ru.movieshows.data.dto.GenresDto
 import com.ru.movieshows.data.repository.GenresRepository
 import com.ru.movieshows.domain.entity.GenreEntity
-import com.ru.movieshows.domain.utils.GenresException
+import com.ru.movieshows.domain.utils.AppFailure
 import javax.inject.Inject
 
 class GenresRepositoryImpl @Inject constructor(private val genresDto: GenresDto): GenresRepository {
@@ -15,12 +15,12 @@ class GenresRepositoryImpl @Inject constructor(private val genresDto: GenresDto)
                 val genresEntity = ArrayList(genresModel.genres.map { it.toEntity() })
                 return Result.success(genresEntity)
             } else {
-                return Result.failure(GenresException())
+                return Result.failure(AppFailure.Pure)
             }
         } catch (e: Exception) {
-            val genresException = GenresException()
-            genresException.initCause(e)
-            return Result.failure(genresException)
+            val failure = AppFailure.Pure
+            failure.initCause(e)
+            return Result.failure(failure)
         }
     }
 

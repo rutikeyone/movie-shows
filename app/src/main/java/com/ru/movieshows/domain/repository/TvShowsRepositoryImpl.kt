@@ -6,17 +6,14 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
 import com.ru.movieshows.data.dto.TvShowDto
+import com.ru.movieshows.data.repository.TvShowRepository
 import com.ru.movieshows.domain.entity.TvShowDetailsEntity
 import com.ru.movieshows.domain.entity.TvShowsEntity
-import com.ru.movieshows.data.repository.TvShowRepository
 import com.ru.movieshows.domain.utils.AppFailure
-import com.ru.movieshows.domain.utils.TvShowException
 import com.ru.movieshows.presentation.screens.movie_reviews.PageLoader
 import com.ru.movieshows.presentation.screens.movie_reviews.PagingSource
-import java.lang.IllegalStateException
 import java.net.ConnectException
 import javax.inject.Inject
-import kotlin.Exception
 
 class TvShowsRepositoryImpl @Inject constructor(private val tvShowsDto: TvShowDto):
     TvShowRepository {
@@ -29,7 +26,7 @@ class TvShowsRepositoryImpl @Inject constructor(private val tvShowsDto: TvShowDt
                 val results = ArrayList(tvShowEntities)
                 Result.success(results)
             } else {
-                val exception = TvShowException()
+                val exception = AppFailure.Pure
                 Result.failure(exception)
             }
         }
@@ -38,7 +35,7 @@ class TvShowsRepositoryImpl @Inject constructor(private val tvShowsDto: TvShowDt
             Result.failure(movieException)
         }
         catch (e: Exception) {
-            val exception = TvShowException()
+            val exception = AppFailure.Pure
             exception.initCause(e)
             Result.failure(exception)
         }
@@ -55,7 +52,7 @@ class TvShowsRepositoryImpl @Inject constructor(private val tvShowsDto: TvShowDt
                 val tvShowsEntities = tvShowModes.map { it.toEntity() }
                 Result.success(ArrayList(tvShowsEntities))
             } else {
-                val exception = TvShowException()
+                val exception = AppFailure.Pure
                 Result.failure(exception)
             }
         }
@@ -64,7 +61,7 @@ class TvShowsRepositoryImpl @Inject constructor(private val tvShowsDto: TvShowDt
             Result.failure(movieException)
         }
         catch (e: Exception) {
-            val exception = TvShowException()
+            val exception = AppFailure.Pure
             exception.initCause(e)
             Result.failure(exception)
         }
@@ -106,7 +103,7 @@ class TvShowsRepositoryImpl @Inject constructor(private val tvShowsDto: TvShowDt
                 val tvShowEntities = tvShowModels.map { it.toEntity() }
                 Result.success(ArrayList(tvShowEntities))
             } else {
-                val exception = TvShowException()
+                val exception = AppFailure.Pure
                 Result.failure(exception)
             }
         }
@@ -115,7 +112,7 @@ class TvShowsRepositoryImpl @Inject constructor(private val tvShowsDto: TvShowDt
             Result.failure(movieException)
         }
         catch (e: Exception) {
-            val exception = TvShowException()
+            val exception = AppFailure.Pure
             exception.initCause(e)
             Result.failure(exception)
         }
@@ -132,7 +129,7 @@ class TvShowsRepositoryImpl @Inject constructor(private val tvShowsDto: TvShowDt
                 val tvShowEntities = tvShowModels.map { it.toEntity() }
                 Result.success(ArrayList(tvShowEntities))
             } else {
-                val exception = TvShowException()
+                val exception = AppFailure.Pure
                 Result.failure(exception)
             }
         }
@@ -141,7 +138,7 @@ class TvShowsRepositoryImpl @Inject constructor(private val tvShowsDto: TvShowDt
             Result.failure(movieException)
         }
         catch (e: Exception) {
-            val exception = TvShowException()
+            val exception = AppFailure.Pure
             exception.initCause(e)
             Result.failure(exception)
         }
@@ -158,7 +155,7 @@ class TvShowsRepositoryImpl @Inject constructor(private val tvShowsDto: TvShowDt
                 val tvShowEntities = tvShowModels.map { it.toEntity() }
                 Result.success(ArrayList(tvShowEntities))
             } else {
-                val exception = TvShowException()
+                val exception = AppFailure.Pure
                 Result.failure(exception)
             }
         }
@@ -167,7 +164,7 @@ class TvShowsRepositoryImpl @Inject constructor(private val tvShowsDto: TvShowDt
             Result.failure(movieException)
         }
         catch (e: Exception) {
-            val exception = TvShowException()
+            val exception = AppFailure.Pure
             exception.initCause(e)
             Result.failure(exception)
         }

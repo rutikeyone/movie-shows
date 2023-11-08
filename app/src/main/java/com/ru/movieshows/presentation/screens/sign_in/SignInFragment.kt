@@ -11,8 +11,8 @@ import androidx.fragment.app.viewModels
 import com.ru.movieshows.databinding.FragmentSignInBinding
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.utils.hideKeyboard
-import com.ru.movieshows.presentation.utils.validateUsername
 import com.ru.movieshows.presentation.utils.validatePassword
+import com.ru.movieshows.presentation.utils.validateUsername
 import com.ru.movieshows.presentation.viewmodel.sign_in.SignInState
 import com.ru.movieshows.presentation.viewmodel.sign_in.SignInViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -86,8 +86,9 @@ class SignInFragment : BaseFragment() {
         viewModel.state.observe(viewLifecycleOwner, ::changeUIWhenStateChanged)
 
     private fun changeUIWhenStateChanged(state: SignInState) = with(binding) {
-        usernameEditText.error = validateUsername(state.email)
-        passwordEditText.error = validatePassword(state.password)
+        val usernameError = validateUsername(state.email)
+        usernameTextInput.error = usernameError
+        passwordTextInput.error = validatePassword(state.password)
         progressBar.isVisible = state.signInInProgress
         signInButton.isEnabled = state.canSignIn
     }

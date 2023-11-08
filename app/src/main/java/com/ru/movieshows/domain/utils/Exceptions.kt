@@ -3,10 +3,6 @@ package com.ru.movieshows.domain.utils
 import androidx.annotation.StringRes
 import com.ru.movieshows.R
 
-class GenresException: IllegalStateException("An error occurred in the process of obtaining genre data")
-
-class TvShowException: IllegalStateException("An error occurred in the process of obtaining tv shows data")
-
 sealed class AppFailure : Exception() {
     object Pure: AppFailure()
     object Connection: AppFailure()
