@@ -20,5 +20,7 @@
         <attr name="MovieShows.TextButton.Body3.Hint.Bold" format="reference"/>
         <attr name="MovieShows.Darken" format="color"/>
         <attr name="MovieShows.Color.Default" format="color"/>
+        <attr name="MovieShows.TextButton.Light" format="reference"/>
+        <attr name="MovieShows.Poster.Placeholder.Color" format="color"/>
     </declare-styleable>
 </resources>

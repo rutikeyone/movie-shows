@@ -6,6 +6,8 @@ import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.ru.movieshows.R
 import com.ru.movieshows.databinding.SearchTileBinding
 import com.ru.movieshows.domain.entity.TvShowsEntity
 
@@ -66,6 +68,8 @@ class TvShowSearchAdapter(
                 .with(binding.root)
                 .load(tvShow.backDrop)
                 .centerCrop()
+                .placeholder(R.drawable.poster_placeholder_bg)
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(binding.imageView)
         }
 

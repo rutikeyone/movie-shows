@@ -10,13 +10,14 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/avatarCardView"
-        android:layout_width="@dimen/dp_128"
-        android:layout_height="@dimen/dp_128"
+        android:layout_width="@dimen/dp_96"
+        android:layout_height="@dimen/dp_96"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="@dimen/dp_48"
-        app:cardCornerRadius="@dimen/dp_64">
+        app:cardCornerRadius="@dimen/dp_48"
+        app:strokeWidth="@dimen/dp_0">
 
         <ImageView
             android:id="@+id/avatarImageView"
@@ -35,17 +36,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/avatarCardView"
-        android:layout_marginTop="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_12"
         tools:text="@string/ivanov_ivan"
         style="?attr/MovieShows.TextAppearance.Headline5"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/logoutButton"
+        android:id="@+id/watchlistButton"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_55"
-        android:text="@string/sign_out"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:textColor="?attr/MovieShows.Color.Default"
+        android:text="@string/watchlist"
+        style="?attr/MovieShows.TextButton.Light"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nameTextView"
@@ -53,8 +53,40 @@
         android:textAlignment="textStart"
         android:paddingStart="@dimen/dp_16"
         android:paddingEnd="@dimen/dp_16"
+        android:drawableEnd="@drawable/arrow_right"
         />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/favouritesButton"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_55"
+        android:text="@string/favorites"
+        style="?attr/MovieShows.TextButton.Light"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/watchlistButton"
+        android:layout_marginTop="@dimen/dp_4"
+        android:textAlignment="textStart"
+        android:paddingStart="@dimen/dp_16"
+        android:paddingEnd="@dimen/dp_16"
+        android:drawableEnd="@drawable/arrow_right"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/logoutButton"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_55"
+        android:text="@string/sign_out"
+        style="?attr/MovieShows.TextButton.Light"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/favouritesButton"
+        android:layout_marginTop="@dimen/dp_4"
+        android:textAlignment="textStart"
+        android:paddingStart="@dimen/dp_16"
+        android:paddingEnd="@dimen/dp_16"
+        android:drawableEnd="@drawable/arrow_right"
+        />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -77,7 +109,7 @@
         android:id="@+id/authenticatedGroup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:constraint_referenced_ids="avatarCardView, nameTextView, logoutButton"
+        app:constraint_referenced_ids="avatarCardView, nameTextView, favouritesButton, watchlistButton, logoutButton"
         android:visibility="visible"
         />
 

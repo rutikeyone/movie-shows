@@ -5,11 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.R
-import com.ru.movieshows.databinding.SearchTileBinding
 import com.ru.movieshows.databinding.SeasonTileBinding
 import com.ru.movieshows.domain.entity.SeasonEntity
-import com.ru.movieshows.domain.entity.TvShowsEntity
 
 class SeasonAdapter(
     private val seasons: ArrayList<SeasonEntity>,
@@ -51,6 +50,8 @@ class SeasonAdapter(
                 .with(binding.root)
                 .load(photo)
                 .centerCrop()
+                .placeholder(R.drawable.poster_placeholder_bg)
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(image)
         }
     }

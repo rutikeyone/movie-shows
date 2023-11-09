@@ -5,4 +5,5 @@ data class AccountEntity(
     val name: String?,
     val includeAdult: Boolean?,
     val username: String?,
+    val avatar: String?,
 )

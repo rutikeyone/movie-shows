@@ -12,10 +12,11 @@
     <color name="brown">#6F6A1616</color>
     <color name="lightGrey">#6A717D</color>
     <color name="darkGreyPurple">#49454F</color>
-    <color name="greyBlueColor">#4E545E</color>
-    <color name="darken_color">#6F000000</color>
-    <color name="blue_slate">#272c30</color>
-    <color name="sunny_lemon">#F1D982</color>
+    <color name="greyBlue">#4E545E</color>
+    <color name="darken">#6F000000</color>
+    <color name="blueSlate">#272c30</color>
+    <color name="sunnyLemon">#F1D982</color>
     <color name="darkCrimson">#443020</color>
-
+    <color name="lightBlue">#01B4E4</color>
+    <color name="darkBlue">#032541</color>
 </resources>

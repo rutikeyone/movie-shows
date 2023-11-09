@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.ru.movieshows.R
 import com.ru.movieshows.databinding.MovieTileVariant1Binding
 import com.ru.movieshows.domain.entity.MovieEntity
 
@@ -64,6 +66,8 @@ class MoviesListAdapter(
                     .with(binding.root)
                     .load(movie.backDrop)
                     .centerCrop()
+                    .placeholder(R.drawable.poster_placeholder_bg)
+                    .transition(DrawableTransitionOptions.withCrossFade())
                     .into(binding.discoverMovieImage);
             }
         }

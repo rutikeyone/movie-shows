@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.ru.movieshows.R
 import com.ru.movieshows.databinding.SeasonModalSheetBinding
 import com.ru.movieshows.domain.entity.SeasonEntity
 import java.text.SimpleDateFormat
@@ -106,6 +108,8 @@ class SeasonDetailsBottomSheetDialogFragment : BottomSheetDialogFragment() {
                 .with(binding.root)
                 .load(photo)
                 .centerCrop()
+                .placeholder(R.drawable.poster_placeholder_bg)
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(poster)
         }
     }

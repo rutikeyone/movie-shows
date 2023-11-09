@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.ProfileBinding
 import com.ru.movieshows.domain.entity.AccountEntity
@@ -56,7 +57,21 @@ class ProfileFragment : BaseFragment() {
         }
         val value = stringBuilder.toString()
         if(value.isNotEmpty()) nameTextView.text = value
-        avatarImageView.setImageResource(R.drawable.avatar_placeholder)
+
+        val photo = account.avatar
+
+        if(!photo.isNullOrEmpty()) {
+            Glide
+                .with(requireContext())
+                .load(photo)
+                .centerCrop()
+                .into(avatarImageView)
+        } else {
+            avatarImageView.setImageResource(R.drawable.avatar_placeholder)
+        }
+
+
+
         authenticatedGroup.isVisible = true
     }
 
