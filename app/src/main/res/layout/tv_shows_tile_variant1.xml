@@ -26,6 +26,7 @@
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             app:layout_constraintBottom_toTopOf="@id/movieName"
+            android:src="@drawable/poster_placeholder_bg"
             tools:background="@color/yellow"
             />
 

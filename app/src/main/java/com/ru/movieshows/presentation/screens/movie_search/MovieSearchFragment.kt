@@ -16,7 +16,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.MaterialToolbar
 import com.ru.movieshows.R
@@ -28,21 +27,21 @@ import com.ru.movieshows.presentation.adapters.MoviesSearchAdapter
 import com.ru.movieshows.presentation.adapters.TryAgainAction
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
+import com.ru.movieshows.presentation.utils.viewBinding
 import com.ru.movieshows.presentation.viewmodel.movie_search.MovieSearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MovieSearchFragment : BaseFragment() {
-    override val viewModel by viewModels<MovieSearchViewModel>()
     private val toolbar get() = activity?.findViewById<MaterialToolbar>(R.id.tabsToolbar)
-
-    private var _binding: FragmentMovieSearchBinding? = null
-    val binding get() = _binding!!
-
+    private val binding by viewBinding<FragmentMovieSearchBinding>()
     private val adapter: MoviesSearchAdapter = MoviesSearchAdapter(::navigateToMovieDetails)
     private var searchView : SearchView? = null
     private var searchItem : MenuItem? = null
+
+    override val viewModel by viewModels<MovieSearchViewModel>()
 
     private val handler = Handler(Looper.getMainLooper())
 
@@ -88,17 +87,11 @@ class MovieSearchFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        if(_binding == null) {
-            _binding = FragmentMovieSearchBinding.inflate(inflater, container, false)
-            initView()
-        }
-        viewModel.searchMovies.observe(viewLifecycleOwner, ::collectUiState)
-        adapter.addLoadStateListener(::renderUi)
-        return binding.root
-    }
+    ): View = inflater.inflate(R.layout.fragment_movie_search, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initView()
+        collectUiState()
         toolbar?.addMenuProvider(menuProvider)
         searchItem?.expandActionView()
         val query = viewModel.queryValue
@@ -108,14 +101,17 @@ class MovieSearchFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun collectUiState(pagingData: PagingData<MovieEntity>?) = lifecycleScope.launch {
-        if (pagingData == null) return@launch
-        adapter.submitData(pagingData)
+    private fun collectUiState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.searchMovies.collectLatest { movies ->
+                adapter.submitData(movies)
+            }
+        }
     }
-
     private fun initView() {
+        adapter.addLoadStateListener(::renderUi)
         val itemDecorator = ItemDecoration(16F, resources.displayMetrics)
-        val tryAgainAction: TryAgainAction = { adapter.refresh() }
+        val tryAgainAction: TryAgainAction = { adapter.retry() }
         val footerAdapter = LoadStateAdapter(tryAgainAction, requireContext())
         val layoutManager = LinearLayoutManager(requireContext())
         binding.movies.layoutManager = layoutManager
@@ -127,24 +123,24 @@ class MovieSearchFragment : BaseFragment() {
 
     private fun navigateToMovieDetails(movieEntity: MovieEntity) = viewModel.navigateToMovieDetails(movieEntity)
 
-    private fun renderUi(loadState: CombinedLoadStates) {
+    private fun renderUi(loadState: CombinedLoadStates) = with(binding){
         val searchMode = viewModel.searchQueryMode
         val isListEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
         val showMovies = !isListEmpty && loadState.source.refresh is LoadState.NotLoading && searchMode
-        binding.movies.isVisible = showMovies
-        binding.progressContainer.isVisible = loadState.source.refresh is LoadState.Loading && searchMode
-        binding.successEmptyContainer.isVisible = loadState.source.refresh is LoadState.NotLoading && searchMode && isListEmpty
+        movies.isVisible = showMovies
+        progressContainer.isVisible = loadState.source.refresh is LoadState.Loading && searchMode
+        successEmptyContainer.isVisible = loadState.source.refresh is LoadState.NotLoading && searchMode && isListEmpty
         setupFailurePart(loadState, searchMode)
     }
 
-    private fun setupFailurePart(loadState: CombinedLoadStates, searchMode: Boolean) {
+    private fun setupFailurePart(loadState: CombinedLoadStates, searchMode: Boolean) = with(binding) {
         val showFailure = loadState.source.refresh is LoadState.Error && searchMode
-        binding.failureContainer.isVisible = showFailure
+        failureContainer.isVisible = showFailure
         if(loadState.source.refresh !is LoadState.Error) return
         val errorState = loadState.refresh as LoadState.Error
         val error = errorState.error as? AppFailure
-        binding.failurePart.failureTextHeader.text = resources.getString((error?.headerResource() ?: R.string.error_header))
-        binding.failurePart.failureTextMessage.text = resources.getString(error?.errorResource() ?: R.string.an_error_occurred_during_the_operation)
+        failurePart.failureTextHeader.text = resources.getString((error?.headerResource() ?: R.string.error_header))
+        failurePart.failureTextMessage.text = resources.getString(error?.errorResource() ?: R.string.an_error_occurred_during_the_operation)
     }
 
     override fun onDestroyView() {
@@ -152,7 +148,6 @@ class MovieSearchFragment : BaseFragment() {
         toolbar?.removeMenuProvider(menuProvider)
         searchItem = null
         searchView = null
-        _binding = null
         super.onDestroyView()
     }
 }

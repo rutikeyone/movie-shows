@@ -48,7 +48,6 @@ class PopularMoviesFragment : BaseFragment() {
     private fun initView() {
         val tryAgainAction: TryAgainAction = { adapter?.retry() }
         val footerAdapter = LoadStateAdapter(tryAgainAction, requireContext())
-
         adapter = MoviesListAdapter(::navigateToMovieDetails)
         val gridLayoutManager = GridLayoutManager(requireContext(), 3)
         binding.rvMovies.layoutManager = gridLayoutManager

@@ -50,14 +50,19 @@ class Holder(
             binding.descriptionText.text = movie.overview
         }
 
-        private fun setupRating(movie: MovieEntity) {
-            binding.ratingBar.isEnabled = false
+        private fun setupRating(movie: MovieEntity) = with(binding) {
+            ratingBar.isEnabled = false
             if (movie.rating == null) return
             val rating = movie.rating
-            val ratingText = "%.2f".format(rating)
-            val ratingValue = (rating.toFloat() / 2)
-            binding.ratingValue.text = ratingText
-            binding.ratingBar.rating = ratingValue
+
+            if(rating > 0) {
+                val ratingText = "%.2f".format(rating)
+                val value = (rating.toFloat() / 2)
+                ratingValue.text = ratingText
+                ratingBar.rating = value
+            } else {
+                ratingBarContainer.isVisible = false
+            }
         }
 
         private fun setupBackDrop(movie: MovieEntity) {

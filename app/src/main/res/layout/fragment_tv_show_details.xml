@@ -39,6 +39,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
+                        android:src="@drawable/backdrop_placeholder_bg"
                         />
 
                     <ImageView
@@ -53,7 +54,8 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="1.0"
-                        tools:background="@color/red" />
+                        tools:background="@color/red"
+                        android:src="@drawable/poster_placeholder_bg"/>
 
                     <TextView
                         android:id="@+id/ratingText"

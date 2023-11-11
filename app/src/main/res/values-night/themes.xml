@@ -35,5 +35,6 @@
         <item name="MovieShows.Color.Default">@color/white</item>
         <item name="MovieShows.TextButton.Light">@style/MovieShows.TextButton.Light.Style</item>
         <item name="MovieShows.Poster.Placeholder.Color">@color/darkBlue</item>
+        <item name="MovieShows.BackDrop.Placeholder.Color">@color/lightTurquoise</item>
     </style>
 </resources>

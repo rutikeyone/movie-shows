@@ -90,7 +90,7 @@ class TvsFragment : BaseFragment() {
     }
 
     private fun setupTrendingTvShowsPager(state: TvShowsState.Success) {
-        val adapter = TvShowsViewPagerAdapter(this, state.trendingMovies)
+        val adapter = TvShowsViewPagerAdapter(state.trendingMovies, ::navigateToTvShowDetails)
         binding.trendingTvShowsViewPager.adapter = adapter
     }
 

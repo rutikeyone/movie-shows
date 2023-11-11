@@ -2,7 +2,7 @@ package com.ru.movieshows.presentation.viewmodel.tv_show_search
 
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.switchMap
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.ru.movieshows.data.repository.TvShowRepository
@@ -13,6 +13,7 @@ import com.ru.movieshows.presentation.utils.publishEvent
 import com.ru.movieshows.presentation.utils.share
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,10 +28,10 @@ class TvShowSearchViewModel @Inject constructor(
     val queryValue get() = if(_query.value.isNullOrEmpty()) null else _query.value
     val searchQueryMode: Boolean get() = !_query.value.isNullOrEmpty()
 
-    val searchMovies = state.switchMap {
-        tvShowRepository.searchPagedMovies(it.second, queryValue)
-            .cachedIn(viewModelScope)
-    }
+    val searchTvShows = state.asFlow().flatMapLatest {
+        tvShowRepository
+            .searchPagedMovies(it.second, it.first)
+    }.cachedIn(viewModelScope)
 
     init {
         setupMediatorState()

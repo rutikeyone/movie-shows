@@ -28,6 +28,7 @@
             android:layout_width="match_parent"
             app:layout_constraintBottom_toTopOf="@id/name"
             tools:background="@color/yellow"
+            android:src="@drawable/poster_placeholder_bg"
             />
 
     </androidx.cardview.widget.CardView>

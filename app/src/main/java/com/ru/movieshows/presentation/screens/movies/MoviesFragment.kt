@@ -31,9 +31,9 @@ import java.util.Locale
 @AndroidEntryPoint
 class MoviesFragment : BaseFragment() {
     private var adapter: MoviesAdapter? = null
+    private val binding by viewBinding<FragmentMoviesBinding>()
 
     override val viewModel by viewModels<MoviesViewModel>()
-    private val binding by viewBinding<FragmentMoviesBinding>()
 
     private val tabSelectedListener = object : TabLayout.OnTabSelectedListener {
         override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -165,8 +165,8 @@ class MoviesFragment : BaseFragment() {
     }
 
     private fun setupNowPlayingPager(state: MoviesState.Success) {
-        val adapter = MoviesViewPagerAdapter(this, state.nowPlayingMovies)
-        binding.nowPlayingViewPager.adapter = adapter
+        val notPlayingAdapter = MoviesViewPagerAdapter(state.nowPlayingMovies, ::navigateToMovieDetails)
+        binding.nowPlayingViewPager.adapter = notPlayingAdapter
     }
 
     private fun setupDots() {
@@ -200,5 +200,6 @@ class MoviesFragment : BaseFragment() {
     private fun navigateToMovieDetails(movieEntity: MovieEntity) = viewModel.navigateToMovieDetails(movieEntity)
 
     private fun navigateToMovieSearch() = viewModel.navigateToMovieSearch()
+
 }
 

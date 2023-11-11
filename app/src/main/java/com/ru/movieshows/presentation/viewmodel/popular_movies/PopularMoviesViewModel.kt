@@ -10,21 +10,22 @@ import com.ru.movieshows.presentation.utils.NavigationIntent
 import com.ru.movieshows.presentation.utils.publishEvent
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
 @HiltViewModel
 class PopularMoviesViewModel @Inject constructor(moviesRepository: MoviesRepository): BaseViewModel() {
-    @OptIn(ExperimentalCoroutinesApi::class)
+
     val popularMovies: Flow<PagingData<MovieEntity>> = currentLanguage.flatMapLatest {
-        moviesRepository.getPagedPopularMovies(languageTag)
-            .cachedIn(viewModelScope)
-    }
+        moviesRepository.getPagedPopularMovies(it)
+    }.cachedIn(viewModelScope)
 
     fun navigateToMovieDetails(movie: MovieEntity){
         if(movie.id == null) return;
-        navigationEvent.publishEvent(NavigationIntent.To(PopularMoviesFragmentDirections.actionPopularMoviesFragmentToMovieDetailsFragment(movie.id)))
+        val directions = PopularMoviesFragmentDirections
+        val action = directions.actionPopularMoviesFragmentToMovieDetailsFragment(movie.id)
+        val intent = NavigationIntent.To(action)
+        navigationEvent.publishEvent(intent)
     }
 }

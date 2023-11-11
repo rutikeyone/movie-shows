@@ -47,7 +47,7 @@ class MoviesListAdapter(
             binding: MovieTileVariant1Binding,
             rating: Double?,
         ) {
-            if (rating != null) {
+            if (rating != null && rating > 0) {
                 val value = rating.toFloat()
                 binding.ratingValue.text = value.toString()
                 binding.ratingBar.isEnabled = false;

@@ -1,10 +1,8 @@
 package com.ru.movieshows.domain.repository
 
-import androidx.lifecycle.LiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.liveData
 import com.ru.movieshows.data.dto.TvShowDto
 import com.ru.movieshows.data.repository.TvShowRepository
 import com.ru.movieshows.domain.entity.TvShowDetailsEntity
@@ -12,6 +10,7 @@ import com.ru.movieshows.domain.entity.TvShowsEntity
 import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.screens.movie_reviews.PageLoader
 import com.ru.movieshows.presentation.screens.movie_reviews.PagingSource
+import kotlinx.coroutines.flow.Flow
 import java.net.ConnectException
 import javax.inject.Inject
 
@@ -200,7 +199,7 @@ class TvShowsRepositoryImpl @Inject constructor(private val tvShowsDto: TvShowDt
     override fun searchPagedMovies(
         language: String,
         query: String?,
-    ): LiveData<PagingData<TvShowsEntity>> {
+    ): Flow<PagingData<TvShowsEntity>> {
        val loader: PageLoader<List<TvShowsEntity>> = { pageIndex ->
            val response = tvShowsDto.searchTvShows(language, pageIndex, query)
            val isSuccessful = response.isSuccessful
@@ -219,7 +218,7 @@ class TvShowsRepositoryImpl @Inject constructor(private val tvShowsDto: TvShowDt
                 enablePlaceholders = false
             ),
             pagingSourceFactory = { PagingSource(loader, PAGE_SIZE) }
-        ).liveData
+        ).flow
     }
 
     private companion object {

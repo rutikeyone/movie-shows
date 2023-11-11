@@ -9,7 +9,6 @@ import com.ru.movieshows.presentation.viewmodel.BaseViewModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 
@@ -18,11 +17,10 @@ class MovieReviewsViewModel @AssistedInject constructor(
     moviesRepository: MoviesRepository,
 ) : BaseViewModel() {
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     val reviews: Flow<PagingData<ReviewEntity>> = currentLanguage.flatMapLatest {
-        moviesRepository.getPagedMovieReview(it, movieId.toString())
-            .cachedIn(viewModelScope)
-    }
+        val id = movieId.toString()
+        moviesRepository.getPagedMovieReview(it, id)
+    }.cachedIn(viewModelScope)
 
     @AssistedFactory
     interface Factory {

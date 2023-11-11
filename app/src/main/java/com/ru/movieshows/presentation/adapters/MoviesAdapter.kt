@@ -18,8 +18,8 @@ class MoviesAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val tile = inflater.inflate(R.layout.movie_tile_variant1, parent, false)
-        return MoviesHolder(tile, onTap)
+        val item = inflater.inflate(R.layout.movie_tile_variant1, parent, false)
+        return MoviesHolder(item, onTap)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -84,6 +84,7 @@ class MoviesAdapter(
                     .load(movie.backDrop)
                     .centerCrop()
                     .placeholder(R.drawable.poster_placeholder_bg)
+                    .error(R.drawable.poster_placeholder_bg)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(binding.discoverMovieImage)
             }

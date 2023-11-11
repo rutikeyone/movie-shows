@@ -44,6 +44,7 @@
                     android:layout_width="100dp"
                     android:layout_height="140dp"
                     tools:background="@color/red"
+                    android:src="@drawable/poster_placeholder_bg"
                     />
 
             </androidx.cardview.widget.CardView>

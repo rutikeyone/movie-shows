@@ -8,15 +8,14 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FailurePartBinding
 import com.ru.movieshows.databinding.FragmentTvShowDetailsBinding
-import com.ru.movieshows.databinding.SeasonModalSheetBinding
 import com.ru.movieshows.domain.entity.SeasonEntity
 import com.ru.movieshows.domain.entity.TvShowDetailsEntity
 import com.ru.movieshows.presentation.adapters.CreatorAdapter
@@ -146,6 +145,8 @@ class TvShowDetailsFragment : BaseFragment() {
             .with(this)
             .load(poster)
             .centerCrop()
+            .placeholder(R.drawable.poster_placeholder_bg)
+            .transition(DrawableTransitionOptions.withCrossFade())
             .into(this)
     }
 
@@ -155,6 +156,8 @@ class TvShowDetailsFragment : BaseFragment() {
             .with(this)
             .load(backDrop)
             .centerCrop()
+            .placeholder(R.drawable.backdrop_placeholder_bg)
+            .transition(DrawableTransitionOptions.withCrossFade())
             .into(this)
     }
 

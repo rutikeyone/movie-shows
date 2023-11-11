@@ -12,8 +12,8 @@ import androidx.paging.LoadState
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FragmentMovieReviewsBinding
 import com.ru.movieshows.domain.utils.AppFailure
-import com.ru.movieshows.presentation.adapters.ReviewsListAdapter
 import com.ru.movieshows.presentation.adapters.LoadStateAdapter
+import com.ru.movieshows.presentation.adapters.ReviewsListAdapter
 import com.ru.movieshows.presentation.adapters.TryAgainAction
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.utils.viewBinding
@@ -81,13 +81,13 @@ class MovieReviewsFragment : BaseFragment() {
         setupFailurePart(loadState)
     }
 
-    private fun setupFailurePart(loadState: CombinedLoadStates) {
-        binding.failurePart.root.isVisible = loadState.source.refresh is LoadState.Error
+    private fun setupFailurePart(loadState: CombinedLoadStates) = with(binding){
+        failurePart.root.isVisible = loadState.source.refresh is LoadState.Error
         if(loadState.source.refresh !is LoadState.Error) return
         val errorState = loadState.refresh as LoadState.Error
         val error = errorState.error as? AppFailure
-        binding.failurePart.failureTextHeader.text = resources.getString((error?.headerResource() ?: R.string.error_header))
-        binding.failurePart.failureTextMessage.text = resources.getString(error?.errorResource() ?: R.string.an_error_occurred_during_the_operation)
+        failurePart.failureTextHeader.text = resources.getString((error?.headerResource() ?: R.string.error_header))
+        failurePart.failureTextMessage.text = resources.getString(error?.errorResource() ?: R.string.an_error_occurred_during_the_operation)
     }
 }
 

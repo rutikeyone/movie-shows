@@ -1,9 +1,9 @@
 package com.ru.movieshows.data.repository
 
-import androidx.lifecycle.LiveData
 import androidx.paging.PagingData
 import com.ru.movieshows.domain.entity.TvShowDetailsEntity
 import com.ru.movieshows.domain.entity.TvShowsEntity
+import kotlinx.coroutines.flow.Flow
 
 interface TvShowRepository {
     suspend fun getSimilarTvShows(language: String = "en_US", page: Int = 1, seriesId: String): Result<ArrayList<TvShowsEntity>>
@@ -13,5 +13,5 @@ interface TvShowRepository {
     suspend fun getPopularTvShows(language: String = "en_US", page: Int = 1): Result<ArrayList<TvShowsEntity>>
     suspend fun getOnTheAirTvShows(language: String = "en_US", page: Int = 1): Result<ArrayList<TvShowsEntity>>
     suspend fun getTrendingTvShows(language: String = "en_US", page: Int = 1) : Result<ArrayList<TvShowsEntity>>
-    fun searchPagedMovies(language: String = "en_US", query: String? = null): LiveData<PagingData<TvShowsEntity>>
+    fun searchPagedMovies(language: String = "en_US", query: String? = null): Flow<PagingData<TvShowsEntity>>
 }

@@ -14,6 +14,7 @@ import com.ru.movieshows.presentation.utils.PermissionIntent
 import com.ru.movieshows.presentation.utils.SnackBarIntent
 import com.ru.movieshows.presentation.utils.ToastIntent
 import com.ru.movieshows.presentation.utils.share
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.Locale
 
@@ -21,9 +22,9 @@ open class BaseViewModel: ViewModel(), PermissionListener {
     protected val languageTag: String get() = Locale.getDefault().toLanguageTag()
 
     private val _currentLanguage = MutableStateFlow(languageTag)
-    protected val currentLanguage get() = _currentLanguage
+    protected val currentLanguage: Flow<String> get() = _currentLanguage
 
-    protected val currentLanguageData get() = _currentLanguage.asLiveData()
+    protected val currentLanguageData get() = currentLanguage.asLiveData()
 
     protected val showSnackBarEvent = MutableLiveEvent<SnackBarIntent>()
     val showSnackBarShareEvent = showSnackBarEvent.share()

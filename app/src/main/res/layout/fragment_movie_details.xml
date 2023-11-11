@@ -39,6 +39,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/backdrop_placeholder_bg"
                     />
 
                 <ImageView
@@ -54,6 +55,7 @@
                     app:layout_constraintHorizontal_bias="0"
                     android:layout_marginTop="@dimen/dp_120"
                     android:layout_marginStart="@dimen/dp_16"
+                    android:src="@drawable/poster_placeholder_bg"
                     />
 
                 <TextView
@@ -92,16 +94,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/duration"
-                    app:layout_constraintStart_toStartOf="@id/ratingText"
+                    app:layout_constraintStart_toEndOf="@id/moviePoster"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/ratingText"
                     app:layout_constraintBottom_toBottomOf="@id/moviePoster"
                     app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintVertical_bias="0"
                     android:layout_marginTop="@dimen/dp_4"
+                    app:layout_goneMarginTop="@dimen/dp_16"
                     android:textAllCaps="true"
                     style="?attr/MovieShows.TextAppearance.Body3.Hint.Bold"
                     tools:visibility="visible"
+                    android:layout_marginStart="@dimen/dp_16"
                     />
 
                 <TextView

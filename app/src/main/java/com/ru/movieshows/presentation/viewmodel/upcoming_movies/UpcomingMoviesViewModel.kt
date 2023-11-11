@@ -10,7 +10,6 @@ import com.ru.movieshows.presentation.utils.NavigationIntent
 import com.ru.movieshows.presentation.utils.publishEvent
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
@@ -19,14 +18,16 @@ import javax.inject.Inject
 class UpcomingMoviesViewModel @Inject constructor(
     moviesRepository: MoviesRepository,
 ) : BaseViewModel() {
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val upcomingMovies: Flow<PagingData<MovieEntity>> = currentLanguage.flatMapLatest {
+
+     val upcomingMovies: Flow<PagingData<MovieEntity>> = currentLanguage.flatMapLatest {
         moviesRepository.getPagedUnComingMovies(languageTag)
-            .cachedIn(viewModelScope)
-    }
+    }.cachedIn(viewModelScope)
+
     fun navigateToMovieDetails(movie: MovieEntity){
         if(movie.id == null) return
-        val action = NavigationIntent.To(UpcomingMoviesFragmentDirections.actionUpcomingMoviesFragmentToMovieDetailsFragment(movie.id))
-        navigationEvent.publishEvent(action)
+        val directions = UpcomingMoviesFragmentDirections
+        val action = directions.actionUpcomingMoviesFragmentToMovieDetailsFragment(movie.id)
+        val intent = NavigationIntent.To(action)
+        navigationEvent.publishEvent(intent)
     }
 }

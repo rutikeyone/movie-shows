@@ -1,10 +1,8 @@
 package com.ru.movieshows.domain.repository
 
-import androidx.lifecycle.LiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.liveData
 import com.ru.movieshows.data.dto.MoviesDto
 import com.ru.movieshows.data.repository.MoviesRepository
 import com.ru.movieshows.domain.entity.MovieDetailsEntity
@@ -40,7 +38,7 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
         ).flow
     }
 
-    override fun searchPagedMovies(language: String, query: String?): LiveData<PagingData<MovieEntity>> {
+    override fun searchPagedMovies(language: String, query: String?): Flow<PagingData<MovieEntity>> {
         val loader: PageLoader<List<MovieEntity>> = { pageIndex ->
             val response = moviesDto.searchMovies(language, pageIndex, query)
             if(!response.isSuccessful || response.body() == null) throw IllegalStateException("Response must be successful")
@@ -57,7 +55,7 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
                 enablePlaceholders = false
             ),
             pagingSourceFactory = { PagingSource(loader, PAGE_SIZE) }
-        ).liveData
+        ).flow
     }
 
     override fun getPagedMovieReview(

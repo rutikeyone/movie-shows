@@ -16,7 +16,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.MaterialToolbar
 import com.ru.movieshows.R
@@ -28,21 +27,21 @@ import com.ru.movieshows.presentation.adapters.TryAgainAction
 import com.ru.movieshows.presentation.adapters.TvShowSearchAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
+import com.ru.movieshows.presentation.utils.viewBinding
 import com.ru.movieshows.presentation.viewmodel.tv_show_search.TvShowSearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class TvShowSearchFragment : BaseFragment() {
-    override val viewModel by viewModels<TvShowSearchViewModel>()
     private val toolbar get() = activity?.findViewById<MaterialToolbar>(R.id.tabsToolbar)
-
-    private var _binding: FragmentTvShowSearchBinding? = null
-    val binding get() = _binding!!
-
+    private val binding by viewBinding<FragmentTvShowSearchBinding>()
     private val adapter: TvShowSearchAdapter = TvShowSearchAdapter(::navigateToTvShowDetails);
     private var searchView: SearchView? = null
     private var searchItem: MenuItem? = null
+
+    override val viewModel by viewModels<TvShowSearchViewModel>()
 
     private val handler = Handler(Looper.getMainLooper())
 
@@ -89,18 +88,11 @@ class TvShowSearchFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        if(_binding == null) {
-            _binding = FragmentTvShowSearchBinding.inflate(inflater, container, false)
-            initView()
-        }
-        viewModel.searchMovies.observe(viewLifecycleOwner, ::collectUiState)
-        adapter.addLoadStateListener(::renderUi)
-        return binding.root
-    }
-
+    ): View = inflater.inflate(R.layout.fragment_tv_show_search, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initView()
+        collectUiState()
         toolbar?.addMenuProvider(menuProvider)
         searchItem?.expandActionView()
         val query = viewModel.queryValue
@@ -110,9 +102,12 @@ class TvShowSearchFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun collectUiState(pagingData: PagingData<TvShowsEntity>?) = lifecycleScope.launch {
-        if(pagingData == null) return@launch
-        adapter.submitData(pagingData)
+    private fun collectUiState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.searchTvShows.collectLatest { movies ->
+                adapter.submitData(movies)
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -120,7 +115,6 @@ class TvShowSearchFragment : BaseFragment() {
         toolbar?.removeMenuProvider(menuProvider)
         searchItem = null
         searchView = null
-        _binding = null
         super.onDestroyView()
     }
 
@@ -147,6 +141,7 @@ class TvShowSearchFragment : BaseFragment() {
     }
 
     private fun initView() {
+        adapter.addLoadStateListener(::renderUi)
         val itemDecoration = ItemDecoration(16F, resources.displayMetrics)
         val tryAgainAction: TryAgainAction = { adapter.refresh() }
         val footerAdapter = LoadStateAdapter(tryAgainAction, requireContext())
