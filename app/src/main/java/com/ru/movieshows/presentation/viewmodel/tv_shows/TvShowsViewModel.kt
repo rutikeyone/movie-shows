@@ -71,4 +71,25 @@ class TvShowsViewModel @Inject constructor(
         val intent = NavigationIntent.To(action)
         navigationEvent.publishEvent(intent)
     }
+
+    fun navigateToAirTvShows() {
+        val directions = TvsFragmentDirections
+        val action = directions.actionTvsFragmentToAirTvShowsFragment()
+        val intent = NavigationIntent.To(action)
+        navigationEvent.publishEvent(intent)
+    }
+
+    fun navigateToTopRatedTvShows() {
+        val directions = TvsFragmentDirections
+        val action = directions.actionTvsFragmentToTopRatedTvShowsFragment()
+        val intent = NavigationIntent.To(action)
+        navigationEvent.publishEvent(intent)
+    }
+
+    fun navigateToPopularTvShows() {
+        val directions = TvsFragmentDirections
+        val action = directions.actionTvsFragmentToPopularTvShowsFragment()
+        val intent = NavigationIntent.To(action)
+        navigationEvent.publishEvent(intent)
+    }
 }

@@ -1,5 +1,6 @@
 package com.ru.movieshows.presentation.adapters
 
+import android.annotation.SuppressLint
 import android.app.ActionBar
 import android.view.LayoutInflater
 import android.view.View
@@ -60,13 +61,14 @@ class MoviesAdapter(
             binding.root.layoutParams = layoutParams
         }
 
+        @SuppressLint("SetTextI18n")
         private fun setupMovieRating(
             binding: MovieTileVariant1Binding,
             rating: Double?,
         ) {
             if (rating != null && rating > 0) {
                 val value = rating.toFloat()
-                binding.ratingValue.text = value.toString()
+                binding.ratingValue.text = "%.2f".format(value)
                 binding.ratingBar.isEnabled = false;
             } else {
                 binding.ratingValue.visibility = View.GONE

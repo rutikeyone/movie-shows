@@ -24,6 +24,27 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_tvsFragment_to_airTvShowsFragment"
+            app:destination="@id/airTvShowsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_tvsFragment_to_topRatedTvShowsFragment"
+            app:destination="@id/topRatedTvShowsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_tvsFragment_to_popularTvShowsFragment"
+            app:destination="@id/popularTvShowsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/tvShowSearchFragment"
@@ -47,11 +68,19 @@
             android:name="id"
             app:argType="string" />
     </fragment>
-    <action
-        android:id="@+id/action_global_tvShowDetailsFragment"
-        app:destination="@id/tvShowDetailsFragment"
-        app:enterAnim="@anim/nav_default_enter_anim"
-        app:exitAnim="@anim/nav_default_exit_anim"
-        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    <fragment
+        android:id="@+id/airTvShowsFragment"
+        android:name="com.ru.movieshows.presentation.screens.air_tv_shows.AirTvShowsFragment"
+        android:label="@string/on_the_air"
+        tools:layout="@layout/fragment_air_tv_shows" />
+    <fragment
+        android:id="@+id/topRatedTvShowsFragment"
+        android:name="com.ru.movieshows.presentation.screens.top_rated_tv_shows.TopRatedTvShowsFragment"
+        android:label="@string/top_rated"
+        tools:layout="@layout/fragment_top_rated_tv_shows" />
+    <fragment
+        android:id="@+id/popularTvShowsFragment"
+        android:name="com.ru.movieshows.presentation.screens.popular_tv_shows.PopularTvShowsFragment"
+        android:label="@string/popular_tv_shows"
+        tools:layout="@layout/fragment_popular_tv_shows" />
 </navigation>

@@ -103,7 +103,7 @@ class TvsFragment : BaseFragment() {
         val itemDecoration = ItemDecoration(8F, resources.displayMetrics)
         val adapter = TvShowsAdapter(tvShows, ::navigateToTvShowDetails)
         binding.onAirTvShows.adapter = adapter
-        binding.showAllOnAirTvShowsButton.setOnClickListener { }
+        binding.showAllOnAirTvShowsButton.setOnClickListener { viewModel.navigateToAirTvShows() }
         binding.onAirTvShows.addItemDecoration(itemDecoration)
     }
 
@@ -112,7 +112,7 @@ class TvsFragment : BaseFragment() {
         val itemDecoration = ItemDecoration(8F, resources.displayMetrics)
         val adapter = TvShowsAdapter(tvShows, ::navigateToTvShowDetails)
         binding.topRatedTvShows.adapter = adapter
-        binding.showTopRatedTvShowsButton.setOnClickListener {  }
+        binding.showTopRatedTvShowsButton.setOnClickListener { viewModel.navigateToTopRatedTvShows() }
         binding.topRatedTvShows.addItemDecoration(itemDecoration)
     }
 
@@ -121,7 +121,7 @@ class TvsFragment : BaseFragment() {
         val itemDecoration = ItemDecoration(8F, resources.displayMetrics)
         val adapter = TvShowsAdapter(tvShows, ::navigateToTvShowDetails)
         binding.popularTvShows.adapter = adapter
-        binding.popularTvShowsButton.setOnClickListener {  }
+        binding.popularTvShowsButton.setOnClickListener { viewModel.navigateToPopularTvShows() }
         binding.popularTvShows.addItemDecoration(itemDecoration)
     }
 

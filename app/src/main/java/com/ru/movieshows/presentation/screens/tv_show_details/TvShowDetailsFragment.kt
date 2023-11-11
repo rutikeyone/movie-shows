@@ -132,11 +132,16 @@ class TvShowDetailsFragment : BaseFragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun setupRating(tvShow: TvShowDetailsEntity) = with(binding.ratingBar) {
-        isEnabled = false
+    private fun setupRating(tvShow: TvShowDetailsEntity) = with(binding) {
+        binding.ratingBar.isEnabled = false
         val rating = tvShow.rating ?: return@with
-        binding.ratingText.text = "%.2f".format(rating)
-        binding.ratingBar.rating = (rating.toFloat() / 2)
+        if(rating > 0) {
+            binding.ratingText.text = "%.2f".format(rating)
+            binding.ratingBar.rating = (rating.toFloat() / 2)
+        } else {
+            ratingText.isVisible = false
+            ratingBar.isVisible = false
+        }
     }
 
     private fun setupPoster(tvShow: TvShowDetailsEntity) = with((binding.poster)) {
