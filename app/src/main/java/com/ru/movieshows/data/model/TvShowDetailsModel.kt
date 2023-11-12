@@ -31,11 +31,17 @@ data class TvShowDetailsModel(
     val createdBy: ArrayList<CreatorModel>?,
     @SerializedName("seasons")
     val seasons: ArrayList<SeasonModel>?,
+    @SerializedName("production_companies")
+    val productionCompanies: ArrayList<ProductionCompanyModel>?,
 ){
     @SuppressLint("SimpleDateFormat")
     fun toEntity(): TvShowDetailsEntity {
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
         val date = if(firstAirDate != null) simpleDateFormat.parse(firstAirDate) else null
+        val productionCompanies = this.productionCompanies?.let { it ->
+            ArrayList(it.map { it.toEntity() })
+        }
+
         return TvShowDetailsEntity(
             id,
             genres?.map { it.toEntity() }?.let { ArrayList(it) },
@@ -49,6 +55,7 @@ data class TvShowDetailsModel(
             numberOfSeasons,
             createdBy?.map { it.toEntity() }?.let { ArrayList(it) },
             seasons?.map { it.toEntity() }?.let { ArrayList(it) },
+            productionCompanies
         )
     }
 }

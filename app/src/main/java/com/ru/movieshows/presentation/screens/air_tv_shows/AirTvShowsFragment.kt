@@ -31,7 +31,7 @@ class AirTvShowsFragment : BaseFragment() {
     override val viewModel by viewModels<AirTvShowsViewModel>()
     private val binding by viewBinding<FragmentAirTvShowsBinding>()
 
-    private val adapter: TvShowListAdapter = TvShowListAdapter(::navigateToTvShowDetails)
+    private val adapter = TvShowListAdapter(::navigateToTvShowDetails)
 
     override fun onCreateView(
         inflater: LayoutInflater,

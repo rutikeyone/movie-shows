@@ -85,10 +85,26 @@
         android:id="@+id/topRatedTvShowsFragment"
         android:name="com.ru.movieshows.presentation.screens.top_rated_tv_shows.TopRatedTvShowsFragment"
         android:label="@string/top_rated"
-        tools:layout="@layout/fragment_top_rated_tv_shows" />
+        tools:layout="@layout/fragment_top_rated_tv_shows" >
+        <action
+            android:id="@+id/action_topRatedTvShowsFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
     <fragment
         android:id="@+id/popularTvShowsFragment"
         android:name="com.ru.movieshows.presentation.screens.popular_tv_shows.PopularTvShowsFragment"
         android:label="@string/popular_tv_shows"
-        tools:layout="@layout/fragment_popular_tv_shows" />
+        tools:layout="@layout/fragment_popular_tv_shows" >
+        <action
+            android:id="@+id/action_popularTvShowsFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
 </navigation>

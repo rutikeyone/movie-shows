@@ -194,6 +194,54 @@ class TvShowsRepositoryImpl @Inject constructor(private val tvShowsDto: TvShowDt
         ).flow
     }
 
+    override suspend fun getPagedTheTopRatedTvShows(
+        language: String
+    ): Flow<PagingData<TvShowsEntity>> {
+        val loader: PageLoader<List<TvShowsEntity>> = { pageIndex ->
+            val response = tvShowsDto.getTopRatedTvShows(language, pageIndex)
+            val isSuccessful = response.isSuccessful
+            val body = response.body()
+            if(!isSuccessful || body == null)  {
+                throw IllegalStateException("Response must be successful")
+            }
+            val result = body.result
+            val totalPages = body.totalPages
+            val tvShowsResult = result.map { it.toEntity() }
+            Pair(tvShowsResult.toList(), totalPages)
+        }
+
+        return Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                enablePlaceholders = false,
+            ),
+            pagingSourceFactory = { PagingSource(loader, PAGE_SIZE) }
+        ).flow
+    }
+
+    override suspend fun getPagedPopularTvShows(language: String): Flow<PagingData<TvShowsEntity>> {
+        val loader: PageLoader<List<TvShowsEntity>> = { pageIndex ->
+            val response = tvShowsDto.getPopularTvShows(language, pageIndex)
+            val isSuccessful = response.isSuccessful
+            val body = response.body()
+            if(!isSuccessful || body == null)  {
+                throw IllegalStateException("Response must be successful")
+            }
+            val result = body.result
+            val totalPages = body.totalPages
+            val tvShowsResult = result.map { it.toEntity() }
+            Pair(tvShowsResult.toList(), totalPages)
+        }
+
+        return Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                enablePlaceholders = false,
+            ),
+            pagingSourceFactory = { PagingSource(loader, PAGE_SIZE) }
+        ).flow
+    }
+
     override suspend fun getTrendingTvShows(
         language: String,
         page: Int,

@@ -24,7 +24,7 @@ import com.ru.movieshows.databinding.FragmentMovieDetailsBinding
 import com.ru.movieshows.domain.entity.MovieDetailsEntity
 import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.entity.ReviewEntity
-import com.ru.movieshows.presentation.adapters.GenresAdapter
+import com.ru.movieshows.presentation.adapters.InfoAdapter
 import com.ru.movieshows.presentation.adapters.MoviesAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
@@ -91,6 +91,7 @@ class MovieDetailsFragment : BaseFragment() {
             setupReleaseDate(movieDetailsEntity)
             setupOverview(movieDetailsEntity)
             setupGenres(movieDetailsEntity)
+            setupProductionCompanies(movieDetailsEntity)
             setupSimilarMovies(similarMovies)
             setupReview(reviews)
         }
@@ -151,11 +152,28 @@ class MovieDetailsFragment : BaseFragment() {
             layoutManager.flexDirection = FlexDirection.ROW
             layoutManager.justifyContent = JustifyContent.FLEX_START
             binding.genresView.layoutManager = layoutManager
-            val adapter = GenresAdapter(movieDetailsEntity.genres)
+            val names = movieDetailsEntity.genres.map { it.name }
+            val adapter = InfoAdapter(names)
             binding.genresView.adapter = adapter
         } else {
             binding.genresHeader.visibility = View.GONE
             binding.genresView.visibility = View.GONE
+        }
+    }
+
+    private fun setupProductionCompanies(movieDetailsEntity: MovieDetailsEntity) {
+        val  productionCompanies = movieDetailsEntity.productionCompanies
+        if (!productionCompanies.isNullOrEmpty()) {
+            val layoutManager = FlexboxLayoutManager(requireContext())
+            layoutManager.flexDirection = FlexDirection.ROW
+            layoutManager.justifyContent = JustifyContent.FLEX_START
+            binding.productionCompaniesRecyclerView.layoutManager = layoutManager
+            val names = productionCompanies.map { it.name }
+            val adapter = InfoAdapter(names)
+            binding.productionCompaniesRecyclerView.adapter = adapter
+        } else {
+            binding.productionCompaniesHeader.visibility = View.GONE
+            binding.productionCompaniesRecyclerView.visibility = View.GONE
         }
     }
 

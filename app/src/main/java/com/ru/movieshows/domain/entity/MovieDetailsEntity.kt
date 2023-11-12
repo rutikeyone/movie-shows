@@ -1,6 +1,5 @@
 package com.ru.movieshows.domain.entity
 
-import com.ru.movieshows.data.model.GenreModel
 import java.util.Date
 
 data class MovieDetailsEntity(
@@ -13,4 +12,5 @@ data class MovieDetailsEntity(
     val rating: Double?,
     val title: String?,
     val runtime: String?,
+    val productionCompanies: ArrayList<ProductionCompanyEntity>?,
 )

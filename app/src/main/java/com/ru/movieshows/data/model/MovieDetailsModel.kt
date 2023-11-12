@@ -25,11 +25,17 @@ data class MovieDetailsModel(
     val title: String?,
     @SerializedName("runtime")
     val runtime: String?,
+    @SerializedName("production_companies")
+    val productionCompanies: ArrayList<ProductionCompanyModel>?,
 ) {
     @SuppressLint("SimpleDateFormat")
     fun toEntity(): MovieDetailsEntity {
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
         val date = if(releaseDate != null) simpleDateFormat.parse(releaseDate) else null
+        val productionCompanies = this.productionCompanies?.let { it ->
+            ArrayList(it.map { it.toEntity() })
+        }
+
         return MovieDetailsEntity(
             id,
             ArrayList(genres.map { it.toEntity() }),
@@ -40,6 +46,7 @@ data class MovieDetailsModel(
             rating,
             title,
             runtime,
+            productionCompanies,
         )
     }
 }
