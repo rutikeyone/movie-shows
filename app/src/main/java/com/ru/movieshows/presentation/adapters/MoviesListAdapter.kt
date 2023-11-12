@@ -30,7 +30,6 @@ class MoviesListAdapter(
         return Holder(binding, onTap)
     }
 
-
     class Holder(
         private val binding: MovieTileVariant1Binding,
         private val onTap: (MovieEntity) -> Unit,

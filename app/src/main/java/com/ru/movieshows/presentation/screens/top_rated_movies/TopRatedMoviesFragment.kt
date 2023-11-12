@@ -54,7 +54,7 @@ class TopRatedMoviesFragment : BaseFragment() {
     }
 
     private fun initView() = with(binding) {
-    adapter.addLoadStateListener { loadState -> renderUi(loadState) }
+    adapter.addLoadStateListener { loadState -> renderUI(loadState) }
     val itemDecoration = ItemDecoration(8F, resources.displayMetrics)
     val tryAgainAction: TryAgainAction = { adapter.retry() }
     val footerAdapter = LoadStateAdapter(tryAgainAction, requireContext())
@@ -71,10 +71,10 @@ class TopRatedMoviesFragment : BaseFragment() {
     }
 }
 
-private fun renderUi(loadState: CombinedLoadStates) = with(binding) {
+private fun renderUI(loadState: CombinedLoadStates) = with(binding) {
     val isListEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
-    val showReviews = !isListEmpty || loadState.source.refresh is LoadState.NotLoading
-    binding.rvMovies.isVisible = showReviews
+    val showList = !isListEmpty || loadState.source.refresh is LoadState.NotLoading
+    binding.rvMovies.isVisible = showList
     binding.progressBarMovies.isVisible = loadState.source.refresh is LoadState.Loading
     setupFailurePart(loadState)
 }

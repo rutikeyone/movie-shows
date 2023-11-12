@@ -12,6 +12,7 @@ interface TvShowRepository {
     suspend fun getTopRatedTvShows(language: String = "en_US", page: Int = 1): Result<ArrayList<TvShowsEntity>>
     suspend fun getPopularTvShows(language: String = "en_US", page: Int = 1): Result<ArrayList<TvShowsEntity>>
     suspend fun getOnTheAirTvShows(language: String = "en_US", page: Int = 1): Result<ArrayList<TvShowsEntity>>
+    suspend fun getPagedTheAirTvShows(language: String = "en_US"): Flow<PagingData<TvShowsEntity>>
     suspend fun getTrendingTvShows(language: String = "en_US", page: Int = 1) : Result<ArrayList<TvShowsEntity>>
     fun searchPagedMovies(language: String = "en_US", query: String? = null): Flow<PagingData<TvShowsEntity>>
 }

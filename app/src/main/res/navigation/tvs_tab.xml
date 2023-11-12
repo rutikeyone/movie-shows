@@ -72,7 +72,15 @@
         android:id="@+id/airTvShowsFragment"
         android:name="com.ru.movieshows.presentation.screens.air_tv_shows.AirTvShowsFragment"
         android:label="@string/on_the_air"
-        tools:layout="@layout/fragment_air_tv_shows" />
+        tools:layout="@layout/fragment_air_tv_shows" >
+        <action
+            android:id="@+id/action_airTvShowsFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
     <fragment
         android:id="@+id/topRatedTvShowsFragment"
         android:name="com.ru.movieshows.presentation.screens.top_rated_tv_shows.TopRatedTvShowsFragment"

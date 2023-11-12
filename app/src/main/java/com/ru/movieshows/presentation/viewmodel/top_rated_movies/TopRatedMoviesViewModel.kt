@@ -25,8 +25,8 @@ class TopRatedMoviesViewModel @Inject constructor(moviesRepository: MoviesReposi
     fun navigateToMovieDetails(movie: MovieEntity) {
         if(movie.id == null) return
         val directions = TopRatedMoviesFragmentDirections
-        val direction = directions.actionTopRatedMoviesFragmentToMovieDetailsFragment(movie.id)
-        val action = NavigationIntent.To(direction)
-        navigationEvent.publishEvent(action)
+        val action = directions.actionTopRatedMoviesFragmentToMovieDetailsFragment(movie.id)
+        val intent = NavigationIntent.To(action)
+        navigationEvent.publishEvent(intent)
     }
 }
