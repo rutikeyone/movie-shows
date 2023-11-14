@@ -5,7 +5,6 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.ru.movieshows.data.repository.TvShowRepository
 import com.ru.movieshows.domain.entity.TvShowsEntity
-import com.ru.movieshows.presentation.screens.air_tv_shows.AirTvShowsFragmentDirections
 import com.ru.movieshows.presentation.utils.NavigationIntent
 import com.ru.movieshows.presentation.utils.publishEvent
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
@@ -25,10 +24,8 @@ class AirTvShowsViewModel @Inject constructor(
     }.cachedIn(viewModelScope)
 
     fun navigateToTvShowDetails(tvShow: TvShowsEntity) {
-        val id = tvShow.id?.toString() ?: return
-        val directions = AirTvShowsFragmentDirections
-        val action = directions.actionAirTvShowsFragmentToTvShowDetailsFragment(id)
-        val intent = NavigationIntent.To(action)
+        val id = tvShow.id?.toIntOrNull() ?: return
+        val intent = NavigationIntent.toTvShowDetails(id)
         navigationEvent.publishEvent(intent)
     }
 

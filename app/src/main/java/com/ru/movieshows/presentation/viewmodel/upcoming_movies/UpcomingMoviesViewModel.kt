@@ -5,7 +5,6 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.ru.movieshows.data.repository.MoviesRepository
 import com.ru.movieshows.domain.entity.MovieEntity
-import com.ru.movieshows.presentation.screens.uncoming_movies.UpcomingMoviesFragmentDirections
 import com.ru.movieshows.presentation.utils.NavigationIntent
 import com.ru.movieshows.presentation.utils.publishEvent
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
@@ -24,10 +23,8 @@ class UpcomingMoviesViewModel @Inject constructor(
     }.cachedIn(viewModelScope)
 
     fun navigateToMovieDetails(movie: MovieEntity){
-        if(movie.id == null) return
-        val directions = UpcomingMoviesFragmentDirections
-        val action = directions.actionUpcomingMoviesFragmentToMovieDetailsFragment(movie.id)
-        val intent = NavigationIntent.To(action)
-        navigationEvent.publishEvent(intent)
+        val id = movie.id ?: return
+        val action = NavigationIntent.toMovieDetails(id)
+        navigationEvent.publishEvent(action)
     }
 }

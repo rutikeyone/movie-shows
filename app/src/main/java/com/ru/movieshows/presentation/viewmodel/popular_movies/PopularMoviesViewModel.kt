@@ -5,7 +5,6 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.ru.movieshows.data.repository.MoviesRepository
 import com.ru.movieshows.domain.entity.MovieEntity
-import com.ru.movieshows.presentation.screens.popular_movies.PopularMoviesFragmentDirections
 import com.ru.movieshows.presentation.utils.NavigationIntent
 import com.ru.movieshows.presentation.utils.publishEvent
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
@@ -22,10 +21,8 @@ class PopularMoviesViewModel @Inject constructor(moviesRepository: MoviesReposit
     }.cachedIn(viewModelScope)
 
     fun navigateToMovieDetails(movie: MovieEntity){
-        if(movie.id == null) return;
-        val directions = PopularMoviesFragmentDirections
-        val action = directions.actionPopularMoviesFragmentToMovieDetailsFragment(movie.id)
-        val intent = NavigationIntent.To(action)
-        navigationEvent.publishEvent(intent)
+        val id = movie.id ?: return
+        val action = NavigationIntent.toMovieDetails(id)
+        navigationEvent.publishEvent(action)
     }
 }

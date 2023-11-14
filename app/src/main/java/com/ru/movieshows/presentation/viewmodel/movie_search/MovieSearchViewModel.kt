@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.ru.movieshows.data.repository.MoviesRepository
 import com.ru.movieshows.domain.entity.MovieEntity
-import com.ru.movieshows.presentation.screens.movie_search.MovieSearchFragmentDirections
 import com.ru.movieshows.presentation.utils.NavigationIntent
 import com.ru.movieshows.presentation.utils.publishEvent
 import com.ru.movieshows.presentation.utils.share
@@ -61,8 +60,7 @@ class MovieSearchViewModel @Inject constructor(
 
     fun navigateToMovieDetails(movie: MovieEntity){
         val id = movie.id ?: return
-        val direction = MovieSearchFragmentDirections.actionMovieSearchFragmentToMovieDetailsFragment(id)
-        val intent = NavigationIntent.To(direction)
-        navigationEvent.publishEvent(intent)
+        val action = NavigationIntent.toMovieDetails(id)
+        navigationEvent.publishEvent(action)
     }
 }

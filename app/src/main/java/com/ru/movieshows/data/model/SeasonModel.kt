@@ -11,7 +11,7 @@ data class SeasonModel(
     @SerializedName("id")
     val id: Int? = null,
     @SerializedName("episode_count")
-    val episodeCount: Int?,
+    val episodeCountValue: Int?,
     @SerializedName("name")
     val name: String?,
     @SerializedName("overview")
@@ -25,16 +25,25 @@ data class SeasonModel(
     val airDate: Date?,
     @SerializedName("poster_path")
     @JsonAdapter(value = ImageConverter::class)
-    val poster: String?
+    val poster: String?,
+    @SerializedName("episodes")
+    val episodes: ArrayList<EpisodeModel>?,
 ) {
-    fun toEntity(): SeasonEntity = SeasonEntity(
-        id,
-        episodeCount,
-        name,
-        overview,
-        seasonNumber,
-        rating,
-        airDate,
-        poster,
-    )
+    fun toEntity(): SeasonEntity {
+        val episodes = this.episodes?.let { it ->
+            ArrayList(it.map { it.toEntity() })
+        }
+
+        return SeasonEntity(
+            id,
+            episodeCountValue,
+            name,
+            overview,
+            seasonNumber,
+            rating,
+            airDate,
+            poster,
+            episodes,
+        )
+    }
 }

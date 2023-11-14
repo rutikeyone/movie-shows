@@ -1,7 +1,7 @@
 package com.ru.movieshows.data.dto
 
+import com.ru.movieshows.data.model.SeasonModel
 import com.ru.movieshows.data.model.TvShowDetailsModel
-import com.ru.movieshows.data.model.TvShowsModel
 import com.ru.movieshows.data.response.TvShowsResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -9,6 +9,9 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface TvShowDto {
+    @GET("tv/{series_id}/season/{season_number}")
+    suspend fun getSeason(@Path("series_id") seriesId: String, @Path("season_number") seasonNumber: String, @Query("language") language: String) : SeasonModel
+
     @GET("tv/{series_id}/similar")
     suspend fun getSimilarTvShows(@Path("series_id") seriesId: String, @Query("language") language: String, @Query("page") page: Int): Response<TvShowsResponse>
 

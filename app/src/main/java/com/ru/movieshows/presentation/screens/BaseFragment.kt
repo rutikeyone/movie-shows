@@ -7,9 +7,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.Dexter
+import com.ru.movieshows.presentation.contract.navigator
 import com.ru.movieshows.presentation.utils.DialogIntent
 import com.ru.movieshows.presentation.utils.NavigationIntent
 import com.ru.movieshows.presentation.utils.PermissionIntent
@@ -68,10 +68,20 @@ open class BaseFragment: Fragment() {
         Snackbar.make(requireView(), message,  Snackbar.LENGTH_LONG).show()
     }
 
-    private fun executeNavigationEvent(navigationIntent: NavigationIntent) {
-        when (navigationIntent) {
-            is NavigationIntent.To -> findNavController().navigate(navigationIntent.direction)
-            NavigationIntent.Pop -> findNavController().popBackStack()
+    private fun executeNavigationEvent(intent: NavigationIntent) {
+        when (intent) {
+            is NavigationIntent.ToMovieDetails -> navigator().navigateToMovieDetails(intent.id)
+            NavigationIntent.ToPopularMovies -> navigator().navigateToPopularMovies()
+            NavigationIntent.ToTopRatedMovies -> navigator().navigateToTopRatedMovies()
+            NavigationIntent.ToUpcomingMovies -> navigator().navigateToUpcomingMovies()
+            NavigationIntent.ToMovieSearch -> navigator().navigateToMovieSearch()
+            NavigationIntent.Pop -> navigator().pop()
+            NavigationIntent.ToTvShowsSearch -> navigator().navigateToTvShowsSearch()
+            is NavigationIntent.ToTvShowsDetails -> navigator().navigateToTvShowDetails(intent.id)
+            NavigationIntent.ToAirTvShows -> navigator().navigateToAirTvShows()
+            NavigationIntent.ToTopRatedTvShows -> navigator().navigateToTopRatedTvShows()
+            NavigationIntent.ToTopPopularTvShows -> navigator().navigateToPopularTvShows()
+            is NavigationIntent.ToReviews -> navigator().navigateToReviews(intent.reviews, intent.movieId)
         }
     }
 

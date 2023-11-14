@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.ru.movieshows.data.repository.TvShowRepository
 import com.ru.movieshows.domain.entity.TvShowsEntity
-import com.ru.movieshows.presentation.screens.tv_show_search.TvShowSearchFragmentDirections
 import com.ru.movieshows.presentation.utils.NavigationIntent
 import com.ru.movieshows.presentation.utils.publishEvent
 import com.ru.movieshows.presentation.utils.share
@@ -60,9 +59,8 @@ class TvShowSearchViewModel @Inject constructor(
     }
 
     fun navigateToTvShowDetails(tvShow: TvShowsEntity) {
-        val id = tvShow.id ?: return
-        val action = TvShowSearchFragmentDirections.actionTvShowSearchFragmentToTvShowDetailsFragment(id)
-        val intent = NavigationIntent.To(action)
-        navigationEvent.publishEvent(intent)
+        val id = tvShow.id?.toIntOrNull() ?: return
+        val action = NavigationIntent.toTvShowDetails(id)
+        navigationEvent.publishEvent(action)
     }
 }

@@ -12,7 +12,6 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.google.android.material.appbar.MaterialToolbar
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FailurePartBinding
 import com.ru.movieshows.databinding.FragmentTvShowDetailsBinding
@@ -21,6 +20,7 @@ import com.ru.movieshows.domain.entity.TvShowDetailsEntity
 import com.ru.movieshows.presentation.adapters.CreatorAdapter
 import com.ru.movieshows.presentation.adapters.InfoAdapter
 import com.ru.movieshows.presentation.adapters.SeasonAdapter
+import com.ru.movieshows.presentation.contract.navigator
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
 import com.ru.movieshows.presentation.viewmodel.tv_show_details.TvShowDetailsState
@@ -97,10 +97,13 @@ class TvShowDetailsFragment : BaseFragment() {
     }
 
     private fun showSeasonModalBottomSheet(season: SeasonEntity) {
+        val seasonNumber = season.seasonNumber?.toString() ?: return
         val supportFragmentManager = requireActivity().supportFragmentManager
         val bottomSheet = SeasonDetailsBottomSheetDialogFragment()
         val bundle = Bundle().also {
             it.putParcelable(SeasonDetailsBottomSheetDialogFragment.SEASON_ARG, season)
+            it.putString(SeasonDetailsBottomSheetDialogFragment.SEASON_NUMBER, seasonNumber)
+            it.putString(SeasonDetailsBottomSheetDialogFragment.SERIES_ID, args.id)
         }
         bottomSheet.also {
             it.arguments = bundle
@@ -199,7 +202,7 @@ class TvShowDetailsFragment : BaseFragment() {
     }
 
     private fun renderTitle(value: String?) {
-        val toolBar = activity?.findViewById<MaterialToolbar>(R.id.tabsToolbar) ?: return
+        val toolBar = navigator().getToolbar() ?: return
         toolBar.title = value
     }
 

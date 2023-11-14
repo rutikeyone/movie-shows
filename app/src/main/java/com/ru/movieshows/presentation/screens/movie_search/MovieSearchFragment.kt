@@ -17,7 +17,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.appbar.MaterialToolbar
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FragmentMovieSearchBinding
 import com.ru.movieshows.domain.entity.MovieEntity
@@ -25,6 +24,7 @@ import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.adapters.LoadStateAdapter
 import com.ru.movieshows.presentation.adapters.MoviesSearchAdapter
 import com.ru.movieshows.presentation.adapters.TryAgainAction
+import com.ru.movieshows.presentation.contract.navigator
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
 import com.ru.movieshows.presentation.utils.viewBinding
@@ -35,7 +35,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MovieSearchFragment : BaseFragment() {
-    private val toolbar get() = activity?.findViewById<MaterialToolbar>(R.id.tabsToolbar)
+    private val toolbar get() = navigator().getToolbar()
     private val binding by viewBinding<FragmentMovieSearchBinding>()
     private val adapter: MoviesSearchAdapter = MoviesSearchAdapter(::navigateToMovieDetails)
     private var searchView : SearchView? = null

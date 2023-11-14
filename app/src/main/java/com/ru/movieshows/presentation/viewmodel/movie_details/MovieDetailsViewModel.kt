@@ -8,7 +8,6 @@ import com.ru.movieshows.domain.entity.MovieDetailsEntity
 import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.entity.ReviewEntity
 import com.ru.movieshows.domain.utils.AppFailure
-import com.ru.movieshows.presentation.screens.movie_details.MovieDetailsFragmentDirections
 import com.ru.movieshows.presentation.utils.NavigationIntent
 import com.ru.movieshows.presentation.utils.publishEvent
 import com.ru.movieshows.presentation.utils.share
@@ -68,15 +67,14 @@ class MovieDetailsViewModel @AssistedInject constructor(
     }
 
     fun navigateToMovieDetails(movie: MovieEntity){
-        if(movie.id == null) return;
-        navigationEvent.publishEvent(NavigationIntent.To(MovieDetailsFragmentDirections.actionMovieDetailsFragmentSelf(movie.id)))
+        val id = movie.id ?: return
+        val action = NavigationIntent.toMovieDetails(id)
+        navigationEvent.publishEvent(action)
     }
 
     fun navigateToReviews(reviews: ArrayList<ReviewEntity>) {
-        val navigationIntent = NavigationIntent.To(
-            MovieDetailsFragmentDirections.actionMovieDetailsFragmentToMovieReviewsFragment(reviews.toTypedArray(), movieId)
-        )
-        navigationEvent.publishEvent(navigationIntent)
+        val action = NavigationIntent.toReviews(reviews, movieId)
+        navigationEvent.publishEvent(action)
     }
 
     @AssistedFactory

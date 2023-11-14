@@ -8,7 +8,6 @@ import com.ru.movieshows.data.repository.MoviesRepository
 import com.ru.movieshows.domain.entity.GenreEntity
 import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.utils.AppFailure
-import com.ru.movieshows.presentation.screens.movies.MoviesFragmentDirections
 import com.ru.movieshows.presentation.utils.NavigationIntent
 import com.ru.movieshows.presentation.utils.publishEvent
 import com.ru.movieshows.presentation.utils.share
@@ -112,28 +111,27 @@ class MoviesViewModel @Inject constructor(
 
     fun navigateToMovieDetails(movie: MovieEntity){
         val id = movie.id ?: return
-        val action = MoviesFragmentDirections.actionMoviesFragmentToMovieDetailsFragment(id)
-        val intent = NavigationIntent.To(action)
+        val intent = NavigationIntent.toMovieDetails(id)
         navigationEvent.publishEvent(intent)
     }
 
     fun navigateToUpcomingMovies() {
-        val intent = NavigationIntent.To(MoviesFragmentDirections.actionMoviesFragmentToUpcomingMoviesFragment())
+        val intent = NavigationIntent.toUpcomingMovies()
         navigationEvent.publishEvent(intent)
     }
 
     fun navigateToPopularMovies() {
-        val intent = NavigationIntent.To(MoviesFragmentDirections.actionMoviesFragmentToPopularMoviesFragment2())
+        val intent = NavigationIntent.toPopularMovies()
         navigationEvent.publishEvent(intent)
     }
 
     fun navigateToTopRatedMovies() {
-        val intent = NavigationIntent.To(MoviesFragmentDirections.actionMoviesFragmentToTopRatedMoviesFragment())
+        val intent = NavigationIntent.toTopRatedMovies()
         navigationEvent.publishEvent(intent)
     }
 
     fun navigateToMovieSearch() {
-        val intent = NavigationIntent.To(MoviesFragmentDirections.actionMoviesFragmentToMovieSearchFragment())
+        val intent = NavigationIntent.toMovieSearch()
         navigationEvent.publishEvent(intent)
     }
 }

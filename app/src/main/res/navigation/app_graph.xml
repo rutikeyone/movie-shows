@@ -14,6 +14,10 @@
         <action
             android:id="@+id/action_tabsFragment_to_signInFragment4"
             app:destination="@id/signInFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/app_graph"
             app:popUpToInclusive="true" />
     </fragment>
@@ -26,11 +30,19 @@
         <action
             android:id="@+id/action_splashFragment_to_signInFragment"
             app:destination="@id/signInFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/app_graph"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_splashFragment_to_tabsFragment"
             app:destination="@id/tabsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/app_graph"
             app:popUpToInclusive="true" />
     </fragment>
@@ -44,6 +56,10 @@
         <action
             android:id="@+id/action_signInFragment_to_tabsFragment3"
             app:destination="@id/tabsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/app_graph"
             app:popUpToInclusive="true" />
     </fragment>

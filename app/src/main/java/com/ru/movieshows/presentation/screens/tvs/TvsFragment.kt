@@ -12,13 +12,13 @@ import androidx.core.view.MenuProvider
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import com.google.android.material.appbar.MaterialToolbar
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FailurePartBinding
 import com.ru.movieshows.databinding.FragmentTvsBinding
 import com.ru.movieshows.domain.entity.TvShowsEntity
 import com.ru.movieshows.presentation.adapters.TvShowsAdapter
 import com.ru.movieshows.presentation.adapters.TvShowsViewPagerAdapter
+import com.ru.movieshows.presentation.contract.navigator
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
 import com.ru.movieshows.presentation.utils.viewBinding
@@ -31,7 +31,7 @@ class TvsFragment : BaseFragment() {
     override val viewModel by viewModels<TvShowsViewModel>()
     private val binding by viewBinding<FragmentTvsBinding>()
 
-    private val toolbar: MaterialToolbar get() = requireActivity().findViewById(R.id.tabsToolbar)
+    private val toolbar get() = navigator().getToolbar()
 
     private val menuProvider = object : MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -58,12 +58,12 @@ class TvsFragment : BaseFragment() {
     }
 
     override fun onStart() {
-        toolbar.addMenuProvider(menuProvider, viewLifecycleOwner)
+        toolbar?.addMenuProvider(menuProvider, viewLifecycleOwner)
         super.onStart()
     }
 
     override fun onStop() {
-        toolbar.removeMenuProvider(menuProvider)
+        toolbar?.removeMenuProvider(menuProvider)
         super.onStop()
     }
 

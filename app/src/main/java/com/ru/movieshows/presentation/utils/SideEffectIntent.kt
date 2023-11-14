@@ -2,7 +2,7 @@ package com.ru.movieshows.presentation.utils
 
 import android.widget.Toast
 import androidx.annotation.StringRes
-import androidx.navigation.NavDirections
+import com.ru.movieshows.domain.entity.ReviewEntity
 
 data class SnackBarIntent(
     @StringRes val message: Int
@@ -18,8 +18,33 @@ data class PermissionIntent(
     val permission: String,
 )
 sealed class NavigationIntent {
-    data class To(val direction: NavDirections): NavigationIntent()
+    object ToPopularMovies : NavigationIntent()
+    object ToTopRatedMovies: NavigationIntent()
+    object ToUpcomingMovies: NavigationIntent()
+    data class ToMovieDetails(val id: Int): NavigationIntent()
+    data class ToTvShowsDetails(val id: Int): NavigationIntent()
+    object ToMovieSearch: NavigationIntent()
     object Pop : NavigationIntent()
+    object ToTvShowsSearch: NavigationIntent()
+    object ToAirTvShows: NavigationIntent()
+    object ToTopRatedTvShows: NavigationIntent()
+    object ToTopPopularTvShows: NavigationIntent()
+    data class ToReviews(val reviews: ArrayList<ReviewEntity>, val movieId: Int): NavigationIntent()
+
+    companion object {
+        fun toPopularMovies() = ToPopularMovies
+        fun toTopRatedMovies() = ToTopRatedMovies
+        fun toUpcomingMovies() = ToUpcomingMovies
+        fun toMovieSearch() = ToMovieSearch
+        fun toMovieDetails(id: Int) = ToMovieDetails(id)
+        fun pop() = Pop
+        fun toTvShowsSearch() = ToTvShowsSearch
+        fun toTvShowDetails(id: Int) = ToTvShowsDetails(id)
+        fun toAirTvShows() = ToAirTvShows
+        fun toTopRatedTvShows() = ToTopRatedTvShows
+        fun toTopPopularTvShows() = ToTopPopularTvShows
+        fun toReviews(reviews: ArrayList<ReviewEntity>, movieId: Int) = ToReviews(reviews, movieId)
+    }
 }
 
 data class ToastIntent(

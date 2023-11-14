@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.ru.movieshows.data.repository.TvShowRepository
 import com.ru.movieshows.domain.entity.TvShowsEntity
 import com.ru.movieshows.domain.utils.AppFailure
-import com.ru.movieshows.presentation.screens.tvs.TvsFragmentDirections
 import com.ru.movieshows.presentation.utils.NavigationIntent
 import com.ru.movieshows.presentation.utils.publishEvent
 import com.ru.movieshows.presentation.utils.share
@@ -61,35 +60,28 @@ class TvShowsViewModel @Inject constructor(
     }
 
     fun navigateToTvShowSearch() {
-        val intent = NavigationIntent.To(TvsFragmentDirections.actionTvsFragmentToTvShowSearchFragment())
+        val intent = NavigationIntent.toTvShowsSearch()
         navigationEvent.publishEvent(intent)
     }
 
     fun navigateToTvShowDetails(tvShow: TvShowsEntity) {
-        val id = tvShow.id ?: return
-        val action = TvsFragmentDirections.actionTvsFragmentToTvShowDetailsFragment(id)
-        val intent = NavigationIntent.To(action)
+        val id = tvShow.id?.toIntOrNull() ?: return
+        val intent = NavigationIntent.toTvShowDetails(id)
         navigationEvent.publishEvent(intent)
     }
 
     fun navigateToAirTvShows() {
-        val directions = TvsFragmentDirections
-        val action = directions.actionTvsFragmentToAirTvShowsFragment()
-        val intent = NavigationIntent.To(action)
-        navigationEvent.publishEvent(intent)
+        val action = NavigationIntent.toAirTvShows()
+        navigationEvent.publishEvent(action)
     }
 
     fun navigateToTopRatedTvShows() {
-        val directions = TvsFragmentDirections
-        val action = directions.actionTvsFragmentToTopRatedTvShowsFragment()
-        val intent = NavigationIntent.To(action)
-        navigationEvent.publishEvent(intent)
+        val action = NavigationIntent.toTopRatedTvShows()
+        navigationEvent.publishEvent(action)
     }
 
     fun navigateToPopularTvShows() {
-        val directions = TvsFragmentDirections
-        val action = directions.actionTvsFragmentToPopularTvShowsFragment()
-        val intent = NavigationIntent.To(action)
-        navigationEvent.publishEvent(intent)
+        val action = NavigationIntent.toTopPopularTvShows()
+        navigationEvent.publishEvent(action)
     }
 }

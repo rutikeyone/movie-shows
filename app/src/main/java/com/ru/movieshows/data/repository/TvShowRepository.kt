@@ -1,11 +1,13 @@
 package com.ru.movieshows.data.repository
 
 import androidx.paging.PagingData
+import com.ru.movieshows.domain.entity.SeasonEntity
 import com.ru.movieshows.domain.entity.TvShowDetailsEntity
 import com.ru.movieshows.domain.entity.TvShowsEntity
 import kotlinx.coroutines.flow.Flow
 
 interface TvShowRepository {
+    suspend fun getSeason(language: String = "en_US", seriesId: String, seasonNumber: String): Result<SeasonEntity>
     suspend fun getSimilarTvShows(language: String = "en_US", page: Int = 1, seriesId: String): Result<ArrayList<TvShowsEntity>>
     suspend fun getDiscoverTvShows(language: String = "en_US", page: Int = 1): Result<ArrayList<TvShowsEntity>>
     suspend fun getTvShowDetails(language: String = "en_US", id: String): Result<TvShowDetailsEntity>

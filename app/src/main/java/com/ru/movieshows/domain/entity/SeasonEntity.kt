@@ -7,11 +7,14 @@ import java.util.Date
 @Parcelize
 data  class SeasonEntity(
     val id: Int?,
-    val episodeCount: Int?,
+    val episodeCountValue: Int?,
     val name: String?,
     val overview: String?,
     val seasonNumber: Int?,
     val rating: Double?,
     val airDate: Date?,
-    val poster: String?
-) : Parcelable
+    val poster: String?,
+    val episodes: ArrayList<EpisodeEntity>?,
+) : Parcelable {
+    val episodeCount get() = episodes?.size ?: episodeCountValue
+}
