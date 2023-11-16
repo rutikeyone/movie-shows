@@ -7,6 +7,7 @@ import com.ru.movieshows.data.repository.MoviesRepository
 import com.ru.movieshows.domain.entity.MovieDetailsEntity
 import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.entity.ReviewEntity
+import com.ru.movieshows.domain.entity.VideoEntity
 import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.utils.NavigationIntent
 import com.ru.movieshows.presentation.utils.publishEvent
@@ -39,7 +40,8 @@ class MovieDetailsViewModel @AssistedInject constructor(
                 val movieDetails = fetchMovieDetails(it)
                 val similarMovies = fetchSimilarMovies(it)
                 val reviews = fetchReviews(it)
-                _state.value = MovieDetailsState.Success(movieDetails, similarMovies, reviews)
+                val videos = fetchVideos(it)
+                _state.value = MovieDetailsState.Success(movieDetails, similarMovies, videos, reviews)
                 _title.value = movieDetails.title
 
             } catch (e: AppFailure) {
@@ -64,6 +66,12 @@ class MovieDetailsViewModel @AssistedInject constructor(
         val id = movieId.toString()
         val fetchReviewsResult = moviesRepository.getMovieReviews(language, id, 1)
         return fetchReviewsResult.getOrThrow()
+    }
+
+    private suspend fun fetchVideos(language: String): ArrayList<VideoEntity> {
+        val id = movieId.toString()
+        val fetchVideosResult = moviesRepository.getVideosByMovieId(language, id)
+        return fetchVideosResult.getOrThrow()
     }
 
     fun navigateToMovieDetails(movie: MovieEntity){

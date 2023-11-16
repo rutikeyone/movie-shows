@@ -11,6 +11,7 @@ sealed class MovieDetailsState {
     data class Success(
         val movieDetails: MovieDetailsEntity,
         val similarMovies: ArrayList<MovieEntity>,
+        val videos: ArrayList<VideoEntity>,
         val reviews: ArrayList<ReviewEntity>,
     ): MovieDetailsState()
     data class Failure(

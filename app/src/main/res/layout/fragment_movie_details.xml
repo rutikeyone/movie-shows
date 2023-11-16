@@ -246,6 +246,32 @@
                     />
 
                 <TextView
+                    android:id="@+id/videosTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/videos"
+                    android:layout_marginTop="@dimen/dp_12"
+                    android:layout_marginStart="@dimen/dp_16"
+                    android:layout_marginEnd="@dimen/dp_16"
+                    android:textAllCaps="true"
+                    style="?attr/MovieShows.TextAppearance.Body3.Hint.Bold"
+                    tools:visibility="visible"
+                    />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/videosRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_240"
+                    android:layout_marginStart="@dimen/dp_8"
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:layout_marginEnd="@dimen/dp_8"
+                    android:layout_marginBottom="@dimen/dp_16"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:layout_height="wrap_content"
+                    tools:listitem="@layout/video_item" />
+
+                <TextView
                     android:id="@+id/similarMoviesHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -257,7 +283,6 @@
                     style="?attr/MovieShows.TextAppearance.Body3.Hint.Bold"
                     tools:visibility="visible"
                     />
-
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/similarMovies"

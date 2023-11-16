@@ -8,14 +8,18 @@ interface ReceiverListener {
     fun update()
 }
 
-class LanguageChangedReceiver(
-    private val listener: ReceiverListener,
-) : BroadcastReceiver() {
+class LanguageChangedReceiver() : BroadcastReceiver() {
+
+    private var listener: ReceiverListener? = null
+
+    constructor (listener: ReceiverListener) : this() {
+        this.listener = listener
+    }
 
     override fun onReceive(context: Context, intent: Intent?) {
         val action = intent?.action ?: return
         if (action == Intent.ACTION_LOCALE_CHANGED) {
-            listener.update()
+            listener?.update()
         }
     }
 

@@ -15,5 +15,13 @@ data class VideoModel(
     @SerializedName("type")
     val type: String?
 ) {
-    fun toEntity(): VideoEntity = VideoEntity(id, key, name, site, type)
+    private val image: String? get() {
+        return if(!key.isNullOrEmpty()) {
+            "https://i.ytimg.com/vi/$key/maxresdefault.jpg"
+        } else {
+            null
+        }
+    }
+
+    fun toEntity(): VideoEntity = VideoEntity(id, key, name, site, type, image)
 }

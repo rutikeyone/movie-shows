@@ -24,8 +24,10 @@ import com.ru.movieshows.databinding.FragmentMovieDetailsBinding
 import com.ru.movieshows.domain.entity.MovieDetailsEntity
 import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.entity.ReviewEntity
+import com.ru.movieshows.domain.entity.VideoEntity
 import com.ru.movieshows.presentation.adapters.InfoAdapter
 import com.ru.movieshows.presentation.adapters.MoviesAdapter
+import com.ru.movieshows.presentation.adapters.VideosAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
 import com.ru.movieshows.presentation.utils.viewBinding
@@ -74,6 +76,7 @@ class MovieDetailsFragment : BaseFragment() {
                     movieDetailsState.movieDetails,
                     movieDetailsState.similarMovies,
                     movieDetailsState.reviews,
+                    movieDetailsState.videos,
                 )
             }
         }
@@ -82,6 +85,7 @@ class MovieDetailsFragment : BaseFragment() {
             movieDetailsEntity: MovieDetailsEntity,
             similarMovies: ArrayList<MovieEntity>,
             reviews: ArrayList<ReviewEntity>,
+            videos: ArrayList<VideoEntity>,
         ) {
             binding.successContainer.visibility = View.VISIBLE
             setupMovieBackDrop(movieDetailsEntity)
@@ -93,8 +97,21 @@ class MovieDetailsFragment : BaseFragment() {
             setupGenres(movieDetailsEntity)
             setupProductionCompanies(movieDetailsEntity)
             setupSimilarMovies(similarMovies)
+            setupVideos(videos)
             setupReview(reviews)
         }
+
+    private fun setupVideos(videos: ArrayList<VideoEntity>) {
+        if (videos.isNotEmpty()) {
+            val itemDecorator = ItemDecoration(8F, resources.displayMetrics)
+            val adapter = VideosAdapter(::navigateToVideo).also { it.updateData(videos) }
+            binding.videosRecyclerView.adapter = adapter
+            binding.videosRecyclerView.addItemDecoration(itemDecorator)
+        } else {
+            binding.videosTextView.visibility = View.GONE
+            binding.videosRecyclerView.visibility = View.GONE
+        }
+    }
 
     private fun setupReview(reviews: ArrayList<ReviewEntity>) {
         val reviewTile = view?.findViewById<CardView>(R.id.reviewTile)
@@ -258,4 +275,6 @@ class MovieDetailsFragment : BaseFragment() {
     private fun renderInPendingUI() {
         binding.progressContainer.visibility = View.VISIBLE
     }
+
+    private fun navigateToVideo(video: VideoEntity) {}
 }
