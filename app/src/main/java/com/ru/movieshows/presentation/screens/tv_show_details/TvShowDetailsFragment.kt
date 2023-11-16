@@ -17,9 +17,11 @@ import com.ru.movieshows.databinding.FailurePartBinding
 import com.ru.movieshows.databinding.FragmentTvShowDetailsBinding
 import com.ru.movieshows.domain.entity.SeasonEntity
 import com.ru.movieshows.domain.entity.TvShowDetailsEntity
+import com.ru.movieshows.domain.entity.VideoEntity
 import com.ru.movieshows.presentation.adapters.CreatorAdapter
 import com.ru.movieshows.presentation.adapters.InfoAdapter
 import com.ru.movieshows.presentation.adapters.SeasonAdapter
+import com.ru.movieshows.presentation.adapters.VideosAdapter
 import com.ru.movieshows.presentation.contract.navigator
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
@@ -79,6 +81,19 @@ class TvShowDetailsFragment : BaseFragment() {
         setupProductionCompanies(tvShow)
         setupCreatedBy(tvShow)
         setupSeasons(tvShow)
+        setupVideos(state.videos)
+    }
+
+    private fun setupVideos(videos: ArrayList<VideoEntity>) {
+        if (videos.isNotEmpty()) {
+            val itemDecorator = ItemDecoration(8F, resources.displayMetrics)
+            val adapter = VideosAdapter(::navigateToVideo).also { it.updateData(videos) }
+            binding.videosRecyclerView.adapter = adapter
+            binding.videosRecyclerView.addItemDecoration(itemDecorator)
+        } else {
+            binding.videosTextView.visibility = View.GONE
+            binding.videosRecyclerView.visibility = View.GONE
+        }
     }
 
     private fun setupSeasons(
@@ -242,6 +257,8 @@ class TvShowDetailsFragment : BaseFragment() {
         _binding = null
         super.onDestroyView()
     }
+
+    private fun navigateToVideo(video: VideoEntity) = viewModel.navigateToVideo(video)
 
     companion object {
         const val seasonModalBottomSheet = "modal_bottom_sheet";

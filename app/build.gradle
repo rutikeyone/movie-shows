@@ -9,7 +9,7 @@ plugins {
 
 android {
     namespace 'com.ru.movieshows'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.ru.movieshows"
@@ -58,6 +58,7 @@ dependencies {
     def read_more_version = "1.3.2"
     def arrow_version = "1.2.0"
     def klaxon_version = "5.5"
+    def activity_ktx_version = "1.8.1"
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.3.0'
@@ -89,6 +90,7 @@ dependencies {
     implementation "io.arrow-kt:arrow-core:$arrow_version"
     implementation "io.arrow-kt:arrow-fx-coroutines:$arrow_version"
     implementation "com.beust:klaxon:$klaxon_version"
+    implementation "androidx.activity:activity-ktx:$activity_ktx_version"
 }
 
 kapt {

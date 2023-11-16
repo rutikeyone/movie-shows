@@ -73,8 +73,8 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
-            android:id="@+id/action_movieDetailsFragment_to_videoFragment"
-            app:destination="@id/videoFragment"
+            android:id="@+id/action_movieDetailsFragment_to_videoActivity"
+            app:destination="@id/videoActivity"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -144,14 +144,14 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
-    <fragment
-        android:id="@+id/videoFragment"
-        android:name="com.ru.movieshows.presentation.screens.video.VideoFragment"
-        android:label="@string/video"
-        tools:layout="@layout/fragment_video">
+    <activity
+        android:id="@+id/videoActivity"
+        android:name="com.ru.movieshows.presentation.screens.video.VideoActivity"
+        android:label="activity_video"
+        tools:layout="@layout/activity_video" >
         <argument
             android:name="video"
             app:argType="com.ru.movieshows.domain.entity.VideoEntity" />
-    </fragment>
+    </activity>
 
 </navigation>

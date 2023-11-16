@@ -9,6 +9,7 @@ import com.ru.movieshows.data.repository.TvShowRepository
 import com.ru.movieshows.domain.entity.SeasonEntity
 import com.ru.movieshows.domain.entity.TvShowDetailsEntity
 import com.ru.movieshows.domain.entity.TvShowsEntity
+import com.ru.movieshows.domain.entity.VideoEntity
 import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.screens.movie_reviews.PageLoader
 import com.ru.movieshows.presentation.screens.movie_reviews.PagingSource
@@ -19,7 +20,36 @@ import java.net.UnknownHostException
 import java.util.Locale
 import javax.inject.Inject
 
-class TvShowsRepositoryImpl @Inject constructor(private val tvShowsDto: TvShowDto): TvShowRepository {
+class TvShowsRepositoryImpl @Inject constructor(
+    private val tvShowsDto: TvShowDto
+): TvShowRepository {
+
+    override suspend fun getVideosByMovieId(
+        language: String,
+        movieId: String
+    ): Result<ArrayList<VideoEntity>> {
+        return try {
+            val getVideosByMovieIdResponse = tvShowsDto.getVideosByTvShowId(movieId, language)
+            val isSuccessful = getVideosByMovieIdResponse.isSuccessful
+            val body = getVideosByMovieIdResponse.body()
+            return if(isSuccessful && body != null) {
+                val videoModels = body.results
+                val videoEntities = videoModels.map { it.toEntity() }
+                Result.success(ArrayList(videoEntities))
+            } else {
+                val movieException = AppFailure.Pure
+                Result.failure(movieException)
+            }
+        }
+        catch (e: ConnectException) {
+            val movieException = AppFailure.Connection
+            Result.failure(movieException)
+        }
+        catch (e: Exception) {
+            val movieException = AppFailure.Pure
+            Result.failure(movieException)
+        }
+    }
 
     override suspend fun getSeason(language: String, seriesId: String, seasonNumber: String): Result<SeasonEntity> {
         return try {

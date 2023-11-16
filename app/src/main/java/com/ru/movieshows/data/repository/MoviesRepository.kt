@@ -14,7 +14,7 @@ interface MoviesRepository {
     fun getPagedPopularMovies(language: String = "en_US") : Flow<PagingData<MovieEntity>>
     fun getPagedUnComingMovies(language: String = "en_US") : Flow<PagingData<MovieEntity>>
     suspend fun getMovieReviews(language: String = "en_US", movieId: String, page: Int): Result<ArrayList<ReviewEntity>>
-    suspend fun getVideosByMovieId(language: String = "en_Us", movieId: String): Result<ArrayList<VideoEntity>>
+    suspend fun getVideosByMovieId(language: String = "en_US", movieId: String): Result<ArrayList<VideoEntity>>
     suspend fun getSimilarMovies(language: String = "en_US", movieId: String, page: Int = 1): Result<ArrayList<MovieEntity>>
     suspend fun getDiscoverMovies(language: String = "en_US", page: Int = 1, withGenresId: String): Result<ArrayList<MovieEntity>>
     suspend fun getMovieDetails(movieId: Int, language: String = "en_US"): Result<MovieDetailsEntity>

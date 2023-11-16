@@ -31,6 +31,7 @@ import com.ru.movieshows.presentation.screens.tabs.TabsFragment
 import com.ru.movieshows.presentation.screens.tabs.TabsFragmentDirections
 import com.ru.movieshows.presentation.screens.top_rated_movies.TopRatedMoviesFragmentDirections
 import com.ru.movieshows.presentation.screens.top_rated_tv_shows.TopRatedTvShowsFragmentDirections
+import com.ru.movieshows.presentation.screens.tv_show_details.TvShowDetailsFragmentDirections
 import com.ru.movieshows.presentation.screens.tv_show_search.TvShowSearchFragmentDirections
 import com.ru.movieshows.presentation.screens.tvs.TvsFragmentDirections
 import com.ru.movieshows.presentation.screens.uncoming_movies.UpcomingMoviesFragmentDirections
@@ -292,7 +293,8 @@ class MainActivity : AppCompatActivity(), Navigator {
     override fun navigateToVideo(video: VideoEntity) {
         val currentNavController = _currentNavController ?: return
         val action = when(currentNavController.currentDestination?.id) {
-            R.id.movieDetailsFragment -> MovieDetailsFragmentDirections.actionMovieDetailsFragmentToVideoFragment(video)
+            R.id.movieDetailsFragment -> MovieDetailsFragmentDirections.actionMovieDetailsFragmentToVideoActivity(video)
+            R.id.tvShowDetailsFragment -> TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToVideoActivity3(video)
             else -> null
         } ?: return
         _currentNavController?.navigate(action)
