@@ -85,6 +85,11 @@ class MovieDetailsViewModel @AssistedInject constructor(
         navigationEvent.publishEvent(action)
     }
 
+    fun navigateToVideo(video: VideoEntity) {
+        val intent = NavigationIntent.toVideo(video)
+        navigationEvent.publishEvent(intent)
+    }
+
     @AssistedFactory
     interface Factory {
         fun create(movieId: Int): MovieDetailsViewModel

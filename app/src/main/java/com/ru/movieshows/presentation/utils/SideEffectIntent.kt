@@ -3,6 +3,7 @@ package com.ru.movieshows.presentation.utils
 import android.widget.Toast
 import androidx.annotation.StringRes
 import com.ru.movieshows.domain.entity.ReviewEntity
+import com.ru.movieshows.domain.entity.VideoEntity
 
 data class SnackBarIntent(
     @StringRes val message: Int
@@ -30,6 +31,7 @@ sealed class NavigationIntent {
     object ToTopRatedTvShows: NavigationIntent()
     object ToTopPopularTvShows: NavigationIntent()
     data class ToReviews(val reviews: ArrayList<ReviewEntity>, val movieId: Int): NavigationIntent()
+    data class ToVideo(val video: VideoEntity): NavigationIntent()
 
     companion object {
         fun toPopularMovies() = ToPopularMovies
@@ -44,6 +46,7 @@ sealed class NavigationIntent {
         fun toTopRatedTvShows() = ToTopRatedTvShows
         fun toTopPopularTvShows() = ToTopPopularTvShows
         fun toReviews(reviews: ArrayList<ReviewEntity>, movieId: Int) = ToReviews(reviews, movieId)
+        fun toVideo(video: VideoEntity) = ToVideo(video)
     }
 }
 

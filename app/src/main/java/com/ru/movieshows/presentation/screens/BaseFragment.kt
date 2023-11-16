@@ -82,6 +82,7 @@ open class BaseFragment: Fragment() {
             NavigationIntent.ToTopRatedTvShows -> navigator().navigateToTopRatedTvShows()
             NavigationIntent.ToTopPopularTvShows -> navigator().navigateToPopularTvShows()
             is NavigationIntent.ToReviews -> navigator().navigateToReviews(intent.reviews, intent.movieId)
+            is NavigationIntent.ToVideo -> navigator().navigateToVideo(intent.video)
         }
     }
 

@@ -11,10 +11,12 @@ import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.ActivityMainBinding
 import com.ru.movieshows.databinding.FragmentTabsBinding
 import com.ru.movieshows.domain.entity.ReviewEntity
+import com.ru.movieshows.domain.entity.VideoEntity
 import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.contract.Navigator
 import com.ru.movieshows.presentation.screens.air_tv_shows.AirTvShowsFragmentDirections
@@ -287,10 +289,26 @@ class MainActivity : AppCompatActivity(), Navigator {
         _currentNavController?.navigate(action)
     }
 
+    override fun navigateToVideo(video: VideoEntity) {
+        val currentNavController = _currentNavController ?: return
+        val action = when(currentNavController.currentDestination?.id) {
+            R.id.movieDetailsFragment -> MovieDetailsFragmentDirections.actionMovieDetailsFragmentToVideoFragment(video)
+            else -> null
+        } ?: return
+        _currentNavController?.navigate(action)
+    }
+
     override fun getToolbar(): Toolbar? {
         val tabsFragment = currentFragment as? TabsFragment
         val view = tabsFragment?.view ?: return null
         val binding = FragmentTabsBinding.bind(view)
         return binding.tabsToolbar
+    }
+
+    override fun getBottomNavigationView(): BottomNavigationView? {
+        val tabsFragment = currentFragment as? TabsFragment
+        val view = tabsFragment?.view ?: return null
+        val binding = FragmentTabsBinding.bind(view)
+        return binding.bottomNavigationView
     }
 }

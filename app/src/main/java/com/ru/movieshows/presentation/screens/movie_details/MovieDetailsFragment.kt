@@ -276,5 +276,5 @@ class MovieDetailsFragment : BaseFragment() {
         binding.progressContainer.visibility = View.VISIBLE
     }
 
-    private fun navigateToVideo(video: VideoEntity) {}
+    private fun navigateToVideo(video: VideoEntity) = viewModel.navigateToVideo(video)
 }
