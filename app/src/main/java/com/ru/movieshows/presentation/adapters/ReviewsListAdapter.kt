@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.ru.movieshows.R
 import com.ru.movieshows.databinding.ReviewTileBinding
 import com.ru.movieshows.domain.entity.ReviewEntity
 
@@ -52,6 +54,9 @@ class ReviewsListAdapter: PagingDataAdapter<ReviewEntity, ReviewsListAdapter.Hol
                     .with(binding.root)
                     .load(review.authorDetails.avatar)
                     .centerCrop()
+                    .placeholder(R.drawable.poster_placeholder_bg)
+                    .error(R.drawable.poster_placeholder_bg)
+                    .transition(DrawableTransitionOptions.withCrossFade())
                     .into(avatarImageView)
             } else {
                 avatarImageView.visibility = View.GONE

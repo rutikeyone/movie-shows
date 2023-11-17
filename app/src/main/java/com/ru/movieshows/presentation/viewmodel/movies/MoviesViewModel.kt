@@ -71,6 +71,7 @@ class MoviesViewModel @Inject constructor(
     fun fetchDiscoverMovies() = viewModelScope.launch {
         if(currentState !is MoviesState.Success) return@launch
         val genres = (currentState as MoviesState.Success).genres
+        if(genres.isEmpty()) return@launch
         _moviesDiscoverState.value = MoviesDiscoverState.InPending
         try {
             val genre = genres[tabIndex]

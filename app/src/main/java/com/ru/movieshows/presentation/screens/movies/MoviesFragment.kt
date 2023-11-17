@@ -173,16 +173,22 @@ class MoviesFragment : BaseFragment() {
         binding.dotsIndicator.attachTo(binding.nowPlayingViewPager)
     }
 
-    private fun setupGenresTab(state: MoviesState.Success) {
-        state.genres.forEach { genre ->
-            val tab = binding.genresTabLayout.newTab().also { tab ->
-                tab.contentDescription = genre.name
-                tab.text = genre.name?.uppercase(Locale.ROOT)
+    private fun setupGenresTab(state: MoviesState.Success) = with(binding) {
+        val genres = state.genres
+        if(genres.isNotEmpty()) {
+            state.genres.forEach { genre ->
+                val tab = genresTabLayout.newTab().also { tab ->
+                    tab.contentDescription = genre.name
+                    tab.text = genre.name?.uppercase(Locale.ROOT)
+                }
+                genresTabLayout.addTab(tab)
             }
-            binding.genresTabLayout.addTab(tab)
+            genresTabLayout.getTabAt(viewModel.tabIndex)?.select()
+            genresTabLayout.addOnTabSelectedListener(tabSelectedListener)
+        } else {
+            genresTabLayout.visibility = View.GONE
+            discoverMoviesContainer.visibility = View.GONE
         }
-        binding.genresTabLayout.getTabAt(viewModel.tabIndex)?.select()
-        binding.genresTabLayout.addOnTabSelectedListener(tabSelectedListener)
     }
 
     private fun renderFailureUI(@StringRes header: Int?, @StringRes error: Int?) {

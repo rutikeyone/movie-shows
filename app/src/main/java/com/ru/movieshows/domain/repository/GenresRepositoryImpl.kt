@@ -10,10 +10,14 @@ class GenresRepositoryImpl @Inject constructor(private val genresDto: GenresDto)
     override suspend fun getGenres(language: String): Result<ArrayList<GenreEntity>> {
         return try {
             val response = genresDto.getGenres(language)
-            if(response.isSuccessful && response.body() != null) {
-                val genresModel = response.body()!!
-                val genresEntity = ArrayList(genresModel.genres.map { it.toEntity() })
-                return Result.success(genresEntity)
+            val isSuccessful = response.isSuccessful
+            val body = response.body()
+            val genresModel = body?.genres
+            val genresEntity = genresModel?.map { it?.toEntity() }?.let { ArrayList(it) }
+            val notNullResult = genresEntity?.filterNotNull()
+            if(isSuccessful && notNullResult != null) {
+                val result = ArrayList(notNullResult)
+                return Result.success(result)
             } else {
                 return Result.failure(AppFailure.Pure)
             }

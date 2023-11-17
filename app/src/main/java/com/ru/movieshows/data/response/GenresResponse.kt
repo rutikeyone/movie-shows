@@ -5,5 +5,5 @@ import com.ru.movieshows.data.model.GenreModel
 
 data class GenresResponse(
     @SerializedName("genres")
-    val genres: ArrayList<GenreModel>,
+    val genres: ArrayList<GenreModel?>,
 )

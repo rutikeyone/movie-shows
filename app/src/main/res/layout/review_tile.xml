@@ -29,6 +29,7 @@
                 tools:background="@color/darkBlueGray"
                 android:layout_marginBottom="@dimen/dp_12"
                 android:layout_marginEnd="@dimen/dp_12"
+                android:src="@drawable/poster_placeholder_bg"
                 />
 
             <TextView

@@ -135,6 +135,9 @@ class MovieDetailsFragment : BaseFragment() {
                     .with(this)
                     .load(review.authorDetails.avatar)
                     .centerCrop()
+                    .placeholder(R.drawable.poster_placeholder_bg)
+                    .error(R.drawable.poster_placeholder_bg)
+                    .transition(DrawableTransitionOptions.withCrossFade())
                     .into(avatarView)
             } else {
                 avatarView?.visibility = View.GONE
