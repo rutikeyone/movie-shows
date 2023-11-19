@@ -5,6 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.ru.movieshows.R
 import com.ru.movieshows.data.dto.YoutubeDto
 import com.ru.movieshows.data.repository.YoutubeRepository
 import com.ru.movieshows.domain.entity.CommentEntity
@@ -41,15 +42,20 @@ class YoutubeRepositoryImpl @Inject constructor(
                     LoadResult.Error(failure)
                 }
                 catch (e: HttpException) {
-                    val statusCode = e.code()
-
-                    if(statusCode == 404) {
-                        val data = listOf<CommentEntity>()
-                        return LoadResult.Page(data, null, null)
+                    when (e.code()) {
+                        notFoundStatusCode -> {
+                            val data = listOf<CommentEntity>()
+                            return LoadResult.Page(data, null, null)
+                        }
+                        noAccessStatusCode -> {
+                            val failure = AppFailure.Message(R.string.access_denied)
+                            return LoadResult.Error(failure)
+                        }
+                        else -> {
+                            val failure = AppFailure.Pure
+                            LoadResult.Error(failure)
+                        }
                     }
-
-                    val failure = AppFailure.Pure
-                    LoadResult.Error(failure)
                 }
                 catch (e: Exception) {
                     val failure = AppFailure.Pure
@@ -70,5 +76,7 @@ class YoutubeRepositoryImpl @Inject constructor(
 
     companion object {
         const val PAGE_SIZE = 20
+        const val notFoundStatusCode = 404
+        const val noAccessStatusCode = 403;
     }
 }
