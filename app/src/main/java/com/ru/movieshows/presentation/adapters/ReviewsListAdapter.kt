@@ -10,8 +10,11 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.ReviewTileBinding
 import com.ru.movieshows.domain.entity.ReviewEntity
+import com.ru.movieshows.presentation.adapters.diff_callback.ReviewsDiffCallback
 
-class ReviewsListAdapter: PagingDataAdapter<ReviewEntity, ReviewsListAdapter.Holder>(ReviewsDiffCallback()) {
+class ReviewsListAdapter: PagingDataAdapter<ReviewEntity, ReviewsListAdapter.Holder>(
+    ReviewsDiffCallback()
+) {
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val review = getItem(position) ?: return

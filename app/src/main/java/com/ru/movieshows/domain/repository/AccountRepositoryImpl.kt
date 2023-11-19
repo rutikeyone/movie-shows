@@ -6,7 +6,7 @@ import com.ru.movieshows.R
 import com.ru.movieshows.data.dto.AccountDto
 import com.ru.movieshows.data.repository.AccountRepository
 import com.ru.movieshows.data.repository.AppSettingsRepository
-import com.ru.movieshows.data.response.AutenticatedResponse
+import com.ru.movieshows.data.response.AuthenticatedResponse
 import com.ru.movieshows.data.response.AuthenticationErrorBody
 import com.ru.movieshows.data.response.CreateSessionResponse
 import com.ru.movieshows.domain.entity.AccountEntity
@@ -112,7 +112,7 @@ class AccountRepositoryImpl @Inject constructor(
         }
     }
 
-    private suspend fun createSessionWithLogin(email: String, password: String, requestToken: String) : Either<AppFailure, AutenticatedResponse> {
+    private suspend fun createSessionWithLogin(email: String, password: String, requestToken: String) : Either<AppFailure, AuthenticatedResponse> {
         return try {
             val createSessionWithLogin = accountDto.createSessionWithLogin(email, password, requestToken)
             val body = createSessionWithLogin.body()
@@ -147,7 +147,7 @@ class AccountRepositoryImpl @Inject constructor(
         }
     }
 
-    private suspend fun createRequestToken() : Either<AppFailure, AutenticatedResponse> {
+    private suspend fun createRequestToken() : Either<AppFailure, AuthenticatedResponse> {
         return try {
             val createRequestToken = accountDto.createRequestToken()
             val body = createRequestToken.body()
@@ -203,17 +203,17 @@ class AccountRepositoryImpl @Inject constructor(
             if(isSuccess && accountModel != null) {
                 return accountModel.toEntity()
             } else {
-                _authenticatedFailureFlow.get().value = AppFailure.Pure
+                //_authenticatedFailureFlow.get().value = AppFailure.Pure
                 appSettingsRepository.cleanCurrentSessionId()
                 return null
             }
         } catch (e: SocketTimeoutException) {
-            _authenticatedFailureFlow.get().value = AppFailure.Connection
+            //_authenticatedFailureFlow.get().value = AppFailure.Connection
             appSettingsRepository.cleanCurrentSessionId()
             return null
         }
         catch (e: UnknownHostException) {
-            _authenticatedFailureFlow.get().value = AppFailure.Connection
+            //_authenticatedFailureFlow.get().value = AppFailure.Connection
             appSettingsRepository.cleanCurrentSessionId()
             return null
         }
@@ -224,12 +224,12 @@ class AccountRepositoryImpl @Inject constructor(
             } else {
                 AppFailure.Connection
             }
-            _authenticatedFailureFlow.get().value = failure
+            //_authenticatedFailureFlow.get().value = failure
             appSettingsRepository.cleanCurrentSessionId()
             return null
         }
         catch (e: Exception) {
-            _authenticatedFailureFlow.get().value = AppFailure.Pure
+            //_authenticatedFailureFlow.get().value = AppFailure.Pure
             appSettingsRepository.cleanCurrentSessionId()
             return null
         }

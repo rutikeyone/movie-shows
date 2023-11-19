@@ -22,7 +22,7 @@ open class BaseViewModel: ViewModel(), PermissionListener {
     protected val languageTag: String get() = Locale.getDefault().toLanguageTag()
 
     private val _currentLanguage = MutableStateFlow(languageTag)
-    protected val currentLanguage: Flow<String> get() = _currentLanguage
+    val currentLanguage: Flow<String> get() = _currentLanguage
 
     protected val currentLanguageData get() = currentLanguage.asLiveData()
 

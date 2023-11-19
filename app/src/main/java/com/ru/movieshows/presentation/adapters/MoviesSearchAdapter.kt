@@ -10,6 +10,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.SearchTileBinding
 import com.ru.movieshows.domain.entity.MovieEntity
+import com.ru.movieshows.presentation.adapters.diff_callback.MoviesDiffCallback
 
 class MoviesSearchAdapter(
     private val onTap: (MovieEntity) -> Unit,

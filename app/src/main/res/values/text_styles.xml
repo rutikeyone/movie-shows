@@ -37,6 +37,10 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="MovieShows.TextAppearance.Body2.Style" parent="MovieShows.TextAppearance.Body1.Style">
+        <item name="android:textSize">13sp</item>
+    </style>
+
     <style name="MovieShows.TextAppearance.Body3.Style" parent="MovieShows.TextAppearance.Body1.Style">
         <item name="android:textSize">12sp</item>
     </style>

@@ -5,7 +5,11 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.navArgs
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
@@ -17,9 +21,15 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.loadOrC
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.ActivityVideoBinding
+import com.ru.movieshows.domain.utils.AppFailure
+import com.ru.movieshows.presentation.adapters.CommentsListAdapter
+import com.ru.movieshows.presentation.adapters.LoadStateAdapter
+import com.ru.movieshows.presentation.adapters.TryAgainAction
 import com.ru.movieshows.presentation.viewmodel.video.VideoViewModel
 import com.ru.movieshows.presentation.viewmodel.viewModelCreator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -35,11 +45,52 @@ class VideoActivity : AppCompatActivity() {
     private var youTubePlayer: YouTubePlayer? = null
     private var isFullscreen = false
 
+    private val commentAdapter = CommentsListAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityVideoBinding.inflate(layoutInflater).also { setContentView(it.root) }
         initImageViewView()
+        initCommentView()
         initYouTubePlayerView(binding.youtubePlayerView)
+        collectUiState()
+    }
+
+    private fun initCommentView() = with(binding) {
+        commentAdapter.addLoadStateListener { loadState -> renderUI(loadState) }
+        val tryAgainAction: TryAgainAction = { commentAdapter.retry() }
+        val footerAdapter = LoadStateAdapter(tryAgainAction, this@VideoActivity)
+        commentsRecyclerView.adapter = commentAdapter.withLoadStateFooter(footerAdapter)
+        commentsRecyclerView.itemAnimator = null
+    }
+
+    private fun renderUI(loadState: CombinedLoadStates) = with(binding){
+        val isListEmpty = loadState.refresh is LoadState.NotLoading && commentAdapter.itemCount == 0
+        val showList = !isListEmpty || loadState.source.refresh is LoadState.NotLoading
+        val showEmpty = isListEmpty && loadState.source.refresh is LoadState.NotLoading
+        notCommentTextView.isVisible = showEmpty
+        commentsRecyclerView.isVisible = showList
+        commentsProgressBar.isVisible = loadState.source.refresh is LoadState.Loading
+        setupFailurePart(loadState)
+    }
+
+    private fun setupFailurePart(loadState: CombinedLoadStates) = with(binding.commentsFailurePart) {
+        root.isVisible = loadState.source.refresh is LoadState.Error
+        if(loadState.source.refresh !is LoadState.Error) return
+        val errorState = loadState.refresh as LoadState.Error
+        val error = errorState.error as? AppFailure
+        failureTextHeader.text = resources.getString((error?.headerResource() ?: R.string.error_header))
+        failureTextMessage.text = resources.getString(error?.errorResource() ?: R.string.an_error_occurred_during_the_operation)
+        retryButton.setOnClickListener { commentAdapter.retry() }
+
+    }
+
+    private fun collectUiState() {
+        lifecycleScope.launch {
+            viewModel.comments.collectLatest { movies ->
+                commentAdapter.submitData(movies)
+            }
+        }
     }
 
     override fun onConfigurationChanged(configuration: Configuration) {
@@ -107,6 +158,12 @@ class VideoActivity : AppCompatActivity() {
                 this@VideoActivity.youTubePlayer = youTubePlayer
                 viewModel.video.key?.let {
                     youTubePlayer.loadOrCueVideo(lifecycle, it, 0f)
+                }
+
+                if (this@VideoActivity.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    if (!isFullscreen) {
+                        this@VideoActivity.youTubePlayer?.toggleFullscreen()
+                    }
                 }
             }
 

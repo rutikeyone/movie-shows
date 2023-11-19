@@ -6,7 +6,9 @@ import com.ru.movieshows.domain.entity.GenreEntity
 import com.ru.movieshows.domain.utils.AppFailure
 import javax.inject.Inject
 
-class GenresRepositoryImpl @Inject constructor(private val genresDto: GenresDto): GenresRepository {
+class GenresRepositoryImpl @Inject constructor(
+    private val genresDto: GenresDto
+): GenresRepository {
     override suspend fun getGenres(language: String): Result<ArrayList<GenreEntity>> {
         return try {
             val response = genresDto.getGenres(language)

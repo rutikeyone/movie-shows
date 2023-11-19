@@ -4,14 +4,14 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.ru.movieshows.data.dto.MoviesDto
+import com.ru.movieshows.data.dto.PageLoader
+import com.ru.movieshows.data.dto.PagingSource
 import com.ru.movieshows.data.repository.MoviesRepository
 import com.ru.movieshows.domain.entity.MovieDetailsEntity
 import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.entity.ReviewEntity
 import com.ru.movieshows.domain.entity.VideoEntity
 import com.ru.movieshows.domain.utils.AppFailure
-import com.ru.movieshows.presentation.screens.movie_reviews.PageLoader
-import com.ru.movieshows.presentation.screens.movie_reviews.PagingSource
 import kotlinx.coroutines.flow.Flow
 import java.net.ConnectException
 import javax.inject.Inject

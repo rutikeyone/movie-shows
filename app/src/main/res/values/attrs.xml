@@ -8,8 +8,9 @@
         <attr name="MovieShows.TextAppearance.Headline5.Primary" format="reference"/>
         <attr name="MovieShows.TextAppearance.Headline5.Primary.Bold" format="reference"/>
         <attr name="MovieShows.TextAppearance.Body1" format="reference"/>
-        <attr name="MovieShows.TextAppearance.Body3" format="reference"/>
+        <attr name="MovieShows.TextAppearance.Body2" format="reference"/>
         <attr name="MovieShows.TextAppearance.Body2.Hint" format="reference"/>
+        <attr name="MovieShows.TextAppearance.Body3" format="reference"/>
         <attr name="MovieShows.TextAppearance.Body3.Hint.Bold" format="reference"/>
         <attr name="MovieShows.TextAppearance.Body3.Bold" format="reference"/>
         <attr name="MovieShows.TextAppearance.Body3.Bold.Accent" format="reference"/>

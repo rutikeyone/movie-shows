@@ -81,4 +81,5 @@
     <string name="favorites">Favorites</string>
     <string name="production_companies">Production companies</string>
     <string name="video">Video</string>
+    <string name="no_comments">No comments</string>
 </resources>

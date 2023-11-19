@@ -30,6 +30,7 @@ import com.ru.movieshows.presentation.adapters.MoviesAdapter
 import com.ru.movieshows.presentation.adapters.VideosAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
+import com.ru.movieshows.presentation.utils.clearDecorations
 import com.ru.movieshows.presentation.utils.viewBinding
 import com.ru.movieshows.presentation.viewmodel.movie_details.MovieDetailsState
 import com.ru.movieshows.presentation.viewmodel.movie_details.MovieDetailsViewModel
@@ -70,7 +71,7 @@ class MovieDetailsFragment : BaseFragment() {
             val viewParts = listOf(binding.progressContainer, binding.failureContainer, binding.successContainer)
             viewParts.forEach { it.visibility = View.GONE }
             when (movieDetailsState) {
-                MovieDetailsState.InPending -> renderInPendingUI();
+                MovieDetailsState.InPending -> renderInPendingUI()
                 is MovieDetailsState.Failure -> renderFailureUI(movieDetailsState.header, movieDetailsState.error)
                 is MovieDetailsState.Success -> renderSuccessUI(
                     movieDetailsState.movieDetails,
@@ -101,15 +102,16 @@ class MovieDetailsFragment : BaseFragment() {
             setupReview(reviews)
         }
 
-    private fun setupVideos(videos: ArrayList<VideoEntity>) {
+    private fun setupVideos(videos: ArrayList<VideoEntity>) = with(binding) {
         if (videos.isNotEmpty()) {
             val itemDecorator = ItemDecoration(8F, resources.displayMetrics)
             val adapter = VideosAdapter(::navigateToVideo).also { it.updateData(videos) }
-            binding.videosRecyclerView.adapter = adapter
-            binding.videosRecyclerView.addItemDecoration(itemDecorator)
+            videosRecyclerView.adapter = adapter
+            videosRecyclerView.clearDecorations()
+            videosRecyclerView.addItemDecoration(itemDecorator)
         } else {
-            binding.videosTextView.visibility = View.GONE
-            binding.videosRecyclerView.visibility = View.GONE
+            videosTextView.visibility = View.GONE
+            videosRecyclerView.visibility = View.GONE
         }
     }
 
@@ -157,6 +159,7 @@ class MovieDetailsFragment : BaseFragment() {
             val itemDecorator = ItemDecoration(8F, resources.displayMetrics)
             val adapter = MoviesAdapter(::onSimilarMovieTap).also { it.updateData(similarMovies) }
             binding.similarMovies.adapter = adapter
+            binding.videosRecyclerView.clearDecorations()
             binding.similarMovies.addItemDecoration(itemDecorator)
         } else {
             binding.similarMoviesHeader.visibility = View.GONE
@@ -232,7 +235,7 @@ class MovieDetailsFragment : BaseFragment() {
     private fun setupRating(
         movieDetailsEntity: MovieDetailsEntity,
     ) = with(binding){
-        ratingBar.isEnabled = false;
+        ratingBar.isEnabled = false
         val value = movieDetailsEntity.rating
         if (value != null && value > 0) {
             ratingText.text = "%.2f".format(movieDetailsEntity.rating)

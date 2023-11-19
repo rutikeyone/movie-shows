@@ -74,4 +74,5 @@
     <string name="favorites">Желаемое</string>
     <string name="production_companies">Производственные компании</string>
     <string name="video">Видеоматериал</string>
+    <string name="no_comments">Нет комментариев</string>
 </resources>

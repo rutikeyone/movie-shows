@@ -25,7 +25,7 @@ class MovieDetailsViewModel @AssistedInject constructor(
 ) : BaseViewModel(), DefaultLifecycleObserver {
     private val _state = MutableLiveData<MovieDetailsState>(MovieDetailsState.InPending)
     val state = _state.share()
-    private val _title = MutableLiveData<String?>("")
+    private val _title = MutableLiveData("")
     val title = _title.share()
 
     init {

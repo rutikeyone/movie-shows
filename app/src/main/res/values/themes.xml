@@ -14,6 +14,7 @@
         <item name="MovieShows.TextAppearance.Headline5.Primary">@style/MovieShows.TextAppearance.Headline5.Primary.Style</item>
         <item name="MovieShows.TextAppearance.Headline5.Primary.Bold">@style/MovieShows.TextAppearance.Headline5.Primary.Bold.Style</item>
         <item name="MovieShows.TextAppearance.Body1">@style/MovieShows.TextAppearance.Body1.Style</item>
+        <item name="MovieShows.TextAppearance.Body2">@style/MovieShows.TextAppearance.Body2.Style</item>
         <item name="MovieShows.TextAppearance.Body3">@style/MovieShows.TextAppearance.Body3.Style</item>
         <item name="MovieShows.TextAppearance.Headline6">@style/MovieShows.TextAppearance.Headline6.Style</item>
         <item name="MovieShows.TextAppearance.Headline6.Bold">@style/MovieShows.TextAppearance.Headline6.Bold.Style</item>

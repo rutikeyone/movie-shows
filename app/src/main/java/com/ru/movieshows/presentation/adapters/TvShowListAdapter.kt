@@ -11,6 +11,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.TvShowsTileVariant1Binding
 import com.ru.movieshows.domain.entity.TvShowsEntity
+import com.ru.movieshows.presentation.adapters.diff_callback.TvShowDiffCallback
 
 class TvShowListAdapter(
     private val onTap: (TvShowsEntity) -> Unit,
