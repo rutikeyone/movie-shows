@@ -2,11 +2,14 @@ package com.ru.movieshows.presentation.adapters
 
 import android.text.Html
 import android.text.format.DateUtils
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.text.HtmlCompat
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.ru.movieshows.R
 import com.ru.movieshows.databinding.CommentItemBinding
 import com.ru.movieshows.domain.entity.CommentEntity
 import com.ru.movieshows.domain.entity.CommentLevelSnippetEntity
@@ -34,18 +37,33 @@ class CommentsListAdapter : PagingDataAdapter<CommentEntity, CommentsListAdapter
             bindUserName(commentSnippet)
             bindTimeAge(commentSnippet)
             bindComment(commentSnippet)
-            bindCountReplies(commentSnippet)
+            bindCountReplies(comment)
+            setOnClickListener()
         }
 
-        private fun bindCountReplies(commentSnippet: CommentLevelSnippetEntity?) = with(binding) {
-            countRepliesButton.isVisible = false
+        private fun setOnClickListener() = with(binding) {
+            root.setOnClickListener {
+
+            }
+        }
+
+        private fun bindCountReplies(comment: CommentEntity) = with(binding.countRepliesButton) {
+            val countReplies = comment.countReplies
+            if(countReplies != null) {
+                val value = resources.getQuantityString(R.plurals.count_replies, countReplies, countReplies)
+                text = value
+                isVisible = true
+            } else {
+                isVisible = false
+            }
         }
 
         private fun bindComment(commentSnippet: CommentLevelSnippetEntity?) = with(binding) {
             val textDisplay = commentSnippet?.textDisplay
             if(!textDisplay.isNullOrEmpty()) {
-                val value = Html.fromHtml(textDisplay)
-                commentTextView.text = textDisplay
+                val value = Html.fromHtml(textDisplay, HtmlCompat.FROM_HTML_MODE_LEGACY)
+                commentTextView.text = value
+                commentTextView.movementMethod = LinkMovementMethod.getInstance()
             } else {
                 commentTextView.isVisible = false
             }

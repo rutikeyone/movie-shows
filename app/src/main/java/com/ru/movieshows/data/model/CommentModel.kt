@@ -12,11 +12,14 @@ data class CommentModel(
     val id: String?,
     @SerializedName("snippet")
     val snippet: CommentSnippetModel?,
+    @SerializedName("replies")
+    val replies: CommentRepliesModel?,
 ) {
     fun toEntity() = CommentEntity(
         kind,
         etag,
         id,
         snippet?.toEntity(),
+        replies?.toEntity()
     )
 }

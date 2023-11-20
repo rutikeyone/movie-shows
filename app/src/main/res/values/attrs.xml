@@ -24,5 +24,6 @@
         <attr name="MovieShows.TextButton.Light" format="reference"/>
         <attr name="MovieShows.Poster.Placeholder.Color" format="color"/>
         <attr name="MovieShows.BackDrop.Placeholder.Color" format="color"/>
+        <attr name="textColorAccent" format="color"/>
     </declare-styleable>
 </resources>

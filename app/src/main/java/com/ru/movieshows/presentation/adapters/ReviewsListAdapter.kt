@@ -1,5 +1,6 @@
 package com.ru.movieshows.presentation.adapters
 
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,13 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.R
-import com.ru.movieshows.databinding.ReviewTileBinding
+import com.ru.movieshows.databinding.ReviewItemBinding
 import com.ru.movieshows.domain.entity.ReviewEntity
 import com.ru.movieshows.presentation.adapters.diff_callback.ReviewsDiffCallback
 
-class ReviewsListAdapter: PagingDataAdapter<ReviewEntity, ReviewsListAdapter.Holder>(
-    ReviewsDiffCallback()
-) {
+class ReviewsListAdapter: PagingDataAdapter<ReviewEntity, ReviewsListAdapter.Holder>(ReviewsDiffCallback()) {
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val review = getItem(position) ?: return
@@ -23,22 +22,29 @@ class ReviewsListAdapter: PagingDataAdapter<ReviewEntity, ReviewsListAdapter.Hol
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = ReviewTileBinding.inflate(inflater, parent, false)
+        val binding = ReviewItemBinding.inflate(inflater, parent, false)
         return Holder(binding)
     }
 
     class Holder(
-        private val binding: ReviewTileBinding,
+        private val binding: ReviewItemBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(review: ReviewEntity) = with(binding) {
             if (review.author != null) reviewerHeaderView.text = review.author
             renderRating(review)
-            if(review.content != null) reviewTextView.text = review.content
             renderAvatarImageView(review)
+            renderContent(review)
         }
 
-        private fun ReviewTileBinding.renderRating(
+        private fun ReviewItemBinding.renderContent(review: ReviewEntity) {
+            if (review.content != null) {
+                reviewTextView.text = review.content
+                reviewTextView.movementMethod = LinkMovementMethod.getInstance()
+            }
+        }
+
+        private fun ReviewItemBinding.renderRating(
             review: ReviewEntity,
         ) {
             if (review.authorDetails?.rating != null && review.authorDetails.rating > 2) {
@@ -49,7 +55,7 @@ class ReviewsListAdapter: PagingDataAdapter<ReviewEntity, ReviewsListAdapter.Hol
             }
         }
 
-        private fun ReviewTileBinding.renderAvatarImageView(
+        private fun ReviewItemBinding.renderAvatarImageView(
             review: ReviewEntity,
         ) {
             if (review.authorDetails?.avatar != null) {

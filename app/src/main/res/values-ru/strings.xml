@@ -76,4 +76,10 @@
     <string name="video">Видеоматериал</string>
     <string name="no_comments">Нет комментариев</string>
     <string name="access_denied">Отказано в доступе</string>
+    <plurals name="count_replies">
+        <item quantity="one">%1$d ответ</item>
+        <item quantity="few">%1$d ответов</item>
+        <item quantity="many">%1$d ответов</item>
+        <item quantity="other">%1$d ответов</item>
+    </plurals>
 </resources>
