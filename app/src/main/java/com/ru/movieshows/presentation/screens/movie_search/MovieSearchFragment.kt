@@ -22,7 +22,7 @@ import com.ru.movieshows.databinding.FragmentMovieSearchBinding
 import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.adapters.LoadStateAdapter
-import com.ru.movieshows.presentation.adapters.MoviesSearchAdapter
+import com.ru.movieshows.presentation.adapters.MoviesSearchPaginationAdapter
 import com.ru.movieshows.presentation.adapters.TryAgainAction
 import com.ru.movieshows.presentation.contract.navigator
 import com.ru.movieshows.presentation.screens.BaseFragment
@@ -37,7 +37,7 @@ import kotlinx.coroutines.launch
 class MovieSearchFragment : BaseFragment() {
     private val toolbar get() = navigator().getToolbar()
     private val binding by viewBinding<FragmentMovieSearchBinding>()
-    private val adapter: MoviesSearchAdapter = MoviesSearchAdapter(::navigateToMovieDetails)
+    private val adapter: MoviesSearchPaginationAdapter = MoviesSearchPaginationAdapter(::navigateToMovieDetails)
     private var searchView : SearchView? = null
     private var searchItem : MenuItem? = null
 

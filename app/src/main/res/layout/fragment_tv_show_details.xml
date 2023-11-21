@@ -291,7 +291,7 @@
                         android:orientation="horizontal"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:layout_height="wrap_content"
-                        tools:listitem="@layout/creator_tile"
+                        tools:listitem="@layout/creator_item"
                         />
 
                     <TextView
@@ -315,7 +315,7 @@
                         android:layout_marginStart="@dimen/dp_8"
                         android:layout_marginEnd="@dimen/dp_8"
                         android:orientation="horizontal"
-                        tools:listitem="@layout/season_tile"
+                        tools:listitem="@layout/season_item"
                         />
 
                 </LinearLayout>

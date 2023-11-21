@@ -7,7 +7,38 @@
     app:layout_behavior="@string/bottom_sheet_behavior"
     app:behavior_hideable="true"
     app:behavior_peekHeight="@dimen/dp_0"
-    android:background="?android:attr/windowBackground">
+    android:background="?android:attr/windowBackground"
+    android:paddingStart="@dimen/dp_16"
+    android:paddingEnd="@dimen/dp_16"
+    android:paddingTop="@dimen/dp_24">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/commentTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/comment"
+            style="?attr/MovieShows.TextAppearance.Headline6.Bold"
+            android:layout_alignBottom="@+id/closeImageView"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/closeImageView"/>
+
+        <ImageView
+            android:id="@id/closeImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_close"/>
+
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -83,6 +83,7 @@
     <string name="video">Video</string>
     <string name="no_comments">No comments</string>
     <string name="access_denied">Access denied</string>
+    <string name="comment">Comment</string>
     <plurals name="count_replies">
         <item quantity="zero">zero</item>
         <item quantity="one">%1$d reply</item>

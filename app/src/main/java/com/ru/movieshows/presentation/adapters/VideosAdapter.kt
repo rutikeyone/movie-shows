@@ -3,6 +3,7 @@ package com.ru.movieshows.presentation.adapters
 import android.app.ActionBar
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -30,8 +31,7 @@ class VideosAdapter (
     }
 
     fun updateData(data: ArrayList<VideoEntity>) {
-        this.videos.clear()
-        this.videos.addAll(data)
+        this.videos = data
         notifyDataSetChanged()
     }
 
@@ -40,36 +40,50 @@ class VideosAdapter (
         private val onTap: (VideoEntity) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(video: VideoEntity) {
-            setupLayoutParams(binding)
-            setupImageView(video, binding)
-            setupName(video, binding)
-            binding.root.setOnClickListener { onTap(video) }
+        fun bind(video: VideoEntity) = with(binding.root) {
+            setOnClickListener { onTap(video) }
+            bindLayoutParams(binding)
+            bindImageView(video, binding)
+            bindName(video, binding)
         }
 
-        private fun setupName(video: VideoEntity, binding: VideoItemBinding) {
-            if (video.name != null) binding.videoNameTextView.text = video.name
+        private fun bindName(video: VideoEntity, binding: VideoItemBinding) = with(binding.videoNameTextView) {
+            val name = video.name
+            if(!name.isNullOrEmpty()) {
+                text = name
+                isVisible = true
+            } else {
+                isVisible = false
+            }
         }
 
-        private fun setupImageView(video: VideoEntity, binding: VideoItemBinding) {
-            if (video.image != null) {
+        private fun bindImageView(video: VideoEntity, binding: VideoItemBinding) = with(binding.videoImageView){
+            val image = video.image
+            if (!image.isNullOrEmpty()) {
                 Glide
-                    .with(binding.root)
-                    .load(video.image)
+                    .with(context)
+                    .load(image)
                     .centerCrop()
                     .placeholder(R.drawable.poster_placeholder_bg)
                     .error(R.drawable.poster_placeholder_bg)
                     .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(binding.videoImageView)
+                    .into(this)
+            } else {
+                Glide
+                    .with(context)
+                    .load(R.drawable.poster_placeholder_bg)
+                    .centerCrop()
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(this)
             }
         }
 
-        private fun setupLayoutParams(binding: VideoItemBinding) {
+        private fun bindLayoutParams(binding: VideoItemBinding) = with(binding.root){
             val layoutParams = ActionBar.LayoutParams(
-                binding.root.resources.getDimensionPixelOffset(R.dimen.dp_120),
+                resources.getDimensionPixelOffset(R.dimen.dp_120),
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
-            binding.root.layoutParams = layoutParams
+            this.layoutParams = layoutParams
         }
 
     }

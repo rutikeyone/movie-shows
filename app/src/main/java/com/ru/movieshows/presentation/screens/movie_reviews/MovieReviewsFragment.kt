@@ -13,7 +13,7 @@ import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FragmentMovieReviewsBinding
 import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.adapters.LoadStateAdapter
-import com.ru.movieshows.presentation.adapters.ReviewsListAdapter
+import com.ru.movieshows.presentation.adapters.ReviewsPaginationAdapter
 import com.ru.movieshows.presentation.adapters.TryAgainAction
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.utils.viewBinding
@@ -33,7 +33,7 @@ class MovieReviewsFragment : BaseFragment() {
     override val viewModel by viewModelCreator { factory.create(args.movieId) }
 
     private val binding by viewBinding<FragmentMovieReviewsBinding>()
-    private var adapter: ReviewsListAdapter? = null
+    private var adapter: ReviewsPaginationAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,7 +48,7 @@ class MovieReviewsFragment : BaseFragment() {
     }
 
     private fun initView() {
-        adapter = ReviewsListAdapter()
+        adapter = ReviewsPaginationAdapter()
         val tryAgainAction: TryAgainAction = { adapter?.retry() }
         binding.rvReviews.adapter = adapter?.withLoadStateHeaderAndFooter(
             header = LoadStateAdapter(tryAgainAction, requireContext()),

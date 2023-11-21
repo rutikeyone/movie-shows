@@ -16,7 +16,7 @@ import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.adapters.LoadStateAdapter
 import com.ru.movieshows.presentation.adapters.MoviesAdapter
-import com.ru.movieshows.presentation.adapters.MoviesListAdapter
+import com.ru.movieshows.presentation.adapters.MoviesPaginationAdapter
 import com.ru.movieshows.presentation.adapters.TryAgainAction
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
@@ -31,7 +31,7 @@ class TopRatedMoviesFragment : BaseFragment() {
     override val viewModel by viewModels<TopRatedMoviesViewModel>()
     private val binding by viewBinding<FragmentTopRatedMoviesBinding>()
 
-    private val adapter: MoviesListAdapter = MoviesListAdapter(::navigateToMovieDetails)
+    private val adapter: MoviesPaginationAdapter = MoviesPaginationAdapter(::navigateToMovieDetails)
 
     override fun onCreateView(
         inflater: LayoutInflater,

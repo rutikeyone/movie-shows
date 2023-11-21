@@ -75,7 +75,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/movie_tile_variant1"
+                    tools:listitem="@layout/movie_item"
                     android:visibility="gone"/>
 
                 <ProgressBar
@@ -180,7 +180,7 @@
                 android:layout_height="@dimen/dp_260"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/movie_tile_variant1"
+                tools:listitem="@layout/movie_item"
                 android:layout_marginTop="@dimen/dp_8"
                 android:layout_marginStart="@dimen/dp_8"
                 android:layout_marginEnd="@dimen/dp_8"
@@ -226,7 +226,7 @@
                 android:layout_height="@dimen/dp_260"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/movie_tile_variant1"
+                tools:listitem="@layout/movie_item"
                 android:layout_marginTop="@dimen/dp_16"
                 android:layout_marginStart="@dimen/dp_8"
                 android:layout_marginEnd="@dimen/dp_8"
@@ -276,7 +276,7 @@
                 android:layout_marginEnd="@dimen/dp_8"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/movie_tile_variant1" />
+                tools:listitem="@layout/movie_item" />
 
         </LinearLayout>
 

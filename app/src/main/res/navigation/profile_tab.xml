@@ -9,6 +9,6 @@
         android:id="@+id/profileFragment"
         android:name="com.ru.movieshows.presentation.screens.profile.ProfileFragment"
         android:label="@string/profile"
-        tools:layout="@layout/profile"/>
+        tools:layout="@layout/fragment_profile"/>
 
 </navigation>

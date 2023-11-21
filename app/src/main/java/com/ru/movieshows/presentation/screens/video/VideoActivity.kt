@@ -24,7 +24,7 @@ import com.ru.movieshows.R
 import com.ru.movieshows.databinding.ActivityVideoBinding
 import com.ru.movieshows.domain.entity.CommentEntity
 import com.ru.movieshows.domain.utils.AppFailure
-import com.ru.movieshows.presentation.adapters.CommentsListAdapter
+import com.ru.movieshows.presentation.adapters.CommentsPaginationAdapter
 import com.ru.movieshows.presentation.adapters.LoadStateAdapter
 import com.ru.movieshows.presentation.adapters.TryAgainAction
 import com.ru.movieshows.presentation.viewmodel.video.VideoViewModel
@@ -48,8 +48,7 @@ class VideoActivity : AppCompatActivity() {
     private var youTubePlayer: YouTubePlayer? = null
     private var isFullscreen = false
 
-    private val commentAdapter = CommentsListAdapter(::showCommentDetailsBottomSheet)
-
+    private val commentAdapter = CommentsPaginationAdapter(::showCommentDetailsBottomSheet)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -135,8 +134,8 @@ class VideoActivity : AppCompatActivity() {
     }
 
     private fun initYouTubePlayerView(youTubePlayerView: YouTubePlayerView) {
+        binding.commentBottomSheet.closeImageView.setOnClickListener { bottomSheetState.state = BottomSheetBehavior.STATE_COLLAPSED }
         lifecycle.addObserver(youTubePlayerView)
-
         youTubePlayerView.addFullscreenListener(object : FullscreenListener {
             override fun onEnterFullscreen(fullscreenView: View, exitFullscreen: () -> Unit) {
                 isFullscreen = true

@@ -9,58 +9,59 @@
 
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/discoverMovieImageCard"
+        android:id="@+id/tvShowsImageCard"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_190"
+        app:cardCornerRadius="@dimen/dp_8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/movieName"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:cardCornerRadius="@dimen/dp_8"
         app:cardElevation="0dp"
         app:cardBackgroundColor="@android:color/transparent">
 
         <ImageView
-            android:id="@+id/discoverMovieImage"
-            android:layout_height="@dimen/dp_190"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
+            android:id="@+id/tvShowsMovieImage"
+            android:layout_height="match_parent"
             android:layout_width="match_parent"
             app:layout_constraintBottom_toTopOf="@id/movieName"
             android:src="@drawable/poster_placeholder_bg"
+            tools:background="@color/yellow"
             />
 
     </androidx.cardview.widget.CardView>
 
 
     <TextView
-        android:id="@+id/movieName"
-        style="?attr/MovieShows.TextAppearance.Body3"
+        android:id="@+id/tvShowNameTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_4"
-        android:layout_marginTop="@dimen/dp_4"
         android:layout_marginEnd="@dimen/dp_4"
-        android:layout_marginBottom="@dimen/dp_4"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:maxLines="2"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@id/rating"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@id/tvShowsImageCard"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/discoverMovieImageCard"
-        tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry." />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/ratingContainer"
+        style="?attr/MovieShows.TextAppearance.Body3"
+        android:textAlignment="center"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/dp_4"
+        android:layout_marginBottom="@dimen/dp_4"
+        tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+        android:paddingStart="@dimen/dp_4"
+        android:paddingEnd="@dimen/dp_4"
+        />
 
     <LinearLayout
-        android:id="@+id/rating"
-        android:layout_width="match_parent"
+        android:id="@+id/ratingContainer"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/movieName"
+        app:layout_constraintTop_toBottomOf="@id/tvShowNameTextView"
         app:layout_constraintBottom_toBottomOf="parent"
         android:orientation="horizontal"
         android:gravity="center">
@@ -72,13 +73,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:rating="1"
-            android:numStars="1"
-            />
+            android:numStars="1"/>
 
         <TextView
             android:id="@+id/ratingValue"
             style="?attr/MovieShows.TextAppearance.Body3"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:text="3.3"
             android:layout_marginStart="@dimen/dp_4"

@@ -2,7 +2,6 @@ package com.ru.movieshows.presentation.adapters
 
 import android.text.Html
 import android.text.format.DateUtils
-import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.text.HtmlCompat
@@ -14,12 +13,14 @@ import com.ru.movieshows.databinding.CommentItemBinding
 import com.ru.movieshows.domain.entity.CommentEntity
 import com.ru.movieshows.domain.entity.CommentLevelSnippetEntity
 import com.ru.movieshows.presentation.adapters.diff_callback.CommentsDiffItemCallback
+import com.ru.movieshows.presentation.utils.LinkMovementMethodOnTouchListener
+
 
 typealias CommentOnDetailsTapListener = (CommentEntity) -> Unit
 
-class CommentsListAdapter(
+class CommentsPaginationAdapter(
     private val listener: CommentOnDetailsTapListener,
-) : PagingDataAdapter<CommentEntity, CommentsListAdapter.Holder>(CommentsDiffItemCallback()) {
+) : PagingDataAdapter<CommentEntity, CommentsPaginationAdapter.Holder>(CommentsDiffItemCallback()) {
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val comment = getItem(position) ?: return
@@ -37,6 +38,7 @@ class CommentsListAdapter(
         private val listener: CommentOnDetailsTapListener,
     ) : RecyclerView.ViewHolder(binding.root) {
 
+
         fun bind(comment: CommentEntity) = with(binding) {
             val commentSnippet = comment.snippet?.topLevelComment?.snippet
             bindUserName(commentSnippet)
@@ -47,9 +49,8 @@ class CommentsListAdapter(
         }
 
         private fun setOnClickListener(comment: CommentEntity) = with(binding) {
-            root.setOnClickListener {
-                listener.invoke(comment)
-            }
+            root.setOnClickListener { listener.invoke(comment) }
+            commentTextView.setOnClickListener { listener.invoke(comment) }
         }
 
         private fun bindCountReplies(comment: CommentEntity) = with(binding.countRepliesButton) {
@@ -64,14 +65,16 @@ class CommentsListAdapter(
             }
         }
 
-        private fun bindComment(commentSnippet: CommentLevelSnippetEntity?) = with(binding) {
+        private fun bindComment(commentSnippet: CommentLevelSnippetEntity?) = with(binding.commentTextView) {
             val textDisplay = commentSnippet?.textDisplay
             if(!textDisplay.isNullOrEmpty()) {
                 val value = Html.fromHtml(textDisplay, HtmlCompat.FROM_HTML_MODE_LEGACY)
-                commentTextView.text = value
-                commentTextView.movementMethod = LinkMovementMethod.getInstance()
+                val onTouchListener = LinkMovementMethodOnTouchListener()
+                text = value
+                isVisible = true
+                setOnTouchListener(onTouchListener)
             } else {
-                commentTextView.isVisible = false
+                isVisible = false
             }
         }
 
@@ -96,5 +99,4 @@ class CommentsListAdapter(
             }
         }
     }
-
 }

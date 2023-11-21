@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.R
-import com.ru.movieshows.databinding.SeasonTileBinding
+import com.ru.movieshows.databinding.SeasonItemBinding
 import com.ru.movieshows.domain.entity.SeasonEntity
 
 class SeasonAdapter(
@@ -17,7 +17,7 @@ class SeasonAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(R.layout.season_tile, parent, false)
+        val view = inflater.inflate(R.layout.season_item, parent, false)
         return Holder(view)
     }
 
@@ -36,23 +36,36 @@ class SeasonAdapter(
             season: SeasonEntity,
             onTap: (SeasonEntity) -> Unit,
         ) {
-            val binding =  SeasonTileBinding.bind(view)
-            binding.root.setOnClickListener { onTap(season) }
-            setupImage(season, binding)
+            val binding =  SeasonItemBinding.bind(view).also {
+                it.root.setOnClickListener {
+                    onTap(season)
+                }
+            }
+            bindPoster(season, binding)
         }
 
-        private fun setupImage(
+        private fun bindPoster(
             season: SeasonEntity,
-            binding: SeasonTileBinding
-        ) = with(binding) {
-            val photo = season.poster ?: return@with
-            Glide
-                .with(binding.root)
-                .load(photo)
-                .centerCrop()
-                .placeholder(R.drawable.poster_placeholder_bg)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(image)
+            binding: SeasonItemBinding
+        ) = with(binding.image) {
+            val photo = season.poster
+            if(!photo.isNullOrEmpty()) {
+                Glide
+                    .with(context)
+                    .load(photo)
+                    .centerCrop()
+                    .placeholder(R.drawable.poster_placeholder_bg)
+                    .error(R.drawable.poster_placeholder_bg)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(this)
+            } else {
+                Glide
+                    .with(context)
+                    .load(R.drawable.poster_placeholder_bg)
+                    .centerCrop()
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(this)
+            }
         }
     }
 }

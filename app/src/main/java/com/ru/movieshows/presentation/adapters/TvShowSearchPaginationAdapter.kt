@@ -8,13 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.R
-import com.ru.movieshows.databinding.SearchTileBinding
+import com.ru.movieshows.databinding.SearchItemBinding
 import com.ru.movieshows.domain.entity.TvShowsEntity
 import com.ru.movieshows.presentation.adapters.diff_callback.NotEqualDiffItemCallback
 
-class TvShowSearchAdapter(
+class TvShowSearchPaginationAdapter(
     private val onTap:(TvShowsEntity) -> Unit,
-) : PagingDataAdapter<TvShowsEntity, TvShowSearchAdapter.Holder>(NotEqualDiffItemCallback()) {
+) : PagingDataAdapter<TvShowsEntity, TvShowSearchPaginationAdapter.Holder>(NotEqualDiffItemCallback()) {
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val tvShow = getItem(position) ?: return
@@ -23,24 +23,24 @@ class TvShowSearchAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = SearchTileBinding.inflate(inflater, parent, false)
+        val binding = SearchItemBinding.inflate(inflater, parent, false)
         return Holder(binding, onTap)
     }
 
     class Holder(
-        private val binding: SearchTileBinding,
+        private val binding: SearchItemBinding,
         private val onTap: (TvShowsEntity) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(tvShow: TvShowsEntity) = with(binding) {
-            binding.root.setOnClickListener { onTap(tvShow) }
-            setupTitle(tvShow)
+        fun bind(tvShow: TvShowsEntity) = with(binding.root) {
+            setOnClickListener { onTap(tvShow) }
+            bindTitle(tvShow)
             setupBackDrop(tvShow)
-            setupRating(tvShow)
-            setupDescription(tvShow)
+            bindRating(tvShow)
+            bindDescription(tvShow)
         }
 
-        private fun setupTitle(tvShow: TvShowsEntity) = with(binding.headerText) {
+        private fun bindTitle(tvShow: TvShowsEntity) = with(binding.headerText) {
             val name = tvShow.name
             if(name != null) {
                 text = name
@@ -50,7 +50,7 @@ class TvShowSearchAdapter(
             }
         }
 
-        private fun setupDescription(tvShow: TvShowsEntity) = with(binding) {
+        private fun bindDescription(tvShow: TvShowsEntity) = with(binding) {
             val overview = tvShow.overview
             if(overview != null) {
                 descriptionText.text = tvShow.overview
@@ -61,17 +61,20 @@ class TvShowSearchAdapter(
 
         }
 
-        private fun setupRating(tvShow: TvShowsEntity) {
+        private fun bindRating(tvShow: TvShowsEntity) = with(binding) {
             val rating = tvShow.rating
-            binding.ratingBar.isEnabled = false
-            if(rating != null) {
-                val ratingText = "%.2f".format(rating)
-                val ratingValue = (rating.toFloat() / 2)
-                binding.ratingValue.text = ratingText
-                binding.ratingBar.rating = ratingValue
-                binding.ratingBarContainer.isVisible = true
+            ratingBar.isEnabled = false
+            if (rating != null && rating > 0) {
+                val value = rating.toFloat() / 2
+                ratingValue.text = "%.2f".format(value)
+                ratingBar.rating = value
+                ratingValue.isVisible = true
+                ratingBar.isVisible = true
+                ratingBarContainer.isVisible = true
             } else {
-                binding.ratingBarContainer.isVisible = false
+                ratingValue.isVisible = false
+                ratingBar.isVisible = false
+                ratingBarContainer.isVisible = false
             }
         }
 
@@ -83,10 +86,16 @@ class TvShowSearchAdapter(
                     .load(poster)
                     .centerCrop()
                     .placeholder(R.drawable.poster_placeholder_bg)
+                    .error(R.drawable.poster_placeholder_bg)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(this)
             } else {
-                setImageResource(R.drawable.poster_placeholder_bg)
+                Glide
+                    .with(binding.root)
+                    .load(R.drawable.poster_placeholder_bg)
+                    .centerCrop()
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(this)
             }
         }
     }

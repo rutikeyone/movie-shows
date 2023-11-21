@@ -16,7 +16,7 @@ import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.adapters.LoadStateAdapter
 import com.ru.movieshows.presentation.adapters.MoviesAdapter
-import com.ru.movieshows.presentation.adapters.MoviesListAdapter
+import com.ru.movieshows.presentation.adapters.MoviesPaginationAdapter
 import com.ru.movieshows.presentation.adapters.TryAgainAction
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
@@ -31,7 +31,7 @@ class PopularMoviesFragment : BaseFragment() {
     override val viewModel by viewModels<PopularMoviesViewModel>()
     private val binding by viewBinding<FragmentPopularMoviesBinding>()
 
-    private var adapter: MoviesListAdapter? = null
+    private var adapter: MoviesPaginationAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,7 +48,7 @@ class PopularMoviesFragment : BaseFragment() {
     private fun initView() {
         val tryAgainAction: TryAgainAction = { adapter?.retry() }
         val footerAdapter = LoadStateAdapter(tryAgainAction, requireContext())
-        adapter = MoviesListAdapter(::navigateToMovieDetails)
+        adapter = MoviesPaginationAdapter(::navigateToMovieDetails)
         val gridLayoutManager = GridLayoutManager(requireContext(), 3)
         binding.rvMovies.layoutManager = gridLayoutManager
         adapter?.addLoadStateListener { loadState -> renderUi(loadState) }

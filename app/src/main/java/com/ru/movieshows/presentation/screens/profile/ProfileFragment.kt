@@ -9,7 +9,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.ru.movieshows.R
-import com.ru.movieshows.databinding.ProfileBinding
+import com.ru.movieshows.databinding.FragmentProfileBinding
 import com.ru.movieshows.domain.entity.AccountEntity
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.utils.viewBinding
@@ -21,14 +21,14 @@ import dagger.hilt.android.AndroidEntryPoint
 class ProfileFragment : BaseFragment() {
 
     override val viewModel by viewModels<ProfileViewModel>()
-    private val binding by viewBinding<ProfileBinding>()
+    private val binding by viewBinding<FragmentProfileBinding>()
 
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.profile, container, false);
+    ): View? = inflater.inflate(R.layout.fragment_profile, container, false);
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,34 +45,48 @@ class ProfileFragment : BaseFragment() {
         when (authState) {
             AuthState.Pure -> {}
             AuthState.InPending -> progressGroup.isVisible = true
-            is AuthState.Authenticated -> setupAuthenticatedUI(authState.account)
             AuthState.NotAuthenticated -> authenticatedGroup.isVisible = false
+            is AuthState.Authenticated -> setupAuthenticatedUI(authState.account)
         }
     }
 
-    private fun setupAuthenticatedUI(account: AccountEntity) = with(binding) {
-        val stringBuilder = StringBuilder().also {
-             val username = account.username ?: ""
-             it.append(username)
-        }
-        val value = stringBuilder.toString()
-        if(value.isNotEmpty()) nameTextView.text = value
+    private fun setupAuthenticatedUI(account: AccountEntity) = with(binding.authenticatedGroup) {
+        setupName(account)
+        setupProfileAvatarImage(account)
+        isVisible = true
+    }
 
+    private fun setupProfileAvatarImage(account: AccountEntity) = with(binding.avatarImageView) {
         val photo = account.avatar
-
-        if(!photo.isNullOrEmpty()) {
+        if (!photo.isNullOrEmpty()) {
             Glide
                 .with(requireContext())
                 .load(photo)
+                .placeholder(R.drawable.avatar_placeholder)
+                .error(R.drawable.avatar_placeholder)
                 .centerCrop()
-                .into(avatarImageView)
+                .into(this)
         } else {
-            avatarImageView.setImageResource(R.drawable.avatar_placeholder)
+            Glide
+                .with(requireContext())
+                .load(R.drawable.avatar_placeholder)
+                .centerCrop()
+                .into(this)
         }
+    }
 
-
-
-        authenticatedGroup.isVisible = true
+    private fun setupName(account: AccountEntity) = with(binding.nameTextView) {
+        val stringBuilder = StringBuilder().also {
+            val username = account.username ?: ""
+            it.append(username)
+        }
+        val value = stringBuilder.toString()
+        if (value.isNotEmpty()) {
+            text = value
+            isVisible = true
+        } else {
+            isVisible = false
+        }
     }
 
 }

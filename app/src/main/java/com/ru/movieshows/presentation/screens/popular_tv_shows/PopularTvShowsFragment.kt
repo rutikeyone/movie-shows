@@ -16,7 +16,7 @@ import com.ru.movieshows.domain.entity.TvShowsEntity
 import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.adapters.LoadStateAdapter
 import com.ru.movieshows.presentation.adapters.TryAgainAction
-import com.ru.movieshows.presentation.adapters.TvShowListAdapter
+import com.ru.movieshows.presentation.adapters.TvShowPaginationAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
 import com.ru.movieshows.presentation.utils.viewBinding
@@ -31,7 +31,7 @@ class PopularTvShowsFragment : BaseFragment() {
     override val viewModel by viewModels<PopularTvShowsViewModel>()
     private val binding by viewBinding<FragmentPopularTvShowsBinding>()
 
-    private val adapter = TvShowListAdapter(::navigateToTvShowDetails)
+    private val adapter = TvShowPaginationAdapter(::navigateToTvShowDetails)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,7 +58,7 @@ class PopularTvShowsFragment : BaseFragment() {
         tvShowsRecyclerView.itemAnimator = null
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                return if (adapter!!.getItemViewType(position) === TvShowListAdapter.LOADING_ITEM) 1 else 3
+                return if (adapter!!.getItemViewType(position) === TvShowPaginationAdapter.LOADING_ITEM) 1 else 3
             }
         }
     }

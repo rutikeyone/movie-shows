@@ -23,7 +23,7 @@ import com.ru.movieshows.domain.entity.TvShowsEntity
 import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.adapters.LoadStateAdapter
 import com.ru.movieshows.presentation.adapters.TryAgainAction
-import com.ru.movieshows.presentation.adapters.TvShowSearchAdapter
+import com.ru.movieshows.presentation.adapters.TvShowSearchPaginationAdapter
 import com.ru.movieshows.presentation.contract.navigator
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
@@ -37,7 +37,7 @@ import kotlinx.coroutines.launch
 class TvShowSearchFragment : BaseFragment() {
     private val toolbar get() = navigator().getToolbar()
     private val binding by viewBinding<FragmentTvShowSearchBinding>()
-    private val adapter: TvShowSearchAdapter = TvShowSearchAdapter(::navigateToTvShowDetails);
+    private val adapter: TvShowSearchPaginationAdapter = TvShowSearchPaginationAdapter(::navigateToTvShowDetails);
     private var searchView: SearchView? = null
     private var searchItem: MenuItem? = null
 
