@@ -10,11 +10,11 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.SearchTileBinding
 import com.ru.movieshows.domain.entity.MovieEntity
-import com.ru.movieshows.presentation.adapters.diff_callback.MoviesDiffCallback
+import com.ru.movieshows.presentation.adapters.diff_callback.NotEqualDiffItemCallback
 
 class MoviesSearchAdapter(
     private val onTap: (MovieEntity) -> Unit,
-) : PagingDataAdapter<MovieEntity, MoviesSearchAdapter.Holder>(MoviesDiffCallback()) {
+) : PagingDataAdapter<MovieEntity, MoviesSearchAdapter.Holder>(NotEqualDiffItemCallback()) {
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val movie = getItem(position) ?: return

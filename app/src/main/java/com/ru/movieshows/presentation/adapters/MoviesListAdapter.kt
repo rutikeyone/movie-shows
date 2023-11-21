@@ -11,11 +11,11 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.MovieTileVariant1Binding
 import com.ru.movieshows.domain.entity.MovieEntity
-import com.ru.movieshows.presentation.adapters.diff_callback.MoviesDiffCallback
+import com.ru.movieshows.presentation.adapters.diff_callback.MoviesDiffItemCallback
 
 class MoviesListAdapter(
     private val onTap: (MovieEntity) -> Unit,
-) : PagingDataAdapter<MovieEntity, MoviesListAdapter.Holder>(MoviesDiffCallback()) {
+) : PagingDataAdapter<MovieEntity, MoviesListAdapter.Holder>(MoviesDiffItemCallback()) {
 
     override fun getItemViewType(position: Int): Int {
         return if (position == itemCount) MOVIE_ITEM else LOADING_ITEM

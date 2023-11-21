@@ -11,11 +11,11 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.TvShowsTileVariant1Binding
 import com.ru.movieshows.domain.entity.TvShowsEntity
-import com.ru.movieshows.presentation.adapters.diff_callback.TvShowDiffCallback
+import com.ru.movieshows.presentation.adapters.diff_callback.TvShowDiffItemCallback
 
 class TvShowListAdapter(
     private val onTap: (TvShowsEntity) -> Unit,
-) : PagingDataAdapter<TvShowsEntity, TvShowListAdapter.Holder>(TvShowDiffCallback()) {
+) : PagingDataAdapter<TvShowsEntity, TvShowListAdapter.Holder>(TvShowDiffItemCallback()) {
 
     override fun getItemViewType(position: Int): Int {
         return if (position == itemCount) TV_SHOW_ITEM else LOADING_ITEM

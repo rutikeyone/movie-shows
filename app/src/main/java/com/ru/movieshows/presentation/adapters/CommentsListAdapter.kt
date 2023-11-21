@@ -13,13 +13,13 @@ import com.ru.movieshows.R
 import com.ru.movieshows.databinding.CommentItemBinding
 import com.ru.movieshows.domain.entity.CommentEntity
 import com.ru.movieshows.domain.entity.CommentLevelSnippetEntity
-import com.ru.movieshows.presentation.adapters.diff_callback.CommentsDiffCallback
+import com.ru.movieshows.presentation.adapters.diff_callback.CommentsDiffItemCallback
 
 typealias CommentOnDetailsTapListener = (CommentEntity) -> Unit
 
 class CommentsListAdapter(
     private val listener: CommentOnDetailsTapListener,
-) : PagingDataAdapter<CommentEntity, CommentsListAdapter.Holder>(CommentsDiffCallback()) {
+) : PagingDataAdapter<CommentEntity, CommentsListAdapter.Holder>(CommentsDiffItemCallback()) {
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val comment = getItem(position) ?: return

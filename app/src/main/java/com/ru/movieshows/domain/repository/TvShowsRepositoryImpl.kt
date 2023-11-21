@@ -241,7 +241,7 @@ class TvShowsRepositoryImpl @Inject constructor(
             val result = body.result
             val totalPages = body.totalPages
             val tvShowsResult = result.map { it.toEntity() }
-            Pair(tvShowsResult.toList(), totalPages)
+            Pair(tvShowsResult, totalPages)
         }
 
         return Pager(
@@ -266,7 +266,7 @@ class TvShowsRepositoryImpl @Inject constructor(
             val result = body.result
             val totalPages = body.totalPages
             val tvShowsResult = result.map { it.toEntity() }
-            Pair(tvShowsResult.toList(), totalPages)
+            Pair(tvShowsResult, totalPages)
         }
 
         return Pager(
@@ -289,7 +289,7 @@ class TvShowsRepositoryImpl @Inject constructor(
             val result = body.result
             val totalPages = body.totalPages
             val tvShowsResult = result.map { it.toEntity() }
-            Pair(tvShowsResult.toList(), totalPages)
+            Pair(tvShowsResult, totalPages)
         }
 
         return Pager(
@@ -342,7 +342,7 @@ class TvShowsRepositoryImpl @Inject constructor(
            val result = body.result
            val totalPages = body.totalPages
            val tvShowEntities = result.map { it.toEntity() }
-           Pair(tvShowEntities.toList(), totalPages)
+           Pair(tvShowEntities, totalPages)
        }
         return Pager(
             config = PagingConfig(
@@ -354,6 +354,6 @@ class TvShowsRepositoryImpl @Inject constructor(
     }
 
     private companion object {
-        const val PAGE_SIZE = 10
+        const val PAGE_SIZE = 20
     }
 }

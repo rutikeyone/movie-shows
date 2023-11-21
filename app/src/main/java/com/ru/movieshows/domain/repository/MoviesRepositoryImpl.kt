@@ -21,12 +21,13 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
     override fun getPagedTopRatedMovies(language: String): Flow<PagingData<MovieEntity>> {
         val loader: PageLoader<List<MovieEntity>> = { pageIndex ->
             val response = moviesDto.getTopRatedMovies(language, pageIndex)
-            if(!response.isSuccessful || response.body() == null) throw IllegalStateException("Response must be successful")
-            val body = response.body()!!
+            val isSuccessful = response.isSuccessful
+            val body = response.body()
+            if(!isSuccessful || body == null) throw IllegalStateException("Response must be successful")
             val result = body.results
             val totalPages = body.totalPages
-            val movieEntities = result.map { it.toEntity() }
-            Pair(movieEntities.toList(), totalPages)
+            val movieEntities =  result.map { it.toEntity() }
+            Pair(movieEntities, totalPages)
         }
 
         return Pager(
@@ -39,14 +40,14 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
     }
 
     override fun searchPagedMovies(language: String, query: String?): Flow<PagingData<MovieEntity>> {
-        val loader: PageLoader<List<MovieEntity>> = { pageIndex ->
+        val loader: PageLoader<ArrayList<MovieEntity>> = { pageIndex ->
             val response = moviesDto.searchMovies(language, pageIndex, query)
             if(!response.isSuccessful || response.body() == null) throw IllegalStateException("Response must be successful")
             val body = response.body()!!
             val result = body.results
             val totalPages = body.totalPages
-            val movieEntities = result.map { it.toEntity() }
-            Pair(movieEntities.toList(), totalPages)
+            val movieEntities = ArrayList(result.map { it.toEntity() })
+            Pair(movieEntities, totalPages)
         }
 
         return Pager(
@@ -368,6 +369,6 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
     }
 
     private companion object {
-        const val PAGE_SIZE = 10
+        const val PAGE_SIZE = 20
     }
 }
