@@ -3,6 +3,7 @@ package com.ru.movieshows.presentation.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -46,37 +47,46 @@ class MoviesListAdapter(
         private fun setupMovieRating(
             binding: MovieTileVariant1Binding,
             rating: Double?,
-        ) {
+        ) = with(binding){
             if (rating != null && rating > 0) {
                 val value = rating.toFloat()
-                binding.ratingValue.text = value.toString()
-                binding.ratingBar.isEnabled = false;
+                ratingValue.text = value.toString()
+                ratingBar.isEnabled = false;
             } else {
-                binding.ratingValue.visibility = View.GONE
-                binding.ratingBar.visibility = View.GONE
+                ratingValue.visibility = View.GONE
+                ratingBar.visibility = View.GONE
             }
         }
 
         private fun setupMovieImage(
             movie: MovieEntity,
             binding: MovieTileVariant1Binding,
-        ) {
-            if (movie.backDrop != null) {
+         ) = with(binding.discoverMovieImage) {
+            val backDrop = movie.backDrop
+            if(!backDrop.isNullOrEmpty()) {
                 Glide
                     .with(binding.root)
-                    .load(movie.backDrop)
+                    .load(backDrop)
                     .centerCrop()
                     .placeholder(R.drawable.poster_placeholder_bg)
                     .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(binding.discoverMovieImage);
+                    .into(this)
+            } else {
+                setImageResource(R.drawable.poster_placeholder_bg)
             }
         }
 
         private fun setupMovieName(
             movie: MovieEntity,
             binding: MovieTileVariant1Binding,
-        ) {
-            if (movie.title != null) binding.movieName.text = movie.title
+        ) = with(binding.movieName) {
+            val title = movie.title
+            if(!title.isNullOrEmpty()) {
+                text = title
+                isVisible = true
+            } else {
+                isVisible = false
+            }
         }
 
     }

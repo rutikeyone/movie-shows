@@ -35,44 +35,59 @@ class TvShowSearchAdapter(
         fun bind(tvShow: TvShowsEntity) = with(binding) {
             binding.root.setOnClickListener { onTap(tvShow) }
             setupTitle(tvShow)
-            if(tvShow.backDrop != null) setupBackDrop(tvShow)
+            setupBackDrop(tvShow)
             setupRating(tvShow)
             setupDescription(tvShow)
         }
 
-        private fun setupTitle(tvShow: TvShowsEntity) {
-            if(tvShow.name == null) return
-            binding.headerText.text = tvShow.name
+        private fun setupTitle(tvShow: TvShowsEntity) = with(binding.headerText) {
+            val name = tvShow.name
+            if(name != null) {
+                text = name
+                isVisible = true
+            } else {
+                isVisible = false
+            }
         }
 
-        private fun setupDescription(tvShow: TvShowsEntity) {
-            if (tvShow.overview == null) return
-            binding.descriptionText.text = tvShow.overview
+        private fun setupDescription(tvShow: TvShowsEntity) = with(binding) {
+            val overview = tvShow.overview
+            if(overview != null) {
+                descriptionText.text = tvShow.overview
+                descriptionText.isVisible = true
+            } else {
+                descriptionText.isVisible = false
+            }
+
         }
 
         private fun setupRating(tvShow: TvShowsEntity) {
-            binding.ratingBar.isEnabled = false
-            if (tvShow.rating == null) return
             val rating = tvShow.rating
-            val ratingText = "%.2f".format(rating)
-            val ratingValue = (rating.toFloat() / 2)
-            binding.ratingValue.text = ratingText
-            binding.ratingBar.rating = ratingValue
-        }
-
-        private fun setupBackDrop(tvShow: TvShowsEntity) {
-            if(tvShow.backDrop == null) {
-                binding.imageView.isVisible = false
-                return
+            binding.ratingBar.isEnabled = false
+            if(rating != null) {
+                val ratingText = "%.2f".format(rating)
+                val ratingValue = (rating.toFloat() / 2)
+                binding.ratingValue.text = ratingText
+                binding.ratingBar.rating = ratingValue
+                binding.ratingBarContainer.isVisible = true
+            } else {
+                binding.ratingBarContainer.isVisible = false
             }
-            Glide
-                .with(binding.root)
-                .load(tvShow.backDrop)
-                .centerCrop()
-                .placeholder(R.drawable.poster_placeholder_bg)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(binding.imageView)
         }
 
+        private fun setupBackDrop(tvShow: TvShowsEntity) = with(binding.imageView) {
+            val poster = tvShow.poster
+            if (!poster.isNullOrEmpty()) {
+                Glide
+                    .with(binding.root)
+                    .load(poster)
+                    .centerCrop()
+                    .placeholder(R.drawable.poster_placeholder_bg)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(this)
+            } else {
+                setImageResource(R.drawable.poster_placeholder_bg)
+            }
+        }
     }
 }

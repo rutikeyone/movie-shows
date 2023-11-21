@@ -66,18 +66,19 @@ class Holder(
             }
         }
 
-        private fun setupBackDrop(movie: MovieEntity) {
-            if(movie.backDrop == null) {
-                binding.imageView.isVisible = false
-                return
+        private fun setupBackDrop(movie: MovieEntity) = with(binding.imageView) {
+            val poster = movie.poster
+            if(!poster.isNullOrEmpty()) {
+                Glide
+                    .with(binding.root)
+                    .load(poster)
+                    .centerCrop()
+                    .placeholder(R.drawable.poster_placeholder_bg)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(this)
+            } else {
+                setImageResource(R.drawable.poster_placeholder_bg)
             }
-            Glide
-                .with(binding.root)
-                .load(movie.backDrop)
-                .centerCrop()
-                .placeholder(R.drawable.poster_placeholder_bg)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(binding.imageView)
         }
 
     }

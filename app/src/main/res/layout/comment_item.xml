@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="?attr/selectableItemBackground"
-    android:clickable="true"
-    android:focusable="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/dp_16"
@@ -64,8 +63,7 @@
         app:readMoreToggleArea="more"
         app:readLessText="@string/hide"
         app:readMoreText="@string/read_more"
-        android:textColorLink="?attr/textColorAccent"
-        />
+        android:textColorLink="?attr/textColorAccent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/countRepliesButton"

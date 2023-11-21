@@ -23,7 +23,7 @@ data class MovieModel(
         rating,
         title,
         if(this.backDrop != null) BuildConfig.TMDB_IMAGE_URL + this.backDrop else null,
-        poster,
+        if(this.poster != null) BuildConfig.TMDB_IMAGE_URL + this.poster else null,
         overview
     )
 }

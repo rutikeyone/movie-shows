@@ -15,7 +15,11 @@ import com.ru.movieshows.domain.entity.CommentEntity
 import com.ru.movieshows.domain.entity.CommentLevelSnippetEntity
 import com.ru.movieshows.presentation.adapters.diff_callback.CommentsDiffCallback
 
-class CommentsListAdapter : PagingDataAdapter<CommentEntity, CommentsListAdapter.Holder>(CommentsDiffCallback()) {
+typealias CommentOnDetailsTapListener = (CommentEntity) -> Unit
+
+class CommentsListAdapter(
+    private val listener: CommentOnDetailsTapListener,
+) : PagingDataAdapter<CommentEntity, CommentsListAdapter.Holder>(CommentsDiffCallback()) {
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val comment = getItem(position) ?: return
@@ -25,11 +29,12 @@ class CommentsListAdapter : PagingDataAdapter<CommentEntity, CommentsListAdapter
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = CommentItemBinding.inflate(inflater, parent, false)
-        return Holder(binding)
+        return Holder(binding, listener)
     }
 
     class Holder(
         private val binding: CommentItemBinding,
+        private val listener: CommentOnDetailsTapListener,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(comment: CommentEntity) = with(binding) {
@@ -38,12 +43,12 @@ class CommentsListAdapter : PagingDataAdapter<CommentEntity, CommentsListAdapter
             bindTimeAge(commentSnippet)
             bindComment(commentSnippet)
             bindCountReplies(comment)
-            setOnClickListener()
+            setOnClickListener(comment)
         }
 
-        private fun setOnClickListener() = with(binding) {
+        private fun setOnClickListener(comment: CommentEntity) = with(binding) {
             root.setOnClickListener {
-
+                listener.invoke(comment)
             }
         }
 
@@ -52,6 +57,7 @@ class CommentsListAdapter : PagingDataAdapter<CommentEntity, CommentsListAdapter
             if(countReplies != null) {
                 val value = resources.getQuantityString(R.plurals.count_replies, countReplies, countReplies)
                 text = value
+                setOnClickListener { listener.invoke(comment) }
                 isVisible = true
             } else {
                 isVisible = false

@@ -5,10 +5,10 @@ import com.ru.movieshows.domain.entity.CommentEntity
 
 class CommentsDiffCallback : DiffUtil.ItemCallback<CommentEntity>()  {
     override fun areItemsTheSame(oldItem: CommentEntity, newItem: CommentEntity): Boolean {
-        return oldItem.id != newItem.id
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: CommentEntity, newItem: CommentEntity): Boolean {
-        return oldItem != newItem
+        return oldItem == newItem
     }
 }

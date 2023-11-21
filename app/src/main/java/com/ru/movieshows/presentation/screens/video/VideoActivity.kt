@@ -12,6 +12,7 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
@@ -21,6 +22,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.loadOrC
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.ActivityVideoBinding
+import com.ru.movieshows.domain.entity.CommentEntity
 import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.adapters.CommentsListAdapter
 import com.ru.movieshows.presentation.adapters.LoadStateAdapter
@@ -35,6 +37,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class VideoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityVideoBinding
+    private val bottomSheetState get() = BottomSheetBehavior.from(binding.commentBottomSheet.root)
 
     private val args by navArgs<VideoActivityArgs>()
 
@@ -45,7 +48,8 @@ class VideoActivity : AppCompatActivity() {
     private var youTubePlayer: YouTubePlayer? = null
     private var isFullscreen = false
 
-    private val commentAdapter = CommentsListAdapter()
+    private val commentAdapter = CommentsListAdapter(::showCommentDetailsBottomSheet)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +66,10 @@ class VideoActivity : AppCompatActivity() {
         val footerAdapter = LoadStateAdapter(tryAgainAction, this@VideoActivity)
         commentsRecyclerView.adapter = commentAdapter.withLoadStateFooter(footerAdapter)
         commentsRecyclerView.itemAnimator = null
+    }
+
+    private fun showCommentDetailsBottomSheet(commentEntity: CommentEntity) {
+        bottomSheetState.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
     private fun renderUI(loadState: CombinedLoadStates) = with(binding){
