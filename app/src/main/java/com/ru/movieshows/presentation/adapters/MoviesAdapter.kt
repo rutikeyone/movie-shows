@@ -65,7 +65,7 @@ class MoviesAdapter(
             ratingBar.isEnabled = false
             if (rating != null && rating > 0) {
                 val value = rating.toFloat() / 2
-                ratingValue.text = "%.2f".format(value)
+                ratingValue.text = "%.2f".format(rating)
                 ratingBar.rating = value
                 ratingValue.isVisible = true
                 ratingBar.isVisible = true

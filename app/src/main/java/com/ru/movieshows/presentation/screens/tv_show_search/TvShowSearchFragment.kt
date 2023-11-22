@@ -9,6 +9,8 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
@@ -52,6 +54,7 @@ class TvShowSearchFragment : BaseFragment() {
             searchView = searchItem?.actionView as SearchView?
             searchView?.setOnQueryTextListener(onQueryTextListener)
             searchView?.maxWidth = Int.MAX_VALUE
+            searchView?.imeOptions = EditorInfo.IME_ACTION_DONE
 
         }
 
@@ -100,6 +103,16 @@ class TvShowSearchFragment : BaseFragment() {
             searchView?.setQuery(query, false)
         }
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onStart() {
+        setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+        super.onStart()
+    }
+
+    override fun onPause() {
+        setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        super.onPause()
     }
 
     private fun collectUiState() {

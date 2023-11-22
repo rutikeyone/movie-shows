@@ -29,7 +29,7 @@ class YoutubeRepositoryImpl @Inject constructor(
             override suspend fun load(params: LoadParams<String>): LoadResult<String, CommentEntity> {
                 return try {
                     val response = youtubeDto.getCommentsByVideo(videoId = videoId, pageToken = params.key, part = "snippet,replies")
-                    val result = response.items?.map { it.toEntity() } ?: listOf()
+                    val result = response.items?.map { it.toEntity().copy() } ?: listOf()
 
                     return LoadResult.Page(
                         data = result,

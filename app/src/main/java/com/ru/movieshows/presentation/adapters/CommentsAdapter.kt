@@ -6,61 +6,39 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.text.HtmlCompat
 import androidx.core.view.isVisible
-import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.ru.movieshows.R
-import com.ru.movieshows.databinding.CommentItemBinding
-import com.ru.movieshows.domain.entity.CommentEntity
+import com.ru.movieshows.databinding.CommentDetailsItemBinding
+import com.ru.movieshows.domain.entity.CommentLevelEntity
 import com.ru.movieshows.domain.entity.CommentLevelSnippetEntity
-import com.ru.movieshows.presentation.adapters.diff_callback.CommentsDiffItemCallback
 import com.ru.movieshows.presentation.utils.LinkMovementMethodOnTouchListener
 
-typealias CommentOnTapListener = (CommentEntity) -> Unit
-
-class CommentsPaginationAdapter(
-    private val listener: CommentOnTapListener,
-) : PagingDataAdapter<CommentEntity, CommentsPaginationAdapter.Holder>(CommentsDiffItemCallback()) {
-
-    override fun onBindViewHolder(holder: Holder, position: Int) {
-        val comment = getItem(position) ?: return
-        holder.bind(comment)
-    }
+class CommentsAdapter(
+    private val comments: ArrayList<CommentLevelEntity>,
+) : RecyclerView.Adapter<CommentsAdapter.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = CommentItemBinding.inflate(inflater, parent, false)
-        return Holder(binding, listener)
+        val binding = CommentDetailsItemBinding.inflate(inflater, parent, false)
+        return Holder(binding)
     }
 
-    class Holder(
-        private val binding: CommentItemBinding,
-        private val listener: CommentOnTapListener,
+    override fun getItemCount(): Int = comments.size
+
+    override fun onBindViewHolder(holder: Holder, position: Int) {
+        val comment = comments[position]
+        holder.bind(comment)
+    }
+
+    inner class Holder(
+        private val binding: CommentDetailsItemBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-
-        fun bind(comment: CommentEntity) = with(binding) {
-            val commentSnippet = comment.snippet?.topLevelComment?.snippet
+        fun bind(comment: CommentLevelEntity) = with(binding) {
+            val commentSnippet = comment.snippet
+            binding.root.background = null
             bindUserName(commentSnippet)
             bindTimeAge(commentSnippet)
             bindComment(commentSnippet)
-            bindCountReplies(comment)
-            setOnClickListener(comment)
-        }
-
-        private fun setOnClickListener(comment: CommentEntity) = with(binding) {
-            contentLayout.setOnClickListener { listener.invoke(comment) }
-        }
-
-        private fun bindCountReplies(comment: CommentEntity) = with(binding.countRepliesButton) {
-            val countReplies = comment.countReplies
-            if(countReplies != null) {
-                val value = resources.getQuantityString(R.plurals.count_replies, countReplies, countReplies)
-                text = value
-                setOnClickListener { listener.invoke(comment) }
-                isVisible = true
-            } else {
-                isVisible = false
-            }
         }
 
         private fun bindComment(commentSnippet: CommentLevelSnippetEntity?) = with(binding.commentTextView) {
@@ -96,5 +74,6 @@ class CommentsPaginationAdapter(
                 userTextView.isVisible = false
             }
         }
+
     }
 }

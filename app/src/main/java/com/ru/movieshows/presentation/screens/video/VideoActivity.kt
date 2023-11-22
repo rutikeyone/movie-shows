@@ -1,15 +1,21 @@
 package com.ru.movieshows.presentation.screens.video
 
+import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.os.Bundle
+import android.text.Html
+import android.text.format.DateUtils
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.text.HtmlCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.navArgs
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -22,11 +28,16 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.loadOrC
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.ActivityVideoBinding
+import com.ru.movieshows.databinding.CommentDetailsItemBinding
 import com.ru.movieshows.domain.entity.CommentEntity
+import com.ru.movieshows.domain.entity.CommentLevelEntity
+import com.ru.movieshows.domain.entity.CommentLevelSnippetEntity
 import com.ru.movieshows.domain.utils.AppFailure
+import com.ru.movieshows.presentation.adapters.CommentsAdapter
 import com.ru.movieshows.presentation.adapters.CommentsPaginationAdapter
 import com.ru.movieshows.presentation.adapters.LoadStateAdapter
 import com.ru.movieshows.presentation.adapters.TryAgainAction
+import com.ru.movieshows.presentation.utils.LinkMovementMethodOnTouchListener
 import com.ru.movieshows.presentation.viewmodel.video.VideoViewModel
 import com.ru.movieshows.presentation.viewmodel.viewModelCreator
 import dagger.hilt.android.AndroidEntryPoint
@@ -67,8 +78,83 @@ class VideoActivity : AppCompatActivity() {
         commentsRecyclerView.itemAnimator = null
     }
 
-    private fun showCommentDetailsBottomSheet(commentEntity: CommentEntity) {
+    @SuppressLint("UseCompatLoadingForDrawables", "ResourceType")
+    private fun showCommentDetailsBottomSheet(commentEntity: CommentEntity) = with(binding.commentBottomSheet) {
         bottomSheetState.state = BottomSheetBehavior.STATE_EXPANDED
+        with(topLevelComment) {
+            val snippet = commentEntity.snippet?.topLevelComment?.snippet
+            bindTopLevelComment(snippet, this)
+            bindTopLevelCommentTimeAge(snippet, this)
+            bindTopLevelCommentUserName(snippet, this)
+        }
+
+        with(binding.commentBottomSheet.repliesCommentsView) {
+            val repliesComments = commentEntity.replies?.comments
+            bindRepliesCommentsView(repliesComments, this)
+        }
+    }
+
+    private fun bindRepliesCommentsView(
+        repliesComments: ArrayList<CommentLevelEntity>?,
+        recyclerView: RecyclerView
+    ) = with(recyclerView) {
+        if(!repliesComments.isNullOrEmpty()) {
+            val adapter = CommentsAdapter(repliesComments)
+            val linearLayoutManager = object : LinearLayoutManager(this@VideoActivity) {
+                override fun canScrollVertically() = false
+            }
+            this.layoutManager = linearLayoutManager
+            this.adapter = adapter
+            isVisible = true
+        } else {
+            isVisible = false
+        }
+    }
+
+
+    private fun bindTopLevelComment(
+        commentSnippet: CommentLevelSnippetEntity?,
+        commentDetailsItemBinding: CommentDetailsItemBinding,
+    ) = with(commentDetailsItemBinding.commentTextView) {
+        val textDisplay = commentSnippet?.textDisplay
+        if(!textDisplay.isNullOrEmpty()) {
+            val value = Html.fromHtml(textDisplay, HtmlCompat.FROM_HTML_MODE_LEGACY)
+            val onTouchListener = LinkMovementMethodOnTouchListener()
+            text = value
+            isVisible = true
+            setOnTouchListener(onTouchListener)
+        } else {
+            isVisible = false
+        }
+    }
+
+    private fun bindTopLevelCommentTimeAge(
+        commentSnippet: CommentLevelSnippetEntity?,
+        commentDetailsItemBinding: CommentDetailsItemBinding,
+    ) = with(commentDetailsItemBinding.timeAgoTextView) {
+        val publishedAt = commentSnippet?.publishedAt
+        if(publishedAt != null) {
+            val time: Long = publishedAt.time
+            val now = System.currentTimeMillis()
+            val ago = DateUtils.getRelativeTimeSpanString(time, now, DateUtils.MINUTE_IN_MILLIS)
+            text = ago.toString()
+            isVisible = true
+        } else {
+            isVisible = false
+        }
+    }
+
+    private fun bindTopLevelCommentUserName(
+        comment: CommentLevelSnippetEntity?,
+        commentDetailsItemBinding: CommentDetailsItemBinding,
+    ) = with(commentDetailsItemBinding.userTextView) {
+        val authorDisplayName = comment?.authorDisplayName
+        if(!authorDisplayName.isNullOrEmpty()) {
+            text = authorDisplayName
+            isVisible = true
+        } else {
+            isVisible = false
+        }
     }
 
     private fun renderUI(loadState: CombinedLoadStates) = with(binding){
@@ -116,6 +202,8 @@ class VideoActivity : AppCompatActivity() {
     override fun onBackPressed() {
         if (isFullscreen) {
             youTubePlayer?.toggleFullscreen()
+        } else if(bottomSheetState.state != BottomSheetBehavior.STATE_COLLAPSED) {
+            bottomSheetState.state = BottomSheetBehavior.STATE_COLLAPSED
         } else {
             super.onBackPressed()
         }
@@ -128,6 +216,7 @@ class VideoActivity : AppCompatActivity() {
                 .load(image)
                 .centerCrop()
                 .placeholder(R.drawable.poster_placeholder_bg)
+                .error(R.drawable.poster_placeholder_bg)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(this.posterImageView)
         }

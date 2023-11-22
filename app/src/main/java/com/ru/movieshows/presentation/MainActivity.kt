@@ -42,16 +42,10 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), Navigator {
     private lateinit var binding: ActivityMainBinding
-
-    private val rootNavController get() = rootNavController()
-
-    private var _currentNavController: NavController? = null
-
     private val viewModel by viewModels<MainViewModel>()
 
-    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() = executeOnHandleBack(this)
-    }
+    private val rootNavController get() = rootNavController()
+    private var _currentNavController: NavController? = null
 
     private val navHostFragment: NavHostFragment?
         get() = supportFragmentManager.findFragmentById(R.id.fragmentContainer) as? NavHostFragment
@@ -61,6 +55,10 @@ class MainActivity : AppCompatActivity(), Navigator {
             val navHostFragment = navHostFragment
             return navHostFragment?.childFragmentManager?.fragments?.firstOrNull()
         }
+
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() = executeOnHandleBack(this)
+    }
 
     private val fragmentListener = object : FragmentManager.FragmentLifecycleCallbacks() {
         override fun onFragmentStarted(fm: FragmentManager, fragment: Fragment) {

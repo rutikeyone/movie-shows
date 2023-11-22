@@ -38,5 +38,6 @@
     <dimen name="dp_96">96dp</dimen>
     <dimen name="dp_55">55dp</dimen>
     <dimen name="dp_64">64dp</dimen>
+    <dimen name="dp_1">1dp</dimen>
 
 </resources>
