@@ -75,7 +75,7 @@
     <string name="incorrect_api_key">Incorrect API key</string>
     <string name="session_creation_denied">Session creation denied</string>
     <string name="there_was_a_problem_with_authorization">There was a problem with authorization</string>
-    <string name="problems_may_arise_when_connecting_from_russia_use_a_vpn_service">Problems may arise when connecting from Russia. Use a VPN service.</string>
+    <string name="problems_from_russia_connection_message">Problems may arise when connecting from Russia. Use a VPN service.</string>
     <string name="ivanov_ivan">Ivanov Ivan</string>
     <string name="watchlist">Watchlist</string>
     <string name="favorites">Favorites</string>
@@ -84,6 +84,9 @@
     <string name="no_comments">No comments</string>
     <string name="access_denied">Access denied</string>
     <string name="comment">Comment</string>
+    <string name="the_session_was_not_found">The session was not found</string>
+    <string name="your_account_is_no_longer_active_contact_tmdb_message">Your account is no longer active. Contact TMDb if this is an error</string>
+    <string name="the_email_address_has_not_been_confirmed">The email address has not been confirmed.</string>
     <plurals name="count_replies">
         <item quantity="zero">zero</item>
         <item quantity="one">%1$d reply</item>

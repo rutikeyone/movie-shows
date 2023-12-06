@@ -8,19 +8,23 @@ import com.ru.movieshows.data.repository.MoviesRepository
 import com.ru.movieshows.domain.entity.GenreEntity
 import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.utils.AppFailure
+import com.ru.movieshows.presentation.screens.movies.MoviesFragmentDirections
+import com.ru.movieshows.presentation.sideeffects.navigator.NavigatorWrapper
 import com.ru.movieshows.presentation.utils.NavigationIntent
 import com.ru.movieshows.presentation.utils.publishEvent
 import com.ru.movieshows.presentation.utils.share
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class MoviesViewModel @Inject constructor(
+class MoviesViewModel @AssistedInject constructor(
+    @Assisted private val navigator: NavigatorWrapper,
     private val moviesRepository: MoviesRepository,
     private val genresRepository: GenresRepository,
 ): BaseViewModel() {
+
     private val _state = MutableLiveData<MoviesState>()
     val state = _state.share()
     private val currentState get() = state.value
@@ -127,12 +131,17 @@ class MoviesViewModel @Inject constructor(
     }
 
     fun navigateToTopRatedMovies() {
-        val intent = NavigationIntent.toTopRatedMovies()
-        navigationEvent.publishEvent(intent)
+        val action = MoviesFragmentDirections.actionMoviesFragmentToTopRatedMoviesFragment()
+        navigator.navigate(action)
     }
 
     fun navigateToMovieSearch() {
         val intent = NavigationIntent.toMovieSearch()
         navigationEvent.publishEvent(intent)
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(navigator: NavigatorWrapper): MoviesViewModel
     }
 }

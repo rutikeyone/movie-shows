@@ -1,5 +1,6 @@
 package com.ru.movieshows.presentation.utils
 
+import android.annotation.SuppressLint
 import android.text.Layout
 import android.text.Spanned
 import android.text.style.ClickableSpan
@@ -8,6 +9,7 @@ import android.view.View
 import android.widget.TextView
 
 class LinkMovementMethodOnTouchListener : View.OnTouchListener {
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(v: View, event: MotionEvent): Boolean {
         val widget = v as? TextView ?: return false
         val text: Any = widget.text

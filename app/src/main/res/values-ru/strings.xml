@@ -68,7 +68,7 @@
     <string name="incorrect_api_key">Неверный ключ API</string>
     <string name="session_creation_denied">В создании сессии отказано </string>
     <string name="there_was_a_problem_with_authorization">Возникла проблема при авторизации</string>
-    <string name="problems_may_arise_when_connecting_from_russia_use_a_vpn_service">При подключении из России могут возникнуть проблемы. Используйте VPN сервис.</string>
+    <string name="problems_from_russia_connection_message">При подключении из России могут возникнуть проблемы. Используйте VPN сервис.</string>
     <string name="ivanov_ivan">Иванов Иван</string>
     <string name="watchlist">Список отслеживания</string>
     <string name="favorites">Желаемое</string>
@@ -77,6 +77,9 @@
     <string name="no_comments">Нет комментариев</string>
     <string name="access_denied">Отказано в доступе</string>
     <string name="comment">Комментарий</string>
+    <string name="the_session_was_not_found">Сессия не была найдена</string>
+    <string name="your_account_is_no_longer_active_contact_tmdb_message">Ваша учетная запись больше не активна. Свяжитесь с TMDb, если это ошибка</string>
+    <string name="the_email_address_has_not_been_confirmed">Адрес электронной почты не подтвержден.</string>
     <plurals name="count_replies">
         <item quantity="one">%1$d ответ</item>
         <item quantity="few">%1$d ответов</item>

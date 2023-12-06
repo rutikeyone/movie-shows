@@ -8,7 +8,9 @@ import com.ru.movieshows.domain.entity.PasswordField
 import com.ru.movieshows.domain.entity.PasswordValidationStatus
 import com.ru.movieshows.domain.entity.UsernameField
 import com.ru.movieshows.domain.entity.UsernameValidationStatus
+import com.ru.movieshows.presentation.SideEffectHolder
 import com.ru.movieshows.presentation.screens.BaseFragment
+import com.ru.movieshows.presentation.sideeffects.navigator.NavigatorWrapper
 
 fun BaseFragment.validateUsername(value: UsernameField): String? {
     val s = when (value.status) {
@@ -28,4 +30,13 @@ fun BaseFragment.validatePassword(value: PasswordField): String? = when(value.st
 fun Fragment.hideKeyboard() {
     val inputMethodService = view?.context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     inputMethodService.hideSoftInputFromWindow(requireView().windowToken, 0)
+}
+
+fun BaseFragment.navigator(): NavigatorWrapper {
+    val activity = requireActivity()
+    return if(activity is SideEffectHolder) {
+        activity.navigator()
+    } else {
+        throw IllegalStateException("Activity must implementation SideEffectHolder")
+    }
 }

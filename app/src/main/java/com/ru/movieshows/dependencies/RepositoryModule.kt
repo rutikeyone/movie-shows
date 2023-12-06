@@ -14,11 +14,8 @@ import com.ru.movieshows.domain.repository.TvShowsRepositoryImpl
 import com.ru.movieshows.domain.repository.YoutubeRepositoryImpl
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
 
 @Module
@@ -44,13 +41,4 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindYoutubeRepository(repository: YoutubeRepositoryImpl): YoutubeRepository
-}
-
-@Module
-@InstallIn(SingletonComponent::class)
-class RepositoryUtilsModule {
-    @Provides
-    fun provideCoroutineDispatcher(): CoroutineDispatcher {
-        return Dispatchers.Default
-    }
 }

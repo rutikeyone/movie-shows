@@ -2,7 +2,7 @@ package com.ru.movieshows.data.response
 
 import com.google.gson.annotations.SerializedName
 
-data class AuthenticationErrorBody(
+data class AccountErrorModel(
     @SerializedName("success")
     val success: Boolean?,
     @SerializedName("status_code")

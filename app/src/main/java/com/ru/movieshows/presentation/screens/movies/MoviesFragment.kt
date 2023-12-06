@@ -8,9 +8,9 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.MenuProvider
 import androidx.core.view.children
-import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayout
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FailurePartBinding
@@ -18,22 +18,30 @@ import com.ru.movieshows.databinding.FragmentMoviesBinding
 import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.presentation.adapters.MoviesAdapter
 import com.ru.movieshows.presentation.adapters.MoviesViewPagerAdapter
-import com.ru.movieshows.presentation.contract.navigator
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
+import com.ru.movieshows.presentation.utils.navigator
 import com.ru.movieshows.presentation.utils.viewBinding
 import com.ru.movieshows.presentation.viewmodel.movies.MoviesDiscoverState
 import com.ru.movieshows.presentation.viewmodel.movies.MoviesState
 import com.ru.movieshows.presentation.viewmodel.movies.MoviesViewModel
+import com.ru.movieshows.presentation.viewmodel.viewModelCreator
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MoviesFragment : BaseFragment() {
     private var adapter: MoviesAdapter? = null
     private val binding by viewBinding<FragmentMoviesBinding>()
 
-    override val viewModel by viewModels<MoviesViewModel>()
+    @Inject
+    lateinit var factory: MoviesViewModel.Factory
+    override val viewModel by viewModelCreator {
+        factory.create(
+            navigator = navigator()
+        )
+    }
 
     private val tabSelectedListener = object : TabLayout.OnTabSelectedListener {
         override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -44,7 +52,7 @@ class MoviesFragment : BaseFragment() {
         override fun onTabReselected(tab: TabLayout.Tab?) {}
     }
 
-    private val toolbar get() = navigator().getToolbar()
+    private val toolbar: Toolbar? = null
 
     private val menuProvider = object : MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {

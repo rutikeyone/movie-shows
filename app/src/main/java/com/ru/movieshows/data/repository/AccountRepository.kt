@@ -7,15 +7,13 @@ import kotlinx.coroutines.flow.Flow
 
 interface AccountRepository {
 
-    suspend fun getAuthenticatedFailureFlow(): Flow<AppFailure?>
-
-    suspend fun isSignedIn() : Boolean
+    fun isSignedIn() : Boolean
 
     suspend fun signIn(email: String, password: String) : Either<AppFailure, String>
 
     suspend fun logout()
 
-    suspend fun getAccount() : Flow<AccountEntity?>
+    suspend fun getAccount() : Flow<Either<AppFailure, AccountEntity?>>
 
-    suspend fun getAccountBySessionId(sessionId: String): AccountEntity?
+    suspend fun getAccountBySessionId(sessionId: String):  Either<AppFailure, AccountEntity>
 }

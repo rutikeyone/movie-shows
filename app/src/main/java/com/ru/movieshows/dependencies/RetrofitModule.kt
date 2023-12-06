@@ -33,15 +33,14 @@ class RetrofitModule {
 
     @Provides
     @Singleton
-    fun provideKlaxon(): Gson {
+    fun provideGson(): Gson {
         return GsonBuilder().create()
     }
 
     @Provides
     @Singleton
     fun provideRetrofit(baseUrl: String, client: OkHttpClient): Retrofit {
-        val gsonBuilder = GsonBuilder().create()
-
+        val gsonBuilder = provideGson()
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(client)
@@ -52,9 +51,11 @@ class RetrofitModule {
     @Provides
     @Singleton
     @Named(googleRetrofitDependency)
-    fun provideGoogleRetrofit(@Named(googleApiUrlDependency) baseUrl: String, @Named(googleApiInterceptorDependency) client: OkHttpClient): Retrofit {
-        val gsonBuilder = GsonBuilder().create()
-
+    fun provideGoogleRetrofit(
+        @Named(googleApiUrlDependency) baseUrl: String,
+        @Named(googleApiInterceptorDependency) client: OkHttpClient
+    ): Retrofit {
+        val gsonBuilder = provideGson()
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(client)

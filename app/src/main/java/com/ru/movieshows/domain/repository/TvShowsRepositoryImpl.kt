@@ -64,8 +64,8 @@ class TvShowsRepositoryImpl @Inject constructor(
         }
         catch (e: ConnectException) {
             val tag = Locale.getDefault().toLanguageTag()
-            if(tag == AccountRepositoryImpl.russiaLanguageTag) {
-                val failure = AppFailure.Message(R.string.problems_may_arise_when_connecting_from_russia_use_a_vpn_service)
+            if(tag == AccountRepositoryImpl.russianLanguageTag) {
+                val failure = AppFailure.Message(R.string.problems_from_russia_connection_message)
                 return Result.failure(failure)
             }
             return Result.failure(AppFailure.Connection)
