@@ -5,18 +5,21 @@ import androidx.lifecycle.viewModelScope
 import com.ru.movieshows.data.repository.TvShowRepository
 import com.ru.movieshows.domain.entity.TvShowsEntity
 import com.ru.movieshows.domain.utils.AppFailure
-import com.ru.movieshows.presentation.utils.NavigationIntent
-import com.ru.movieshows.presentation.utils.publishEvent
+import com.ru.movieshows.presentation.screens.tvs.TvsFragmentDirections
+import com.ru.movieshows.presentation.sideeffects.navigator.NavigatorWrapper
 import com.ru.movieshows.presentation.utils.share
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.ru.movieshows.presentation.viewmodel.tv_shows.states.TvShowsState
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class TvShowsViewModel @Inject constructor(
+class TvShowsViewModel @AssistedInject constructor(
+    @Assisted private val navigator: NavigatorWrapper,
     private val tvShowsRepository: TvShowRepository,
 ) : BaseViewModel() {
+
     private val _state = MutableLiveData<TvShowsState>()
     val state = _state.share()
 
@@ -25,7 +28,7 @@ class TvShowsViewModel @Inject constructor(
     }
 
     fun fetchTvShowsData() = viewModelScope.launch {
-        currentLanguage.collect {
+        languageTagFlow.collect {
             _state.value = TvShowsState.InPending
             try {
                 val trendingTvShows = fetchTrendingTvShows(it)
@@ -60,28 +63,34 @@ class TvShowsViewModel @Inject constructor(
     }
 
     fun navigateToTvShowSearch() {
-        val intent = NavigationIntent.toTvShowsSearch()
-        navigationEvent.publishEvent(intent)
+        val action = TvsFragmentDirections.actionTvsFragmentToTvShowSearchFragment()
+        navigator.navigate(action)
     }
 
     fun navigateToTvShowDetails(tvShow: TvShowsEntity) {
-        val id = tvShow.id?.toIntOrNull() ?: return
-        val intent = NavigationIntent.toTvShowDetails(id)
-        navigationEvent.publishEvent(intent)
+        val id = tvShow.id ?: return
+        val action = TvsFragmentDirections.actionTvsFragmentToTvShowDetailsFragment(id)
+        navigator.navigate(action)
     }
 
     fun navigateToAirTvShows() {
-        val action = NavigationIntent.toAirTvShows()
-        navigationEvent.publishEvent(action)
+        val action = TvsFragmentDirections.actionTvsFragmentToAirTvShowsFragment()
+        navigator.navigate(action)
     }
 
     fun navigateToTopRatedTvShows() {
-        val action = NavigationIntent.toTopRatedTvShows()
-        navigationEvent.publishEvent(action)
+        val action = TvsFragmentDirections.actionTvsFragmentToTopRatedTvShowsFragment()
+        navigator.navigate(action)
     }
 
     fun navigateToPopularTvShows() {
-        val action = NavigationIntent.toTopPopularTvShows()
-        navigationEvent.publishEvent(action)
+        val action = TvsFragmentDirections.actionTvsFragmentToPopularTvShowsFragment()
+        navigator.navigate(action)
     }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(navigator: NavigatorWrapper): TvShowsViewModel
+    }
+
 }

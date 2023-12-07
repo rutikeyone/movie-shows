@@ -8,7 +8,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.TextView
 
-class LinkMovementMethodOnTouchListener : View.OnTouchListener {
+class OnTouchListener : View.OnTouchListener {
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(v: View, event: MotionEvent): Boolean {
         val widget = v as? TextView ?: return false

@@ -5,8 +5,6 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.ru.movieshows.data.repository.TvShowRepository
 import com.ru.movieshows.domain.entity.TvShowsEntity
-import com.ru.movieshows.presentation.utils.NavigationIntent
-import com.ru.movieshows.presentation.utils.publishEvent
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -18,15 +16,16 @@ class AirTvShowsViewModel @Inject constructor(
     tvShowRepository: TvShowRepository,
 ) : BaseViewModel() {
 
-    val airTvShows: Flow<PagingData<TvShowsEntity>> = currentLanguage.flatMapLatest {
+    val airTvShows: Flow<PagingData<TvShowsEntity>> = languageTagFlow.flatMapLatest {
         tvShowRepository
         .getPagedTheAirTvShows(it)
     }.cachedIn(viewModelScope)
 
     fun navigateToTvShowDetails(tvShow: TvShowsEntity) {
-        val id = tvShow.id?.toIntOrNull() ?: return
-        val intent = NavigationIntent.toTvShowDetails(id)
-        navigationEvent.publishEvent(intent)
+        //TODO
+//        val id = tvShow.id?.toIntOrNull() ?: return
+//        val intent = NavigationIntent.toTvShowDetails(id)
+//        navigationEvent.publishEvent(intent)
     }
 
 }

@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ru.movieshows.databinding.CommentDetailsItemBinding
 import com.ru.movieshows.domain.entity.CommentLevelEntity
 import com.ru.movieshows.domain.entity.CommentLevelSnippetEntity
-import com.ru.movieshows.presentation.utils.LinkMovementMethodOnTouchListener
+import com.ru.movieshows.presentation.utils.OnTouchListener
 
 class CommentsAdapter(
     private val comments: ArrayList<CommentLevelEntity>,
@@ -45,7 +45,7 @@ class CommentsAdapter(
             val textDisplay = commentSnippet?.textDisplay
             if(!textDisplay.isNullOrEmpty()) {
                 val value = Html.fromHtml(textDisplay, HtmlCompat.FROM_HTML_MODE_LEGACY)
-                val onTouchListener = LinkMovementMethodOnTouchListener()
+                val onTouchListener = OnTouchListener()
                 text = value
                 isVisible = true
                 setOnTouchListener(onTouchListener)

@@ -22,7 +22,6 @@ import com.ru.movieshows.presentation.adapters.CreatorAdapter
 import com.ru.movieshows.presentation.adapters.InfoAdapter
 import com.ru.movieshows.presentation.adapters.SeasonAdapter
 import com.ru.movieshows.presentation.adapters.VideosAdapter
-import com.ru.movieshows.presentation.contract.navigator
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
 import com.ru.movieshows.presentation.viewmodel.tv_show_details.TvShowDetailsState
@@ -217,8 +216,8 @@ class TvShowDetailsFragment : BaseFragment() {
     }
 
     private fun renderTitle(value: String?) {
-        val toolBar = navigator().getToolbar() ?: return
-        toolBar.title = value
+//        val toolBar = navigator().getToolbar() ?: return
+//        toolBar.title = value
     }
 
     private fun setupGenres(tvShowDetails: TvShowDetailsEntity) {

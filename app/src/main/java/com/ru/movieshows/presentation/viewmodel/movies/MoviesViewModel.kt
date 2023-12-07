@@ -10,10 +10,10 @@ import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.screens.movies.MoviesFragmentDirections
 import com.ru.movieshows.presentation.sideeffects.navigator.NavigatorWrapper
-import com.ru.movieshows.presentation.utils.NavigationIntent
-import com.ru.movieshows.presentation.utils.publishEvent
 import com.ru.movieshows.presentation.utils.share
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
+import com.ru.movieshows.presentation.viewmodel.movies.states.DiscoverMoviesState
+import com.ru.movieshows.presentation.viewmodel.movies.states.MoviesState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -25,15 +25,14 @@ class MoviesViewModel @AssistedInject constructor(
     private val genresRepository: GenresRepository,
 ): BaseViewModel() {
 
-    private val _state = MutableLiveData<MoviesState>()
-    val state = _state.share()
-    private val currentState get() = state.value
+    private val _moviesState = MutableLiveData<MoviesState>()
+    val moviesState = _moviesState.share()
 
-    private val _moviesDiscoverState = MutableLiveData<MoviesDiscoverState>()
-    val discoverMoviesState = _moviesDiscoverState.share()
+    private val _discoverMoviesState = MutableLiveData<DiscoverMoviesState>()
+    val discoverMoviesState = _discoverMoviesState.share()
 
-    private val _tabIndex = MutableLiveData(0)
-    val tabIndex get() = _tabIndex.value ?: 0
+    private val _tabIndexState = MutableLiveData(0)
+    val tabIndexState get() = _tabIndexState.value ?: 0
 
     init {
         fetchMoviesData()
@@ -41,24 +40,24 @@ class MoviesViewModel @AssistedInject constructor(
 
 
     fun fetchMoviesData() = viewModelScope.launch {
-        currentLanguage.collect {
-            _state.value = MoviesState.InPending
+        languageTagFlow.collect {
+            _moviesState.value = MoviesState.InPending
             try {
                 val nowPlayingMovies = fetchNowPlayingMovies(it)
                 val genres = fetchGenres(it)
                 val upcomingMovies = fetchUpcomingMovies(it)
                 val popularMovies = fetchPopularMovies(it)
                 val topRatedMovies = fetchTopRatedMovies(it)
-                _state.value  = MoviesState.Success(nowPlayingMovies, genres, upcomingMovies, popularMovies, topRatedMovies)
+                _moviesState.value  = MoviesState.Success(nowPlayingMovies, genres, upcomingMovies, popularMovies, topRatedMovies)
                 fetchDiscoverMovies()
             } catch (e: AppFailure) {
-                _state.value = MoviesState.Failure(e.headerResource(), e.errorResource())
+                _moviesState.value = MoviesState.Failure(e.headerResource(), e.errorResource())
             }
         }
     }
 
     fun changeTabIndex(value: Int){
-        _tabIndex.value = value
+        _tabIndexState.value = value
         fetchDiscoverMovies()
     }
 
@@ -73,19 +72,21 @@ class MoviesViewModel @AssistedInject constructor(
     }
 
     fun fetchDiscoverMovies() = viewModelScope.launch {
+        val currentState = _moviesState.value ?: return@launch
         if(currentState !is MoviesState.Success) return@launch
-        val genres = (currentState as MoviesState.Success).genres
+        val genres = currentState.genres
         if(genres.isEmpty()) return@launch
-        _moviesDiscoverState.value = MoviesDiscoverState.InPending
+        _discoverMoviesState.value = DiscoverMoviesState.InPending
         try {
-            val genre = genres[tabIndex]
-            if(genre.id == null) {
-                _moviesDiscoverState.value = MoviesDiscoverState.Failure(R.string.an_error_occurred_during_the_operation)
+            val genre = genres[tabIndexState]
+            val id = genre.id
+            if(id == null) {
+                _discoverMoviesState.value = DiscoverMoviesState.Failure(R.string.an_error_occurred_during_the_operation)
             }
             val discoverMovies = fetchDiscoverMoviesByGenre(genre)
-            _moviesDiscoverState.value = MoviesDiscoverState.Success(discoverMovies)
+            _discoverMoviesState.value = DiscoverMoviesState.Success(discoverMovies)
         } catch (e: AppFailure) {
-            _moviesDiscoverState.value = MoviesDiscoverState.Failure(e.errorResource())
+            _discoverMoviesState.value = DiscoverMoviesState.Failure(e.errorResource())
         }
 
     }
@@ -111,23 +112,23 @@ class MoviesViewModel @AssistedInject constructor(
     private suspend fun fetchTopRatedMovies(language: String): ArrayList<MovieEntity> {
         val page = 1
         val fetchTopRatedMovies = moviesRepository.getTopRatedMovies(language, page)
-        return  fetchTopRatedMovies.getOrThrow()
+        return fetchTopRatedMovies.getOrThrow()
     }
 
     fun navigateToMovieDetails(movie: MovieEntity){
         val id = movie.id ?: return
-        val intent = NavigationIntent.toMovieDetails(id)
-        navigationEvent.publishEvent(intent)
+        val action = MoviesFragmentDirections.actionMoviesFragmentToMovieDetailsFragment(id)
+        navigator.navigate(action)
     }
 
     fun navigateToUpcomingMovies() {
-        val intent = NavigationIntent.toUpcomingMovies()
-        navigationEvent.publishEvent(intent)
+        val action = MoviesFragmentDirections.actionMoviesFragmentToUpcomingMoviesFragment()
+        navigator.navigate(action)
     }
 
     fun navigateToPopularMovies() {
-        val intent = NavigationIntent.toPopularMovies()
-        navigationEvent.publishEvent(intent)
+        val action = MoviesFragmentDirections.actionMoviesFragmentToPopularMoviesFragment2()
+        navigator.navigate(action)
     }
 
     fun navigateToTopRatedMovies() {
@@ -136,8 +137,8 @@ class MoviesViewModel @AssistedInject constructor(
     }
 
     fun navigateToMovieSearch() {
-        val intent = NavigationIntent.toMovieSearch()
-        navigationEvent.publishEvent(intent)
+        val action = MoviesFragmentDirections.actionMoviesFragmentToMovieSearchFragment()
+        navigator.navigate(action)
     }
 
     @AssistedFactory

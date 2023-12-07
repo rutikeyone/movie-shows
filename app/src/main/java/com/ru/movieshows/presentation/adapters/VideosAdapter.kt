@@ -1,5 +1,6 @@
 package com.ru.movieshows.presentation.adapters
 
+import android.annotation.SuppressLint
 import android.app.ActionBar
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -30,6 +31,7 @@ class VideosAdapter (
         holder.bind(video)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateData(data: ArrayList<VideoEntity>) {
         this.videos = data
         notifyDataSetChanged()

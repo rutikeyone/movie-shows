@@ -3,62 +3,69 @@ package com.ru.movieshows.presentation.viewmodel.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ru.movieshows.data.repository.AccountRepository
-import com.ru.movieshows.domain.entity.AccountEntity
-import com.ru.movieshows.domain.utils.AppFailure
+import com.ru.movieshows.domain.entity.AuthenticatedState
+import com.ru.movieshows.presentation.sideeffects.loader.LoaderOverlay
 import com.ru.movieshows.presentation.sideeffects.navigator.NavigatorWrapper
+import com.ru.movieshows.presentation.sideeffects.resources.Resources
+import com.ru.movieshows.presentation.sideeffects.toast.Toasts
+import com.ru.movieshows.presentation.utils.Event
 import com.ru.movieshows.presentation.utils.MutableLiveEvent
-import com.ru.movieshows.presentation.utils.ToastIntent
 import com.ru.movieshows.presentation.utils.publishEvent
 import com.ru.movieshows.presentation.utils.share
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ActivityScopeViewModel @Inject constructor(
     val navigator: NavigatorWrapper,
+    val toasts: Toasts,
+    val resources: Resources,
     private val accountsRepository: AccountRepository,
-): ViewModel(), NavigatorWrapper by navigator {
+): ViewModel(), NavigatorWrapper by navigator, LoaderOverlay {
 
-    private val _authState = MutableStateFlow<AuthState>(AuthState.Pure)
-    val authState: StateFlow<AuthState> get() = _authState
-
-    private val toastEvent = MutableLiveEvent<ToastIntent>()
-    val toastShareEvent = toastEvent.share()
+    private val _loaderOverlayState = MutableLiveEvent(Event(false))
+    val loaderOverlayState = _loaderOverlayState.share()
 
     init {
-        getAccount()
+        handleState()
     }
 
-    private fun getAccount() = viewModelScope.launch {
-        _authState.value = AuthState.InPending
-        navigator.setStartDestination()
-        accountsRepository.getAccount().collect { result ->
-            result.fold(::onFailure, ::onSuccess)
+    private fun handleState() {
+
+        viewModelScope.launch {
+            accountsRepository.observeState()
+        }
+
+        viewModelScope.launch {
+            accountsRepository.state.collect { state ->
+                when (state) {
+                    AuthenticatedState.Pure -> {}
+                    is AuthenticatedState.InPending -> {
+                        val isNotAuthenticated = state.isNotAuthenticated
+                        if (!isNotAuthenticated) setStartDestination()
+                        else showLoader()
+                    }
+                    is AuthenticatedState.Authenticated -> {
+                        navigator.authenticated()
+                        hideLoader()
+                    }
+                    is AuthenticatedState.NotAuthenticated -> {
+                        navigator.notAuthenticated()
+                        hideLoader()
+                        state.error?.let {
+                            val error = resources.getString(it.errorResource())
+                            toasts.toast(error)
+                        }
+                    }
+                }
+            }
         }
     }
 
-    private fun onSuccess(account: AccountEntity?) {
-        if(account != null) {
-            val authenticatedState = AuthState.Authenticated(account)
-            _authState.value = authenticatedState
-            navigator.authenticated()
-        } else {
-            val authenticatedState = AuthState.NotAuthenticated
-            _authState.value = authenticatedState
-            navigator.notAuthenticated()
-        }
-    }
+    override fun showLoader() = _loaderOverlayState.publishEvent(true)
 
-    private fun onFailure(appFailure: AppFailure) {
-        val state = AuthState.NotAuthenticated
-        val toastIntent = ToastIntent(appFailure.errorResource())
-        _authState.value = state
-        toastEvent.publishEvent(toastIntent)
-        navigator.notAuthenticated()
-    }
+    override fun hideLoader() = _loaderOverlayState.publishEvent(false)
 
     override fun onCleared() {
         super.onCleared()

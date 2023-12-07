@@ -11,9 +11,9 @@ import com.bumptech.glide.Glide
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FragmentProfileBinding
 import com.ru.movieshows.domain.entity.AccountEntity
+import com.ru.movieshows.domain.entity.AuthenticatedState
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.utils.viewBinding
-import com.ru.movieshows.presentation.viewmodel.main.AuthState
 import com.ru.movieshows.presentation.viewmodel.profile.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -40,13 +40,13 @@ class ProfileFragment : BaseFragment() {
         logoutButton.setOnClickListener { viewModel.logOut() }
     }
 
-    private fun authenticatedStateChanged(authState: AuthState) = with(binding) {
+    private fun authenticatedStateChanged(authenticatedState: AuthenticatedState) = with(binding) {
         root.children.forEach { it.isVisible = false }
-        when (authState) {
-            AuthState.Pure -> {}
-            AuthState.InPending -> progressGroup.isVisible = true
-            AuthState.NotAuthenticated -> authenticatedGroup.isVisible = false
-            is AuthState.Authenticated -> setupAuthenticatedUI(authState.account)
+        when (authenticatedState) {
+            AuthenticatedState.Pure -> {}
+            is AuthenticatedState.InPending -> progressGroup.isVisible = true
+            is AuthenticatedState.NotAuthenticated -> authenticatedGroup.isVisible = false
+            is AuthenticatedState.Authenticated -> setupAuthenticatedUI(authenticatedState.account)
         }
     }
 

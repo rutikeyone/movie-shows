@@ -6,16 +6,19 @@ import com.ru.movieshows.data.repository.AccountRepository
 import com.ru.movieshows.domain.entity.PasswordField
 import com.ru.movieshows.domain.entity.UsernameField
 import com.ru.movieshows.domain.utils.AppFailure
-import com.ru.movieshows.presentation.utils.ToastIntent
-import com.ru.movieshows.presentation.utils.publishEvent
+import com.ru.movieshows.presentation.sideeffects.resources.Resources
+import com.ru.movieshows.presentation.sideeffects.toast.Toasts
 import com.ru.movieshows.presentation.utils.share
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.ru.movieshows.presentation.viewmodel.sign_in.states.SignInState
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class SignInViewModel @Inject constructor(
+class SignInViewModel @AssistedInject constructor(
+    @Assisted private val resources: Resources,
+    @Assisted private val toasts: Toasts,
     private val accountRepository: AccountRepository,
 ) : BaseViewModel() {
 
@@ -52,9 +55,18 @@ class SignInViewModel @Inject constructor(
     }
 
     private fun signInFailureResult(failure: AppFailure) {
-        val toastIntent = ToastIntent(failure.errorResource())
-        toastEvent.publishEvent(toastIntent)
+        val errorResource = failure.errorResource()
+        val error = resources.getString(errorResource)
+        toasts.toast(error)
     }
 
     private fun signInSuccessResult(sessionId: String) {}
+
+    @AssistedFactory
+    interface Factory {
+        fun create(
+            resources: Resources,
+            toasts: Toasts,
+        ): SignInViewModel
+    }
 }

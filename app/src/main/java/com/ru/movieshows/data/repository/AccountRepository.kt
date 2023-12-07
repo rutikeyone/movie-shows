@@ -2,10 +2,13 @@ package com.ru.movieshows.data.repository
 
 import arrow.core.Either
 import com.ru.movieshows.domain.entity.AccountEntity
+import com.ru.movieshows.domain.entity.AuthenticatedState
 import com.ru.movieshows.domain.utils.AppFailure
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 
 interface AccountRepository {
+
+     val state: StateFlow<AuthenticatedState>
 
     fun isSignedIn() : Boolean
 
@@ -13,7 +16,7 @@ interface AccountRepository {
 
     suspend fun logout()
 
-    suspend fun getAccount() : Flow<Either<AppFailure, AccountEntity?>>
+    suspend fun observeState()
 
-    suspend fun getAccountBySessionId(sessionId: String):  Either<AppFailure, AccountEntity>
+    suspend fun getAccountBySessionId(sessionId: String):  AccountEntity
 }

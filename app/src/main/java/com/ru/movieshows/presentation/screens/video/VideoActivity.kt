@@ -37,7 +37,7 @@ import com.ru.movieshows.presentation.adapters.CommentsAdapter
 import com.ru.movieshows.presentation.adapters.CommentsPaginationAdapter
 import com.ru.movieshows.presentation.adapters.LoadStateAdapter
 import com.ru.movieshows.presentation.adapters.TryAgainAction
-import com.ru.movieshows.presentation.utils.LinkMovementMethodOnTouchListener
+import com.ru.movieshows.presentation.utils.OnTouchListener
 import com.ru.movieshows.presentation.viewmodel.video.VideoViewModel
 import com.ru.movieshows.presentation.viewmodel.viewModelCreator
 import dagger.hilt.android.AndroidEntryPoint
@@ -119,7 +119,7 @@ class VideoActivity : AppCompatActivity() {
         val textDisplay = commentSnippet?.textDisplay
         if(!textDisplay.isNullOrEmpty()) {
             val value = Html.fromHtml(textDisplay, HtmlCompat.FROM_HTML_MODE_LEGACY)
-            val onTouchListener = LinkMovementMethodOnTouchListener()
+            val onTouchListener = OnTouchListener()
             text = value
             isVisible = true
             setOnTouchListener(onTouchListener)

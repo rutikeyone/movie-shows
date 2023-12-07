@@ -7,19 +7,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import com.ru.movieshows.databinding.FragmentSignInBinding
 import com.ru.movieshows.presentation.screens.BaseFragment
-import com.ru.movieshows.presentation.utils.hideKeyboard
-import com.ru.movieshows.presentation.utils.validatePassword
-import com.ru.movieshows.presentation.utils.validateUsername
-import com.ru.movieshows.presentation.viewmodel.sign_in.SignInState
+import com.ru.movieshows.presentation.utils.extensions.hideKeyboard
+import com.ru.movieshows.presentation.utils.extensions.resources
+import com.ru.movieshows.presentation.utils.extensions.toasts
+import com.ru.movieshows.presentation.utils.extensions.validatePassword
+import com.ru.movieshows.presentation.utils.extensions.validateUsername
 import com.ru.movieshows.presentation.viewmodel.sign_in.SignInViewModel
+import com.ru.movieshows.presentation.viewmodel.sign_in.states.SignInState
+import com.ru.movieshows.presentation.viewmodel.viewModelCreator
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SignInFragment : BaseFragment() {
-    override val viewModel by viewModels<SignInViewModel>()
+    @Inject
+    lateinit var factory: SignInViewModel.Factory
+    override val viewModel by viewModelCreator {
+        factory.create(
+            resources = resources(),
+            toasts = toasts()
+        )
+    }
 
     private var _binding: FragmentSignInBinding? = null
     val binding get() = _binding!!
@@ -64,9 +74,9 @@ class SignInFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        setupUI()
-        observeState()
         super.onViewCreated(view, savedInstanceState)
+        configureUI()
+        viewModel.state.observe(viewLifecycleOwner, ::handleUIWhenStateChanged)
     }
 
     override fun onDestroy() = with(binding) {
@@ -76,16 +86,13 @@ class SignInFragment : BaseFragment() {
         super.onDestroy()
     }
 
-    private fun setupUI() = with(binding) {
+    private fun configureUI() = with(binding) {
         signInButton.setOnClickListener(signInOnClickListener)
         usernameEditText.addTextChangedListener(usernameTextWatched)
         passwordEditText.addTextChangedListener(passwordTextWatched)
     }
 
-    private fun observeState() =
-        viewModel.state.observe(viewLifecycleOwner, ::changeUIWhenStateChanged)
-
-    private fun changeUIWhenStateChanged(state: SignInState) = with(binding) {
+    private fun handleUIWhenStateChanged(state: SignInState) = with(binding) {
         val usernameError = validateUsername(state.email)
         usernameTextInput.error = usernameError
         passwordTextInput.error = validatePassword(state.password)

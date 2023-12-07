@@ -30,9 +30,9 @@ import com.ru.movieshows.presentation.adapters.MoviesAdapter
 import com.ru.movieshows.presentation.adapters.VideosAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
-import com.ru.movieshows.presentation.utils.clearDecorations
+import com.ru.movieshows.presentation.utils.extensions.clearDecorations
 import com.ru.movieshows.presentation.utils.viewBinding
-import com.ru.movieshows.presentation.viewmodel.movie_details.MovieDetailsState
+import com.ru.movieshows.presentation.viewmodel.movie_details.states.MovieDetailsState
 import com.ru.movieshows.presentation.viewmodel.movie_details.MovieDetailsViewModel
 import com.ru.movieshows.presentation.viewmodel.viewModelCreator
 import dagger.hilt.android.AndroidEntryPoint

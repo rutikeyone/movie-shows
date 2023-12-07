@@ -9,10 +9,9 @@ import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.entity.ReviewEntity
 import com.ru.movieshows.domain.entity.VideoEntity
 import com.ru.movieshows.domain.utils.AppFailure
-import com.ru.movieshows.presentation.utils.NavigationIntent
-import com.ru.movieshows.presentation.utils.publishEvent
 import com.ru.movieshows.presentation.utils.share
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
+import com.ru.movieshows.presentation.viewmodel.movie_details.states.MovieDetailsState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -35,7 +34,7 @@ class MovieDetailsViewModel @AssistedInject constructor(
     }
 
     fun fetchData() = viewModelScope.launch {
-        currentLanguage.collect {
+        languageTagFlow.collect {
             _state.value = MovieDetailsState.InPending
             _title.value = ""
             try {
@@ -77,19 +76,22 @@ class MovieDetailsViewModel @AssistedInject constructor(
     }
 
     fun navigateToMovieDetails(movie: MovieEntity){
-        val id = movie.id ?: return
-        val action = NavigationIntent.toMovieDetails(id)
-        navigationEvent.publishEvent(action)
+        //TODO
+//        val id = movie.id ?: return
+//        val action = NavigationIntent.toMovieDetails(id)
+//        navigationEvent.publishEvent(action)
     }
 
     fun navigateToReviews(reviews: ArrayList<ReviewEntity>) {
-        val action = NavigationIntent.toReviews(reviews, movieId)
-        navigationEvent.publishEvent(action)
+        //TODO
+//        val action = NavigationIntent.toReviews(reviews, movieId)
+//        navigationEvent.publishEvent(action)
     }
 
     fun navigateToVideo(video: VideoEntity) {
-        val intent = NavigationIntent.toVideo(video)
-        navigationEvent.publishEvent(intent)
+        //TODO
+//        val intent = NavigationIntent.toVideo(video)
+//        navigationEvent.publishEvent(intent)
     }
 
     @AssistedFactory

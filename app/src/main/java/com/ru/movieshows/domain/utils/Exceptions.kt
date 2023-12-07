@@ -40,6 +40,6 @@ sealed class AppFailure : Exception() {
         private const val accountDisabledCode = 31
         private const val accountNotVerifiedCode = 32;
         private const val invalidUsernameOrPasswordCode = 30
-        private val sessionDenied = 17
+        private const val sessionDenied = 17
     }
 }

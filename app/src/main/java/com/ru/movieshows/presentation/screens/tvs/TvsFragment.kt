@@ -8,30 +8,39 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.MenuProvider
 import androidx.core.view.children
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FailurePartBinding
 import com.ru.movieshows.databinding.FragmentTvsBinding
 import com.ru.movieshows.domain.entity.TvShowsEntity
 import com.ru.movieshows.presentation.adapters.TvShowsAdapter
 import com.ru.movieshows.presentation.adapters.TvShowsViewPagerAdapter
-import com.ru.movieshows.presentation.contract.navigator
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
+import com.ru.movieshows.presentation.utils.extensions.navigator
 import com.ru.movieshows.presentation.utils.viewBinding
-import com.ru.movieshows.presentation.viewmodel.tv_shows.TvShowsState
 import com.ru.movieshows.presentation.viewmodel.tv_shows.TvShowsViewModel
+import com.ru.movieshows.presentation.viewmodel.tv_shows.states.TvShowsState
+import com.ru.movieshows.presentation.viewmodel.viewModelCreator
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class TvsFragment : BaseFragment() {
-    override val viewModel by viewModels<TvShowsViewModel>()
     private val binding by viewBinding<FragmentTvsBinding>()
 
-    private val toolbar get() = navigator().getToolbar()
+    @Inject
+    lateinit var factory: TvShowsViewModel.Factory
+    override val viewModel by viewModelCreator {
+        factory.create(
+            navigator = navigator()
+        )
+    }
+
+    private val toolbar: Toolbar? = null
 
     private val menuProvider = object : MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -54,7 +63,7 @@ class TvsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.state.observe(viewLifecycleOwner, ::renderUI)
+        viewModel.state.observe(viewLifecycleOwner, ::handleUI)
     }
 
     override fun onStart() {
@@ -67,38 +76,38 @@ class TvsFragment : BaseFragment() {
         super.onStop()
     }
 
-    private fun renderUI(tvShowsState: TvShowsState) {
+    private fun handleUI(tvShowsState: TvShowsState) {
         binding.root.children.forEach { it.visibility = View.GONE }
         when(tvShowsState) {
-            is TvShowsState.Failure -> renderFailureUI(tvShowsState.header, tvShowsState.error)
-            TvShowsState.InPending -> renderInPendingUI()
-            is TvShowsState.Success -> renderSuccessUI(tvShowsState)
+            is TvShowsState.Failure -> handleFailureUI(tvShowsState.header, tvShowsState.error)
+            TvShowsState.InPending -> handleInPendingUI()
+            is TvShowsState.Success -> handleSuccessUI(tvShowsState)
         }
     }
 
-    private fun renderSuccessUI(successState: TvShowsState.Success) {
+    private fun handleSuccessUI(successState: TvShowsState.Success) {
         binding.successContainer.isVisible = true 
-        setupTrendingTvShowsPager(successState)
-        setupDots()
-        setupOnAirTvShowsRecyclerView(successState)
-        setupTopRatedTvShowsRecyclerView(successState)
-        setupPopularTvShowsRecyclerView(successState)
+        configureTrendingTvShowsPager(successState)
+        configureDots()
+        configureOnAirTvShowsRecyclerView(successState)
+        configureTopRatedTvShowsRecyclerView(successState)
+        configurePopularTvShowsRecyclerView(successState)
     }
 
-    private fun renderInPendingUI() {
+    private fun handleInPendingUI() {
         binding.inPendingContainer.visibility = View.VISIBLE
     }
 
-    private fun setupTrendingTvShowsPager(state: TvShowsState.Success) {
+    private fun configureTrendingTvShowsPager(state: TvShowsState.Success) {
         val adapter = TvShowsViewPagerAdapter(state.trendingMovies, ::navigateToTvShowDetails)
         binding.trendingTvShowsViewPager.adapter = adapter
     }
 
-    private fun setupDots() {
+    private fun configureDots() {
         binding.dotsIndicator.attachTo(binding.trendingTvShowsViewPager)
     }
 
-    private fun setupOnAirTvShowsRecyclerView(state: TvShowsState.Success) {
+    private fun configureOnAirTvShowsRecyclerView(state: TvShowsState.Success) {
         val tvShows = state.onAirTvShows
         val itemDecoration = ItemDecoration(8F, resources.displayMetrics)
         val adapter = TvShowsAdapter(tvShows, ::navigateToTvShowDetails)
@@ -107,7 +116,7 @@ class TvsFragment : BaseFragment() {
         binding.onAirTvShows.addItemDecoration(itemDecoration)
     }
 
-    private fun setupTopRatedTvShowsRecyclerView(state: TvShowsState.Success) {
+    private fun configureTopRatedTvShowsRecyclerView(state: TvShowsState.Success) {
         val tvShows = state.topRatedTvShows
         val itemDecoration = ItemDecoration(8F, resources.displayMetrics)
         val adapter = TvShowsAdapter(tvShows, ::navigateToTvShowDetails)
@@ -116,7 +125,7 @@ class TvsFragment : BaseFragment() {
         binding.topRatedTvShows.addItemDecoration(itemDecoration)
     }
 
-    private fun setupPopularTvShowsRecyclerView(state: TvShowsState.Success) {
+    private fun configurePopularTvShowsRecyclerView(state: TvShowsState.Success) {
         val tvShows = state.popularTvShows
         val itemDecoration = ItemDecoration(8F, resources.displayMetrics)
         val adapter = TvShowsAdapter(tvShows, ::navigateToTvShowDetails)
@@ -125,7 +134,7 @@ class TvsFragment : BaseFragment() {
         binding.popularTvShows.addItemDecoration(itemDecoration)
     }
 
-    private fun renderFailureUI(@StringRes header: Int?, @StringRes error: Int?) {
+    private fun handleFailureUI(@StringRes header: Int?, @StringRes error: Int?) {
         val failurePartBinding = FailurePartBinding.bind(binding.failurePart.root)
         binding.failureContainer.visibility = View.VISIBLE
         failurePartBinding.retryButton.setOnClickListener { viewModel.fetchTvShowsData() }

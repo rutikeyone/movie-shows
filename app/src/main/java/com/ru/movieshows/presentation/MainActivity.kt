@@ -1,20 +1,22 @@
 package com.ru.movieshows.presentation
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isVisible
 import com.ru.movieshows.databinding.ActivityMainBinding
+import com.ru.movieshows.presentation.sideeffects.loader.LoaderOverlay
 import com.ru.movieshows.presentation.sideeffects.navigator.Navigator
 import com.ru.movieshows.presentation.sideeffects.navigator.NavigatorWrapper
-import com.ru.movieshows.presentation.utils.ToastIntent
-import com.ru.movieshows.presentation.utils.observeEvent
+import com.ru.movieshows.presentation.sideeffects.resources.Resources
+import com.ru.movieshows.presentation.sideeffects.toast.Toasts
 import com.ru.movieshows.presentation.viewmodel.main.ActivityScopeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), SideEffectHolder {
+class MainActivity : AppCompatActivity(), FragmentHolder {
     private lateinit var binding: ActivityMainBinding
 
     @Inject
@@ -25,15 +27,14 @@ class MainActivity : AppCompatActivity(), SideEffectHolder {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).also { setContentView(it.root) }
-        activityScopeViewModel.toastShareEvent.observeEvent(this, ::processToastEvent)
         navigator.injectActivity(this)
+        activityScopeViewModel.loaderOverlayState.observe(this) {
+            it.get()?.let {
+                binding.loaderOverlay.progressOverlay.isVisible = it
+            }
+        }
     }
 
-    private fun processToastEvent(toastIntent: ToastIntent) {
-        val message = toastIntent.message
-        val duration = toastIntent.duration
-        Toast.makeText(this, message, duration).show()
-    }
 
     override fun onResume() {
         super.onResume()
@@ -46,5 +47,11 @@ class MainActivity : AppCompatActivity(), SideEffectHolder {
     }
 
     override fun navigator(): NavigatorWrapper = activityScopeViewModel.navigator
+
+    override fun toasts(): Toasts = activityScopeViewModel.toasts
+
+    override fun resources(): Resources = activityScopeViewModel.resources
+
+    override fun loaderOverlay(): LoaderOverlay = activityScopeViewModel
 
 }

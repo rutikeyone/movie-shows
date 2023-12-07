@@ -3,7 +3,6 @@ package com.ru.movieshows.domain.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.ru.movieshows.R
 import com.ru.movieshows.data.dto.PageLoader
 import com.ru.movieshows.data.dto.PagingSource
 import com.ru.movieshows.data.dto.TvShowDto
@@ -17,7 +16,6 @@ import kotlinx.coroutines.flow.Flow
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
-import java.util.Locale
 import javax.inject.Inject
 
 class TvShowsRepositoryImpl @Inject constructor(
@@ -63,11 +61,6 @@ class TvShowsRepositoryImpl @Inject constructor(
             return Result.failure(AppFailure.Connection)
         }
         catch (e: ConnectException) {
-            val tag = Locale.getDefault().toLanguageTag()
-            if(tag == AccountRepositoryImpl.russianLanguageTag) {
-                val failure = AppFailure.Message(R.string.problems_from_russia_connection_message)
-                return Result.failure(failure)
-            }
             return Result.failure(AppFailure.Connection)
         }
         catch (e: Exception) {
