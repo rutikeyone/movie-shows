@@ -1,4 +1,4 @@
-package com.ru.movieshows.presentation.screens.tvs
+package com.ru.movieshows.presentation.screens.tv_shows
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,13 +8,12 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.MenuProvider
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FailurePartBinding
-import com.ru.movieshows.databinding.FragmentTvsBinding
+import com.ru.movieshows.databinding.FragmentTvShowsBinding
 import com.ru.movieshows.domain.entity.TvShowsEntity
 import com.ru.movieshows.presentation.adapters.TvShowsAdapter
 import com.ru.movieshows.presentation.adapters.TvShowsViewPagerAdapter
@@ -23,14 +22,14 @@ import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
 import com.ru.movieshows.presentation.utils.extensions.navigator
 import com.ru.movieshows.presentation.utils.viewBinding
 import com.ru.movieshows.presentation.viewmodel.tv_shows.TvShowsViewModel
-import com.ru.movieshows.presentation.viewmodel.tv_shows.states.TvShowsState
+import com.ru.movieshows.presentation.viewmodel.tv_shows.state.TvShowsState
 import com.ru.movieshows.presentation.viewmodel.viewModelCreator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class TvsFragment : BaseFragment() {
-    private val binding by viewBinding<FragmentTvsBinding>()
+class TvShowsFragment : BaseFragment() {
+    private val binding by viewBinding<FragmentTvShowsBinding>()
 
     @Inject
     lateinit var factory: TvShowsViewModel.Factory
@@ -39,8 +38,6 @@ class TvsFragment : BaseFragment() {
             navigator = navigator()
         )
     }
-
-    private val toolbar: Toolbar? = null
 
     private val menuProvider = object : MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -59,7 +56,7 @@ class TvsFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_tvs, container, false)
+    ): View? = inflater.inflate(R.layout.fragment_tv_shows, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -67,12 +64,12 @@ class TvsFragment : BaseFragment() {
     }
 
     override fun onStart() {
-        toolbar?.addMenuProvider(menuProvider, viewLifecycleOwner)
+        navigator().getToolbar()?.addMenuProvider(menuProvider, viewLifecycleOwner)
         super.onStart()
     }
 
     override fun onStop() {
-        toolbar?.removeMenuProvider(menuProvider)
+        navigator().getToolbar()?.removeMenuProvider(menuProvider)
         super.onStop()
     }
 

@@ -12,8 +12,8 @@ import com.ru.movieshows.presentation.screens.movies.MoviesFragmentDirections
 import com.ru.movieshows.presentation.sideeffects.navigator.NavigatorWrapper
 import com.ru.movieshows.presentation.utils.share
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
-import com.ru.movieshows.presentation.viewmodel.movies.states.DiscoverMoviesState
-import com.ru.movieshows.presentation.viewmodel.movies.states.MoviesState
+import com.ru.movieshows.presentation.viewmodel.movies.state.DiscoverMoviesState
+import com.ru.movieshows.presentation.viewmodel.movies.state.MoviesState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

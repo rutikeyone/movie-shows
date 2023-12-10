@@ -9,6 +9,8 @@ import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.entity.ReviewEntity
 import com.ru.movieshows.domain.entity.VideoEntity
 import com.ru.movieshows.domain.utils.AppFailure
+import com.ru.movieshows.presentation.screens.movie_details.MovieDetailsFragmentDirections
+import com.ru.movieshows.presentation.sideeffects.navigator.NavigatorWrapper
 import com.ru.movieshows.presentation.utils.share
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
 import com.ru.movieshows.presentation.viewmodel.movie_details.states.MovieDetailsState
@@ -20,6 +22,7 @@ import kotlinx.coroutines.launch
 
 class MovieDetailsViewModel @AssistedInject constructor(
     @Assisted private val movieId: Int,
+    @Assisted private val navigator: NavigatorWrapper,
     private val moviesRepository: MoviesRepository,
 ) : BaseViewModel(), DefaultLifecycleObserver {
 
@@ -27,7 +30,7 @@ class MovieDetailsViewModel @AssistedInject constructor(
     val state = _state.share()
 
     private val _title = MutableLiveData("")
-    val title = _title.share()
+    val titleState = _title.share()
 
     init {
         fetchData()
@@ -76,26 +79,24 @@ class MovieDetailsViewModel @AssistedInject constructor(
     }
 
     fun navigateToMovieDetails(movie: MovieEntity){
-        //TODO
-//        val id = movie.id ?: return
-//        val action = NavigationIntent.toMovieDetails(id)
-//        navigationEvent.publishEvent(action)
+        val id = movie.id ?: return
+        val action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentSelf(id)
+        navigator.navigate(action)
     }
 
-    fun navigateToReviews(reviews: ArrayList<ReviewEntity>) {
-        //TODO
-//        val action = NavigationIntent.toReviews(reviews, movieId)
-//        navigationEvent.publishEvent(action)
+    fun navigateToReviews(value: ArrayList<ReviewEntity>) {
+        val reviews = value.toTypedArray()
+        val action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToMovieReviewsFragment(reviews, movieId)
+        navigator.navigate(action)
     }
 
     fun navigateToVideo(video: VideoEntity) {
-        //TODO
-//        val intent = NavigationIntent.toVideo(video)
-//        navigationEvent.publishEvent(intent)
+        val action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToVideoActivity(video)
+        navigator.navigate(action)
     }
 
     @AssistedFactory
     interface Factory {
-        fun create(movieId: Int): MovieDetailsViewModel
+        fun create(navigator: NavigatorWrapper, movieId: Int): MovieDetailsViewModel
     }
 }

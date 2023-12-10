@@ -61,8 +61,16 @@ class NavigatorModule {
             splashDestination = provideSplashFragment(),
             toGlobalSignIn = provideGlobalSignInFragment(),
             toTabs = provideGlobalTabsAction(),
+            topLevelDestinations = provideTopLevelDestinations(),
         )
     }
+
+    @Provides
+    @Named(topLevelDestinations)
+    fun provideTopLevelDestinations(): Set<Int> {
+        return setOf(R.id.moviesFragment, R.id.tvsFragment, R.id.profileFragment)
+    }
+
 
     companion object {
         const val fragmentContainer = "FRAGMENT_CONTAINER_DEPENDENCY"
@@ -70,6 +78,7 @@ class NavigatorModule {
         const val splashFragment = "SPLASH_FRAGMENT_DEPENDENCY"
         const val globalTabsAction = "GLOBAL_TABS_ACTION_DEPENDENCY"
         const val globalSignIn = "GLOBAL_SIGN_IN_DEPENDENCY"
+        const val topLevelDestinations = "TOP_LEVEL_DESTINATION_DEPENDENCY"
     }
 
 }

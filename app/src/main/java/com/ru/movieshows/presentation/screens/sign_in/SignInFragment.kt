@@ -15,7 +15,7 @@ import com.ru.movieshows.presentation.utils.extensions.toasts
 import com.ru.movieshows.presentation.utils.extensions.validatePassword
 import com.ru.movieshows.presentation.utils.extensions.validateUsername
 import com.ru.movieshows.presentation.viewmodel.sign_in.SignInViewModel
-import com.ru.movieshows.presentation.viewmodel.sign_in.states.SignInState
+import com.ru.movieshows.presentation.viewmodel.sign_in.state.SignInState
 import com.ru.movieshows.presentation.viewmodel.viewModelCreator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -75,8 +75,8 @@ class SignInFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        configureUI()
         viewModel.state.observe(viewLifecycleOwner, ::handleUIWhenStateChanged)
+        configureUI()
     }
 
     override fun onDestroy() = with(binding) {

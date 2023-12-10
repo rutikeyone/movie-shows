@@ -15,9 +15,8 @@ open class BaseViewModel: ViewModel(){
         }
 
     val languageTagState: LiveData<String>
-        get() {
-            return _languageTagFlow.asLiveData()
-        }
+        get() = _languageTagFlow.asLiveData()
+
 
     private val _languageTagFlow = MutableStateFlow(languageTag)
     val languageTagFlow: Flow<String> get() = _languageTagFlow

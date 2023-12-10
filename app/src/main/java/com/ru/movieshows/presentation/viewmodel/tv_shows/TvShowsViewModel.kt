@@ -5,11 +5,11 @@ import androidx.lifecycle.viewModelScope
 import com.ru.movieshows.data.repository.TvShowRepository
 import com.ru.movieshows.domain.entity.TvShowsEntity
 import com.ru.movieshows.domain.utils.AppFailure
-import com.ru.movieshows.presentation.screens.tvs.TvsFragmentDirections
+import com.ru.movieshows.presentation.screens.tv_shows.TvShowsFragmentDirections
 import com.ru.movieshows.presentation.sideeffects.navigator.NavigatorWrapper
 import com.ru.movieshows.presentation.utils.share
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
-import com.ru.movieshows.presentation.viewmodel.tv_shows.states.TvShowsState
+import com.ru.movieshows.presentation.viewmodel.tv_shows.state.TvShowsState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -63,28 +63,28 @@ class TvShowsViewModel @AssistedInject constructor(
     }
 
     fun navigateToTvShowSearch() {
-        val action = TvsFragmentDirections.actionTvsFragmentToTvShowSearchFragment()
+        val action = TvShowsFragmentDirections.actionTvsFragmentToTvShowSearchFragment()
         navigator.navigate(action)
     }
 
     fun navigateToTvShowDetails(tvShow: TvShowsEntity) {
         val id = tvShow.id ?: return
-        val action = TvsFragmentDirections.actionTvsFragmentToTvShowDetailsFragment(id)
+        val action = TvShowsFragmentDirections.actionTvsFragmentToTvShowDetailsFragment(id)
         navigator.navigate(action)
     }
 
     fun navigateToAirTvShows() {
-        val action = TvsFragmentDirections.actionTvsFragmentToAirTvShowsFragment()
+        val action = TvShowsFragmentDirections.actionTvsFragmentToAirTvShowsFragment()
         navigator.navigate(action)
     }
 
     fun navigateToTopRatedTvShows() {
-        val action = TvsFragmentDirections.actionTvsFragmentToTopRatedTvShowsFragment()
+        val action = TvShowsFragmentDirections.actionTvsFragmentToTopRatedTvShowsFragment()
         navigator.navigate(action)
     }
 
     fun navigateToPopularTvShows() {
-        val action = TvsFragmentDirections.actionTvsFragmentToPopularTvShowsFragment()
+        val action = TvShowsFragmentDirections.actionTvsFragmentToPopularTvShowsFragment()
         navigator.navigate(action)
     }
 

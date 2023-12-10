@@ -3,7 +3,6 @@ package com.ru.movieshows.presentation
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import com.ru.movieshows.databinding.ActivityMainBinding
 import com.ru.movieshows.presentation.sideeffects.loader.LoaderOverlay
@@ -29,9 +28,7 @@ class MainActivity : AppCompatActivity(), FragmentHolder {
         binding = ActivityMainBinding.inflate(layoutInflater).also { setContentView(it.root) }
         navigator.injectActivity(this)
         activityScopeViewModel.loaderOverlayState.observe(this) {
-            it.get()?.let {
-                binding.loaderOverlay.progressOverlay.isVisible = it
-            }
+            binding.loaderOverlay.progressOverlay.isVisible = it
         }
     }
 

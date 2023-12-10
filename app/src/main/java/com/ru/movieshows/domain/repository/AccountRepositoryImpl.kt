@@ -5,7 +5,6 @@ import com.google.gson.Gson
 import com.ru.movieshows.data.dto.AccountDto
 import com.ru.movieshows.data.repository.AccountRepository
 import com.ru.movieshows.data.repository.AppSettingsRepository
-import com.ru.movieshows.data.response.AccountErrorModel
 import com.ru.movieshows.domain.entity.AccountEntity
 import com.ru.movieshows.domain.entity.AuthenticatedState
 import com.ru.movieshows.domain.utils.AppFailure
@@ -13,9 +12,6 @@ import com.ru.movieshows.domain.utils.AsyncLoader
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import java.net.ConnectException
-import java.net.SocketTimeoutException
-import java.net.UnknownHostException
 import javax.inject.Inject
 
 @Suppress("UNREACHABLE_CODE")
@@ -49,7 +45,7 @@ class AccountRepositoryImpl @Inject constructor(
             appSettingsRepository.setCurrentSessionId(sessionId)
             return Either.Right(sessionId)
         } catch (e: Exception) {
-            val error = handleError(e)
+            val error = handleError(e, gson)
             return Either.Left(error)
         }
     }
@@ -73,7 +69,7 @@ class AccountRepositoryImpl @Inject constructor(
                         _state.emit(AuthenticatedState.NotAuthenticated())
                     }
                 } catch (e: Exception) {
-                    val error = handleError(e)
+                    val error = handleError(e, gson)
                     _state.emit(AuthenticatedState.NotAuthenticated(error))
                     appSettingsRepository.cleanCurrentSessionId()
                 }
@@ -85,31 +81,8 @@ class AccountRepositoryImpl @Inject constructor(
         return result.toEntity()
     }
 
-    private fun handleError(e: Exception): AppFailure {
-        return when (e) {
-            is retrofit2.HttpException -> {
-                val response = e.response()
-                val errorBody = response?.errorBody()
-                val content = errorBody?.charStream()?.readText()
-                if (content != null) {
-                    val accountError = gson.fromJson(content, AccountErrorModel::class.java)
-                    return AppFailure.fromAccountError(accountError)
-                }
-                return AppFailure.Pure
-            }
-            is SocketTimeoutException -> {
-                return AppFailure.Connection
-            }
-            is UnknownHostException -> {
-                return AppFailure.Connection
-            }
-            is ConnectException -> {
-                return AppFailure.Connection
-            }
-            else -> {
-                return AppFailure.Pure
-            }
-        }
+    companion object {
+        const val russianLanguageTag = "ru-RU"
     }
 
 }

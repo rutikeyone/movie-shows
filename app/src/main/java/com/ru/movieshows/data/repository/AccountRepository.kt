@@ -3,10 +3,11 @@ package com.ru.movieshows.data.repository
 import arrow.core.Either
 import com.ru.movieshows.domain.entity.AccountEntity
 import com.ru.movieshows.domain.entity.AuthenticatedState
+import com.ru.movieshows.domain.repository.Repository
 import com.ru.movieshows.domain.utils.AppFailure
 import kotlinx.coroutines.flow.StateFlow
 
-interface AccountRepository {
+interface AccountRepository : Repository {
 
      val state: StateFlow<AuthenticatedState>
 

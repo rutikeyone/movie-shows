@@ -1,4 +1,4 @@
-package com.ru.movieshows.presentation.viewmodel.tv_shows.states
+package com.ru.movieshows.presentation.viewmodel.tv_shows.state
 
 import androidx.annotation.StringRes
 import com.ru.movieshows.domain.entity.TvShowsEntity

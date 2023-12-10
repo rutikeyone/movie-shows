@@ -10,7 +10,7 @@ import com.ru.movieshows.presentation.sideeffects.resources.Resources
 import com.ru.movieshows.presentation.sideeffects.toast.Toasts
 import com.ru.movieshows.presentation.utils.share
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
-import com.ru.movieshows.presentation.viewmodel.sign_in.states.SignInState
+import com.ru.movieshows.presentation.viewmodel.sign_in.state.SignInState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -24,7 +24,6 @@ class SignInViewModel @AssistedInject constructor(
 
     private val _state = MutableLiveData(SignInState())
     val state = _state.share()
-
 
     fun changeUsername(value: String) {
         val prevState = _state.value ?: return

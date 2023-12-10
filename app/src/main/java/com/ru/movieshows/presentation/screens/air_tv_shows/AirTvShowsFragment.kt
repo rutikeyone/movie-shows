@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATED_IDENTITY_EQUALS")
+
 package com.ru.movieshows.presentation.screens.air_tv_shows
 
 import android.os.Bundle
@@ -58,7 +60,8 @@ class AirTvShowsFragment : BaseFragment() {
         tvShowsRecyclerView.itemAnimator = null
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                return if (adapter!!.getItemViewType(position) === TvShowPaginationAdapter.LOADING_ITEM) 1 else 3
+                val isLoadingItem = adapter.getItemViewType(position) === TvShowPaginationAdapter.LOADING_ITEM
+                return if (isLoadingItem) 1 else 3
             }
         }
     }

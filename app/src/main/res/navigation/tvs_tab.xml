@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/tvsFragment"
-        android:name="com.ru.movieshows.presentation.screens.tvs.TvsFragment"
+        android:name="com.ru.movieshows.presentation.screens.tv_shows.TvShowsFragment"
         android:label="@string/tvs"
-        tools:layout="@layout/fragment_tvs" >
+        tools:layout="@layout/fragment_tv_shows" >
         <action
             android:id="@+id/action_tvsFragment_to_tvShowSearchFragment"
             app:destination="@id/tvShowSearchFragment"

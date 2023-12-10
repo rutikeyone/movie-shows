@@ -12,12 +12,20 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationBarView
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FragmentTabsBinding
+import com.ru.movieshows.dependencies.NavigatorModule
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+import javax.inject.Named
 
 @AndroidEntryPoint
 class TabsFragment : BaseFragment() {
+
+    @Inject
+    @Named(NavigatorModule.topLevelDestinations)
+    lateinit var tabsTopLevelFragment: Set<Int>
+
     private val binding by viewBinding<FragmentTabsBinding>()
     private val navHost: NavHostFragment get() = childFragmentManager.findFragmentById(R.id.tabsContainer) as NavHostFragment
     private val navController: NavController get() = navHost.navController
@@ -40,10 +48,10 @@ class TabsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupNavController()
+        configureNavController()
     }
 
-    private fun setupNavController() = with (binding) {
+    private fun configureNavController() = with (binding) {
         val appConfiguration = AppBarConfiguration(tabsTopLevelFragment)
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
         tabsToolbar.setupWithNavController(navController, appConfiguration)
@@ -51,7 +59,5 @@ class TabsFragment : BaseFragment() {
         bottomNavigationView.setOnItemReselectedListener(itemReselectedListener)
     }
 
-    companion object {
-        val tabsTopLevelFragment = setOf(R.id.moviesFragment, R.id.tvsFragment, R.id.profileFragment)
-    }
+
 }

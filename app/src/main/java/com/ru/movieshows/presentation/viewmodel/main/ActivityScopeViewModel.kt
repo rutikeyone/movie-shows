@@ -1,5 +1,6 @@
 package com.ru.movieshows.presentation.viewmodel.main
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ru.movieshows.data.repository.AccountRepository
@@ -8,9 +9,6 @@ import com.ru.movieshows.presentation.sideeffects.loader.LoaderOverlay
 import com.ru.movieshows.presentation.sideeffects.navigator.NavigatorWrapper
 import com.ru.movieshows.presentation.sideeffects.resources.Resources
 import com.ru.movieshows.presentation.sideeffects.toast.Toasts
-import com.ru.movieshows.presentation.utils.Event
-import com.ru.movieshows.presentation.utils.MutableLiveEvent
-import com.ru.movieshows.presentation.utils.publishEvent
 import com.ru.movieshows.presentation.utils.share
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -24,20 +22,20 @@ class ActivityScopeViewModel @Inject constructor(
     private val accountsRepository: AccountRepository,
 ): ViewModel(), NavigatorWrapper by navigator, LoaderOverlay {
 
-    private val _loaderOverlayState = MutableLiveEvent(Event(false))
+    private val _loaderOverlayState = MutableLiveData(false)
     val loaderOverlayState = _loaderOverlayState.share()
 
     init {
         handleState()
     }
 
-    private fun handleState() {
+    private fun handleState() = viewModelScope.launch {
 
-        viewModelScope.launch {
-            accountsRepository.observeState()
+        launch {
+           accountsRepository.observeState()
         }
 
-        viewModelScope.launch {
+        launch {
             accountsRepository.state.collect { state ->
                 when (state) {
                     AuthenticatedState.Pure -> {}
@@ -63,9 +61,13 @@ class ActivityScopeViewModel @Inject constructor(
         }
     }
 
-    override fun showLoader() = _loaderOverlayState.publishEvent(true)
+    override fun showLoader() {
+        _loaderOverlayState.value = true
+    }
 
-    override fun hideLoader() = _loaderOverlayState.publishEvent(false)
+    override fun hideLoader() {
+        _loaderOverlayState.value = false
+    }
 
     override fun onCleared() {
         super.onCleared()

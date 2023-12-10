@@ -1,4 +1,4 @@
-package com.ru.movieshows.presentation.viewmodel.sign_in.states
+package com.ru.movieshows.presentation.viewmodel.sign_in.state
 
 import com.ru.movieshows.domain.entity.PasswordField
 import com.ru.movieshows.domain.entity.UsernameField

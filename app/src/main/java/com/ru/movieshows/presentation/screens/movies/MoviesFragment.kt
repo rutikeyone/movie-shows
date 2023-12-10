@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.core.view.MenuProvider
 import androidx.core.view.children
+import androidx.core.view.isVisible
 import com.google.android.material.tabs.TabLayout
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FailurePartBinding
@@ -19,11 +20,12 @@ import com.ru.movieshows.presentation.adapters.MoviesAdapter
 import com.ru.movieshows.presentation.adapters.MoviesViewPagerAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
+import com.ru.movieshows.presentation.utils.extensions.clearDecorations
 import com.ru.movieshows.presentation.utils.extensions.navigator
 import com.ru.movieshows.presentation.utils.viewBinding
 import com.ru.movieshows.presentation.viewmodel.movies.MoviesViewModel
-import com.ru.movieshows.presentation.viewmodel.movies.states.DiscoverMoviesState
-import com.ru.movieshows.presentation.viewmodel.movies.states.MoviesState
+import com.ru.movieshows.presentation.viewmodel.movies.state.DiscoverMoviesState
+import com.ru.movieshows.presentation.viewmodel.movies.state.MoviesState
 import com.ru.movieshows.presentation.viewmodel.viewModelCreator
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
@@ -31,7 +33,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MoviesFragment : BaseFragment() {
-    private var adapter: MoviesAdapter? = null
     private val binding by viewBinding<FragmentMoviesBinding>()
 
     @Inject
@@ -96,22 +97,19 @@ class MoviesFragment : BaseFragment() {
         if(error != null) binding.discoverMoviesFailureTextMessage.text = resources.getString(error)
     }
 
-    private fun handleDiscoverMoviesSuccessUI(movies: ArrayList<MovieEntity>) = with(binding.discoverMovies) {
-        val itemDecorator = ItemDecoration(8F, resources.displayMetrics)
-        if(adapter == null) {
-            adapter = MoviesAdapter(::navigateToMovieDetails)
+    private fun handleDiscoverMoviesSuccessUI(movies: ArrayList<MovieEntity>) {
+        with(binding.discoverMovies) {
+            val movieAdapter = MoviesAdapter(::navigateToMovieDetails).also { it.updateData(movies) }
+            val itemDecorator = ItemDecoration(8F, resources.displayMetrics)
+            binding.discoverMovies.clearDecorations()
+            addItemDecoration(itemDecorator)
+            adapter = movieAdapter
         }
-        while (itemDecorationCount > 0) {
-            removeItemDecorationAt(0);
-        }
-        this@MoviesFragment.adapter?.updateData(movies)
-        addItemDecoration(itemDecorator)
-        adapter = adapter
-        binding.discoverMoviesSuccessContainer.visibility = View.VISIBLE
+        binding.discoverMoviesSuccessContainer.isVisible = true
     }
 
     private fun handleDiscoverMoviesInPendingUI() {
-        binding.discoverMoviesInPendingContainer.visibility = View.VISIBLE
+        binding.discoverMoviesInPendingContainer.isVisible = true
     }
 
     override fun onStop() {
@@ -121,7 +119,7 @@ class MoviesFragment : BaseFragment() {
     }
 
     private fun handleUI(moviesState: MoviesState) {
-        binding.root.children.forEach { it.visibility = View.GONE }
+        binding.root.children.forEach { it.isVisible = false }
         binding.genresTabLayout.removeOnTabSelectedListener(onTabSelectedListener)
         when (moviesState) {
             MoviesState.InPending -> handleInPendingUI()

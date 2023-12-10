@@ -25,6 +25,7 @@ class NavigatorImpl @Inject constructor(
     @Named(NavigatorModule.splashFragment) private val splashDestination: Int,
     @Named(NavigatorModule.globalSignIn) private val toGlobalSignIn: NavDirections,
     @Named(NavigatorModule.globalTabsAction) private val toTabs: NavDirections,
+    @Named(NavigatorModule.topLevelDestinations) val topLevelDestinations: Set<Int>,
 ) : Navigator, DefaultLifecycleObserver {
     private lateinit var activity: AppCompatActivity
 
@@ -57,10 +58,27 @@ class NavigatorImpl @Inject constructor(
         }
     }
 
+    private fun nestedRoute(): Boolean {
+        val destinationId = currentNavController?.currentDestination?.id
+        return topLevelDestinations.any { it == destinationId }
+    }
+
+    private fun popBackStack(): Boolean {
+        return if(currentNavController != null) {
+            currentNavController!!.popBackStack()
+        } else {
+            false
+        }
+    }
+
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            isEnabled = false
-            activity.onBackPressedDispatcher.onBackPressed()
+            if(nestedRoute()) {
+                activity.finish()
+            } else if(!popBackStack()) {
+                isEnabled = false
+                activity.onBackPressedDispatcher.onBackPressed()
+            }
         }
     }
 

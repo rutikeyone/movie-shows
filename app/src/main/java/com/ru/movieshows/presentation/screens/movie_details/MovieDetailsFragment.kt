@@ -17,7 +17,6 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.google.android.material.appbar.MaterialToolbar
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FailurePartBinding
 import com.ru.movieshows.databinding.FragmentMovieDetailsBinding
@@ -31,9 +30,10 @@ import com.ru.movieshows.presentation.adapters.VideosAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
 import com.ru.movieshows.presentation.utils.extensions.clearDecorations
+import com.ru.movieshows.presentation.utils.extensions.navigator
 import com.ru.movieshows.presentation.utils.viewBinding
-import com.ru.movieshows.presentation.viewmodel.movie_details.states.MovieDetailsState
 import com.ru.movieshows.presentation.viewmodel.movie_details.MovieDetailsViewModel
+import com.ru.movieshows.presentation.viewmodel.movie_details.states.MovieDetailsState
 import com.ru.movieshows.presentation.viewmodel.viewModelCreator
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -46,7 +46,12 @@ class MovieDetailsFragment : BaseFragment() {
 
     @Inject
     lateinit var factory: MovieDetailsViewModel.Factory
-    override val viewModel by viewModelCreator { factory.create(args.id) }
+    override val viewModel by viewModelCreator {
+        factory.create(
+            navigator = navigator(),
+            movieId = args.id,
+        )
+    }
 
     private val binding by viewBinding<FragmentMovieDetailsBinding>()
 
@@ -58,51 +63,52 @@ class MovieDetailsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.state.observe(viewLifecycleOwner, ::renderUI)
-        viewModel.title.observe(viewLifecycleOwner, ::renderTitle)
+        viewModel.state.observe(viewLifecycleOwner, ::handleUI)
+        viewModel.titleState.observe(viewLifecycleOwner, ::handleTitle)
     }
 
-    private fun renderTitle(value: String?) {
-        val toolBar = activity?.findViewById<MaterialToolbar>(R.id.tabsToolbar) ?: return
-        toolBar.title = value
+    private fun handleTitle(value: String?) {
+        navigator().getToolbar()?.title = value
     }
 
-        private fun renderUI(movieDetailsState: MovieDetailsState) {
-            val viewParts = listOf(binding.progressContainer, binding.failureContainer, binding.successContainer)
-            viewParts.forEach { it.visibility = View.GONE }
-            when (movieDetailsState) {
-                MovieDetailsState.InPending -> renderInPendingUI()
-                is MovieDetailsState.Failure -> renderFailureUI(movieDetailsState.header, movieDetailsState.error)
-                is MovieDetailsState.Success -> renderSuccessUI(
-                    movieDetailsState.movieDetails,
-                    movieDetailsState.similarMovies,
-                    movieDetailsState.reviews,
-                    movieDetailsState.videos,
+        private fun handleUI(state: MovieDetailsState) = with(binding) {
+            listOf(progressContainer, failureContainer, successContainer).onEach { it.isVisible = false }
+            when (state) {
+                MovieDetailsState.InPending -> handleInPendingUI()
+                is MovieDetailsState.Failure -> handleFailureUI(
+                    state.header,
+                    state.error,
+                )
+                is MovieDetailsState.Success -> handleSuccessUI(
+                    state.movieDetails,
+                    state.similarMovies,
+                    state.reviews,
+                    state.videos,
                 )
             }
         }
 
-        private fun renderSuccessUI(
-            movieDetailsEntity: MovieDetailsEntity,
+        private fun handleSuccessUI(
+            movie: MovieDetailsEntity,
             similarMovies: ArrayList<MovieEntity>,
             reviews: ArrayList<ReviewEntity>,
             videos: ArrayList<VideoEntity>,
-        ) {
-            binding.successContainer.visibility = View.VISIBLE
-            setupMovieBackDrop(movieDetailsEntity)
-            setupMoviePoster(movieDetailsEntity)
-            setupRating(movieDetailsEntity)
-            setupRuntime(movieDetailsEntity)
-            setupReleaseDate(movieDetailsEntity)
-            setupOverview(movieDetailsEntity)
-            setupGenres(movieDetailsEntity)
-            setupProductionCompanies(movieDetailsEntity)
-            setupSimilarMovies(similarMovies)
-            setupVideos(videos)
-            setupReview(reviews)
+        ) = with(binding){
+            successContainer.isVisible = true
+            configureBackDrop(movie.backDrop)
+            configureMoviePoster(movie)
+            configureRating(movie)
+            configureRuntime(movie)
+            configureReleaseDate(movie)
+            configureOverview(movie)
+            configureGenres(movie)
+            configureCompanies(movie)
+            configureSimilarMovies(similarMovies)
+            configureVideos(videos)
+            configureReview(reviews)
         }
 
-    private fun setupVideos(videos: ArrayList<VideoEntity>) = with(binding) {
+    private fun configureVideos(videos: ArrayList<VideoEntity>) = with(binding) {
         if (videos.isNotEmpty()) {
             val itemDecorator = ItemDecoration(8F, resources.displayMetrics)
             val adapter = VideosAdapter(::navigateToVideo).also { it.updateData(videos) }
@@ -115,7 +121,7 @@ class MovieDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun setupReview(reviews: ArrayList<ReviewEntity>) {
+    private fun configureReview(reviews: ArrayList<ReviewEntity>) {
         val reviewTile = view?.findViewById<CardView>(R.id.reviewTile)
         val authorHeader = reviewTile?.findViewById<TextView>(R.id.reviewerHeaderView)
         val ratingBar = reviewTile?.findViewById<RatingBar>(R.id.ratingBar)
@@ -154,133 +160,150 @@ class MovieDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun setupSimilarMovies(similarMovies: ArrayList<MovieEntity>) {
+    private fun configureSimilarMovies(similarMovies: ArrayList<MovieEntity>) {
+        val itemDecorator = ItemDecoration(8F, resources.displayMetrics)
+        val adapter = MoviesAdapter(::onSimilarMovieTap).also { it.updateData(similarMovies) }
+        val headerView = binding.similarMoviesHeader
+        val similarMoviesView = binding.similarMovies
         if (similarMovies.isNotEmpty()) {
-            val itemDecorator = ItemDecoration(8F, resources.displayMetrics)
-            val adapter = MoviesAdapter(::onSimilarMovieTap).also { it.updateData(similarMovies) }
-            binding.similarMovies.adapter = adapter
-            binding.videosRecyclerView.clearDecorations()
-            binding.similarMovies.addItemDecoration(itemDecorator)
+            similarMoviesView.adapter = adapter
+            similarMoviesView.clearDecorations()
+            similarMoviesView.addItemDecoration(itemDecorator)
         } else {
-            binding.similarMoviesHeader.visibility = View.GONE
-            binding.similarMovies.visibility = View.GONE
+            headerView.isVisible = false
+            similarMoviesView.isVisible = false
         }
     }
 
-    private fun onSimilarMovieTap(movieEntity: MovieEntity) = viewModel.navigateToMovieDetails(movieEntity)
+    private fun configureGenres(movieDetails: MovieDetailsEntity) {
+        val genres = movieDetails.genres
+        val context = requireContext()
+        val layoutManager = FlexboxLayoutManager(context).also {
+            it.flexDirection = FlexDirection.ROW
+            it.justifyContent = JustifyContent.FLEX_START
+        }
+        val names = movieDetails.genres.map { it.name }
+        val adapter = InfoAdapter(names)
+        if (genres.isNotEmpty()) {
+            with(binding.genresView) {
+                this.layoutManager = layoutManager
+                this.adapter = adapter
+            }
+        } else {
+            binding.genresHeader.isVisible = false
+            binding.genresView.isVisible = false
+        }
+    }
 
-    private fun setupGenres(movieDetailsEntity: MovieDetailsEntity) {
-        if (movieDetailsEntity.genres.isNotEmpty()) {
-            val layoutManager = FlexboxLayoutManager(requireContext())
-            layoutManager.flexDirection = FlexDirection.ROW
-            layoutManager.justifyContent = JustifyContent.FLEX_START
-            binding.genresView.layoutManager = layoutManager
-            val names = movieDetailsEntity.genres.map { it.name }
+    private fun configureCompanies(movieDetails: MovieDetailsEntity) {
+        val  companies = movieDetails.productionCompanies
+        val context = requireContext()
+        val headerView = binding.productionCompaniesHeader
+        val companiesView = binding.productionCompaniesRecyclerView
+        val layoutManager = FlexboxLayoutManager(context).also {
+            it.flexDirection = FlexDirection.ROW
+            it.justifyContent = JustifyContent.FLEX_START
+        }
+        if (!companies.isNullOrEmpty()) {
+            val names = companies.map { it.name }
             val adapter = InfoAdapter(names)
-            binding.genresView.adapter = adapter
+            with(companiesView) {
+                this.layoutManager = layoutManager
+                this.adapter = adapter
+            }
         } else {
-            binding.genresHeader.visibility = View.GONE
-            binding.genresView.visibility = View.GONE
+            headerView.visibility = View.GONE
+            companiesView.visibility = View.GONE
         }
     }
 
-    private fun setupProductionCompanies(movieDetailsEntity: MovieDetailsEntity) {
-        val  productionCompanies = movieDetailsEntity.productionCompanies
-        if (!productionCompanies.isNullOrEmpty()) {
-            val layoutManager = FlexboxLayoutManager(requireContext())
-            layoutManager.flexDirection = FlexDirection.ROW
-            layoutManager.justifyContent = JustifyContent.FLEX_START
-            binding.productionCompaniesRecyclerView.layoutManager = layoutManager
-            val names = productionCompanies.map { it.name }
-            val adapter = InfoAdapter(names)
-            binding.productionCompaniesRecyclerView.adapter = adapter
+    private fun configureOverview(movieDetails: MovieDetailsEntity) {
+        val overview = movieDetails.overview
+        if (!overview.isNullOrEmpty()) {
+            binding.overviewText.text = overview
         } else {
-            binding.productionCompaniesHeader.visibility = View.GONE
-            binding.productionCompaniesRecyclerView.visibility = View.GONE
-        }
-    }
-
-    private fun setupOverview(movieDetailsEntity: MovieDetailsEntity) {
-        if (!movieDetailsEntity.overview.isNullOrEmpty()) {
-            binding.overviewText.text = movieDetailsEntity.overview
-        } else {
-            binding.overviewHeader.visibility = View.GONE
-            binding.overviewText.visibility = View.GONE
+            binding.overviewHeader.isVisible = true
+            binding.overviewText.isVisible = true
         }
     }
 
     @SuppressLint("SimpleDateFormat")
-    private fun setupReleaseDate(movieDetailsEntity: MovieDetailsEntity) {
-        if (movieDetailsEntity.releaseDate != null) {
-            val simpleDateFormatter = SimpleDateFormat("d MMMM yyyy")
-            val date = simpleDateFormatter.format(movieDetailsEntity.releaseDate)
+    private fun configureReleaseDate(movieDetails: MovieDetailsEntity) {
+        val releaseDate = movieDetails.releaseDate
+        val simpleDateFormatter = SimpleDateFormat("d MMMM yyyy")
+        if (releaseDate != null) {
+            val date = simpleDateFormatter.format(releaseDate)
             binding.releaseDateValue.text = date
         } else {
-            binding.releaseDateHeader.visibility = View.GONE
-            binding.releaseDateValue.visibility = View.GONE
+            binding.releaseDateHeader.isVisible = false
+            binding.releaseDateValue.isVisible = false
         }
     }
 
     @SuppressLint("SetTextI18n")
-    private fun setupRuntime(movieDetailsEntity: MovieDetailsEntity) {
-        if (movieDetailsEntity.runtime != null) {
-            binding.durationValue.text = "${movieDetailsEntity.runtime} ${resources.getString(R.string.min)}"
+    private fun configureRuntime(movieDetails: MovieDetailsEntity) {
+        val runtime = movieDetails.runtime
+        val durationValue = binding.durationValue
+        val durationHeader = binding.durationHeader
+        if (runtime != null) {
+            durationValue.text = "${movieDetails.runtime} ${resources.getString(R.string.min)}"
         } else {
-            binding.durationHeader.visibility = View.GONE
-            binding.durationValue.visibility = View.GONE
+            durationHeader.isVisible = false
+            durationValue.isVisible = false
         }
     }
 
     @SuppressLint("SetTextI18n")
-    private fun setupRating(
-        movieDetailsEntity: MovieDetailsEntity,
+    private fun configureRating(
+        movieDetails: MovieDetailsEntity,
     ) = with(binding){
+        val rating = movieDetails.rating
         ratingBar.isEnabled = false
-        val value = movieDetailsEntity.rating
-        if (value != null && value > 0) {
-            ratingText.text = "%.2f".format(movieDetailsEntity.rating)
-            ratingBar.rating = (value.toFloat() / 2)
+        if (rating != null && rating > 0) {
+            ratingText.text = "%.2f".format(rating)
+            ratingBar.rating = (rating.toFloat() / 2)
         } else {
             ratingText.isVisible = false
             ratingBar.isVisible = false
         }
     }
 
-    private fun setupMoviePoster(movieDetailsEntity: MovieDetailsEntity) {
-        if (movieDetailsEntity.poster != null) {
-            Glide
-                .with(this)
-                .load(movieDetailsEntity.poster)
-                .centerCrop()
-                .placeholder(R.drawable.poster_placeholder_bg)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(binding.moviePoster)
+    private fun configureMoviePoster(movieDetails: MovieDetailsEntity) {
+        val poster = movieDetails.poster
+        Glide
+            .with(this)
+            .load(poster ?: R.drawable.poster_placeholder_bg)
+            .centerCrop()
+            .placeholder(R.drawable.poster_placeholder_bg)
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .into(binding.moviePoster)
+    }
+
+    private fun configureBackDrop(backDrop: String?) {
+        val movieBackDrop = binding.movieBackDrop
+        Glide
+            .with(this@MovieDetailsFragment)
+            .load(backDrop ?: R.drawable.backdrop_placeholder_bg)
+            .centerCrop()
+            .placeholder(R.drawable.backdrop_placeholder_bg)
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .into(movieBackDrop)
+    }
+
+    private fun handleFailureUI(@StringRes header: Int?, @StringRes error: Int?) {
+        FailurePartBinding.bind(binding.failurePart.root).also {
+            it.retryButton.setOnClickListener { viewModel.fetchData() }
+            if(header != null) it.failureTextHeader.text = resources.getString(header)
+            if(error != null) it.failureTextMessage.text = resources.getString(error)
         }
+        binding.failureContainer.isVisible = true
     }
 
-    private fun setupMovieBackDrop(movieDetailsEntity: MovieDetailsEntity) {
-        if (movieDetailsEntity.backDrop != null) {
-            Glide
-                .with(this)
-                .load(movieDetailsEntity.backDrop)
-                .centerCrop()
-                .placeholder(R.drawable.backdrop_placeholder_bg)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(binding.movieBackDrop)
-        }
+    private fun handleInPendingUI() {
+        binding.progressContainer.isVisible = true
     }
 
-    private fun renderFailureUI(@StringRes header: Int?, @StringRes error: Int?) {
-        val failurePartBinding = FailurePartBinding.bind(binding.failurePart.root)
-        binding.failureContainer.visibility = View.VISIBLE
-        failurePartBinding.retryButton.setOnClickListener { viewModel.fetchData() }
-        if(header != null) failurePartBinding.failureTextHeader.text = resources.getString(header)
-        if(error != null) failurePartBinding.failureTextMessage.text = resources.getString(error)
-    }
-
-    private fun renderInPendingUI() {
-        binding.progressContainer.visibility = View.VISIBLE
-    }
+    private fun onSimilarMovieTap(movieEntity: MovieEntity) = viewModel.navigateToMovieDetails(movieEntity)
 
     private fun navigateToVideo(video: VideoEntity) = viewModel.navigateToVideo(video)
 }

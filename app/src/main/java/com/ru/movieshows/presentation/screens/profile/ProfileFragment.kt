@@ -23,7 +23,6 @@ class ProfileFragment : BaseFragment() {
     override val viewModel by viewModels<ProfileViewModel>()
     private val binding by viewBinding<FragmentProfileBinding>()
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,31 +31,31 @@ class ProfileFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupUI()
+        configureUI()
     }
 
-    private fun setupUI() = with(binding) {
-        viewModel.state.observe(viewLifecycleOwner, ::authenticatedStateChanged)
+    private fun configureUI() = with(binding) {
+        viewModel.state.observe(viewLifecycleOwner, ::handleUI)
         logoutButton.setOnClickListener { viewModel.logOut() }
     }
 
-    private fun authenticatedStateChanged(authenticatedState: AuthenticatedState) = with(binding) {
+    private fun handleUI(authenticatedState: AuthenticatedState) = with(binding) {
         root.children.forEach { it.isVisible = false }
         when (authenticatedState) {
             AuthenticatedState.Pure -> {}
             is AuthenticatedState.InPending -> progressGroup.isVisible = true
             is AuthenticatedState.NotAuthenticated -> authenticatedGroup.isVisible = false
-            is AuthenticatedState.Authenticated -> setupAuthenticatedUI(authenticatedState.account)
+            is AuthenticatedState.Authenticated -> configureAuthenticatedUI(authenticatedState.account)
         }
     }
 
-    private fun setupAuthenticatedUI(account: AccountEntity) = with(binding.authenticatedGroup) {
-        setupName(account)
-        setupProfileAvatarImage(account)
+    private fun configureAuthenticatedUI(account: AccountEntity) = with(binding.authenticatedGroup) {
+        configureName(account)
+        configureProfileAvatarImage(account)
         isVisible = true
     }
 
-    private fun setupProfileAvatarImage(account: AccountEntity) = with(binding.avatarImageView) {
+    private fun configureProfileAvatarImage(account: AccountEntity) = with(binding.avatarImageView) {
         val photo = account.avatar
         if (!photo.isNullOrEmpty()) {
             Glide
@@ -75,7 +74,7 @@ class ProfileFragment : BaseFragment() {
         }
     }
 
-    private fun setupName(account: AccountEntity) = with(binding.nameTextView) {
+    private fun configureName(account: AccountEntity) = with(binding.nameTextView) {
         val stringBuilder = StringBuilder().also {
             val username = account.username ?: ""
             it.append(username)
