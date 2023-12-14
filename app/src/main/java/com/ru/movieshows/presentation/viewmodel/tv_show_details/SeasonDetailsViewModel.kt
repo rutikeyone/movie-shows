@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ru.movieshows.data.repository.TvShowRepository
 import com.ru.movieshows.domain.entity.SeasonEntity
-import com.ru.movieshows.presentation.utils.share
+import com.ru.movieshows.presentation.viewmodel.share
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

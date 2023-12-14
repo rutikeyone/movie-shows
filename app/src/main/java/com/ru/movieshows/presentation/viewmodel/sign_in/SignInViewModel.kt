@@ -8,7 +8,7 @@ import com.ru.movieshows.domain.entity.UsernameField
 import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.sideeffects.resources.Resources
 import com.ru.movieshows.presentation.sideeffects.toast.Toasts
-import com.ru.movieshows.presentation.utils.share
+import com.ru.movieshows.presentation.viewmodel.share
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
 import com.ru.movieshows.presentation.viewmodel.sign_in.state.SignInState
 import dagger.assisted.Assisted

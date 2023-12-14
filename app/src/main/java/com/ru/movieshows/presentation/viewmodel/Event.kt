@@ -1,4 +1,4 @@
-package com.ru.movieshows.presentation.utils
+package com.ru.movieshows.presentation.viewmodel
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData

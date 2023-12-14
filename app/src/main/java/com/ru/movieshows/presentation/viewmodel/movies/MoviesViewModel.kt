@@ -10,7 +10,7 @@ import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.screens.movies.MoviesFragmentDirections
 import com.ru.movieshows.presentation.sideeffects.navigator.NavigatorWrapper
-import com.ru.movieshows.presentation.utils.share
+import com.ru.movieshows.presentation.viewmodel.share
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
 import com.ru.movieshows.presentation.viewmodel.movies.state.DiscoverMoviesState
 import com.ru.movieshows.presentation.viewmodel.movies.state.MoviesState

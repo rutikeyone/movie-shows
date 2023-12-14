@@ -32,7 +32,6 @@ class MainActivity : AppCompatActivity(), FragmentHolder {
         }
     }
 
-
     override fun onResume() {
         super.onResume()
         activityScopeViewModel.navigator.setTarget(navigator)

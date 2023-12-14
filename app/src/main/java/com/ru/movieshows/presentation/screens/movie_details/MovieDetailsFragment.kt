@@ -5,11 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.RatingBar
-import android.widget.TextView
 import androidx.annotation.StringRes
-import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -20,6 +16,7 @@ import com.google.android.flexbox.JustifyContent
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FailurePartBinding
 import com.ru.movieshows.databinding.FragmentMovieDetailsBinding
+import com.ru.movieshows.databinding.ReviewItemBinding
 import com.ru.movieshows.domain.entity.MovieDetailsEntity
 import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.entity.ReviewEntity
@@ -29,11 +26,10 @@ import com.ru.movieshows.presentation.adapters.MoviesAdapter
 import com.ru.movieshows.presentation.adapters.VideosAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
-import com.ru.movieshows.presentation.utils.extensions.clearDecorations
-import com.ru.movieshows.presentation.utils.extensions.navigator
-import com.ru.movieshows.presentation.utils.viewBinding
+import com.ru.movieshows.presentation.utils.extension.clearDecorations
 import com.ru.movieshows.presentation.viewmodel.movie_details.MovieDetailsViewModel
 import com.ru.movieshows.presentation.viewmodel.movie_details.states.MovieDetailsState
+import com.ru.movieshows.presentation.viewmodel.viewBinding
 import com.ru.movieshows.presentation.viewmodel.viewModelCreator
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -71,47 +67,49 @@ class MovieDetailsFragment : BaseFragment() {
         navigator().getToolbar()?.title = value
     }
 
-        private fun handleUI(state: MovieDetailsState) = with(binding) {
-            listOf(progressContainer, failureContainer, successContainer).onEach { it.isVisible = false }
-            when (state) {
-                MovieDetailsState.InPending -> handleInPendingUI()
-                is MovieDetailsState.Failure -> handleFailureUI(
-                    state.header,
-                    state.error,
-                )
-                is MovieDetailsState.Success -> handleSuccessUI(
-                    state.movieDetails,
-                    state.similarMovies,
-                    state.reviews,
-                    state.videos,
-                )
+    private fun handleUI(state: MovieDetailsState) = with(binding) {
+        listOf(progressContainer, failureContainer, successContainer).onEach { it.isVisible = false }
+        when (state) {
+            MovieDetailsState.InPending -> handleInPendingUI()
+            is MovieDetailsState.Failure -> {
+                val header = state.header
+                val error = state.error
+                handleFailureUI(header, error)
+            }
+            is MovieDetailsState.Success -> {
+                val movieDetails = state.movieDetails
+                val similarMovies = state.similarMovies
+                val reviews = state.reviews
+                val videos = state.videos
+                handleSuccessUI(movieDetails, similarMovies, reviews, videos)
             }
         }
+    }
 
-        private fun handleSuccessUI(
-            movie: MovieDetailsEntity,
-            similarMovies: ArrayList<MovieEntity>,
-            reviews: ArrayList<ReviewEntity>,
-            videos: ArrayList<VideoEntity>,
-        ) = with(binding){
-            successContainer.isVisible = true
-            configureBackDrop(movie.backDrop)
-            configureMoviePoster(movie)
-            configureRating(movie)
-            configureRuntime(movie)
-            configureReleaseDate(movie)
-            configureOverview(movie)
-            configureGenres(movie)
-            configureCompanies(movie)
-            configureSimilarMovies(similarMovies)
-            configureVideos(videos)
-            configureReview(reviews)
-        }
+    private fun handleSuccessUI(
+        movie: MovieDetailsEntity,
+        similarMovies: ArrayList<MovieEntity>,
+        reviews: ArrayList<ReviewEntity>,
+        videos: ArrayList<VideoEntity>,
+    ) = with(binding){
+        successContainer.isVisible = true
+        configureBackDrop(movie.backDrop)
+        configureMoviePoster(movie)
+        configureRating(movie)
+        configureRuntime(movie)
+        configureReleaseDate(movie)
+        configureOverview(movie)
+        configureGenres(movie)
+        configureCompanies(movie)
+        configureSimilarMovies(similarMovies)
+        configureVideos(videos)
+        configureReview(reviews)
+    }
 
     private fun configureVideos(videos: ArrayList<VideoEntity>) = with(binding) {
+        val itemDecorator = ItemDecoration(8F, resources.displayMetrics)
+        val adapter = VideosAdapter(::navigateToVideo).also { it.updateData(videos) }
         if (videos.isNotEmpty()) {
-            val itemDecorator = ItemDecoration(8F, resources.displayMetrics)
-            val adapter = VideosAdapter(::navigateToVideo).also { it.updateData(videos) }
             videosRecyclerView.adapter = adapter
             videosRecyclerView.clearDecorations()
             videosRecyclerView.addItemDecoration(itemDecorator)
@@ -122,41 +120,76 @@ class MovieDetailsFragment : BaseFragment() {
     }
 
     private fun configureReview(reviews: ArrayList<ReviewEntity>) {
-        val reviewTile = view?.findViewById<CardView>(R.id.reviewTile)
-        val authorHeader = reviewTile?.findViewById<TextView>(R.id.reviewerHeaderView)
-        val ratingBar = reviewTile?.findViewById<RatingBar>(R.id.ratingBar)
-        val reviewTextView = reviewTile?.findViewById<TextView>(R.id.reviewTextView)
-        val avatarView = reviewTile?.findViewById<ImageView>(R.id.avatarImageView)
+        val reviewBinding = binding.reviewItem
 
-        if(reviews.isNotEmpty()) {
-            val review = reviews.first()
-            if(review.author != null) authorHeader?.text = review.author
-            if(review.authorDetails?.rating != null && review.authorDetails.rating > 2) {
-                val value = review.authorDetails.rating.toFloat() / 2
-                ratingBar?.rating = value
+        with(reviewBinding) {
+            if(reviews.isNotEmpty()) {
+                val review = reviews.first()
+                configureReviewAuthor(this, review)
+                configureReviewRating(this, review)
+                configureReviewContent(this, review)
+                configureReviewAvatar(review, reviewBinding)
+                this@MovieDetailsFragment.binding.showAllReviews.setOnClickListener {
+                    viewModel.navigateToReviews(reviews)
+                }
             } else {
-                ratingBar?.visibility = View.GONE
+                this@MovieDetailsFragment.binding.reviewsHeader.isVisible = false
+                this@MovieDetailsFragment.binding.showAllReviews.isVisible = false
+                this.reviewTile.isVisible = false
             }
-            if(review.content != null) reviewTextView?.text = review.content
-            if(review.authorDetails?.avatar != null && avatarView != null) {
-                Glide
-                    .with(this)
-                    .load(review.authorDetails.avatar)
-                    .centerCrop()
-                    .placeholder(R.drawable.poster_placeholder_bg)
-                    .error(R.drawable.poster_placeholder_bg)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(avatarView)
-            } else {
-                avatarView?.visibility = View.GONE
-            }
-            binding.showAllReviews.setOnClickListener {
-                viewModel.navigateToReviews(reviews)
-            }
+        }
+    }
+
+    private fun configureReviewAvatar(
+        review: ReviewEntity,
+        reviewBinding: ReviewItemBinding,
+    ) {
+        val avatar = review.authorDetails?.avatar
+        Glide
+            .with(requireContext())
+            .load(avatar ?: R.drawable.poster_placeholder_bg)
+            .centerCrop()
+            .placeholder(R.drawable.poster_placeholder_bg)
+            .error(R.drawable.poster_placeholder_bg)
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .into(reviewBinding.avatarImageView)
+    }
+
+    private fun configureReviewContent(
+        binding: ReviewItemBinding,
+        review: ReviewEntity,
+    ) = with(binding) {
+        val content = review.content
+        if (!content.isNullOrEmpty()) {
+            this.reviewTextView.text = content
         } else {
-            binding.reviewsHeader.visibility = View.GONE
-            binding.showAllReviews.visibility = View.GONE
-            reviewTile?.visibility = View.GONE
+            this.reviewTextView.isVisible = false
+        }
+    }
+
+    private fun configureReviewAuthor(
+        binding: ReviewItemBinding,
+        review: ReviewEntity,
+    ) = with(binding) {
+        val author = review.author
+        if (!author.isNullOrEmpty()) {
+            this.reviewerHeaderView.text = author
+        } else {
+            this.reviewerHeaderView.isVisible = false
+        }
+    }
+
+    private fun configureReviewRating(
+        binding: ReviewItemBinding,
+        review: ReviewEntity,
+    ) = with(binding) {
+        val rating = review.authorDetails?.rating?.toFloat()
+        if (rating != null && rating > 2) {
+            val result = rating / 2
+            this.ratingBar.isEnabled = false
+            this.ratingBar.rating = result
+        } else {
+            this.ratingBar.isVisible = false
         }
     }
 

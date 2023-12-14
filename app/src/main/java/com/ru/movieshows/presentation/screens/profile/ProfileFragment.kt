@@ -13,8 +13,8 @@ import com.ru.movieshows.databinding.FragmentProfileBinding
 import com.ru.movieshows.domain.entity.AccountEntity
 import com.ru.movieshows.domain.entity.AuthenticatedState
 import com.ru.movieshows.presentation.screens.BaseFragment
-import com.ru.movieshows.presentation.utils.viewBinding
 import com.ru.movieshows.presentation.viewmodel.profile.ProfileViewModel
+import com.ru.movieshows.presentation.viewmodel.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -57,21 +57,13 @@ class ProfileFragment : BaseFragment() {
 
     private fun configureProfileAvatarImage(account: AccountEntity) = with(binding.avatarImageView) {
         val photo = account.avatar
-        if (!photo.isNullOrEmpty()) {
-            Glide
-                .with(requireContext())
-                .load(photo)
-                .placeholder(R.drawable.avatar_placeholder)
-                .error(R.drawable.avatar_placeholder)
-                .centerCrop()
-                .into(this)
-        } else {
-            Glide
-                .with(requireContext())
-                .load(R.drawable.avatar_placeholder)
-                .centerCrop()
-                .into(this)
-        }
+        Glide
+            .with(requireContext())
+            .load(photo ?: R.drawable.avatar_placeholder)
+            .placeholder(R.drawable.avatar_placeholder)
+            .error(R.drawable.avatar_placeholder)
+            .centerCrop()
+            .into(this)
     }
 
     private fun configureName(account: AccountEntity) = with(binding.nameTextView) {

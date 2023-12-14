@@ -2,7 +2,7 @@ package com.ru.movieshows.presentation.sideeffects.toast
 
 import android.content.Context
 import android.widget.Toast
-import com.ru.movieshows.presentation.utils.dispatchers.MainThreadDispatcher
+import com.ru.movieshows.presentation.utils.dispatcher.MainThreadDispatcher
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 

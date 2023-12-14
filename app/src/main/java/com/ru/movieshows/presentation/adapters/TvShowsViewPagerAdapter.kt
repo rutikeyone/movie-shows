@@ -45,9 +45,9 @@ class TvShowsViewPagerAdapter(
             val title = tvShow.name
             if(!title.isNullOrEmpty()) {
                 text = title
-                isVisible = false
-            } else {
                 isVisible = true
+            } else {
+                isVisible = false
             }
         }
 
@@ -56,23 +56,14 @@ class TvShowsViewPagerAdapter(
             tvShow: TvShowsEntity
         ) = with(binding.tvShowBackground){
             val backDrop = tvShow.backDrop
-            if(!backDrop.isNullOrEmpty()) {
-                Glide
-                    .with(context)
-                    .load(backDrop)
-                    .placeholder(R.drawable.poster_placeholder_bg)
-                    .error(R.drawable.poster_placeholder_bg)
-                    .centerCrop()
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(this)
-            } else {
-                Glide
-                    .with(context)
-                    .load(R.drawable.poster_placeholder_bg)
-                    .centerCrop()
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(this)
-            }
+            Glide
+                .with(context)
+                .load(backDrop ?: R.drawable.poster_placeholder_bg)
+                .placeholder(R.drawable.poster_placeholder_bg)
+                .error(R.drawable.poster_placeholder_bg)
+                .centerCrop()
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(this)
         }
 
     }

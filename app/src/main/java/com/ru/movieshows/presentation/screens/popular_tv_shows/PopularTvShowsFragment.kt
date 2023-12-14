@@ -19,7 +19,7 @@ import com.ru.movieshows.presentation.adapters.TryAgainAction
 import com.ru.movieshows.presentation.adapters.TvShowPaginationAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
-import com.ru.movieshows.presentation.utils.viewBinding
+import com.ru.movieshows.presentation.viewmodel.viewBinding
 import com.ru.movieshows.presentation.viewmodel.popular_tv_shows.PopularTvShowsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest

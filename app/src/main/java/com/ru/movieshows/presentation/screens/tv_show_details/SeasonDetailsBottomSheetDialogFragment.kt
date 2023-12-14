@@ -13,7 +13,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.SeasonModalSheetBinding
 import com.ru.movieshows.domain.entity.SeasonEntity
-import com.ru.movieshows.presentation.utils.viewBinding
+import com.ru.movieshows.presentation.viewmodel.viewBinding
 import com.ru.movieshows.presentation.viewmodel.tv_show_details.SeasonDetailsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat

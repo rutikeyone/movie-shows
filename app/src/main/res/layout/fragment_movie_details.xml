@@ -332,6 +332,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <include
+                    android:id="@+id/reviewItem"
                     app:layout_constraintTop_toBottomOf="@id/showAllReviews"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

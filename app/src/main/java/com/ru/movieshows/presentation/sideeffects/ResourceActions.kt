@@ -1,4 +1,4 @@
-package com.ru.movieshows.presentation.utils
+package com.ru.movieshows.presentation.sideeffects
 
 typealias ResourceAction<T> = (T) -> Unit
 

@@ -1,4 +1,4 @@
-package com.ru.movieshows.presentation.utils.extensions
+package com.ru.movieshows.presentation.utils.extension
 
 import androidx.recyclerview.widget.RecyclerView
 

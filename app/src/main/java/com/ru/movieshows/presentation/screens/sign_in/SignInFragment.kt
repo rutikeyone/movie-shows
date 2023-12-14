@@ -9,11 +9,6 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import com.ru.movieshows.databinding.FragmentSignInBinding
 import com.ru.movieshows.presentation.screens.BaseFragment
-import com.ru.movieshows.presentation.utils.extensions.hideKeyboard
-import com.ru.movieshows.presentation.utils.extensions.resources
-import com.ru.movieshows.presentation.utils.extensions.toasts
-import com.ru.movieshows.presentation.utils.extensions.validatePassword
-import com.ru.movieshows.presentation.utils.extensions.validateUsername
 import com.ru.movieshows.presentation.viewmodel.sign_in.SignInViewModel
 import com.ru.movieshows.presentation.viewmodel.sign_in.state.SignInState
 import com.ru.movieshows.presentation.viewmodel.viewModelCreator

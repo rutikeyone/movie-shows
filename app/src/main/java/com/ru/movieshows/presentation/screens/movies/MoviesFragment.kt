@@ -20,9 +20,8 @@ import com.ru.movieshows.presentation.adapters.MoviesAdapter
 import com.ru.movieshows.presentation.adapters.MoviesViewPagerAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
-import com.ru.movieshows.presentation.utils.extensions.clearDecorations
-import com.ru.movieshows.presentation.utils.extensions.navigator
-import com.ru.movieshows.presentation.utils.viewBinding
+import com.ru.movieshows.presentation.utils.extension.clearDecorations
+import com.ru.movieshows.presentation.viewmodel.viewBinding
 import com.ru.movieshows.presentation.viewmodel.movies.MoviesViewModel
 import com.ru.movieshows.presentation.viewmodel.movies.state.DiscoverMoviesState
 import com.ru.movieshows.presentation.viewmodel.movies.state.MoviesState

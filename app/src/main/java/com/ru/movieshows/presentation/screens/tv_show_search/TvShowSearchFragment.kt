@@ -29,7 +29,7 @@ import com.ru.movieshows.presentation.adapters.TryAgainAction
 import com.ru.movieshows.presentation.adapters.TvShowSearchPaginationAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
-import com.ru.movieshows.presentation.utils.viewBinding
+import com.ru.movieshows.presentation.viewmodel.viewBinding
 import com.ru.movieshows.presentation.viewmodel.tv_show_search.TvShowSearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest

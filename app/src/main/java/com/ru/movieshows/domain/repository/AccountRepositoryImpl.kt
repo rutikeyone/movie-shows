@@ -57,24 +57,24 @@ class AccountRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun observeState() {
-            currentSessionIdFlow.get().collect { sessionId ->
-                val isNotAuthenticated = _state.value is AuthenticatedState.NotAuthenticated
-                _state.emit(AuthenticatedState.InPending(isNotAuthenticated))
-                try {
-                    if (sessionId != null) {
-                        val result = getAccountBySessionId(sessionId)
-                        _state.emit(AuthenticatedState.Authenticated(result))
-                    } else {
-                        _state.emit(AuthenticatedState.NotAuthenticated())
-                    }
-                } catch (e: Exception) {
-                    val error = handleError(e, gson)
-                    _state.emit(AuthenticatedState.NotAuthenticated(error))
-                    appSettingsRepository.cleanCurrentSessionId()
+    override suspend fun getAuthenitationState() {
+        currentSessionIdFlow.get().collect { sessionId ->
+            val isNotAuthenticated = _state.value is AuthenticatedState.NotAuthenticated
+            _state.emit(AuthenticatedState.InPending(isNotAuthenticated))
+            try {
+                if (sessionId != null) {
+                    val result = getAccountBySessionId(sessionId)
+                    _state.emit(AuthenticatedState.Authenticated(result))
+                } else {
+                    _state.emit(AuthenticatedState.NotAuthenticated())
                 }
+            } catch (e: Exception) {
+                val error = handleError(e, gson)
+                _state.emit(AuthenticatedState.NotAuthenticated(error))
+                appSettingsRepository.cleanCurrentSessionId()
             }
         }
+    }
 
     override suspend fun getAccountBySessionId(sessionId: String): AccountEntity {
         val result = accountDto.getAccountBySessionId(sessionId)

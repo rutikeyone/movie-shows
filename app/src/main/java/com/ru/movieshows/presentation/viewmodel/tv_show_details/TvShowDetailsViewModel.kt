@@ -6,7 +6,7 @@ import com.ru.movieshows.data.repository.TvShowRepository
 import com.ru.movieshows.domain.entity.TvShowDetailsEntity
 import com.ru.movieshows.domain.entity.VideoEntity
 import com.ru.movieshows.domain.utils.AppFailure
-import com.ru.movieshows.presentation.utils.share
+import com.ru.movieshows.presentation.viewmodel.share
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory

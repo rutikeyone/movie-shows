@@ -9,7 +9,7 @@ import com.ru.movieshows.presentation.sideeffects.loader.LoaderOverlay
 import com.ru.movieshows.presentation.sideeffects.navigator.NavigatorWrapper
 import com.ru.movieshows.presentation.sideeffects.resources.Resources
 import com.ru.movieshows.presentation.sideeffects.toast.Toasts
-import com.ru.movieshows.presentation.utils.share
+import com.ru.movieshows.presentation.viewmodel.share
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -32,29 +32,34 @@ class ActivityScopeViewModel @Inject constructor(
     private fun handleState() = viewModelScope.launch {
 
         launch {
-           accountsRepository.observeState()
+           accountsRepository.getAuthenitationState()
         }
 
         launch {
-            accountsRepository.state.collect { state ->
-                when (state) {
-                    AuthenticatedState.Pure -> {}
-                    is AuthenticatedState.InPending -> {
-                        val isNotAuthenticated = state.isNotAuthenticated
-                        if (!isNotAuthenticated) setStartDestination()
-                        else showLoader()
-                    }
-                    is AuthenticatedState.Authenticated -> {
-                        navigator.authenticated()
-                        hideLoader()
-                    }
-                    is AuthenticatedState.NotAuthenticated -> {
-                        navigator.notAuthenticated()
-                        hideLoader()
-                        state.error?.let {
-                            val error = resources.getString(it.errorResource())
-                            toasts.toast(error)
-                        }
+            handleAuthenticationState()
+        }
+
+    }
+
+    private suspend fun handleAuthenticationState() {
+        accountsRepository.state.collect { state ->
+            when (state) {
+                AuthenticatedState.Pure -> {}
+                is AuthenticatedState.InPending -> {
+                    val isNotAuthenticated = state.isNotAuthenticated
+                    if (!isNotAuthenticated) setStartDestination()
+                    else showLoader()
+                }
+                is AuthenticatedState.Authenticated -> {
+                    navigator.authenticated()
+                    hideLoader()
+                }
+                is AuthenticatedState.NotAuthenticated -> {
+                    navigator.notAuthenticated()
+                    hideLoader()
+                    state.error?.let {
+                        val error = resources.getString(it.errorResource())
+                        toasts.toast(error)
                     }
                 }
             }

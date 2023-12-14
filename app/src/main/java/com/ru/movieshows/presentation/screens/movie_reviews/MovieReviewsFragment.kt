@@ -16,7 +16,7 @@ import com.ru.movieshows.presentation.adapters.LoadStateAdapter
 import com.ru.movieshows.presentation.adapters.ReviewsPaginationAdapter
 import com.ru.movieshows.presentation.adapters.TryAgainAction
 import com.ru.movieshows.presentation.screens.BaseFragment
-import com.ru.movieshows.presentation.utils.viewBinding
+import com.ru.movieshows.presentation.viewmodel.viewBinding
 import com.ru.movieshows.presentation.viewmodel.movie_reviews.MovieReviewsViewModel
 import com.ru.movieshows.presentation.viewmodel.viewModelCreator
 import dagger.hilt.android.AndroidEntryPoint

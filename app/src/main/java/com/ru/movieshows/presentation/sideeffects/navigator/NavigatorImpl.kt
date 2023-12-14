@@ -51,11 +51,13 @@ class NavigatorImpl @Inject constructor(
         }
 
     private val fragmentListener = object : FragmentManager.FragmentLifecycleCallbacks() {
-        override fun onFragmentStarted(fm: FragmentManager, fragment: Fragment) {
-            super.onFragmentStarted(fm, fragment)
+
+        override fun onFragmentResumed(fragmentManager: FragmentManager, fragment: Fragment) {
+            super.onFragmentResumed(fragmentManager, fragment)
             if(fragment is NavHostFragment) return
             onNavControllerActivated(fragment.findNavController())
         }
+
     }
 
     private fun nestedRoute(): Boolean {

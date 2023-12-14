@@ -1,4 +1,4 @@
-package com.ru.movieshows.presentation.utils.dispatchers
+package com.ru.movieshows.presentation.utils.dispatcher
 
 import android.os.Handler
 import android.os.Looper

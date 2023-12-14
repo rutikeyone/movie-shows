@@ -1,4 +1,4 @@
-package com.ru.movieshows.presentation.utils
+package com.ru.movieshows.presentation.viewmodel
 
 import android.view.View
 import androidx.fragment.app.Fragment

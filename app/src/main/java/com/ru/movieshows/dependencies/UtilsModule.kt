@@ -1,6 +1,6 @@
 package com.ru.movieshows.dependencies
 
-import com.ru.movieshows.presentation.utils.dispatchers.MainThreadDispatcher
+import com.ru.movieshows.presentation.utils.dispatcher.MainThreadDispatcher
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

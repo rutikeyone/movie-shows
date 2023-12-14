@@ -14,7 +14,7 @@ import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FragmentTabsBinding
 import com.ru.movieshows.dependencies.NavigatorModule
 import com.ru.movieshows.presentation.screens.BaseFragment
-import com.ru.movieshows.presentation.utils.viewBinding
+import com.ru.movieshows.presentation.viewmodel.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import javax.inject.Named

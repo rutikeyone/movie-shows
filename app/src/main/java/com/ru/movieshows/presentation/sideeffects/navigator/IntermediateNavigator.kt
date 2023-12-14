@@ -3,7 +3,7 @@ package com.ru.movieshows.presentation.sideeffects.navigator
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavDirections
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.ru.movieshows.presentation.utils.ResourceActions
+import com.ru.movieshows.presentation.sideeffects.ResourceActions
 import javax.inject.Inject
 
 class IntermediateNavigator @Inject constructor() : NavigatorWrapper {

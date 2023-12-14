@@ -11,7 +11,7 @@ import com.ru.movieshows.domain.entity.VideoEntity
 import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.screens.movie_details.MovieDetailsFragmentDirections
 import com.ru.movieshows.presentation.sideeffects.navigator.NavigatorWrapper
-import com.ru.movieshows.presentation.utils.share
+import com.ru.movieshows.presentation.viewmodel.share
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
 import com.ru.movieshows.presentation.viewmodel.movie_details.states.MovieDetailsState
 import dagger.assisted.Assisted
