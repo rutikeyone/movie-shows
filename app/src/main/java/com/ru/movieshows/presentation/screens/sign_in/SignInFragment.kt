@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.core.view.isVisible
 import com.ru.movieshows.databinding.FragmentSignInBinding
 import com.ru.movieshows.presentation.screens.BaseFragment
@@ -72,6 +73,16 @@ class SignInFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.observe(viewLifecycleOwner, ::handleUIWhenStateChanged)
         configureUI()
+    }
+
+    override fun onStart() {
+        setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        super.onStart()
+    }
+
+    override fun onPause() {
+        setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+        super.onPause()
     }
 
     override fun onDestroy() = with(binding) {

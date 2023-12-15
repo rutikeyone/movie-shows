@@ -3,8 +3,8 @@ package com.ru.movieshows.presentation.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import java.util.Locale
 
 open class BaseViewModel: ViewModel(){
@@ -19,7 +19,7 @@ open class BaseViewModel: ViewModel(){
 
 
     private val _languageTagFlow = MutableStateFlow(languageTag)
-    val languageTagFlow: Flow<String> get() = _languageTagFlow
+    val languageTagFlow: StateFlow<String> get() = _languageTagFlow
 
     fun updateLanguageTag() {
         _languageTagFlow.value = languageTag

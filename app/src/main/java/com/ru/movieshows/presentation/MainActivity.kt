@@ -14,6 +14,7 @@ import com.ru.movieshows.presentation.viewmodel.main.ActivityScopeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), FragmentHolder {
     private lateinit var binding: ActivityMainBinding

@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
@@ -21,17 +20,29 @@ import com.ru.movieshows.presentation.adapters.MoviesPaginationAdapter
 import com.ru.movieshows.presentation.adapters.TryAgainAction
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
-import com.ru.movieshows.presentation.viewmodel.viewBinding
 import com.ru.movieshows.presentation.viewmodel.upcoming_movies.UpcomingMoviesViewModel
+import com.ru.movieshows.presentation.viewmodel.viewBinding
+import com.ru.movieshows.presentation.viewmodel.viewModelCreator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 @Suppress("DEPRECATED_IDENTITY_EQUALS")
+@OptIn(ExperimentalCoroutinesApi::class)
 @AndroidEntryPoint
 class UpcomingMoviesFragment : BaseFragment() {
-    override val viewModel by viewModels<UpcomingMoviesViewModel>()
+
+    @Inject
+    lateinit var factory: UpcomingMoviesViewModel.Factory
+    override val viewModel by viewModelCreator {
+        factory.create(
+            navigator = navigator(),
+        )
+    }
+
     private val binding by viewBinding<FragmentUpcomingMoviesBinding>()
 
     private var adapter: MoviesPaginationAdapter? = null
@@ -54,7 +65,7 @@ class UpcomingMoviesFragment : BaseFragment() {
         adapter = MoviesPaginationAdapter(::navigateToMovieDetails)
         val gridLayoutManager = GridLayoutManager(requireContext(), 3)
         binding.rvMovies.layoutManager = gridLayoutManager
-        adapter?.addLoadStateListener { loadState -> renderUi(loadState) }
+        adapter?.addLoadStateListener { loadState -> configureUi(loadState) }
         val itemDecoration = ItemDecoration(metrics = resources.displayMetrics, paddingsInDips = 8F)
         binding.rvMovies.addItemDecoration(itemDecoration)
         binding.failurePart.retryButton.setOnClickListener { adapter?.retry() }
@@ -79,21 +90,23 @@ class UpcomingMoviesFragment : BaseFragment() {
         }
     }
 
-    private fun renderUi(loadState: CombinedLoadStates) {
+    private fun configureUi(loadState: CombinedLoadStates) {
         val isListEmpty = loadState.refresh is LoadState.NotLoading && adapter?.itemCount == 0
         val showReviews = !isListEmpty || loadState.source.refresh is LoadState.NotLoading
         binding.rvMovies.isVisible = showReviews
         binding.progressBarMovies.isVisible = loadState.source.refresh is LoadState.Loading
-        setupFailurePart(loadState)
+        configureFailurePart(loadState)
     }
 
-    private fun setupFailurePart(loadState: CombinedLoadStates) {
+    private fun configureFailurePart(loadState: CombinedLoadStates) {
         binding.failurePart.root.isVisible = loadState.source.refresh is LoadState.Error
         if(loadState.source.refresh !is LoadState.Error) return
         val errorState = loadState.refresh as LoadState.Error
         val error = errorState.error as? AppFailure
-        binding.failurePart.failureTextHeader.text = resources.getString((error?.headerResource() ?: R.string.error_header))
-        binding.failurePart.failureTextMessage.text = resources.getString(error?.errorResource() ?: R.string.an_error_occurred_during_the_operation)
+        with(binding.failurePart) {
+            failureTextHeader.text = resources.getString((error?.headerResource() ?: R.string.error_header))
+            failureTextMessage.text = resources.getString(error?.errorResource() ?: R.string.an_error_occurred_during_the_operation)
+        }
     }
 
     private fun navigateToMovieDetails(movie: MovieEntity) = viewModel.navigateToMovieDetails(movie)

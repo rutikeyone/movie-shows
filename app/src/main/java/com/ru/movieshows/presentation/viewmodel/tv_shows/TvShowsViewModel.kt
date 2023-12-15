@@ -1,5 +1,6 @@
 package com.ru.movieshows.presentation.viewmodel.tv_shows
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ru.movieshows.data.repository.TvShowRepository
@@ -7,8 +8,8 @@ import com.ru.movieshows.domain.entity.TvShowsEntity
 import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.screens.tv_shows.TvShowsFragmentDirections
 import com.ru.movieshows.presentation.sideeffects.navigator.NavigatorWrapper
-import com.ru.movieshows.presentation.viewmodel.share
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
+import com.ru.movieshows.presentation.viewmodel.share
 import com.ru.movieshows.presentation.viewmodel.tv_shows.state.TvShowsState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -29,6 +30,7 @@ class TvShowsViewModel @AssistedInject constructor(
 
     fun fetchTvShowsData() = viewModelScope.launch {
         languageTagFlow.collect {
+            Log.e("LANGUAGE_CHANGED", it)
             _state.value = TvShowsState.InPending
             try {
                 val trendingTvShows = fetchTrendingTvShows(it)
@@ -86,6 +88,10 @@ class TvShowsViewModel @AssistedInject constructor(
     fun navigateToPopularTvShows() {
         val action = TvShowsFragmentDirections.actionTvsFragmentToPopularTvShowsFragment()
         navigator.navigate(action)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
     }
 
     @AssistedFactory

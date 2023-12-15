@@ -62,13 +62,17 @@ class TvShowsFragment : BaseFragment() {
         viewModel.state.observe(viewLifecycleOwner, ::handleUI)
     }
 
-    override fun onStart() = navigator().targetNavigator {
-         it.getToolbar()?.addMenuProvider(menuProvider, viewLifecycleOwner)
+    override fun onStart() {
+        navigator().targetNavigator {
+            it.getToolbar()?.addMenuProvider(menuProvider, viewLifecycleOwner)
+        }
         super.onStart()
     }
 
-    override fun onStop() = navigator().targetNavigator {
-        it.getToolbar()?.removeMenuProvider(menuProvider)
+    override fun onStop() {
+        navigator().targetNavigator {
+            it.getToolbar()?.removeMenuProvider(menuProvider)
+        }
         super.onStop()
     }
 

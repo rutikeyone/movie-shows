@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
@@ -20,15 +19,26 @@ import com.ru.movieshows.presentation.adapters.MoviesPaginationAdapter
 import com.ru.movieshows.presentation.adapters.TryAgainAction
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
-import com.ru.movieshows.presentation.viewmodel.viewBinding
 import com.ru.movieshows.presentation.viewmodel.top_rated_movies.TopRatedMoviesViewModel
+import com.ru.movieshows.presentation.viewmodel.viewBinding
+import com.ru.movieshows.presentation.viewmodel.viewModelCreator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@Suppress("DEPRECATED_IDENTITY_EQUALS")
 @AndroidEntryPoint
 class TopRatedMoviesFragment : BaseFragment() {
-    override val viewModel by viewModels<TopRatedMoviesViewModel>()
+
+    @Inject
+    lateinit var factory: TopRatedMoviesViewModel.Factory
+    override val viewModel by viewModelCreator {
+        factory.create(
+            navigator = navigator()
+        )
+    }
+
     private val binding by viewBinding<FragmentTopRatedMoviesBinding>()
 
     private val adapter: MoviesPaginationAdapter = MoviesPaginationAdapter(::navigateToMovieDetails)
@@ -54,7 +64,7 @@ class TopRatedMoviesFragment : BaseFragment() {
     }
 
     private fun initView() = with(binding) {
-    adapter.addLoadStateListener { loadState -> renderUI(loadState) }
+    adapter.addLoadStateListener { loadState -> configureUI(loadState) }
     val itemDecoration = ItemDecoration(8F, resources.displayMetrics)
     val tryAgainAction: TryAgainAction = { adapter.retry() }
     val footerAdapter = LoadStateAdapter(tryAgainAction, requireContext())
@@ -66,28 +76,31 @@ class TopRatedMoviesFragment : BaseFragment() {
     rvMovies.itemAnimator = null
     gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
         override fun getSpanSize(position: Int): Int {
-            return if (adapter!!.getItemViewType(position) === MoviesAdapter.LOADING_ITEM) 1 else 3
+                val isLoadingItem = adapter.getItemViewType(position) === MoviesAdapter.LOADING_ITEM
+                return if (isLoadingItem) 1 else 3
+            }
         }
     }
-}
 
-private fun renderUI(loadState: CombinedLoadStates) = with(binding) {
-    val isListEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
-    val showList = !isListEmpty || loadState.source.refresh is LoadState.NotLoading
-    binding.rvMovies.isVisible = showList
-    binding.progressBarMovies.isVisible = loadState.source.refresh is LoadState.Loading
-    setupFailurePart(loadState)
-}
+    private fun configureUI(loadState: CombinedLoadStates) = with(binding) {
+        val isListEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
+        val showList = !isListEmpty || loadState.source.refresh is LoadState.NotLoading
+        binding.rvMovies.isVisible = showList
+        binding.progressBarMovies.isVisible = loadState.source.refresh is LoadState.Loading
+        configureFailurePart(loadState)
+    }
 
-private fun setupFailurePart(loadState: CombinedLoadStates) {
-    binding.failurePart.root.isVisible = loadState.source.refresh is LoadState.Error
-    if(loadState.source.refresh !is LoadState.Error) return
-    val errorState = loadState.refresh as LoadState.Error
-    val error = errorState.error as? AppFailure
-    binding.failurePart.failureTextHeader.text = resources.getString((error?.headerResource() ?: R.string.error_header))
-    binding.failurePart.failureTextMessage.text = resources.getString(error?.errorResource() ?: R.string.an_error_occurred_during_the_operation)
-}
+    private fun configureFailurePart(loadState: CombinedLoadStates) {
+        binding.failurePart.root.isVisible = loadState.source.refresh is LoadState.Error
+        if(loadState.source.refresh !is LoadState.Error) return
+        val errorState = loadState.refresh as LoadState.Error
+        val error = errorState.error as? AppFailure
+        with(binding.failurePart) {
+            failureTextHeader.text = resources.getString((error?.headerResource() ?: R.string.error_header))
+            failureTextMessage.text = resources.getString(error?.errorResource() ?: R.string.an_error_occurred_during_the_operation)
+        }
+    }
 
-private fun navigateToMovieDetails(movie: MovieEntity) = viewModel.navigateToMovieDetails(movie)
+    private fun navigateToMovieDetails(movie: MovieEntity) = viewModel.navigateToMovieDetails(movie)
 
 }

@@ -10,10 +10,10 @@ import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.screens.movies.MoviesFragmentDirections
 import com.ru.movieshows.presentation.sideeffects.navigator.NavigatorWrapper
-import com.ru.movieshows.presentation.viewmodel.share
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
 import com.ru.movieshows.presentation.viewmodel.movies.state.DiscoverMoviesState
 import com.ru.movieshows.presentation.viewmodel.movies.state.MoviesState
+import com.ru.movieshows.presentation.viewmodel.share
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -37,7 +37,6 @@ class MoviesViewModel @AssistedInject constructor(
     init {
         fetchMoviesData()
     }
-
 
     fun fetchMoviesData() = viewModelScope.launch {
         languageTagFlow.collect {
@@ -88,7 +87,6 @@ class MoviesViewModel @AssistedInject constructor(
         } catch (e: AppFailure) {
             _discoverMoviesState.value = DiscoverMoviesState.Failure(e.errorResource())
         }
-
     }
 
     private suspend fun fetchDiscoverMoviesByGenre(genre: GenreEntity): ArrayList<MovieEntity> {

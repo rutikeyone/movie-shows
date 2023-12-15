@@ -5,17 +5,20 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.ru.movieshows.data.repository.MoviesRepository
 import com.ru.movieshows.domain.entity.MovieEntity
+import com.ru.movieshows.presentation.screens.uncoming_movies.UpcomingMoviesFragmentDirections
+import com.ru.movieshows.presentation.sideeffects.navigator.NavigatorWrapper
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
-import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
-@HiltViewModel
-class UpcomingMoviesViewModel @Inject constructor(
-    moviesRepository: MoviesRepository,
+class UpcomingMoviesViewModel @AssistedInject constructor(
+    @Assisted private val navigator: NavigatorWrapper,
+    private val moviesRepository: MoviesRepository,
 ) : BaseViewModel() {
 
     val upcomingMovies: Flow<PagingData<MovieEntity>> = languageTagFlow.flatMapLatest {
@@ -23,9 +26,14 @@ class UpcomingMoviesViewModel @Inject constructor(
     }.cachedIn(viewModelScope)
 
     fun navigateToMovieDetails(movie: MovieEntity){
-        //TODO
-//        val id = movie.id ?: return
-//        val action = NavigationIntent.toMovieDetails(id)
-//        navigationEvent.publishEvent(action)
+        val id = movie.id ?: return
+        val action = UpcomingMoviesFragmentDirections.actionUpcomingMoviesFragmentToMovieDetailsFragment(id)
+        navigator.navigate(action)
     }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(navigator: NavigatorWrapper): UpcomingMoviesViewModel
+    }
+
 }

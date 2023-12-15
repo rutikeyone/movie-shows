@@ -9,10 +9,8 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -29,15 +27,14 @@ import com.ru.movieshows.presentation.adapters.MoviesSearchPaginationAdapter
 import com.ru.movieshows.presentation.adapters.TryAgainAction
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
-import com.ru.movieshows.presentation.viewmodel.viewBinding
 import com.ru.movieshows.presentation.viewmodel.movie_search.MovieSearchViewModel
+import com.ru.movieshows.presentation.viewmodel.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MovieSearchFragment : BaseFragment() {
-    private val toolbar: Toolbar? = null
     private val binding by viewBinding<FragmentMovieSearchBinding>()
     private val adapter: MoviesSearchPaginationAdapter = MoviesSearchPaginationAdapter(::navigateToMovieDetails)
     private var searchView : SearchView? = null
@@ -95,23 +92,15 @@ class MovieSearchFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initView()
         collectUiState()
-        toolbar?.addMenuProvider(menuProvider)
+        navigator().targetNavigator {
+            it.getToolbar()?.addMenuProvider(menuProvider)
+        }
         searchItem?.expandActionView()
         val query = viewModel.queryValue
         if(query != null) {
             searchView?.setQuery(query, false)
         }
         super.onViewCreated(view, savedInstanceState)
-    }
-
-    override fun onStart() {
-        setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
-        super.onStart()
-    }
-
-    override fun onPause() {
-        setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-        super.onPause()
     }
 
     private fun collectUiState() {
@@ -158,7 +147,9 @@ class MovieSearchFragment : BaseFragment() {
 
     override fun onDestroyView() {
         searchView?.setOnQueryTextListener(null)
-        toolbar?.removeMenuProvider(menuProvider)
+        navigator().targetNavigator {
+            it.getToolbar()?.removeMenuProvider(menuProvider)
+        }
         searchItem = null
         searchView = null
         super.onDestroyView()

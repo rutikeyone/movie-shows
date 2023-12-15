@@ -9,7 +9,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuProvider
@@ -94,23 +93,15 @@ class TvShowSearchFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initView()
         collectUiState()
-        navigator().targetNavigator.resource?.getToolbar()?.addMenuProvider(menuProvider)
+        navigator().targetNavigator {
+            it.getToolbar()?.addMenuProvider(menuProvider)
+        }
         searchItem?.expandActionView()
         val query = viewModel.queryValue
         if(query != null) {
             searchView?.setQuery(query, false)
         }
         super.onViewCreated(view, savedInstanceState)
-    }
-
-    override fun onStart() {
-        setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
-        super.onStart()
-    }
-
-    override fun onPause() {
-        setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-        super.onPause()
     }
 
     private fun collectUiState() {
@@ -123,7 +114,9 @@ class TvShowSearchFragment : BaseFragment() {
 
     override fun onDestroyView() {
         searchView?.setOnQueryTextListener(null)
-        navigator().targetNavigator.resource?.getToolbar()?.removeMenuProvider(menuProvider)
+        navigator().targetNavigator {
+            it.getToolbar()?.removeMenuProvider(menuProvider)
+        }
         searchItem = null
         searchView = null
         super.onDestroyView()

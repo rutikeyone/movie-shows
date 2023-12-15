@@ -76,10 +76,13 @@ class MoviesFragment : BaseFragment() {
         viewModel.discoverMoviesState.observe(viewLifecycleOwner, ::handleDiscoverMoviesUI)
     }
 
-    override fun onStart() = navigator().targetNavigator {
-        it.getToolbar()?.addMenuProvider(menuProvider, viewLifecycleOwner)
+    override fun onStart(){
+        navigator().targetNavigator {
+            it.getToolbar()?.addMenuProvider(menuProvider, viewLifecycleOwner)
+        }
         super.onStart()
     }
+
 
     private fun handleDiscoverMoviesUI(discoverMoviesState: DiscoverMoviesState) {
         binding.discoverMoviesContainer.children.forEach { it.visibility = View.GONE }
@@ -111,9 +114,11 @@ class MoviesFragment : BaseFragment() {
         binding.discoverMoviesInPendingContainer.isVisible = true
     }
 
-    override fun onStop() = navigator().targetNavigator {
+    override fun onStop(){
         binding.genresTabLayout.removeOnTabSelectedListener(onTabSelectedListener)
-        it.getToolbar()?.removeMenuProvider(menuProvider)
+        navigator().targetNavigator {
+            it.getToolbar()?.removeMenuProvider(menuProvider)
+        }
         super.onStop()
     }
 
