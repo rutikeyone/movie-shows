@@ -21,10 +21,10 @@ import com.ru.movieshows.presentation.adapters.MoviesViewPagerAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
 import com.ru.movieshows.presentation.utils.extension.clearDecorations
-import com.ru.movieshows.presentation.viewmodel.viewBinding
 import com.ru.movieshows.presentation.viewmodel.movies.MoviesViewModel
 import com.ru.movieshows.presentation.viewmodel.movies.state.DiscoverMoviesState
 import com.ru.movieshows.presentation.viewmodel.movies.state.MoviesState
+import com.ru.movieshows.presentation.viewmodel.viewBinding
 import com.ru.movieshows.presentation.viewmodel.viewModelCreator
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
@@ -76,8 +76,8 @@ class MoviesFragment : BaseFragment() {
         viewModel.discoverMoviesState.observe(viewLifecycleOwner, ::handleDiscoverMoviesUI)
     }
 
-    override fun onStart() {
-        navigator().getToolbar()?.addMenuProvider(menuProvider, viewLifecycleOwner)
+    override fun onStart() = navigator().targetNavigator {
+        it.getToolbar()?.addMenuProvider(menuProvider, viewLifecycleOwner)
         super.onStart()
     }
 
@@ -111,9 +111,9 @@ class MoviesFragment : BaseFragment() {
         binding.discoverMoviesInPendingContainer.isVisible = true
     }
 
-    override fun onStop() {
+    override fun onStop() = navigator().targetNavigator {
         binding.genresTabLayout.removeOnTabSelectedListener(onTabSelectedListener)
-        navigator().getToolbar()?.removeMenuProvider(menuProvider)
+        it.getToolbar()?.removeMenuProvider(menuProvider)
         super.onStop()
     }
 

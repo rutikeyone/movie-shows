@@ -32,35 +32,36 @@ class ActivityScopeViewModel @Inject constructor(
     private fun handleState() = viewModelScope.launch {
 
         launch {
-           accountsRepository.getAuthenitationState()
+           accountsRepository.listenAuthenitationState()
         }
 
         launch {
-            handleAuthenticationState()
+            accountsRepository.state.collect {
+                handleAuthenticationState(it)
+            }
         }
 
     }
 
-    private suspend fun handleAuthenticationState() {
-        accountsRepository.state.collect { state ->
-            when (state) {
-                AuthenticatedState.Pure -> {}
-                is AuthenticatedState.InPending -> {
-                    val isNotAuthenticated = state.isNotAuthenticated
-                    if (!isNotAuthenticated) setStartDestination()
-                    else showLoader()
-                }
-                is AuthenticatedState.Authenticated -> {
-                    navigator.authenticated()
-                    hideLoader()
-                }
-                is AuthenticatedState.NotAuthenticated -> {
-                    navigator.notAuthenticated()
-                    hideLoader()
-                    state.error?.let {
-                        val error = resources.getString(it.errorResource())
-                        toasts.toast(error)
-                    }
+    private fun handleAuthenticationState(state: AuthenticatedState) {
+        when (state) {
+            AuthenticatedState.Pure -> {}
+            is AuthenticatedState.InPending -> {
+                val isNotAuthenticated = state.isNotAuthenticated
+                if (!isNotAuthenticated) setStartDestination()
+                else showLoader()
+            }
+            is AuthenticatedState.Authenticated -> {
+                navigator.authenticated()
+                hideLoader()
+            }
+            is AuthenticatedState.NotAuthenticated -> {
+                navigator.notAuthenticated()
+                hideLoader()
+                state.error?.let {
+                    val errorResource = it.errorResource()
+                    val error = resources.getString(errorResource)
+                    toasts.toast(error)
                 }
             }
         }

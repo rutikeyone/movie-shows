@@ -28,7 +28,7 @@ import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
 import com.ru.movieshows.presentation.utils.extension.clearDecorations
 import com.ru.movieshows.presentation.viewmodel.movie_details.MovieDetailsViewModel
-import com.ru.movieshows.presentation.viewmodel.movie_details.states.MovieDetailsState
+import com.ru.movieshows.presentation.viewmodel.movie_details.state.MovieDetailsState
 import com.ru.movieshows.presentation.viewmodel.viewBinding
 import com.ru.movieshows.presentation.viewmodel.viewModelCreator
 import dagger.hilt.android.AndroidEntryPoint
@@ -63,8 +63,8 @@ class MovieDetailsFragment : BaseFragment() {
         viewModel.titleState.observe(viewLifecycleOwner, ::handleTitle)
     }
 
-    private fun handleTitle(value: String?) {
-        navigator().getToolbar()?.title = value
+    private fun handleTitle(value: String?) = navigator().targetNavigator {
+        it.getToolbar()?.title = value
     }
 
     private fun handleUI(state: MovieDetailsState) = with(binding) {

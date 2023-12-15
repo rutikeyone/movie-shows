@@ -4,41 +4,42 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ru.movieshows.data.repository.TvShowRepository
 import com.ru.movieshows.domain.entity.SeasonEntity
-import com.ru.movieshows.presentation.viewmodel.share
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.ru.movieshows.presentation.viewmodel.share
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class SeasonDetailsViewModel @Inject constructor(
-    val tvShowRepository: TvShowRepository,
+
+class SeasonDetailsViewModel @AssistedInject constructor(
+    @Assisted private val arguments: Pair<String, String>,
+    @Assisted private val initialSeason: SeasonEntity,
+    private val tvShowRepository: TvShowRepository,
 ) : BaseViewModel() {
-    private var seasonNumber: String? = null
-    private var seriesId: String? = null
 
     private var _season = MutableLiveData<SeasonEntity?>(null)
     val season = _season.share()
 
-   private fun getSeason(seriesId: String?, seasonNumber: String?) = viewModelScope.launch {
+    init {
+        _season.value = initialSeason
+    }
+
+   fun updateData() = viewModelScope.launch {
        val language = languageTag
-       val seriesId = seriesId ?: return@launch
-       val seasonNumber = seasonNumber ?: return@launch
-       val season = tvShowRepository.getSeason(language, seriesId, seasonNumber)
-       val result = season.getOrNull() ?: return@launch
-       if(_season.value == result) return@launch
-       _season.value = result
+       val season = tvShowRepository.getSeason(language, arguments.second, arguments.first)
+       val result = season.getOrNull()
+       if(result != null && _season.value != result) {
+           _season.value = result
+       }
    }
 
-    fun updateData(
-        season: SeasonEntity?,
-        seasonNumber: String?,
-        seriesId: String?,
-    ) {
-        this.seasonNumber = seasonNumber
-        this.seriesId = seriesId
-        _season.value = season
-        getSeason(seriesId, seasonNumber)
+    @AssistedFactory
+    interface Factory {
+        fun create(
+            arguments: Pair<String, String>,
+            initialSeason: SeasonEntity,
+        ): SeasonDetailsViewModel
     }
 
 }

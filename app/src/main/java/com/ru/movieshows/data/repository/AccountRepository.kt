@@ -17,7 +17,7 @@ interface AccountRepository : Repository {
 
     suspend fun logout()
 
-    suspend fun getAuthenitationState()
+    suspend fun listenAuthenitationState()
 
     suspend fun getAccountBySessionId(sessionId: String):  AccountEntity
 }

@@ -29,7 +29,7 @@ class AccountRepositoryImpl @Inject constructor(
     override val state: StateFlow<AuthenticatedState> = _state.asStateFlow()
 
     override fun isSignedIn(): Boolean {
-        return appSettingsRepository.getCurrentSessionId() != null
+        return state.value is AuthenticatedState.Authenticated
     }
 
     override suspend fun signIn(email: String, password: String): Either<AppFailure, String> {
@@ -57,7 +57,7 @@ class AccountRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun getAuthenitationState() {
+    override suspend fun listenAuthenitationState() {
         currentSessionIdFlow.get().collect { sessionId ->
             val isNotAuthenticated = _state.value is AuthenticatedState.NotAuthenticated
             _state.emit(AuthenticatedState.InPending(isNotAuthenticated))

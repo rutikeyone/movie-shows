@@ -19,9 +19,9 @@ import com.ru.movieshows.presentation.adapters.TvShowsAdapter
 import com.ru.movieshows.presentation.adapters.TvShowsViewPagerAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
-import com.ru.movieshows.presentation.viewmodel.viewBinding
 import com.ru.movieshows.presentation.viewmodel.tv_shows.TvShowsViewModel
 import com.ru.movieshows.presentation.viewmodel.tv_shows.state.TvShowsState
+import com.ru.movieshows.presentation.viewmodel.viewBinding
 import com.ru.movieshows.presentation.viewmodel.viewModelCreator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -62,13 +62,13 @@ class TvShowsFragment : BaseFragment() {
         viewModel.state.observe(viewLifecycleOwner, ::handleUI)
     }
 
-    override fun onStart() {
-        navigator().getToolbar()?.addMenuProvider(menuProvider, viewLifecycleOwner)
+    override fun onStart() = navigator().targetNavigator {
+         it.getToolbar()?.addMenuProvider(menuProvider, viewLifecycleOwner)
         super.onStart()
     }
 
-    override fun onStop() {
-        navigator().getToolbar()?.removeMenuProvider(menuProvider)
+    override fun onStop() = navigator().targetNavigator {
+        it.getToolbar()?.removeMenuProvider(menuProvider)
         super.onStop()
     }
 

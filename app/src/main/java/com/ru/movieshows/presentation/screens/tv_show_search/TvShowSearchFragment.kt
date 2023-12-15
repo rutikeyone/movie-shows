@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -29,15 +28,14 @@ import com.ru.movieshows.presentation.adapters.TryAgainAction
 import com.ru.movieshows.presentation.adapters.TvShowSearchPaginationAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
-import com.ru.movieshows.presentation.viewmodel.viewBinding
 import com.ru.movieshows.presentation.viewmodel.tv_show_search.TvShowSearchViewModel
+import com.ru.movieshows.presentation.viewmodel.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class TvShowSearchFragment : BaseFragment() {
-    private val toolbar: Toolbar? = null
     private val binding by viewBinding<FragmentTvShowSearchBinding>()
     private val adapter: TvShowSearchPaginationAdapter = TvShowSearchPaginationAdapter(::navigateToTvShowDetails);
     private var searchView: SearchView? = null
@@ -96,7 +94,7 @@ class TvShowSearchFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initView()
         collectUiState()
-        toolbar?.addMenuProvider(menuProvider)
+        navigator().targetNavigator.resource?.getToolbar()?.addMenuProvider(menuProvider)
         searchItem?.expandActionView()
         val query = viewModel.queryValue
         if(query != null) {
@@ -125,7 +123,7 @@ class TvShowSearchFragment : BaseFragment() {
 
     override fun onDestroyView() {
         searchView?.setOnQueryTextListener(null)
-        toolbar?.removeMenuProvider(menuProvider)
+        navigator().targetNavigator.resource?.getToolbar()?.removeMenuProvider(menuProvider)
         searchItem = null
         searchView = null
         super.onDestroyView()

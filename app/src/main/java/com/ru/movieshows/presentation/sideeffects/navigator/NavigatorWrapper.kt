@@ -1,10 +1,12 @@
 package com.ru.movieshows.presentation.sideeffects.navigator
 
-import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavDirections
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.ru.movieshows.presentation.sideeffects.ResourceActions
 
 interface NavigatorWrapper {
+
+    val targetNavigator: ResourceActions<Navigator>
 
     fun authenticated()
 
@@ -15,8 +17,6 @@ interface NavigatorWrapper {
     fun goBack()
 
     fun setStartDestination()
-
-    fun getToolbar(): Toolbar?
 
     fun getBottomNavigationView(): BottomNavigationView?
 
