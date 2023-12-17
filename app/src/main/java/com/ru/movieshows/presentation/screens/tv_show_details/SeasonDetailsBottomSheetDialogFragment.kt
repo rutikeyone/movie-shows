@@ -50,16 +50,16 @@ class SeasonDetailsBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     private fun handleUI(season: SeasonEntity?) {
         if(season == null) return
-        setupImage(season)
-        setupHeader(season)
-        setupOverview(season)
-        setupAirDate(season)
-        setupCountEpisodes(season)
-        setupRating(season)
+        configureImage(season)
+        configureHeader(season)
+        configureOverview(season)
+        configureAirDate(season)
+        configureCountEpisodes(season)
+        configureRating(season)
     }
 
     @SuppressLint("SetTextI18n")
-    private fun setupRating(season: SeasonEntity) = with(binding) {
+    private fun configureRating(season: SeasonEntity) = with(binding) {
         val rating = season.rating
         ratingBar.isEnabled = false;
         if (rating != null && rating > 0) {
@@ -71,7 +71,7 @@ class SeasonDetailsBottomSheetDialogFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun setupCountEpisodes(season: SeasonEntity) = with(binding) {
+    private fun configureCountEpisodes(season: SeasonEntity) = with(binding) {
         val countEpisodes = season.episodeCount
         if(countEpisodes != null) {
             countEpisodesValue.text = countEpisodes.toString()
@@ -82,7 +82,7 @@ class SeasonDetailsBottomSheetDialogFragment : BottomSheetDialogFragment() {
     }
 
     @SuppressLint("SimpleDateFormat")
-    private fun setupAirDate(season: SeasonEntity) = with(binding){
+    private fun configureAirDate(season: SeasonEntity) = with(binding){
         val airDate = season.airDate
         val simpleDateFormatter = SimpleDateFormat("d MMMM yyyy")
         val date = airDate?.let { simpleDateFormatter.format(it) }
@@ -94,7 +94,7 @@ class SeasonDetailsBottomSheetDialogFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun setupOverview(season: SeasonEntity) = with(binding) {
+    private fun configureOverview(season: SeasonEntity) = with(binding) {
         val overview = season.overview
         if(!overview.isNullOrEmpty()) {
             overviewText.text = overview
@@ -104,23 +104,33 @@ class SeasonDetailsBottomSheetDialogFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun setupHeader(season: SeasonEntity) = with(binding) {
+    private fun configureHeader(season: SeasonEntity) = with(binding) {
         val name = season.name
         if(!name.isNullOrEmpty()) {
             seasonName.text = name
+            seasonName.isVisible = true
+        } else {
+            seasonName.isVisible = false
         }
     }
 
-    private fun setupImage(season: SeasonEntity) = with(binding) {
+    private fun configureImage(season: SeasonEntity) = with(binding.poster) {
         val photo = season.poster
         if(!photo.isNullOrEmpty()) {
             Glide
-                .with(binding.root)
+                .with(this)
                 .load(photo)
                 .centerCrop()
                 .placeholder(R.drawable.poster_placeholder_bg)
+                .error(R.drawable.poster_placeholder_bg)
                 .transition(DrawableTransitionOptions.withCrossFade())
-                .into(poster)
+                .into(this)
+        } else {
+            Glide
+                .with(context)
+                .load(R.drawable.poster_placeholder_bg)
+                .centerCrop()
+                .into(this)
         }
     }
 

@@ -19,7 +19,7 @@
         tools:visibility="visible" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvReviews"
+        android:id="@+id/reviewsRecyclerView"
         app:layout_constraintBottom_toTopOf="@id/progressBarMovies"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

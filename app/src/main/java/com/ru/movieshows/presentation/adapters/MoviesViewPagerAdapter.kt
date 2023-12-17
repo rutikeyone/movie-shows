@@ -77,7 +77,6 @@ class MoviesViewPagerAdapter(
                     .with(context)
                     .load(R.drawable.poster_placeholder_bg)
                     .centerCrop()
-                    .transition(DrawableTransitionOptions.withCrossFade())
                     .into(this)
             }
         }

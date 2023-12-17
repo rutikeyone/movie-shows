@@ -1,4 +1,4 @@
-package com.ru.movieshows.presentation.screens.movie_reviews
+package com.ru.movieshows.presentation.adapters
 
 import android.graphics.Rect
 import android.util.DisplayMetrics

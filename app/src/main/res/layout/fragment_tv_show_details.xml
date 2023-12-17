@@ -259,7 +259,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/videosRecyclerView"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_240"
+                        android:layout_height="@dimen/dp_230"
                         android:layout_marginStart="@dimen/dp_8"
                         android:layout_marginTop="@dimen/dp_8"
                         android:layout_marginEnd="@dimen/dp_8"
@@ -285,7 +285,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/creators"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/dp_230"
                         android:layout_marginStart="@dimen/dp_8"
                         android:layout_marginEnd="@dimen/dp_8"
                         android:orientation="horizontal"
@@ -310,7 +310,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/seasons"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/dp_190"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         android:layout_marginStart="@dimen/dp_8"
                         android:layout_marginEnd="@dimen/dp_8"

@@ -1,6 +1,5 @@
 package com.ru.movieshows.presentation.viewmodel.tv_shows
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ru.movieshows.data.repository.TvShowRepository
@@ -30,7 +29,6 @@ class TvShowsViewModel @AssistedInject constructor(
 
     fun fetchTvShowsData() = viewModelScope.launch {
         languageTagFlow.collect {
-            Log.e("LANGUAGE_CHANGED", it)
             _state.value = TvShowsState.InPending
             try {
                 val trendingTvShows = fetchTrendingTvShows(it)

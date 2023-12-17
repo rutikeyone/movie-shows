@@ -6,8 +6,11 @@ import com.ru.movieshows.data.repository.TvShowRepository
 import com.ru.movieshows.domain.entity.TvShowDetailsEntity
 import com.ru.movieshows.domain.entity.VideoEntity
 import com.ru.movieshows.domain.utils.AppFailure
+import com.ru.movieshows.presentation.screens.tv_show_details.TvShowDetailsFragmentDirections
+import com.ru.movieshows.presentation.sideeffects.navigator.NavigatorWrapper
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
 import com.ru.movieshows.presentation.viewmodel.share
+import com.ru.movieshows.presentation.viewmodel.tv_show_details.state.TvShowDetailsState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -15,6 +18,7 @@ import kotlinx.coroutines.launch
 
 class TvShowDetailsViewModel @AssistedInject constructor(
     @Assisted private val tvShowId: String,
+    @Assisted private val navigator: NavigatorWrapper,
     private val tvShowRepository: TvShowRepository,
 ) : BaseViewModel() {
     private val _state = MutableLiveData<TvShowDetailsState>(TvShowDetailsState.Pure)
@@ -54,17 +58,12 @@ class TvShowDetailsViewModel @AssistedInject constructor(
     }
 
     fun navigateToVideo(video: VideoEntity) {
-        //TODO
-//        val action = NavigationIntent.toVideo(video)
-//        navigationEvent.publishEvent(action)
-    }
-
-    override fun onCleared() {
-        super.onCleared()
+        val action = TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToVideoActivity3(video)
+        navigator.navigate(action)
     }
 
     @AssistedFactory
     interface Factory {
-        fun create(movieId: String): TvShowDetailsViewModel
+        fun create(movieId: String, navigator: NavigatorWrapper): TvShowDetailsViewModel
     }
 }

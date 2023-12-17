@@ -15,10 +15,10 @@ import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FailurePartBinding
 import com.ru.movieshows.databinding.FragmentTvShowsBinding
 import com.ru.movieshows.domain.entity.TvShowsEntity
+import com.ru.movieshows.presentation.adapters.ItemDecoration
 import com.ru.movieshows.presentation.adapters.TvShowsAdapter
 import com.ru.movieshows.presentation.adapters.TvShowsViewPagerAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
-import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
 import com.ru.movieshows.presentation.viewmodel.tv_shows.TvShowsViewModel
 import com.ru.movieshows.presentation.viewmodel.tv_shows.state.TvShowsState
 import com.ru.movieshows.presentation.viewmodel.viewBinding

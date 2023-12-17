@@ -14,12 +14,12 @@ import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FragmentUpcomingMoviesBinding
 import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.utils.AppFailure
+import com.ru.movieshows.presentation.adapters.ItemDecoration
 import com.ru.movieshows.presentation.adapters.LoadStateAdapter
 import com.ru.movieshows.presentation.adapters.MoviesAdapter
 import com.ru.movieshows.presentation.adapters.MoviesPaginationAdapter
 import com.ru.movieshows.presentation.adapters.TryAgainAction
 import com.ru.movieshows.presentation.screens.BaseFragment
-import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
 import com.ru.movieshows.presentation.viewmodel.upcoming_movies.UpcomingMoviesViewModel
 import com.ru.movieshows.presentation.viewmodel.viewBinding
 import com.ru.movieshows.presentation.viewmodel.viewModelCreator
@@ -60,13 +60,13 @@ class UpcomingMoviesFragment : BaseFragment() {
     }
 
     private fun initView() {
+        val itemDecoration = ItemDecoration(metrics = resources.displayMetrics, paddingsInDips = 8F)
         val tryAgainAction: TryAgainAction = { adapter?.retry() }
         val footerAdapter = LoadStateAdapter(tryAgainAction, requireContext())
-        adapter = MoviesPaginationAdapter(::navigateToMovieDetails)
         val gridLayoutManager = GridLayoutManager(requireContext(), 3)
+        adapter = MoviesPaginationAdapter(::navigateToMovieDetails)
         binding.rvMovies.layoutManager = gridLayoutManager
         adapter?.addLoadStateListener { loadState -> configureUi(loadState) }
-        val itemDecoration = ItemDecoration(metrics = resources.displayMetrics, paddingsInDips = 8F)
         binding.rvMovies.addItemDecoration(itemDecoration)
         binding.failurePart.retryButton.setOnClickListener { adapter?.retry() }
         binding.rvMovies.adapter = adapter!!.withLoadStateFooter(footerAdapter)
@@ -82,11 +82,9 @@ class UpcomingMoviesFragment : BaseFragment() {
         adapter = null;
     }
 
-    private fun collectUiState() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.upcomingMovies.collectLatest { movies ->
-                adapter?.submitData(movies)
-            }
+    private fun collectUiState() = viewLifecycleOwner.lifecycleScope.launch {
+        viewModel.upcomingMovies.collectLatest { movies ->
+            adapter?.submitData(movies)
         }
     }
 

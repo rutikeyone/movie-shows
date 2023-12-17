@@ -13,12 +13,12 @@ import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FragmentTopRatedMoviesBinding
 import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.utils.AppFailure
+import com.ru.movieshows.presentation.adapters.ItemDecoration
 import com.ru.movieshows.presentation.adapters.LoadStateAdapter
 import com.ru.movieshows.presentation.adapters.MoviesAdapter
 import com.ru.movieshows.presentation.adapters.MoviesPaginationAdapter
 import com.ru.movieshows.presentation.adapters.TryAgainAction
 import com.ru.movieshows.presentation.screens.BaseFragment
-import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
 import com.ru.movieshows.presentation.viewmodel.top_rated_movies.TopRatedMoviesViewModel
 import com.ru.movieshows.presentation.viewmodel.viewBinding
 import com.ru.movieshows.presentation.viewmodel.viewModelCreator
@@ -64,20 +64,20 @@ class TopRatedMoviesFragment : BaseFragment() {
     }
 
     private fun initView() = with(binding) {
-    adapter.addLoadStateListener { loadState -> configureUI(loadState) }
-    val itemDecoration = ItemDecoration(8F, resources.displayMetrics)
-    val tryAgainAction: TryAgainAction = { adapter.retry() }
-    val footerAdapter = LoadStateAdapter(tryAgainAction, requireContext())
-    val gridLayoutManager = GridLayoutManager(requireContext(), 3)
-    failurePart.retryButton.setOnClickListener { adapter.retry() }
-    rvMovies.layoutManager = gridLayoutManager
-    rvMovies.adapter = adapter.withLoadStateFooter(footerAdapter)
-    rvMovies.addItemDecoration(itemDecoration)
-    rvMovies.itemAnimator = null
-    gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-        override fun getSpanSize(position: Int): Int {
-                val isLoadingItem = adapter.getItemViewType(position) === MoviesAdapter.LOADING_ITEM
-                return if (isLoadingItem) 1 else 3
+        adapter.addLoadStateListener { loadState -> configureUI(loadState) }
+        val itemDecoration = ItemDecoration(8F, resources.displayMetrics)
+        val tryAgainAction: TryAgainAction = { adapter.retry() }
+        val footerAdapter = LoadStateAdapter(tryAgainAction, requireContext())
+        val gridLayoutManager = GridLayoutManager(requireContext(), 3)
+        failurePart.retryButton.setOnClickListener { adapter.retry() }
+        rvMovies.layoutManager = gridLayoutManager
+        rvMovies.adapter = adapter.withLoadStateFooter(footerAdapter)
+        rvMovies.addItemDecoration(itemDecoration)
+        rvMovies.itemAnimator = null
+        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                    val isLoadingItem = adapter.getItemViewType(position) === MoviesAdapter.LOADING_ITEM
+                    return if (isLoadingItem) 1 else 3
             }
         }
     }

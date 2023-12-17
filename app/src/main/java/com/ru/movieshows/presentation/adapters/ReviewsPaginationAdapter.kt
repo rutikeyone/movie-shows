@@ -1,8 +1,10 @@
 package com.ru.movieshows.presentation.adapters
 
-import android.text.method.LinkMovementMethod
+import android.annotation.SuppressLint
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.text.HtmlCompat
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +14,7 @@ import com.ru.movieshows.R
 import com.ru.movieshows.databinding.ReviewItemBinding
 import com.ru.movieshows.domain.entity.ReviewEntity
 import com.ru.movieshows.presentation.adapters.diff_callback.ReviewsDiffItemCallback
+import com.ru.movieshows.presentation.utils.OnTouchListener
 
 class ReviewsPaginationAdapter: PagingDataAdapter<ReviewEntity, ReviewsPaginationAdapter.Holder>(ReviewsDiffItemCallback()) {
 
@@ -37,12 +40,15 @@ class ReviewsPaginationAdapter: PagingDataAdapter<ReviewEntity, ReviewsPaginatio
             bindContent(review)
         }
 
+        @SuppressLint("ClickableViewAccessibility")
         private fun bindContent(review: ReviewEntity) = with(binding) {
             val content = review.content
             if(!content.isNullOrEmpty()) {
-                reviewTextView.text = content
+                val value = Html.fromHtml(content, HtmlCompat.FROM_HTML_MODE_LEGACY)
+                val onTouchListener = OnTouchListener()
+                reviewTextView.text = value
                 reviewTextView.isVisible = true
-                reviewTextView.movementMethod = LinkMovementMethod.getInstance()
+                reviewTextView.setOnTouchListener(onTouchListener)
             } else {
                 reviewTextView.isVisible = false
             }
@@ -61,7 +67,7 @@ class ReviewsPaginationAdapter: PagingDataAdapter<ReviewEntity, ReviewsPaginatio
 
         private fun bindAvatarImageView(review: ReviewEntity) = with(binding.avatarImageView) {
             val backDrop = review.authorDetails?.avatar
-            if (!backDrop.isNullOrEmpty()) {
+            if(!backDrop.isNullOrEmpty()) {
                 Glide
                     .with(this.context)
                     .load(backDrop)
@@ -75,7 +81,6 @@ class ReviewsPaginationAdapter: PagingDataAdapter<ReviewEntity, ReviewsPaginatio
                     .with(context)
                     .load(R.drawable.poster_placeholder_bg)
                     .centerCrop()
-                    .transition(DrawableTransitionOptions.withCrossFade())
                     .into(this)
             }
         }

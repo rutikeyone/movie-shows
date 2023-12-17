@@ -53,7 +53,10 @@ class CreatorAdapter(
     }
 
     private fun bindLayoutParams(binding: CreatorItemBinding) = with(binding.root) {
-        val layoutParams = ActionBar.LayoutParams(binding.root.resources.getDimensionPixelOffset(R.dimen.dp_120), ViewGroup.LayoutParams.WRAP_CONTENT)
+        val layoutParams = ActionBar.LayoutParams(
+            binding.root.resources.getDimensionPixelOffset(R.dimen.dp_120),
+            binding.root.resources.getDimensionPixelOffset(R.dimen.dp_230),
+        )
         this.layoutParams = layoutParams
     }
 
@@ -63,7 +66,7 @@ class CreatorAdapter(
     ) = with(binding.image) {
         val photo = creator.photo
         val context = this.context
-        if (!photo.isNullOrEmpty()) {
+        if(!photo.isNullOrEmpty()) {
             Glide
                 .with(context)
                 .load(photo)
@@ -77,7 +80,6 @@ class CreatorAdapter(
                 .with(context)
                 .load(R.drawable.poster_placeholder_bg)
                 .centerCrop()
-                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(this)
         }
     }

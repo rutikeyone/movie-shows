@@ -22,7 +22,7 @@ class OnTouchListener : View.OnTouchListener {
                 val line: Int = layout.getLineForVertical(y)
                 val off: Int = layout.getOffsetForHorizontal(line, x.toFloat())
                 val link = text.getSpans(off, off, ClickableSpan::class.java)
-                val isOnClickLink = link.isNotEmpty() && action == MotionEvent.ACTION_UP
+                val isOnClickLink = link.isNotEmpty() && action == MotionEvent.ACTION_DOWN
                 if (isOnClickLink) {
                     link[0].onClick(widget)
                     return true

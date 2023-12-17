@@ -69,7 +69,6 @@ class TvShowsAdapter(
                     .with(context)
                     .load(R.drawable.poster_placeholder_bg)
                     .centerCrop()
-                    .transition(DrawableTransitionOptions.withCrossFade())
                     .into(this)
             }
         }
@@ -88,7 +87,10 @@ class TvShowsAdapter(
         }
 
         private fun bindLayoutParams(binding: TvShowsItemBinding) = with(binding.root) {
-            val layoutParams = ActionBar.LayoutParams(resources.getDimensionPixelOffset(R.dimen.dp_120), ViewGroup.LayoutParams.WRAP_CONTENT)
+            val layoutParams = ActionBar.LayoutParams(
+                resources.getDimensionPixelOffset(R.dimen.dp_120),
+                resources.getDimensionPixelOffset(R.dimen.dp_250),
+            )
             this.layoutParams = layoutParams
         }
 

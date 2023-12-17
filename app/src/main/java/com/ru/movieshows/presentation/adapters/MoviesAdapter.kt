@@ -33,6 +33,7 @@ class MoviesAdapter(
         holder.bind(movie)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateData(data: ArrayList<MovieEntity>) {
         this.movies = data
         notifyDataSetChanged()
@@ -53,7 +54,10 @@ class MoviesAdapter(
         }
 
         private fun bindLayoutParams(binding: MovieItemBinding) = with(binding.root) {
-            val layoutParams = ActionBar.LayoutParams(resources.getDimensionPixelOffset(R.dimen.dp_120), ViewGroup.LayoutParams.WRAP_CONTENT)
+            val layoutParams = ActionBar.LayoutParams(
+                resources.getDimensionPixelOffset(R.dimen.dp_120),
+                resources.getDimensionPixelOffset(R.dimen.dp_250),
+            )
             this.layoutParams = layoutParams
         }
 
@@ -82,7 +86,7 @@ class MoviesAdapter(
             binding: MovieItemBinding,
         ) = with(binding.discoverMovieImage){
             val backDrop = movie.backDrop
-            if (!backDrop.isNullOrEmpty()) {
+            if(!backDrop.isNullOrEmpty()) {
                 Glide
                     .with(context)
                     .load(backDrop)
@@ -96,7 +100,6 @@ class MoviesAdapter(
                     .with(context)
                     .load(R.drawable.poster_placeholder_bg)
                     .centerCrop()
-                    .transition(DrawableTransitionOptions.withCrossFade())
                     .into(this)
             }
         }

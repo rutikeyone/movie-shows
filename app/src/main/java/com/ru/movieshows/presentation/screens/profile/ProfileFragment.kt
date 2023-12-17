@@ -57,13 +57,21 @@ class ProfileFragment : BaseFragment() {
 
     private fun configureProfileAvatarImage(account: AccountEntity) = with(binding.avatarImageView) {
         val photo = account.avatar
-        Glide
-            .with(requireContext())
-            .load(photo ?: R.drawable.avatar_placeholder)
-            .placeholder(R.drawable.avatar_placeholder)
-            .error(R.drawable.avatar_placeholder)
-            .centerCrop()
-            .into(this)
+        if(!photo.isNullOrEmpty()) {
+            Glide
+                .with(requireContext())
+                .load(photo)
+                .placeholder(R.drawable.avatar_placeholder)
+                .error(R.drawable.avatar_placeholder)
+                .centerCrop()
+                .into(this)
+        } else {
+            Glide
+                .with(context)
+                .load(R.drawable.poster_placeholder_bg)
+                .centerCrop()
+                .into(this)
+        }
     }
 
     private fun configureName(account: AccountEntity) = with(binding.nameTextView) {

@@ -199,6 +199,7 @@ class VideoActivity : AppCompatActivity() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         if (isFullscreen) {
             youTubePlayer?.toggleFullscreen()
@@ -210,7 +211,9 @@ class VideoActivity : AppCompatActivity() {
     }
 
     private fun initImageViewView() = with(binding.videoImageView) {
-        viewModel.video.image?.let { image ->
+        val video = viewModel.video
+        val image = video.image
+        if(!image.isNullOrEmpty()) {
             Glide
                 .with(this@VideoActivity)
                 .load(image)
@@ -218,6 +221,12 @@ class VideoActivity : AppCompatActivity() {
                 .placeholder(R.drawable.poster_placeholder_bg)
                 .error(R.drawable.poster_placeholder_bg)
                 .transition(DrawableTransitionOptions.withCrossFade())
+                .into(this.posterImageView)
+        } else {
+            Glide
+                .with(this@VideoActivity)
+                .load(R.drawable.poster_placeholder_bg)
+                .centerCrop()
                 .into(this.posterImageView)
         }
     }
@@ -242,7 +251,7 @@ class VideoActivity : AppCompatActivity() {
                 binding.fullScreenViewContainer.removeAllViews()
 
                 if (requestedOrientation != ActivityInfo.SCREEN_ORIENTATION_SENSOR) {
-                    requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT
+                    requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
                     requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR
                 }
             }

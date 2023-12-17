@@ -7,15 +7,20 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.ru.movieshows.data.repository.MoviesRepository
 import com.ru.movieshows.domain.entity.MovieEntity
-import com.ru.movieshows.presentation.viewmodel.share
+import com.ru.movieshows.presentation.screens.movie_search.MovieSearchFragmentDirections
+import com.ru.movieshows.presentation.sideeffects.navigator.NavigatorWrapper
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.ru.movieshows.presentation.viewmodel.share
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flatMapLatest
-import javax.inject.Inject
 
 
-@HiltViewModel
-class MovieSearchViewModel @Inject constructor(
+@OptIn(ExperimentalCoroutinesApi::class)
+class MovieSearchViewModel @AssistedInject constructor(
+    @Assisted private val navigator: NavigatorWrapper,
     private val moviesRepository: MoviesRepository,
 ) : BaseViewModel(){
     private val state = MediatorLiveData<Pair<String, String>>()
@@ -31,10 +36,10 @@ class MovieSearchViewModel @Inject constructor(
     }.cachedIn(viewModelScope)
 
     init {
-        setupMediatorState()
+        configureMediatorState()
     }
 
-    private fun setupMediatorState() {
+    private fun configureMediatorState() {
         state.addSource(_query) { query ->
             val languageTag = languageTagState.value ?: return@addSource
             state.value = Pair(query, languageTag)
@@ -53,9 +58,14 @@ class MovieSearchViewModel @Inject constructor(
     }
 
     fun navigateToMovieDetails(movie: MovieEntity){
-        //TODO
-    //        val id = movie.id ?: return
-//        val action = NavigationIntent.toMovieDetails(id)
-//        navigationEvent.publishEvent(action)
+        val id = movie.id ?: return
+        val action = MovieSearchFragmentDirections.actionMovieSearchFragmentToMovieDetailsFragment(id)
+        navigator.navigate(action)
     }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(navigator: NavigatorWrapper) : MovieSearchViewModel
+    }
+
 }

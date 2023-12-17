@@ -16,10 +16,10 @@ import com.ru.movieshows.R
 import com.ru.movieshows.databinding.FailurePartBinding
 import com.ru.movieshows.databinding.FragmentMoviesBinding
 import com.ru.movieshows.domain.entity.MovieEntity
+import com.ru.movieshows.presentation.adapters.ItemDecoration
 import com.ru.movieshows.presentation.adapters.MoviesAdapter
 import com.ru.movieshows.presentation.adapters.MoviesViewPagerAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
-import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
 import com.ru.movieshows.presentation.utils.extension.clearDecorations
 import com.ru.movieshows.presentation.viewmodel.movies.MoviesViewModel
 import com.ru.movieshows.presentation.viewmodel.movies.state.DiscoverMoviesState

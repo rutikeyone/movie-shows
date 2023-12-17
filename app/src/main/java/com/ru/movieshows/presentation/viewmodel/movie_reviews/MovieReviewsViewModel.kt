@@ -15,8 +15,8 @@ import kotlinx.coroutines.flow.flatMapLatest
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class MovieReviewsViewModel @AssistedInject constructor(
-    @Assisted movieId: Int,
-    moviesRepository: MoviesRepository,
+    @Assisted private val movieId: Int,
+    private val moviesRepository: MoviesRepository,
 ) : BaseViewModel() {
 
     val reviews: Flow<PagingData<ReviewEntity>> = languageTagFlow.flatMapLatest {

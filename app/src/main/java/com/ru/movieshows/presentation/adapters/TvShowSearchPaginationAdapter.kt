@@ -80,7 +80,7 @@ class TvShowSearchPaginationAdapter(
 
         private fun setupBackDrop(tvShow: TvShowsEntity) = with(binding.imageView) {
             val poster = tvShow.poster
-            if (!poster.isNullOrEmpty()) {
+            if(!poster.isNullOrEmpty()) {
                 Glide
                     .with(binding.root)
                     .load(poster)
@@ -91,10 +91,9 @@ class TvShowSearchPaginationAdapter(
                     .into(this)
             } else {
                 Glide
-                    .with(binding.root)
+                    .with(context)
                     .load(R.drawable.poster_placeholder_bg)
                     .centerCrop()
-                    .transition(DrawableTransitionOptions.withCrossFade())
                     .into(this)
             }
         }

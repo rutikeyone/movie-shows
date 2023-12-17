@@ -2,10 +2,12 @@ package com.ru.movieshows.presentation.screens.movie_details
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
+import androidx.core.text.HtmlCompat
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -22,10 +24,11 @@ import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.entity.ReviewEntity
 import com.ru.movieshows.domain.entity.VideoEntity
 import com.ru.movieshows.presentation.adapters.InfoAdapter
+import com.ru.movieshows.presentation.adapters.ItemDecoration
 import com.ru.movieshows.presentation.adapters.MoviesAdapter
 import com.ru.movieshows.presentation.adapters.VideosAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
-import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
+import com.ru.movieshows.presentation.utils.OnTouchListener
 import com.ru.movieshows.presentation.utils.extension.clearDecorations
 import com.ru.movieshows.presentation.viewmodel.movie_details.MovieDetailsViewModel
 import com.ru.movieshows.presentation.viewmodel.movie_details.state.MovieDetailsState
@@ -143,27 +146,42 @@ class MovieDetailsFragment : BaseFragment() {
     private fun configureReviewAvatar(
         review: ReviewEntity,
         reviewBinding: ReviewItemBinding,
-    ) {
+    ) = with(reviewBinding.avatarImageView) {
         val avatar = review.authorDetails?.avatar
-        Glide
-            .with(requireContext())
-            .load(avatar ?: R.drawable.poster_placeholder_bg)
-            .centerCrop()
-            .placeholder(R.drawable.poster_placeholder_bg)
-            .error(R.drawable.poster_placeholder_bg)
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .into(reviewBinding.avatarImageView)
+        if(!avatar.isNullOrEmpty()) {
+            Glide
+                .with(requireContext())
+                .load(avatar)
+                .centerCrop()
+                .placeholder(R.drawable.poster_placeholder_bg)
+                .error(R.drawable.poster_placeholder_bg)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(reviewBinding.avatarImageView)
+        } else {
+            Glide
+                .with(requireContext())
+                .load(R.drawable.poster_placeholder_bg)
+                .centerCrop()
+                .into(reviewBinding.avatarImageView)
+        }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun configureReviewContent(
         binding: ReviewItemBinding,
         review: ReviewEntity,
     ) = with(binding) {
         val content = review.content
-        if (!content.isNullOrEmpty()) {
-            this.reviewTextView.text = content
-        } else {
-            this.reviewTextView.isVisible = false
+        with(this.reviewTextView) {
+            if (!content.isNullOrEmpty()) {
+                val value = Html.fromHtml(content, HtmlCompat.FROM_HTML_MODE_LEGACY)
+                val onTouchListener = OnTouchListener()
+                text = value
+                isVisible = true
+                setOnTouchListener(onTouchListener)
+            } else {
+                isVisible = false
+            }
         }
     }
 
@@ -301,26 +319,41 @@ class MovieDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun configureMoviePoster(movieDetails: MovieDetailsEntity) {
+    private fun configureMoviePoster(movieDetails: MovieDetailsEntity) = with(binding.moviePoster) {
         val poster = movieDetails.poster
-        Glide
-            .with(this)
-            .load(poster ?: R.drawable.poster_placeholder_bg)
-            .centerCrop()
-            .placeholder(R.drawable.poster_placeholder_bg)
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .into(binding.moviePoster)
+        if(!poster.isNullOrEmpty()) {
+            Glide
+                .with(this)
+                .load(poster)
+                .centerCrop()
+                .placeholder(R.drawable.poster_placeholder_bg)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(this)
+        } else {
+            Glide
+                .with(context)
+                .load(R.drawable.poster_placeholder_bg)
+                .centerCrop()
+                .into(this)
+        }
     }
 
-    private fun configureBackDrop(backDrop: String?) {
-        val movieBackDrop = binding.movieBackDrop
-        Glide
-            .with(this@MovieDetailsFragment)
-            .load(backDrop ?: R.drawable.backdrop_placeholder_bg)
-            .centerCrop()
-            .placeholder(R.drawable.backdrop_placeholder_bg)
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .into(movieBackDrop)
+    private fun configureBackDrop(backDrop: String?) = with(binding.movieBackDrop) {
+        if(!backDrop.isNullOrEmpty()) {
+            Glide
+                .with(this@MovieDetailsFragment)
+                .load(backDrop)
+                .centerCrop()
+                .placeholder(R.drawable.backdrop_placeholder_bg)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(this)
+        } else {
+            Glide
+                .with(context)
+                .load(R.drawable.backdrop_placeholder_bg)
+                .centerCrop()
+                .into(this)
+        }
     }
 
     private fun handleFailureUI(@StringRes header: Int?, @StringRes error: Int?) {

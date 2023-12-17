@@ -61,7 +61,7 @@ class VideosAdapter (
 
         private fun bindImageView(video: VideoEntity, binding: VideoItemBinding) = with(binding.videoImageView){
             val image = video.image
-            if (!image.isNullOrEmpty()) {
+            if(!image.isNullOrEmpty()) {
                 Glide
                     .with(context)
                     .load(image)
@@ -75,7 +75,6 @@ class VideosAdapter (
                     .with(context)
                     .load(R.drawable.poster_placeholder_bg)
                     .centerCrop()
-                    .transition(DrawableTransitionOptions.withCrossFade())
                     .into(this)
             }
         }
@@ -83,7 +82,7 @@ class VideosAdapter (
         private fun bindLayoutParams(binding: VideoItemBinding) = with(binding.root){
             val layoutParams = ActionBar.LayoutParams(
                 resources.getDimensionPixelOffset(R.dimen.dp_120),
-                ViewGroup.LayoutParams.WRAP_CONTENT
+                resources.getDimensionPixelOffset(R.dimen.dp_230),
             )
             this.layoutParams = layoutParams
         }

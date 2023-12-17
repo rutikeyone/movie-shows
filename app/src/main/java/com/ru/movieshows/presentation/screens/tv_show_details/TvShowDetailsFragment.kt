@@ -20,12 +20,12 @@ import com.ru.movieshows.domain.entity.TvShowDetailsEntity
 import com.ru.movieshows.domain.entity.VideoEntity
 import com.ru.movieshows.presentation.adapters.CreatorAdapter
 import com.ru.movieshows.presentation.adapters.InfoAdapter
+import com.ru.movieshows.presentation.adapters.ItemDecoration
 import com.ru.movieshows.presentation.adapters.SeasonAdapter
 import com.ru.movieshows.presentation.adapters.VideosAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
-import com.ru.movieshows.presentation.screens.movie_reviews.ItemDecoration
-import com.ru.movieshows.presentation.viewmodel.tv_show_details.TvShowDetailsState
 import com.ru.movieshows.presentation.viewmodel.tv_show_details.TvShowDetailsViewModel
+import com.ru.movieshows.presentation.viewmodel.tv_show_details.state.TvShowDetailsState
 import com.ru.movieshows.presentation.viewmodel.viewModelCreator
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -34,12 +34,18 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class TvShowDetailsFragment : BaseFragment() {
     private val args by navArgs<TvShowDetailsFragmentArgs>()
+
     private var _binding: FragmentTvShowDetailsBinding? = null
     private val binding get() = _binding!!
 
     @Inject
     lateinit var factory: TvShowDetailsViewModel.Factory
-    override val viewModel by viewModelCreator { factory.create(args.id) }
+    override val viewModel by viewModelCreator {
+        factory.create(
+            movieId = args.id,
+            navigator = navigator(),
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,38 +58,38 @@ class TvShowDetailsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.title.observe(viewLifecycleOwner, ::renderTitle)
-        viewModel.state.observe(viewLifecycleOwner, ::renderUI)
+        viewModel.title.observe(viewLifecycleOwner, ::handleTitleState)
+        viewModel.state.observe(viewLifecycleOwner, ::handleState)
     }
 
-    private fun renderUI(state: TvShowDetailsState) = with(binding) {
+    private fun handleState(state: TvShowDetailsState) = with(binding) {
         val viewParts = listOf(successContainer, failureContainer, progressContainer)
-        viewParts.forEach { it.visibility = View.GONE }
+        viewParts.forEach { it.isVisible = false }
         when(state) {
             TvShowDetailsState.Pure -> {}
-            TvShowDetailsState.InPending -> renderInPendingUI()
-            is TvShowDetailsState.Failure -> renderFailureUI(state)
-            is TvShowDetailsState.Success -> renderSuccessUI(state)
+            TvShowDetailsState.InPending -> configureInPendingUI()
+            is TvShowDetailsState.Failure -> configureFailureUI(state)
+            is TvShowDetailsState.Success -> configureSuccessUI(state)
         }
     }
 
-    private fun renderSuccessUI(state: TvShowDetailsState.Success) = with(binding.successContainer) {
-        this.visibility = View.VISIBLE
+    private fun configureSuccessUI(state: TvShowDetailsState.Success) = with(binding.successContainer) {
         val tvShow = state.tvShow
-        setupBackDrop(tvShow)
-        setupPoster(tvShow)
-        setupRating(tvShow)
-        setupCountEpisodes(tvShow)
-        setupReleaseDate(tvShow)
-        setupOverview(tvShow)
-        setupGenres(tvShow)
-        setupProductionCompanies(tvShow)
-        setupCreatedBy(tvShow)
-        setupSeasons(tvShow)
-        setupVideos(state.videos)
+        this.isVisible = true
+        configureBackDrop(tvShow)
+        configurePoster(tvShow)
+        configureRating(tvShow)
+        configureCountEpisodes(tvShow)
+        configureReleaseDate(tvShow)
+        configureOverview(tvShow)
+        configureGenres(tvShow)
+        configureProductionCompanies(tvShow)
+        configureCreatedBy(tvShow)
+        configureSeasons(tvShow)
+        configureVideos(state.videos)
     }
 
-    private fun setupVideos(videos: ArrayList<VideoEntity>) {
+    private fun configureVideos(videos: ArrayList<VideoEntity>) {
         if (videos.isNotEmpty()) {
             val itemDecorator = ItemDecoration(8F, resources.displayMetrics)
             val adapter = VideosAdapter(::navigateToVideo).also { it.updateData(videos) }
@@ -95,7 +101,7 @@ class TvShowDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun setupSeasons(
+    private fun configureSeasons(
         tvShow: TvShowDetailsEntity
     ) = with(binding) {
         val seasonsValue = tvShow.seasons
@@ -113,19 +119,18 @@ class TvShowDetailsFragment : BaseFragment() {
     private fun showSeasonModalBottomSheet(season: SeasonEntity) {
         val seasonNumber = season.seasonNumber?.toString() ?: return
         val supportFragmentManager = requireActivity().supportFragmentManager
-        val bottomSheet = SeasonDetailsBottomSheetDialogFragment()
         val bundle = Bundle().also {
             it.putParcelable(SeasonDetailsBottomSheetDialogFragment.SEASON_ARG, season)
             it.putString(SeasonDetailsBottomSheetDialogFragment.SEASON_NUMBER, seasonNumber)
             it.putString(SeasonDetailsBottomSheetDialogFragment.SERIES_ID, args.id)
         }
-        bottomSheet.also {
+        val bottomSheet = SeasonDetailsBottomSheetDialogFragment().also {
             it.arguments = bundle
         }
         bottomSheet.show(supportFragmentManager, seasonModalBottomSheet)
     }
 
-    private fun setupCreatedBy(tvShow: TvShowDetailsEntity) = with(binding) {
+    private fun configureCreatedBy(tvShow: TvShowDetailsEntity) = with(binding) {
         val createdBy = tvShow.createdBy
         if(!createdBy.isNullOrEmpty()) {
             val itemDecoration = ItemDecoration(8F, resources.displayMetrics)
@@ -138,7 +143,7 @@ class TvShowDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun setupOverview(tvShow: TvShowDetailsEntity) = with(binding){
+    private fun configureOverview(tvShow: TvShowDetailsEntity) = with(binding){
         val overview = tvShow.overview
         val nullOrEmpty = overview.isNullOrEmpty()
         if(!nullOrEmpty) {
@@ -150,7 +155,7 @@ class TvShowDetailsFragment : BaseFragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun setupRating(tvShow: TvShowDetailsEntity) = with(binding) {
+    private fun configureRating(tvShow: TvShowDetailsEntity) = with(binding) {
         binding.ratingBar.isEnabled = false
         val rating = tvShow.rating ?: return@with
         if(rating > 0) {
@@ -162,35 +167,51 @@ class TvShowDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun setupPoster(tvShow: TvShowDetailsEntity) = with((binding.poster)) {
-        val poster = tvShow.poster ?: return@with
-        Glide
-            .with(this)
-            .load(poster)
-            .centerCrop()
-            .placeholder(R.drawable.poster_placeholder_bg)
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .into(this)
+    private fun configurePoster(tvShow: TvShowDetailsEntity) = with(binding.poster) {
+        val poster = tvShow.poster
+        if(!poster.isNullOrEmpty()) {
+            Glide
+                .with(this)
+                .load(poster)
+                .centerCrop()
+                .placeholder(R.drawable.poster_placeholder_bg)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(this)
+        } else {
+            Glide
+                .with(context)
+                .load(R.drawable.poster_placeholder_bg)
+                .centerCrop()
+                .into(this)
+        }
     }
 
-    private fun setupBackDrop(tvShow: TvShowDetailsEntity) = with(binding.backDrop) {
-        val backDrop = tvShow.backDrop ?: return@with
-        Glide
-            .with(this)
-            .load(backDrop)
-            .centerCrop()
-            .placeholder(R.drawable.backdrop_placeholder_bg)
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .into(this)
+    private fun configureBackDrop(tvShow: TvShowDetailsEntity) = with(binding.backDrop) {
+        val backDrop = tvShow.backDrop
+        if(!backDrop.isNullOrEmpty()) {
+            Glide
+                .with(this)
+                .load(backDrop)
+                .centerCrop()
+                .placeholder(R.drawable.backdrop_placeholder_bg)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(this)
+        } else {
+            Glide
+                .with(context)
+                .load(R.drawable.backdrop_placeholder_bg)
+                .centerCrop()
+                .into(this)
+        }
     }
 
-    private fun setupCountEpisodes(tvShow: TvShowDetailsEntity) = with(binding.countEpisodesValue) {
+    private fun configureCountEpisodes(tvShow: TvShowDetailsEntity) = with(binding.countEpisodesValue) {
         val countEpisodes = tvShow.numberOfEpisodes ?: return@with
         text = countEpisodes.toString()
     }
 
     @SuppressLint("SimpleDateFormat")
-    private fun setupReleaseDate(tvShow: TvShowDetailsEntity) {
+    private fun configureReleaseDate(tvShow: TvShowDetailsEntity) {
         if (tvShow.firstAirDate != null) {
             val simpleDateFormatter = SimpleDateFormat("d MMMM yyyy")
             val date = simpleDateFormatter.format(tvShow.firstAirDate)
@@ -201,26 +222,31 @@ class TvShowDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun renderFailureUI(state: TvShowDetailsState.Failure) {
+    private fun configureFailureUI(state: TvShowDetailsState.Failure) {
         val header = state.header
         val error = state.error
         val failurePartBinding = FailurePartBinding.bind(binding.failurePart.root)
-        binding.failureContainer.visibility = View.VISIBLE
-        failurePartBinding.retryButton.setOnClickListener { viewModel.fetchData() }
-        if(header != null) failurePartBinding.failureTextHeader.text = resources.getString(header)
-        if(error != null) failurePartBinding.failureTextMessage.text = resources.getString(error)
+        binding.failureContainer.isVisible = true
+        with(failurePartBinding) {
+            retryButton.setOnClickListener { viewModel.fetchData() }
+            failureTextHeader.isVisible = header != null
+            failureTextMessage.isVisible = error != null
+            if(header != null) failureTextHeader.text = resources.getString(header)
+            if(error != null) failureTextMessage.text = resources.getString(error)
+        }
     }
 
-    private fun renderInPendingUI() = with(binding.progressContainer) {
-        visibility = View.VISIBLE
+    private fun configureInPendingUI() = with(binding.progressContainer) {
+        isVisible = true
     }
 
-    private fun renderTitle(value: String?) {
-//        val toolBar = navigator().getToolbar() ?: return
-//        toolBar.title = value
+    private fun handleTitleState(value: String?) {
+        navigator().targetNavigator {
+            it.getToolbar()?.title = value
+        }
     }
 
-    private fun setupGenres(tvShowDetails: TvShowDetailsEntity) {
+    private fun configureGenres(tvShowDetails: TvShowDetailsEntity) {
         val genres = tvShowDetails.genres
         if (!genres.isNullOrEmpty()) {
             val layoutManager = FlexboxLayoutManager(requireContext())
@@ -236,7 +262,7 @@ class TvShowDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun setupProductionCompanies(tvShowDetails: TvShowDetailsEntity) {
+    private fun configureProductionCompanies(tvShowDetails: TvShowDetailsEntity) {
         val  productionCompanies = tvShowDetails.productionCompanies
         if (!productionCompanies.isNullOrEmpty()) {
             val layoutManager = FlexboxLayoutManager(requireContext())

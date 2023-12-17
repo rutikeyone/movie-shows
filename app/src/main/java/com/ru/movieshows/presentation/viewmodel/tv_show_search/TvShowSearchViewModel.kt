@@ -7,16 +7,19 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.ru.movieshows.data.repository.TvShowRepository
 import com.ru.movieshows.domain.entity.TvShowsEntity
-import com.ru.movieshows.presentation.viewmodel.share
+import com.ru.movieshows.presentation.screens.tv_show_search.TvShowSearchFragmentDirections
+import com.ru.movieshows.presentation.sideeffects.navigator.NavigatorWrapper
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.ru.movieshows.presentation.viewmodel.share
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flatMapLatest
-import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
-@HiltViewModel
-class TvShowSearchViewModel @Inject constructor(
+class TvShowSearchViewModel @AssistedInject constructor(
+    @Assisted private val navigator: NavigatorWrapper,
     private val tvShowRepository: TvShowRepository,
 ) : BaseViewModel() {
     private val state = MediatorLiveData<Pair<String, String>>()
@@ -33,10 +36,10 @@ class TvShowSearchViewModel @Inject constructor(
     }.cachedIn(viewModelScope)
 
     init {
-        setupMediatorState()
+        configureMediatorState()
     }
 
-    private fun setupMediatorState() {
+    private fun configureMediatorState() {
         state.addSource(_query) { query ->
             val languageTag = languageTagState.value ?: return@addSource
             state.value = Pair(query, languageTag)
@@ -55,9 +58,14 @@ class TvShowSearchViewModel @Inject constructor(
     }
 
     fun navigateToTvShowDetails(tvShow: TvShowsEntity) {
-        //TODO
-//        val id = tvShow.id?.toIntOrNull() ?: return
-//        val action = NavigationIntent.toTvShowDetails(id)
-//        navigationEvent.publishEvent(action)
+        val id = tvShow.id ?: return
+        val action = TvShowSearchFragmentDirections.actionTvShowSearchFragmentToTvShowDetailsFragment(id)
+        navigator.navigate(action)
     }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(navigator: NavigatorWrapper): TvShowSearchViewModel
+    }
+
 }
