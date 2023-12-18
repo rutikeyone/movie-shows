@@ -68,7 +68,7 @@ class ProfileFragment : BaseFragment() {
         } else {
             Glide
                 .with(context)
-                .load(R.drawable.poster_placeholder_bg)
+                .load(R.drawable.avatar_placeholder)
                 .centerCrop()
                 .into(this)
         }

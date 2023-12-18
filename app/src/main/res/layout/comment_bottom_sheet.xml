@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:paddingStart="@dimen/dp_16"
         android:paddingEnd="@dimen/dp_16"
-        android:paddingTop="@dimen/dp_24">
+        android:paddingTop="@dimen/dp_16">
 
         <TextView
             android:id="@+id/commentTextView"

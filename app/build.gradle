@@ -89,6 +89,7 @@ dependencies {
     implementation "com.beust:klaxon:$klaxon_version"
     implementation "androidx.activity:activity-ktx:$activity_ktx_version"
     implementation "com.pnikosis:materialish-progress:$materialish_progress_version"
+    implementation "com.jaedongchicken:ytplayer:1.4.4"
 }
 
 kapt {

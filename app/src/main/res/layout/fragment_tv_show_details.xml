@@ -310,7 +310,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/seasons"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_190"
+                        android:layout_height="wrap_content"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         android:layout_marginStart="@dimen/dp_8"
                         android:layout_marginEnd="@dimen/dp_8"

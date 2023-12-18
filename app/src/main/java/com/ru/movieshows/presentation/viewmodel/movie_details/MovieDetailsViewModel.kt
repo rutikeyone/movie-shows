@@ -83,7 +83,6 @@ class MovieDetailsViewModel @AssistedInject constructor(
         val action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentSelf(id)
         navigator.navigate(action)
     }
-
     fun navigateToReviews(value: ArrayList<ReviewEntity>) {
         val reviews = value.toTypedArray()
         val action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToMovieReviewsFragment(reviews, movieId)

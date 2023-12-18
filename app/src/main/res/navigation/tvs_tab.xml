@@ -116,7 +116,7 @@
     </fragment>
     <activity
         android:id="@+id/videoActivity3"
-        android:name="com.ru.movieshows.presentation.screens.video.VideoActivity"
+        android:name="com.ru.movieshows.presentation.screens.video.VideoPlayerActivity"
         android:label="VideoActivity" >
         <argument
             android:name="video"
