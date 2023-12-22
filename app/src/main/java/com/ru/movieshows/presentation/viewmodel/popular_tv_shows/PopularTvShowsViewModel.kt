@@ -11,10 +11,12 @@ import com.ru.movieshows.presentation.viewmodel.BaseViewModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class PopularTvShowsViewModel @AssistedInject constructor(
     @Assisted private val navigator: NavigatorWrapper,
     private val tvShowRepository: TvShowRepository,

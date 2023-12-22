@@ -31,6 +31,53 @@
         style="?attr/MovieShows.TextAppearance.Headline6"
         />
 
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/searchHintScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/maybeYouAreLookingForTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_16"
+                style="?attr/MovieShows.TextAppearance.Headline6"
+                android:text="@string/it_may_be_useful"
+                />
+
+            <ProgressBar
+                android:id="@+id/searchHintsProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dp_16"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/searchHintsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/search_hint_item"
+                android:layout_marginTop="@dimen/dp_8"
+                />
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
     <include
         android:id="@+id/failurePart"
         layout="@layout/failure_part"/>
@@ -41,10 +88,10 @@
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/successContainer"
-        app:constraint_referenced_ids="movies"
+        app:constraint_referenced_ids="movies, searchHintScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:visibility="visible" />
+        />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/failureContainer"

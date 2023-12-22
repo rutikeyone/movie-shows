@@ -25,6 +25,7 @@
         <activity
             android:name=".presentation.screens.video.VideoPlayerActivity"
             android:exported="false"
+            android:hardwareAccelerated="true"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"/>
 
         <activity

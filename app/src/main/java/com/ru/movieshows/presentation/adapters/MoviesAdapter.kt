@@ -56,7 +56,7 @@ class MoviesAdapter(
         private fun bindLayoutParams(binding: MovieItemBinding) = with(binding.root) {
             val layoutParams = ActionBar.LayoutParams(
                 resources.getDimensionPixelOffset(R.dimen.dp_120),
-                resources.getDimensionPixelOffset(R.dimen.dp_250),
+                resources.getDimensionPixelOffset(R.dimen.dp_255),
             )
             this.layoutParams = layoutParams
         }
@@ -99,6 +99,8 @@ class MoviesAdapter(
                 Glide
                     .with(context)
                     .load(R.drawable.poster_placeholder_bg)
+                    .placeholder(R.drawable.poster_placeholder_bg)
+                    .error(R.drawable.poster_placeholder_bg)
                     .centerCrop()
                     .into(this)
             }

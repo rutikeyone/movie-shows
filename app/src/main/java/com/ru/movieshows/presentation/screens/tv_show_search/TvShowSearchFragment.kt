@@ -23,6 +23,7 @@ import com.ru.movieshows.domain.entity.TvShowsEntity
 import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.adapters.ItemDecoration
 import com.ru.movieshows.presentation.adapters.LoadStateAdapter
+import com.ru.movieshows.presentation.adapters.SearchHintAdapter
 import com.ru.movieshows.presentation.adapters.TryAgainAction
 import com.ru.movieshows.presentation.adapters.TvShowSearchPaginationAdapter
 import com.ru.movieshows.presentation.screens.BaseFragment
@@ -104,9 +105,9 @@ class TvShowSearchFragment : BaseFragment() {
         navigator().targetNavigator {
             it.getToolbar()?.addMenuProvider(menuProvider)
         }
-        searchItem?.expandActionView()
         val query = viewModel.queryValue
         if(query != null) {
+            searchItem?.expandActionView()
             searchView?.setQuery(query, false)
         }
         super.onViewCreated(view, savedInstanceState)
@@ -125,9 +126,46 @@ class TvShowSearchFragment : BaseFragment() {
         binding.tvShows.itemAnimator = null
     }
 
-    private fun collectUiState() = viewLifecycleOwner.lifecycleScope.launch {
-        viewModel.searchTvShows.collectLatest { movies ->
-            adapter.submitData(movies)
+    private fun collectUiState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.searchTvShows.collectLatest { movies ->
+                adapter.submitData(movies)
+            }
+        }
+        collectTrendingTvShowsState()
+    }
+
+    private fun collectTrendingTvShowsState() {
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            val isSearchMode = state.isSearchMode
+            val trendingTvShows = state.trendingTvShows
+            val trendingTvShowsInPending = state.trendingTvShowsInPending
+            if (!isSearchMode) {
+                binding.maybeYouAreLookingForTextView.isVisible = true
+                if(!trendingTvShows.isNullOrEmpty() && !trendingTvShowsInPending) {
+                    val names = trendingTvShows.map { it.name }
+                    val adapter = SearchHintAdapter(names) {
+                        val item = trendingTvShows[it]
+                        navigateToTvShowDetails(item)
+                    }
+                    with(binding) {
+                        searchHintsRecyclerView.isVisible = true
+                        searchHintsProgressBar.isVisible = false
+                        searchHintsRecyclerView.adapter = adapter
+                    }
+                } else if(trendingTvShows.isNullOrEmpty() && trendingTvShowsInPending) {
+                    with(binding) {
+                        searchHintsRecyclerView.isVisible = false
+                        searchHintsProgressBar.isVisible = true
+                    }
+                }
+            } else {
+                with(binding) {
+                    maybeYouAreLookingForTextView.isVisible = false
+                    searchHintsRecyclerView.isVisible = false
+                    searchHintsProgressBar.isVisible = false
+                }
+            }
         }
     }
 
@@ -144,7 +182,7 @@ class TvShowSearchFragment : BaseFragment() {
     private fun navigateToTvShowDetails(tvShows: TvShowsEntity) = viewModel.navigateToTvShowDetails(tvShows)
 
     private fun configureUi(loadState: CombinedLoadStates) {
-        val searchMode = viewModel.searchQueryMode
+        val searchMode = viewModel.isSearchMode
         val isListEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
         val showTvShows = !isListEmpty && loadState.source.refresh is LoadState.NotLoading && searchMode
         binding.tvShows.isVisible = showTvShows

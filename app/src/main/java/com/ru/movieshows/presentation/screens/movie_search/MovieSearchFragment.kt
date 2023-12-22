@@ -24,6 +24,7 @@ import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.adapters.ItemDecoration
 import com.ru.movieshows.presentation.adapters.LoadStateAdapter
 import com.ru.movieshows.presentation.adapters.MoviesSearchPaginationAdapter
+import com.ru.movieshows.presentation.adapters.SearchHintAdapter
 import com.ru.movieshows.presentation.adapters.TryAgainAction
 import com.ru.movieshows.presentation.screens.BaseFragment
 import com.ru.movieshows.presentation.viewmodel.movie_search.MovieSearchViewModel
@@ -103,9 +104,9 @@ class MovieSearchFragment : BaseFragment() {
         navigator().targetNavigator {
             it.getToolbar()?.addMenuProvider(menuProvider)
         }
-        searchItem?.expandActionView()
         val query = viewModel.queryValue
         if(query != null) {
+            searchItem?.expandActionView()
             searchView?.setQuery(query, false)
         }
         super.onViewCreated(view, savedInstanceState)
@@ -117,7 +118,43 @@ class MovieSearchFragment : BaseFragment() {
                 adapter.submitData(movies)
             }
         }
+        collectNotPlayingMoviesState()
     }
+
+    private fun collectNotPlayingMoviesState() {
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            val isSearchMode = state.isSearchMode
+            val notPlayingMovies = state.notPlayingMovies
+            val nowPlayingInPending = state.nowPlayingInPending
+            if (!isSearchMode) {
+                binding.maybeYouAreLookingForTextView.isVisible = true
+                if(!notPlayingMovies.isNullOrEmpty() && !nowPlayingInPending) {
+                    val names = notPlayingMovies.map { it.title }
+                    val adapter = SearchHintAdapter(names) {
+                        val item = notPlayingMovies[it]
+                        navigateToMovieDetails(item)
+                    }
+                    with(binding) {
+                        searchHintsRecyclerView.isVisible = true
+                        searchHintsProgressBar.isVisible = false
+                        searchHintsRecyclerView.adapter = adapter
+                    }
+                } else if(notPlayingMovies.isNullOrEmpty() && nowPlayingInPending) {
+                    with(binding) {
+                        searchHintsRecyclerView.isVisible = false
+                        searchHintsProgressBar.isVisible = true
+                    }
+                }
+            } else {
+                with(binding) {
+                    maybeYouAreLookingForTextView.isVisible = false
+                    searchHintsRecyclerView.isVisible = false
+                    searchHintsProgressBar.isVisible = false
+                }
+            }
+        }
+    }
+
     private fun initView() {
         adapter.addLoadStateListener(::handleUI)
         val itemDecorator = ItemDecoration(16F, resources.displayMetrics)
@@ -134,7 +171,7 @@ class MovieSearchFragment : BaseFragment() {
     private fun navigateToMovieDetails(movieEntity: MovieEntity) = viewModel.navigateToMovieDetails(movieEntity)
 
     private fun handleUI(loadState: CombinedLoadStates) = with(binding){
-        val searchMode = viewModel.searchQueryMode
+        val searchMode = viewModel.isSearchMode
         val isListEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
         val showMovies = !isListEmpty && loadState.source.refresh is LoadState.NotLoading && searchMode
         movies.isVisible = showMovies

@@ -161,6 +161,8 @@ class MovieDetailsFragment : BaseFragment() {
             Glide
                 .with(requireContext())
                 .load(R.drawable.poster_placeholder_bg)
+                .placeholder(R.drawable.poster_placeholder_bg)
+                .error(R.drawable.poster_placeholder_bg)
                 .centerCrop()
                 .into(reviewBinding.avatarImageView)
         }
@@ -327,12 +329,15 @@ class MovieDetailsFragment : BaseFragment() {
                 .load(poster)
                 .centerCrop()
                 .placeholder(R.drawable.poster_placeholder_bg)
+                .error(R.drawable.poster_placeholder_bg)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(this)
         } else {
             Glide
                 .with(context)
                 .load(R.drawable.poster_placeholder_bg)
+                .placeholder(R.drawable.poster_placeholder_bg)
+                .error(R.drawable.poster_placeholder_bg)
                 .centerCrop()
                 .into(this)
         }
@@ -351,6 +356,8 @@ class MovieDetailsFragment : BaseFragment() {
             Glide
                 .with(context)
                 .load(R.drawable.backdrop_placeholder_bg)
+                .placeholder(R.drawable.backdrop_placeholder_bg)
+                .error(R.drawable.backdrop_placeholder_bg)
                 .centerCrop()
                 .into(this)
         }

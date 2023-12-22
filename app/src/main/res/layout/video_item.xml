@@ -32,14 +32,14 @@
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/videoNameTextView"
         style="?attr/MovieShows.TextAppearance.Body3"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_4"
         android:gravity="center_horizontal"
         android:textAlignment="center"
         android:ellipsize="end"
         android:maxLines="2"
-        android:maxLength="40"
-        tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry." />
+        android:maxLength="45"
+        tools:text="Lorem Ipsum." />
 
 </LinearLayout>

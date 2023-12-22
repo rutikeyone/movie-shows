@@ -88,6 +88,8 @@
     <string name="the_email_address_has_not_been_confirmed">The email address has not been confirmed.</string>
     <string name="tmdb_service_is_not_available_from_russia">TMDB service is not available from Russia</string>
     <string name="image_description">Image description</string>
+    <string name="maybe_you_re_looking_for">Maybe you\'re looking for</string>
+    <string name="it_may_be_useful">It may be useful</string>
     <plurals name="count_replies">
         <item quantity="zero">zero</item>
         <item quantity="one">%1$d reply</item>
