@@ -5,8 +5,8 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="?android:attr/windowBackground"
-    android:padding="@dimen/dp_16">
+    android:padding="@dimen/dp_16"
+    tools:context=".presentation.screens.tv_show_details.SeasonDetailsBottomSheetDialogFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,7 +45,7 @@
                     android:layout_height="140dp"
                     tools:background="@color/red"
                     android:src="@drawable/poster_placeholder_bg"
-                    />
+                    android:contentDescription="@string/poster_description" />
 
             </androidx.cardview.widget.CardView>
 
@@ -95,7 +95,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:baselineAligned="false">
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -190,6 +191,16 @@
             style="?attr/MovieShows.TextAppearance.Body3"
             android:ellipsize="end"
             android:layout_marginTop="@dimen/dp_8"
+            />
+
+        <Button
+            android:id="@+id/episodesButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/Theme.MovieShows"
+            android:backgroundTint="?attr/colorAccent"
+            android:text="@string/episodes"
+            android:layout_marginTop="@dimen/dp_16"
             />
 
     </LinearLayout>

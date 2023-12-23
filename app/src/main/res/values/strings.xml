@@ -90,6 +90,8 @@
     <string name="image_description">Image description</string>
     <string name="maybe_you_re_looking_for">Maybe you\'re looking for</string>
     <string name="it_may_be_useful">It may be useful</string>
+    <string name="episodes">Episodes</string>
+    <string name="poster_description">Poster description</string>
     <plurals name="count_replies">
         <item quantity="zero">zero</item>
         <item quantity="one">%1$d reply</item>

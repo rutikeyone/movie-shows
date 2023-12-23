@@ -17,6 +17,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <ScrollView
+            android:id="@+id/tvShowDetailsScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true">
@@ -55,7 +56,8 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="1.0"
                         tools:background="@color/red"
-                        android:src="@drawable/poster_placeholder_bg"/>
+                        android:src="@drawable/poster_placeholder_bg"
+                        android:contentDescription="@string/poster_description" />
 
                     <TextView
                         android:id="@+id/ratingText"

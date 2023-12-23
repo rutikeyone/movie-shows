@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -56,6 +58,26 @@ class SeasonDetailsBottomSheetDialogFragment : BottomSheetDialogFragment() {
         configureAirDate(season)
         configureCountEpisodes(season)
         configureRating(season)
+        configureEpisodesButton(season)
+    }
+
+    private fun configureEpisodesButton(season: SeasonEntity) {
+        val countEpisodes = season.episodeCount
+        with(binding) {
+            if (countEpisodes != null && countEpisodes > 0) {
+                episodesButton.isVisible = true
+                episodesButton.setOnClickListener {
+                    findNavController().navigate(
+                        R.id.seasonEpisodesFragment,
+                        bundleOf(
+                            "seasonId" to season.id
+                        )
+                    )
+                }
+            } else {
+                episodesButton.isVisible = false
+            }
+        }
     }
 
     @SuppressLint("SetTextI18n")

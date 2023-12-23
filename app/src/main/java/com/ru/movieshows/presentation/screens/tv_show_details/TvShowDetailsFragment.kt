@@ -118,16 +118,12 @@ class TvShowDetailsFragment : BaseFragment() {
 
     private fun showSeasonModalBottomSheet(season: SeasonEntity) {
         val seasonNumber = season.seasonNumber?.toString() ?: return
-        val supportFragmentManager = requireActivity().supportFragmentManager
-        val bundle = Bundle().also {
-            it.putParcelable(SeasonDetailsBottomSheetDialogFragment.SEASON_ARG, season)
-            it.putString(SeasonDetailsBottomSheetDialogFragment.SEASON_NUMBER, seasonNumber)
-            it.putString(SeasonDetailsBottomSheetDialogFragment.SERIES_ID, args.id)
-        }
-        val bottomSheet = SeasonDetailsBottomSheetDialogFragment().also {
-            it.arguments = bundle
-        }
-        bottomSheet.show(supportFragmentManager, seasonModalBottomSheet)
+        val action = TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToSeasonDetailsBottomSheetDialogFragment(
+            seasonArgs = season,
+            seasonNumber = seasonNumber,
+            seriesId = args.id
+        )
+        navigator().navigate(action)
     }
 
     private fun configureCreatedBy(tvShow: TvShowDetailsEntity) = with(binding) {
