@@ -9,6 +9,7 @@ data class EpisodeEntity(
     val id: String?,
     val airDate: Date?,
     val seasonNumber: Int?,
+    val episodeNumber: Int?,
     val name: String?,
     val showId: String?,
     val stillPath: String?,

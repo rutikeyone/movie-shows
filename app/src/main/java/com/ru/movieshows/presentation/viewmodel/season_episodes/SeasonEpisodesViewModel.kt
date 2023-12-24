@@ -4,9 +4,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ru.movieshows.R
 import com.ru.movieshows.data.repository.TvShowRepository
+import com.ru.movieshows.domain.entity.EpisodeEntity
 import com.ru.movieshows.domain.entity.SeasonEntity
 import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.screens.season_episodes.SeasonEpisodesFragmentArgs
+import com.ru.movieshows.presentation.screens.season_episodes.SeasonEpisodesFragmentDirections
 import com.ru.movieshows.presentation.sideeffects.navigator.Navigator
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
 import com.ru.movieshows.presentation.viewmodel.season_episodes.state.SeasonEpisodesState
@@ -65,6 +67,19 @@ class SeasonEpisodesViewModel @AssistedInject constructor(
         } else {
             _state.value = SeasonEpisodesState.SuccessEmpty
         }
+    }
+
+    fun navigateToEpisodeDetails(episode: EpisodeEntity) {
+        val seriesId = arguments.seriesId
+        val seasonNumber = arguments.seasonNumber
+        val episodeNumber = episode.episodeNumber ?: return
+        val direction = SeasonEpisodesFragmentDirections
+        val action = direction.actionSeasonEpisodesFragmentToEpisodeDetailsFragment(
+            seriesId = seriesId,
+            seasonNumber = seasonNumber,
+            episodeNumber = episodeNumber,
+        )
+        navigator.navigate(action)
     }
 
     @AssistedFactory

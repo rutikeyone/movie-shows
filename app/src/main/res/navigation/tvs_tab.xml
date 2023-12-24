@@ -132,12 +132,20 @@
         <argument
             android:name="seriesId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_seasonEpisodesFragment_to_episodeDetailsFragment"
+            app:destination="@id/episodeDetailsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
     <dialog
         android:id="@+id/seasonDetailsBottomSheetDialogFragment"
         android:name="com.ru.movieshows.presentation.screens.tv_show_details.SeasonDetailsBottomSheetDialogFragment"
-        android:label="SeasonDetailsBottomSheetDialogFragment" >
+        android:label="SeasonDetailsBottomSheetDialogFragment"
+        tools:layout="@layout/season_modal_sheet">
         <argument
             android:name="season_args"
             app:argType="com.ru.movieshows.domain.entity.SeasonEntity" />
@@ -164,5 +172,20 @@
             android:name="video"
             app:argType="com.ru.movieshows.domain.entity.VideoEntity" />
     </activity>
+    <fragment
+        android:id="@+id/episodeDetailsFragment"
+        android:name="com.ru.movieshows.presentation.screens.episode_details.EpisodeDetailsFragment"
+        android:label="fragment_episode_details"
+        tools:layout="@layout/fragment_episode_details" >
+        <argument
+            android:name="seriesId"
+            app:argType="string" />
+        <argument
+            android:name="seasonNumber"
+            app:argType="string" />
+        <argument
+            android:name="episodeNumber"
+            app:argType="integer" />
+    </fragment>
 
 </navigation>

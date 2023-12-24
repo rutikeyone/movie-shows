@@ -62,7 +62,7 @@ class SeasonEpisodesFragment : BaseFragment() {
     private fun configureSuccessUI(state: SeasonEpisodesState.Success) = with(binding) {
         val itemDecoration = ItemDecoration(8F, resources.displayMetrics)
         val adapter = EpisodesAdapter(state.episodes) { episode ->
-
+            viewModel.navigateToEpisodeDetails(episode)
         }
         episodesRecyclerView.clearDecorations()
         episodesRecyclerView.addItemDecoration(itemDecoration)

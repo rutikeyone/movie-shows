@@ -14,6 +14,8 @@ data class EpisodeModel(
     val airDate: Date?,
     @SerializedName("season_number")
     val seasonNumber: Int?,
+    @SerializedName("episode_number")
+    val episodeNumber: Int?,
     val name: String?,
     @SerializedName("show_id")
     val showId: String?,
@@ -27,6 +29,7 @@ data class EpisodeModel(
             id,
             airDate,
             seasonNumber,
+            episodeNumber,
             name,
             showId,
             if(this.stillPath != null) BuildConfig.TMDB_IMAGE_URL + this.stillPath else null,
