@@ -14,7 +14,7 @@ import com.ru.movieshows.domain.entity.PasswordValidationStatus
 import com.ru.movieshows.domain.entity.UsernameField
 import com.ru.movieshows.domain.entity.UsernameValidationStatus
 import com.ru.movieshows.presentation.FragmentHolder
-import com.ru.movieshows.presentation.sideeffects.navigator.NavigatorWrapper
+import com.ru.movieshows.presentation.sideeffects.navigator.Navigator
 import com.ru.movieshows.presentation.sideeffects.resources.Resources
 import com.ru.movieshows.presentation.sideeffects.toast.Toasts
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
@@ -63,7 +63,7 @@ open class BaseFragment: Fragment() {
         inputMethodService.hideSoftInputFromWindow(requireView().windowToken, 0)
     }
 
-    fun navigator(): NavigatorWrapper {
+    fun navigator(): Navigator {
         val activity = requireActivity()
         return if(activity is FragmentHolder) {
             activity.navigator()

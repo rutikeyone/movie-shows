@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface AccountRepository : Repository {
 
-     val state: StateFlow<AuthenticatedState>
+    val state: StateFlow<AuthenticatedState>
 
     fun isSignedIn() : Boolean
 
@@ -17,7 +17,7 @@ interface AccountRepository : Repository {
 
     suspend fun logout()
 
-    suspend fun listenAuthenitationState()
+    suspend fun listenAuthenticationState()
 
     suspend fun getAccountBySessionId(sessionId: String):  AccountEntity
 }

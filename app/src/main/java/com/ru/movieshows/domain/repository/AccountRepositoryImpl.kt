@@ -57,7 +57,7 @@ class AccountRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun listenAuthenitationState() {
+    override suspend fun listenAuthenticationState() {
         currentSessionIdFlow.get().collect { sessionId ->
             val isNotAuthenticated = _state.value is AuthenticatedState.NotAuthenticated
             _state.emit(AuthenticatedState.InPending(isNotAuthenticated))

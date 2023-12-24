@@ -5,9 +5,10 @@ import com.ru.movieshows.domain.entity.SeasonEntity
 import com.ru.movieshows.domain.entity.TvShowDetailsEntity
 import com.ru.movieshows.domain.entity.TvShowsEntity
 import com.ru.movieshows.domain.entity.VideoEntity
+import com.ru.movieshows.domain.repository.Repository
 import kotlinx.coroutines.flow.Flow
 
-interface TvShowRepository {
+interface TvShowRepository : Repository {
     suspend fun getVideosByMovieId(language: String = "en_US", movieId: String): Result<ArrayList<VideoEntity>>
     suspend fun getSeason(language: String = "en_US", seriesId: String, seasonNumber: String): Result<SeasonEntity>
     suspend fun getSimilarTvShows(language: String = "en_US", page: Int = 1, seriesId: String): Result<ArrayList<TvShowsEntity>>

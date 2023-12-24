@@ -9,7 +9,7 @@ import com.ru.movieshows.domain.entity.GenreEntity
 import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.screens.movies.MoviesFragmentDirections
-import com.ru.movieshows.presentation.sideeffects.navigator.NavigatorWrapper
+import com.ru.movieshows.presentation.sideeffects.navigator.Navigator
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
 import com.ru.movieshows.presentation.viewmodel.movies.state.DiscoverMoviesState
 import com.ru.movieshows.presentation.viewmodel.movies.state.MoviesState
@@ -20,7 +20,7 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
 
 class MoviesViewModel @AssistedInject constructor(
-    @Assisted private val navigator: NavigatorWrapper,
+    @Assisted private val navigator: Navigator,
     private val moviesRepository: MoviesRepository,
     private val genresRepository: GenresRepository,
 ): BaseViewModel() {
@@ -141,6 +141,6 @@ class MoviesViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(navigator: NavigatorWrapper): MoviesViewModel
+        fun create(navigator: Navigator): MoviesViewModel
     }
 }

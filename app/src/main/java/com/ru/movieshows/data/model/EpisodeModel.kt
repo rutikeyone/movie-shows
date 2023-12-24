@@ -2,6 +2,7 @@ package com.ru.movieshows.data.model
 
 import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
+import com.ru.movieshows.BuildConfig
 import com.ru.movieshows.data.utils.DateConverter
 import com.ru.movieshows.domain.entity.EpisodeEntity
 import java.util.Date
@@ -16,6 +17,20 @@ data class EpisodeModel(
     val name: String?,
     @SerializedName("show_id")
     val showId: String?,
+    @SerializedName("still_path")
+    val stillPath: String?,
+    @SerializedName("vote_average")
+    val rating: Double?,
 ) {
-    fun toEntity(): EpisodeEntity = EpisodeEntity(id, airDate, seasonNumber, name, showId)
+    fun toEntity(): EpisodeEntity {
+        return EpisodeEntity(
+            id,
+            airDate,
+            seasonNumber,
+            name,
+            showId,
+            if(this.stillPath != null) BuildConfig.TMDB_IMAGE_URL + this.stillPath else null,
+            rating,
+        )
+    }
 }

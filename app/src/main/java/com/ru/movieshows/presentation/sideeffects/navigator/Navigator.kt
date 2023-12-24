@@ -4,23 +4,40 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavDirections
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.ru.movieshows.presentation.sideeffects.ResourceActions
 
-interface Navigator {
+abstract class Navigator {
 
-    fun authenticated()
+    open val targetNavigator: ResourceActions<Navigator>
+        get() = throw NotImplementedError()
 
-    fun notAuthenticated()
+    abstract fun authenticated()
 
-    fun navigate(direction: NavDirections)
+    abstract fun notAuthenticated()
 
-    fun goBack()
+    abstract fun navigate(direction: NavDirections)
 
-    fun setStartDestination()
+    abstract fun goBack()
 
-    fun getToolbar(): Toolbar?
+    abstract fun setStartDestination()
 
-    fun getBottomNavigationView(): BottomNavigationView?
+    open fun getBottomNavigationView(): BottomNavigationView? {
+        throw NotImplementedError()
+    }
 
-    fun injectActivity(activity: AppCompatActivity)
+    open fun setTarget(navigator: Navigator?) {
+        throw NotImplementedError()
+    }
 
+    open fun clean() {
+        throw NotImplementedError()
+    }
+
+    open fun getToolbar(): Toolbar? {
+        throw NotImplementedError()
+    }
+
+    open fun injectActivity(activity: AppCompatActivity) {
+        throw NotImplementedError()
+    }
 }

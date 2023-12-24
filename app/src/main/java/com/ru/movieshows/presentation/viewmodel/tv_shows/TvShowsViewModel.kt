@@ -6,7 +6,7 @@ import com.ru.movieshows.data.repository.TvShowRepository
 import com.ru.movieshows.domain.entity.TvShowsEntity
 import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.screens.tv_shows.TvShowsFragmentDirections
-import com.ru.movieshows.presentation.sideeffects.navigator.NavigatorWrapper
+import com.ru.movieshows.presentation.sideeffects.navigator.Navigator
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
 import com.ru.movieshows.presentation.viewmodel.share
 import com.ru.movieshows.presentation.viewmodel.tv_shows.state.TvShowsState
@@ -16,7 +16,7 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
 
 class TvShowsViewModel @AssistedInject constructor(
-    @Assisted private val navigator: NavigatorWrapper,
+    @Assisted private val navigator: Navigator,
     private val tvShowsRepository: TvShowRepository,
 ) : BaseViewModel() {
 
@@ -94,7 +94,7 @@ class TvShowsViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(navigator: NavigatorWrapper): TvShowsViewModel
+        fun create(navigator: Navigator): TvShowsViewModel
     }
 
 }

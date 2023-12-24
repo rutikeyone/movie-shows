@@ -8,7 +8,7 @@ import androidx.paging.cachedIn
 import com.ru.movieshows.data.repository.TvShowRepository
 import com.ru.movieshows.domain.entity.TvShowsEntity
 import com.ru.movieshows.presentation.screens.tv_show_search.TvShowSearchFragmentDirections
-import com.ru.movieshows.presentation.sideeffects.navigator.NavigatorWrapper
+import com.ru.movieshows.presentation.sideeffects.navigator.Navigator
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
 import com.ru.movieshows.presentation.viewmodel.share
 import com.ru.movieshows.presentation.viewmodel.tv_show_search.state.TvShowSearchState
@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class TvShowSearchViewModel @AssistedInject constructor(
-    @Assisted private val navigator: NavigatorWrapper,
+    @Assisted private val navigator: Navigator,
     private val tvShowRepository: TvShowRepository,
 ) : BaseViewModel() {
     val state = MediatorLiveData<TvShowSearchState>()
@@ -89,7 +89,7 @@ class TvShowSearchViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(navigator: NavigatorWrapper): TvShowSearchViewModel
+        fun create(navigator: Navigator): TvShowSearchViewModel
     }
 
 }

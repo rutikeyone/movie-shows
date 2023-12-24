@@ -21,6 +21,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
+
     @Binds
     abstract fun bindGenresRepository(genresRepositoryImpl: GenresRepositoryImpl): GenresRepository
 
@@ -41,4 +42,5 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindYoutubeRepository(repository: YoutubeRepositoryImpl): YoutubeRepository
+
 }

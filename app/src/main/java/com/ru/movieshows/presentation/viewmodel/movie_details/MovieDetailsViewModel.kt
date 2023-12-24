@@ -10,7 +10,7 @@ import com.ru.movieshows.domain.entity.ReviewEntity
 import com.ru.movieshows.domain.entity.VideoEntity
 import com.ru.movieshows.domain.utils.AppFailure
 import com.ru.movieshows.presentation.screens.movie_details.MovieDetailsFragmentDirections
-import com.ru.movieshows.presentation.sideeffects.navigator.NavigatorWrapper
+import com.ru.movieshows.presentation.sideeffects.navigator.Navigator
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
 import com.ru.movieshows.presentation.viewmodel.movie_details.state.MovieDetailsState
 import com.ru.movieshows.presentation.viewmodel.share
@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 
 class MovieDetailsViewModel @AssistedInject constructor(
     @Assisted private val movieId: Int,
-    @Assisted private val navigator: NavigatorWrapper,
+    @Assisted private val navigator: Navigator,
     private val moviesRepository: MoviesRepository,
 ) : BaseViewModel(), DefaultLifecycleObserver {
 
@@ -96,6 +96,6 @@ class MovieDetailsViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(navigator: NavigatorWrapper, movieId: Int): MovieDetailsViewModel
+        fun create(navigator: Navigator, movieId: Int): MovieDetailsViewModel
     }
 }

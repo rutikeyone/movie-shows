@@ -5,15 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ru.movieshows.R
 import com.ru.movieshows.databinding.SeasonModalSheetBinding
 import com.ru.movieshows.domain.entity.SeasonEntity
+import com.ru.movieshows.presentation.screens.BaseBottomSheetDialogFragment
 import com.ru.movieshows.presentation.viewmodel.tv_show_details.SeasonDetailsViewModel
 import com.ru.movieshows.presentation.viewmodel.viewBinding
 import com.ru.movieshows.presentation.viewmodel.viewModelCreator
@@ -22,17 +21,20 @@ import java.text.SimpleDateFormat
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SeasonDetailsBottomSheetDialogFragment : BottomSheetDialogFragment() {
+class SeasonDetailsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
+
+    private val arguments by navArgs<SeasonDetailsBottomSheetDialogFragmentArgs>()
 
     @Inject
     lateinit var factory: SeasonDetailsViewModel.Factory
     val viewModel by viewModelCreator {
-        val season = arguments?.getParcelable<SeasonEntity>(SEASON_ARG) ?: throw IllegalStateException("Season must should by null")
-        val seasonNumber = arguments?.getString(SEASON_NUMBER) ?: throw IllegalStateException("Season number must should by null")
-        val seriesId = arguments?.getString(SERIES_ID) ?: throw IllegalStateException("Series Id must should by null")
+        val season = arguments.seasonArgs
+        val seasonNumber = arguments.seasonNumber
+        val seriesId = arguments.seriesId
         factory.create(
             initialSeason = season,
-            arguments = Pair(seasonNumber, seriesId)
+            arguments = Pair(seasonNumber, seriesId),
+            navigator = navigator(),
         )
     }
 
@@ -67,12 +69,7 @@ class SeasonDetailsBottomSheetDialogFragment : BottomSheetDialogFragment() {
             if (countEpisodes != null && countEpisodes > 0) {
                 episodesButton.isVisible = true
                 episodesButton.setOnClickListener {
-                    findNavController().navigate(
-                        R.id.seasonEpisodesFragment,
-                        bundleOf(
-                            "seasonId" to season.id
-                        )
-                    )
+                    viewModel.navigateToEpisodes()
                 }
             } else {
                 episodesButton.isVisible = false

@@ -22,6 +22,7 @@ class YoutubeRepositoryImpl @Inject constructor(
     override fun getPagedCommentsByVideo(videoId: String?): Flow<PagingData<CommentEntity>> {
 
         val loader = object : PagingSource<String, CommentEntity>() {
+
             override fun getRefreshKey(state: PagingState<String, CommentEntity>): String? {
                 return state.anchorPosition?.let { state.closestItemToPosition(it)?.id }
             }

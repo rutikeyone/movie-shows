@@ -1,8 +1,11 @@
+@file:Suppress("UNREACHABLE_CODE")
+
 package com.ru.movieshows.domain.repository
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.google.gson.Gson
 import com.ru.movieshows.data.dto.MoviesDto
 import com.ru.movieshows.data.dto.PageLoader
 import com.ru.movieshows.data.dto.PagingSource
@@ -13,10 +16,12 @@ import com.ru.movieshows.domain.entity.ReviewEntity
 import com.ru.movieshows.domain.entity.VideoEntity
 import com.ru.movieshows.domain.utils.AppFailure
 import kotlinx.coroutines.flow.Flow
-import java.net.ConnectException
 import javax.inject.Inject
 
-class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto): MoviesRepository {
+class MoviesRepositoryImpl @Inject constructor(
+    private val moviesDto: MoviesDto,
+    private val gson: Gson,
+): MoviesRepository {
 
     override fun getPagedTopRatedMovies(language: String): Flow<PagingData<MovieEntity>> {
         val loader: PageLoader<List<MovieEntity>> = { pageIndex ->
@@ -136,13 +141,9 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
                 Result.failure(movieException)
             }
         }
-        catch (e: ConnectException) {
-            val movieException = AppFailure.Connection
-            Result.failure(movieException)
-        }
         catch (e: Exception) {
-            val movieException = AppFailure.Pure
-            Result.failure(movieException)
+            val error = handleError(e, gson)
+            return Result.failure(error)
         }
     }
 
@@ -161,13 +162,9 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
                 Result.failure(movieException)
             }
         }
-        catch (e: ConnectException) {
-            val movieException = AppFailure.Connection
-            Result.failure(movieException)
-        }
         catch (e: Exception) {
-            val movieException = AppFailure.Pure
-            Result.failure(movieException)
+            val error = handleError(e, gson)
+            return Result.failure(error)
         }
     }
 
@@ -183,13 +180,9 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
                 Result.failure(movieException)
             }
         }
-        catch (e: ConnectException) {
-            val movieException = AppFailure.Connection
-            Result.failure(movieException)
-        }
         catch (e: Exception) {
-            val movieException = AppFailure.Pure
-            Result.failure(movieException)
+            val error = handleError(e, gson)
+            return Result.failure(error)
         }
     }
 
@@ -209,13 +202,9 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
                 Result.failure(movieException)
             }
         }
-        catch (e: ConnectException) {
-            val movieException = AppFailure.Connection
-            Result.failure(movieException)
-        }
         catch (e: Exception) {
-            val movieException = AppFailure.Pure
-            Result.failure(movieException)
+            val error = handleError(e, gson)
+            return Result.failure(error)
         }
     }
 
@@ -234,13 +223,9 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
                 Result.failure(movieException)
             }
         }
-        catch (e: ConnectException) {
-            val movieException = AppFailure.Connection
-            Result.failure(movieException)
-        }
         catch (e: Exception) {
-            val movieException = AppFailure.Pure
-            Result.failure(movieException)
+            val error = handleError(e, gson)
+            return Result.failure(error)
         }
     }
 
@@ -256,13 +241,9 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
                 Result.failure(movieException)
             }
         }
-        catch (e: ConnectException) {
-            val movieException = AppFailure.Connection
-            Result.failure(movieException)
-        }
         catch (e: Exception) {
-            val movieException = AppFailure.Pure
-            Result.failure(movieException)
+            val error = handleError(e, gson)
+            return Result.failure(error)
         }
     }
 
@@ -281,14 +262,9 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
                 Result.failure(movieException)
             }
         }
-        catch (e: ConnectException) {
-            val movieException = AppFailure.Connection
-            Result.failure(movieException)
-        }
         catch (e: Exception) {
-            val movieException = AppFailure.Pure
-            movieException.initCause(e)
-            Result.failure(movieException)
+            val error = handleError(e, gson)
+            return Result.failure(error)
         }
     }
 
@@ -307,13 +283,9 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
                 Result.failure(movieException)
             }
         }
-        catch (e: ConnectException) {
-            val movieException = AppFailure.Connection
-            Result.failure(movieException)
-        }
         catch (e: Exception) {
-            val movieException = AppFailure.Pure
-            Result.failure(movieException)
+            val error = handleError(e, gson)
+            return Result.failure(error)
         }
     }
 
@@ -332,13 +304,9 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
                 Result.failure(movieException)
             }
         }
-        catch (e: ConnectException) {
-            val movieException = AppFailure.Connection
-            Result.failure(movieException)
-        }
         catch (e: Exception) {
-            val movieException = AppFailure.Pure
-            Result.failure(movieException)
+            val error = handleError(e, gson)
+            return Result.failure(error)
         }
     }
 
@@ -358,13 +326,9 @@ class MoviesRepositoryImpl @Inject constructor(private val moviesDto: MoviesDto)
                 Result.failure(movieException)
             }
         }
-        catch (e: ConnectException) {
-            val movieException = AppFailure.Connection
-            Result.failure(movieException)
-        }
         catch (e: Exception) {
-            val movieException = AppFailure.Pure
-            Result.failure(movieException)
+            val error = handleError(e, gson)
+            return Result.failure(error)
         }
     }
 

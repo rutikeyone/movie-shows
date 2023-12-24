@@ -57,7 +57,7 @@
     <string name="create_account">Create account</string>
     <string name="sign_in">Sign In</string>
     <string name="welcome_back">Welcome back</string>
-    <string name="hello_there_sign_in_continue">Hello there, sign in continue.</string>
+    <string name="hello_there_sign_in_continue">Hello there, sign in continue</string>
     <string name="enter_your_email">Enter your email</string>
     <string name="enter_the_password">Enter the password</string>
     <string name="empty_text_field">Empty text field</string>
@@ -92,6 +92,7 @@
     <string name="it_may_be_useful">It may be useful</string>
     <string name="episodes">Episodes</string>
     <string name="poster_description">Poster description</string>
+    <string name="there_are_no_episodes">There are no episodes</string>
     <plurals name="count_replies">
         <item quantity="zero">zero</item>
         <item quantity="one">%1$d reply</item>

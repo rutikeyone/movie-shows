@@ -11,4 +11,6 @@ data class EpisodeEntity(
     val seasonNumber: Int?,
     val name: String?,
     val showId: String?,
+    val stillPath: String?,
+    val rating: Double?,
 ) : Parcelable

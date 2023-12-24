@@ -5,9 +5,10 @@ import com.ru.movieshows.domain.entity.MovieDetailsEntity
 import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.domain.entity.ReviewEntity
 import com.ru.movieshows.domain.entity.VideoEntity
+import com.ru.movieshows.domain.repository.Repository
 import kotlinx.coroutines.flow.Flow
 
-interface MoviesRepository {
+interface MoviesRepository : Repository {
     fun searchPagedMovies(language: String = "en_US", query: String? = null) : Flow<PagingData<MovieEntity>>
     fun getPagedMovieReview(language: String = "en_US", movieId: String): Flow<PagingData<ReviewEntity>>
     fun getPagedTopRatedMovies(language: String = "en_US") : Flow<PagingData<MovieEntity>>

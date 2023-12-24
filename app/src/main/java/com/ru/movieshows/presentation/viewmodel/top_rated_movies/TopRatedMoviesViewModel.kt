@@ -6,17 +6,19 @@ import androidx.paging.cachedIn
 import com.ru.movieshows.data.repository.MoviesRepository
 import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.presentation.screens.top_rated_movies.TopRatedMoviesFragmentDirections
-import com.ru.movieshows.presentation.sideeffects.navigator.NavigatorWrapper
+import com.ru.movieshows.presentation.sideeffects.navigator.Navigator
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class TopRatedMoviesViewModel @AssistedInject constructor(
-    @Assisted private val navigator: NavigatorWrapper,
+    @Assisted private val navigator: Navigator,
     private val moviesRepository: MoviesRepository
 ) : BaseViewModel() {
 
@@ -33,7 +35,7 @@ class TopRatedMoviesViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(navigator: NavigatorWrapper): TopRatedMoviesViewModel
+        fun create(navigator: Navigator): TopRatedMoviesViewModel
     }
 
 }

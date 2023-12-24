@@ -23,7 +23,7 @@ import javax.inject.Named
 class TabsFragment : BaseFragment() {
 
     @Inject
-    @Named(NavigatorModule.topLevelDestinations)
+    @Named(NavigatorModule.topLevelDestinationsDependency)
     lateinit var tabsTopLevelFragment: Set<Int>
 
     private val binding by viewBinding<FragmentTabsBinding>()

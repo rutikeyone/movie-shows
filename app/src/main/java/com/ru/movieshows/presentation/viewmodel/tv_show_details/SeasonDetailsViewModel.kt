@@ -4,6 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ru.movieshows.data.repository.TvShowRepository
 import com.ru.movieshows.domain.entity.SeasonEntity
+import com.ru.movieshows.presentation.screens.tv_show_details.SeasonDetailsBottomSheetDialogFragmentDirections
+import com.ru.movieshows.presentation.sideeffects.navigator.Navigator
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
 import com.ru.movieshows.presentation.viewmodel.share
 import dagger.assisted.Assisted
@@ -15,6 +17,7 @@ import kotlinx.coroutines.launch
 class SeasonDetailsViewModel @AssistedInject constructor(
     @Assisted private val arguments: Pair<String, String>,
     @Assisted private val initialSeason: SeasonEntity,
+    @Assisted private val navigator: Navigator,
     private val tvShowRepository: TvShowRepository,
 ) : BaseViewModel() {
 
@@ -34,11 +37,23 @@ class SeasonDetailsViewModel @AssistedInject constructor(
        }
    }
 
+    fun navigateToEpisodes() {
+        val seriesId = arguments.second
+        val seasonNumber = arguments.first
+        val direction = SeasonDetailsBottomSheetDialogFragmentDirections
+        val action = direction.actionSeasonDetailsBottomSheetDialogFragmentToSeasonEpisodesFragment(
+            seasonNumber = seasonNumber,
+            seriesId = seriesId,
+        )
+        navigator.navigate(action)
+    }
+
     @AssistedFactory
     interface Factory {
         fun create(
             arguments: Pair<String, String>,
             initialSeason: SeasonEntity,
+            navigator: Navigator,
         ): SeasonDetailsViewModel
     }
 

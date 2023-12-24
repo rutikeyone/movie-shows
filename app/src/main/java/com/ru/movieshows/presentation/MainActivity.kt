@@ -5,14 +5,15 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.ru.movieshows.databinding.ActivityMainBinding
+import com.ru.movieshows.dependencies.NavigatorModule
 import com.ru.movieshows.presentation.sideeffects.loader.LoaderOverlay
 import com.ru.movieshows.presentation.sideeffects.navigator.Navigator
-import com.ru.movieshows.presentation.sideeffects.navigator.NavigatorWrapper
 import com.ru.movieshows.presentation.sideeffects.resources.Resources
 import com.ru.movieshows.presentation.sideeffects.toast.Toasts
 import com.ru.movieshows.presentation.viewmodel.main.ActivityScopeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import javax.inject.Named
 
 
 @AndroidEntryPoint
@@ -20,6 +21,7 @@ class MainActivity : AppCompatActivity(), FragmentHolder {
     private lateinit var binding: ActivityMainBinding
 
     @Inject
+    @Named(NavigatorModule.navigatorImplDependency)
     lateinit var navigator: Navigator
 
     private val activityScopeViewModel by viewModels<ActivityScopeViewModel>()
@@ -43,7 +45,7 @@ class MainActivity : AppCompatActivity(), FragmentHolder {
         activityScopeViewModel.navigator.setTarget(null)
     }
 
-    override fun navigator(): NavigatorWrapper = activityScopeViewModel.navigator
+    override fun navigator(): Navigator = activityScopeViewModel.navigator
 
     override fun toasts(): Toasts = activityScopeViewModel.toasts
 

@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.ru.movieshows.data.repository.AccountRepository
 import com.ru.movieshows.domain.entity.AuthenticatedState
 import com.ru.movieshows.presentation.sideeffects.loader.LoaderOverlay
-import com.ru.movieshows.presentation.sideeffects.navigator.NavigatorWrapper
+import com.ru.movieshows.presentation.sideeffects.navigator.Navigator
 import com.ru.movieshows.presentation.sideeffects.resources.Resources
 import com.ru.movieshows.presentation.sideeffects.toast.Toasts
 import com.ru.movieshows.presentation.viewmodel.share
@@ -16,11 +16,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ActivityScopeViewModel @Inject constructor(
-    val navigator: NavigatorWrapper,
+    val navigator: Navigator,
     val toasts: Toasts,
     val resources: Resources,
     private val accountsRepository: AccountRepository,
-): ViewModel(), NavigatorWrapper by navigator, LoaderOverlay {
+): ViewModel(), LoaderOverlay {
 
     private val _loaderOverlayState = MutableLiveData(false)
     val loaderOverlayState = _loaderOverlayState.share()
@@ -32,7 +32,7 @@ class ActivityScopeViewModel @Inject constructor(
     private fun handleState() = viewModelScope.launch {
 
         launch {
-           accountsRepository.listenAuthenitationState()
+           accountsRepository.listenAuthenticationState()
         }
 
         launch {
@@ -48,7 +48,7 @@ class ActivityScopeViewModel @Inject constructor(
             AuthenticatedState.Pure -> {}
             is AuthenticatedState.InPending -> {
                 val isNotAuthenticated = state.isNotAuthenticated
-                if (!isNotAuthenticated) setStartDestination()
+                if (!isNotAuthenticated) navigator.setStartDestination()
                 else showLoader()
             }
             is AuthenticatedState.Authenticated -> {

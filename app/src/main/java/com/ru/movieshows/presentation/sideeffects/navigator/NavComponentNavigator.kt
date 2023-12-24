@@ -19,14 +19,14 @@ import javax.inject.Inject
 import javax.inject.Named
 
 
-class NavigatorImpl @Inject constructor(
-    @Named(NavigatorModule.fragmentContainer) private val fragmentContainer: Int,
-    @Named(NavigatorModule.appGraph) private val appGraph: Int,
-    @Named(NavigatorModule.splashFragment) private val splashDestination: Int,
-    @Named(NavigatorModule.globalSignIn) private val toGlobalSignIn: NavDirections,
-    @Named(NavigatorModule.globalTabsAction) private val toTabs: NavDirections,
-    @Named(NavigatorModule.topLevelDestinations) val topLevelDestinations: Set<Int>,
-) : Navigator, DefaultLifecycleObserver {
+class NavComponentNavigator @Inject constructor(
+    @Named(NavigatorModule.fragmentContainerDependency) private val fragmentContainer: Int,
+    @Named(NavigatorModule.appGraphDependency) private val appGraph: Int,
+    @Named(NavigatorModule.splashFragmentDependency) private val splashDestination: Int,
+    @Named(NavigatorModule.globalSignInDependency) private val toGlobalSignIn: NavDirections,
+    @Named(NavigatorModule.globalTabsActionDependency) private val toTabs: NavDirections,
+    @Named(NavigatorModule.topLevelDestinationsDependency) val topLevelDestinations: Set<Int>,
+) : Navigator(), DefaultLifecycleObserver {
     private lateinit var activity: AppCompatActivity
 
     private  val rootNavController: NavController get() {

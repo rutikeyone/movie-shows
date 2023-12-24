@@ -1,8 +1,11 @@
+@file:Suppress("UNREACHABLE_CODE")
+
 package com.ru.movieshows.domain.repository
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.google.gson.Gson
 import com.ru.movieshows.data.dto.PageLoader
 import com.ru.movieshows.data.dto.PagingSource
 import com.ru.movieshows.data.dto.TvShowDto
@@ -13,14 +16,12 @@ import com.ru.movieshows.domain.entity.TvShowsEntity
 import com.ru.movieshows.domain.entity.VideoEntity
 import com.ru.movieshows.domain.utils.AppFailure
 import kotlinx.coroutines.flow.Flow
-import java.net.ConnectException
-import java.net.SocketTimeoutException
-import java.net.UnknownHostException
 import javax.inject.Inject
 
 class TvShowsRepositoryImpl @Inject constructor(
-    private val tvShowsDto: TvShowDto
-): TvShowRepository {
+    private val tvShowsDto: TvShowDto,
+    private val gson: Gson,
+    ): TvShowRepository {
 
     override suspend fun getVideosByMovieId(
         language: String,
@@ -39,13 +40,9 @@ class TvShowsRepositoryImpl @Inject constructor(
                 Result.failure(movieException)
             }
         }
-        catch (e: ConnectException) {
-            val movieException = AppFailure.Connection
-            Result.failure(movieException)
-        }
         catch (e: Exception) {
-            val movieException = AppFailure.Pure
-            Result.failure(movieException)
+            val error = handleError(e, gson)
+            return Result.failure(error)
         }
     }
 
@@ -54,17 +51,10 @@ class TvShowsRepositoryImpl @Inject constructor(
             val seasonModel = tvShowsDto.getSeason(seriesId, seasonNumber, language)
             val seasonEntity = seasonModel.toEntity()
             return Result.success(seasonEntity)
-        } catch (e: SocketTimeoutException) {
-            return Result.failure(AppFailure.Connection)
-        }
-        catch (e: UnknownHostException) {
-            return Result.failure(AppFailure.Connection)
-        }
-        catch (e: ConnectException) {
-            return Result.failure(AppFailure.Connection)
         }
         catch (e: Exception) {
-            return Result.failure(AppFailure.Pure)
+            val error = handleError(e, gson)
+            return Result.failure(error)
         }
     }
 
@@ -81,14 +71,9 @@ class TvShowsRepositoryImpl @Inject constructor(
                 Result.failure(exception)
             }
         }
-        catch (e: ConnectException) {
-            val movieException = AppFailure.Connection
-            Result.failure(movieException)
-        }
         catch (e: Exception) {
-            val exception = AppFailure.Pure
-            exception.initCause(e)
-            Result.failure(exception)
+            val error = handleError(e, gson)
+            return Result.failure(error)
         }
     }
 
@@ -107,14 +92,9 @@ class TvShowsRepositoryImpl @Inject constructor(
                 Result.failure(exception)
             }
         }
-        catch (e: ConnectException) {
-            val movieException = AppFailure.Connection
-            Result.failure(movieException)
-        }
         catch (e: Exception) {
-            val exception = AppFailure.Pure
-            exception.initCause(e)
-            Result.failure(exception)
+            val error = handleError(e, gson)
+            return Result.failure(error)
         }
     }
 
@@ -133,13 +113,9 @@ class TvShowsRepositoryImpl @Inject constructor(
                 Result.failure(failure)
             }
         }
-        catch (e: ConnectException) {
-            val movieException = AppFailure.Connection
-            Result.failure(movieException)
-        }
         catch (e: Exception) {
-            val failure = AppFailure.Pure
-            Result.failure(failure)
+            val error = handleError(e, gson)
+            return Result.failure(error)
         }
     }
 
@@ -158,14 +134,9 @@ class TvShowsRepositoryImpl @Inject constructor(
                 Result.failure(exception)
             }
         }
-        catch (e: ConnectException) {
-            val movieException = AppFailure.Connection
-            Result.failure(movieException)
-        }
         catch (e: Exception) {
-            val exception = AppFailure.Pure
-            exception.initCause(e)
-            Result.failure(exception)
+            val error = handleError(e, gson)
+            return Result.failure(error)
         }
     }
 
@@ -184,14 +155,9 @@ class TvShowsRepositoryImpl @Inject constructor(
                 Result.failure(exception)
             }
         }
-        catch (e: ConnectException) {
-            val movieException = AppFailure.Connection
-            Result.failure(movieException)
-        }
         catch (e: Exception) {
-            val exception = AppFailure.Pure
-            exception.initCause(e)
-            Result.failure(exception)
+            val error = handleError(e, gson)
+            return Result.failure(error)
         }
     }
 
@@ -210,14 +176,9 @@ class TvShowsRepositoryImpl @Inject constructor(
                 Result.failure(exception)
             }
         }
-        catch (e: ConnectException) {
-            val movieException = AppFailure.Connection
-            Result.failure(movieException)
-        }
         catch (e: Exception) {
-            val exception = AppFailure.Pure
-            exception.initCause(e)
-            Result.failure(exception)
+            val error = handleError(e, gson)
+            return Result.failure(error)
         }
     }
 
@@ -311,13 +272,9 @@ class TvShowsRepositoryImpl @Inject constructor(
                 Result.failure(failure)
             }
         }
-        catch (e: ConnectException) {
-            val movieException = AppFailure.Connection
-            Result.failure(movieException)
-        }
         catch (e: Exception) {
-            val failure = AppFailure.Pure
-            Result.failure(failure)
+            val error = handleError(e, gson)
+            return Result.failure(error)
         }
     }
 
@@ -337,13 +294,14 @@ class TvShowsRepositoryImpl @Inject constructor(
            val tvShowEntities = result.map { it.toEntity() }
            Pair(tvShowEntities, totalPages)
        }
-        return Pager(
-            config = PagingConfig(
-                pageSize = PAGE_SIZE,
-                enablePlaceholders = false
-            ),
-            pagingSourceFactory = { PagingSource(loader, PAGE_SIZE) }
-        ).flow
+
+       return Pager(
+           config = PagingConfig(
+               pageSize = PAGE_SIZE,
+               enablePlaceholders = false
+           ),
+           pagingSourceFactory = { PagingSource(loader, PAGE_SIZE) }
+       ).flow
     }
 
     private companion object {

@@ -8,7 +8,7 @@ import androidx.paging.cachedIn
 import com.ru.movieshows.data.repository.MoviesRepository
 import com.ru.movieshows.domain.entity.MovieEntity
 import com.ru.movieshows.presentation.screens.movie_search.MovieSearchFragmentDirections
-import com.ru.movieshows.presentation.sideeffects.navigator.NavigatorWrapper
+import com.ru.movieshows.presentation.sideeffects.navigator.Navigator
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
 import com.ru.movieshows.presentation.viewmodel.movie_search.state.MovieSearchState
 import com.ru.movieshows.presentation.viewmodel.share
@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class MovieSearchViewModel @AssistedInject constructor(
-    @Assisted private val navigator: NavigatorWrapper,
+    @Assisted private val navigator: Navigator,
     private val moviesRepository: MoviesRepository,
 ) : BaseViewModel(){
     val state = MediatorLiveData<MovieSearchState>()
@@ -89,7 +89,7 @@ class MovieSearchViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(navigator: NavigatorWrapper) : MovieSearchViewModel
+        fun create(navigator: Navigator) : MovieSearchViewModel
     }
 
 }

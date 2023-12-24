@@ -1,5 +1,8 @@
+@file:Suppress("UNREACHABLE_CODE")
+
 package com.ru.movieshows.domain.repository
 
+import com.google.gson.Gson
 import com.ru.movieshows.data.dto.GenresDto
 import com.ru.movieshows.data.repository.GenresRepository
 import com.ru.movieshows.domain.entity.GenreEntity
@@ -7,8 +10,10 @@ import com.ru.movieshows.domain.utils.AppFailure
 import javax.inject.Inject
 
 class GenresRepositoryImpl @Inject constructor(
-    private val genresDto: GenresDto
+    private val genresDto: GenresDto,
+    private val gson: Gson,
 ): GenresRepository {
+
     override suspend fun getGenres(language: String): Result<ArrayList<GenreEntity>> {
         return try {
             val response = genresDto.getGenres(language)
@@ -24,9 +29,8 @@ class GenresRepositoryImpl @Inject constructor(
                 return Result.failure(AppFailure.Pure)
             }
         } catch (e: Exception) {
-            val failure = AppFailure.Pure
-            failure.initCause(e)
-            return Result.failure(failure)
+            val error = handleError(e, gson)
+            return Result.failure(error)
         }
     }
 

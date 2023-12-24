@@ -6,7 +6,7 @@ import androidx.paging.cachedIn
 import com.ru.movieshows.data.repository.TvShowRepository
 import com.ru.movieshows.domain.entity.TvShowsEntity
 import com.ru.movieshows.presentation.screens.air_tv_shows.AirTvShowsFragmentDirections
-import com.ru.movieshows.presentation.sideeffects.navigator.NavigatorWrapper
+import com.ru.movieshows.presentation.sideeffects.navigator.Navigator
 import com.ru.movieshows.presentation.viewmodel.BaseViewModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class AirTvShowsViewModel @AssistedInject constructor(
-    @Assisted private val navigator: NavigatorWrapper,
+    @Assisted private val navigator: Navigator,
     private val tvShowRepository: TvShowRepository,
 ) : BaseViewModel() {
 
@@ -34,7 +34,7 @@ class AirTvShowsViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(navigator: NavigatorWrapper): AirTvShowsViewModel
+        fun create(navigator: Navigator): AirTvShowsViewModel
     }
 
 }
