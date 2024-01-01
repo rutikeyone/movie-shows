@@ -14,4 +14,6 @@ data class EpisodeEntity(
     val showId: String?,
     val stillPath: String?,
     val rating: Double?,
+    val overview: String?,
+    val crew: ArrayList<CrewEntity>?
 ) : Parcelable

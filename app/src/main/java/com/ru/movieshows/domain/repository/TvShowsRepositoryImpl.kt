@@ -10,6 +10,7 @@ import com.ru.movieshows.data.dto.PageLoader
 import com.ru.movieshows.data.dto.PagingSource
 import com.ru.movieshows.data.dto.TvShowDto
 import com.ru.movieshows.data.repository.TvShowRepository
+import com.ru.movieshows.domain.entity.EpisodeEntity
 import com.ru.movieshows.domain.entity.SeasonEntity
 import com.ru.movieshows.domain.entity.TvShowDetailsEntity
 import com.ru.movieshows.domain.entity.TvShowsEntity
@@ -302,6 +303,22 @@ class TvShowsRepositoryImpl @Inject constructor(
            ),
            pagingSourceFactory = { PagingSource(loader, PAGE_SIZE) }
        ).flow
+    }
+
+    override suspend fun getEpisodeByNumber(
+        language: String,
+        seriesId: String,
+        seasonNumber: String,
+        episodeNumber: Int,
+    ): Result<EpisodeEntity> {
+        return try {
+            val episodeModel = tvShowsDto.getEpisodeByNumber(seriesId, seasonNumber, episodeNumber.toString(), language)
+            val episode = episodeModel.toEntity()
+            return Result.success(episode)
+        } catch (e: Exception) {
+            val error = handleError(e, gson)
+            return Result.failure(error)
+        }
     }
 
     private companion object {

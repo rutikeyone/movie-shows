@@ -15,7 +15,7 @@
     <string name="movies_details">Details</string>
     <string name="duration">Duration</string>
     <string name="min">min.</string>
-    <string name="release_date">Release Date</string>
+    <string name="release_date">Release Date:</string>
     <string name="overview">Overview</string>
     <string name="lorem_ipsum" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</string>
     <string name="genres">Genres</string>
@@ -93,6 +93,8 @@
     <string name="episodes">Episodes</string>
     <string name="poster_description">Poster description</string>
     <string name="there_are_no_episodes">There are no episodes</string>
+    <string name="backdrop_description">Backdrop descriotion</string>
+    <string name="crew">Crew</string>
     <plurals name="count_replies">
         <item quantity="zero">zero</item>
         <item quantity="one">%1$d reply</item>

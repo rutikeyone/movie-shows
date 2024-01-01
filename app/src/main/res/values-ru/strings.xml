@@ -16,7 +16,7 @@
     <string name="movies_details">Детали</string>
     <string name="duration">Длительность</string>
     <string name="min">мин.</string>
-    <string name="release_date">Дата выхода</string>
+    <string name="release_date">Дата выхода:</string>
     <string name="overview">Краткий обзор</string>
     <string name="genres">Жанры</string>
     <string name="similar_movies">Похожие фильмы</string>
@@ -85,6 +85,7 @@
     <string name="it_may_be_useful">Может быть полезно</string>
     <string name="episodes">Эпизоды</string>
     <string name="there_are_no_episodes">Нет эпизодов</string>
+    <string name="crew">Команда</string>
     <plurals name="count_replies">
         <item quantity="one">%1$d ответ</item>
         <item quantity="few">%1$d ответов</item>

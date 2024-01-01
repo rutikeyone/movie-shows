@@ -1,5 +1,6 @@
 package com.ru.movieshows.data.dto
 
+import com.ru.movieshows.data.model.EpisodeModel
 import com.ru.movieshows.data.model.SeasonModel
 import com.ru.movieshows.data.model.TvShowDetailsModel
 import com.ru.movieshows.data.response.TvShowsResponse
@@ -39,4 +40,12 @@ interface TvShowDto {
 
     @GET("search/tv")
     suspend fun searchTvShows(@Query("language") language: String, @Query("page") page: Int, @Query("query") query: String?) : Response<TvShowsResponse>
+
+    @GET("tv/{series_id}/season/{season_number}/episode/{episode_number}")
+    suspend fun getEpisodeByNumber(
+        @Path("series_id") seriesId: String,
+        @Path("season_number") seasonNumber: String,
+        @Path("episode_number") episodeNumber: String,
+        @Query("language") language: String,
+    ): EpisodeModel
 }

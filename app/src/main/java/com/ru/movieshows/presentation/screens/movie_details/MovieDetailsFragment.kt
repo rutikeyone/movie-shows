@@ -343,7 +343,7 @@ class MovieDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun configureBackDrop(backDrop: String?) = with(binding.movieBackDrop) {
+    private fun configureBackDrop(backDrop: String?) = with(binding.movieBackDropImageView) {
         if(!backDrop.isNullOrEmpty()) {
             Glide
                 .with(this@MovieDetailsFragment)

@@ -148,6 +148,8 @@ class SeasonDetailsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
             Glide
                 .with(context)
                 .load(R.drawable.poster_placeholder_bg)
+                .placeholder(R.drawable.poster_placeholder_bg)
+                .error(R.drawable.poster_placeholder_bg)
                 .centerCrop()
                 .into(this)
         }

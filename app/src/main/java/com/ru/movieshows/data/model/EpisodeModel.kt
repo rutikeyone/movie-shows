@@ -23,6 +23,9 @@ data class EpisodeModel(
     val stillPath: String?,
     @SerializedName("vote_average")
     val rating: Double?,
+    @SerializedName("overview")
+    val overview: String?,
+    val crew: ArrayList<CrewModel>?
 ) {
     fun toEntity(): EpisodeEntity {
         return EpisodeEntity(
@@ -34,6 +37,10 @@ data class EpisodeModel(
             showId,
             if(this.stillPath != null) BuildConfig.TMDB_IMAGE_URL + this.stillPath else null,
             rating,
+            overview,
+            crew?.let { crew ->
+                ArrayList(crew.map { it.toEntity() })
+            }
         )
     }
 }

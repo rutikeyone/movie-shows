@@ -175,7 +175,7 @@
     <fragment
         android:id="@+id/episodeDetailsFragment"
         android:name="com.ru.movieshows.presentation.screens.episode_details.EpisodeDetailsFragment"
-        android:label="fragment_episode_details"
+        android:label="@string/empty"
         tools:layout="@layout/fragment_episode_details" >
         <argument
             android:name="seriesId"

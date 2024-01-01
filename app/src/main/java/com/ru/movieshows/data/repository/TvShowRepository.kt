@@ -1,6 +1,7 @@
 package com.ru.movieshows.data.repository
 
 import androidx.paging.PagingData
+import com.ru.movieshows.domain.entity.EpisodeEntity
 import com.ru.movieshows.domain.entity.SeasonEntity
 import com.ru.movieshows.domain.entity.TvShowDetailsEntity
 import com.ru.movieshows.domain.entity.TvShowsEntity
@@ -22,4 +23,5 @@ interface TvShowRepository : Repository {
     suspend fun getPagedPopularTvShows(language: String = "en_US"): Flow<PagingData<TvShowsEntity>>
     suspend fun getTrendingTvShows(language: String = "en_US", page: Int = 1) : Result<ArrayList<TvShowsEntity>>
     fun searchPagedMovies(language: String = "en_US", query: String? = null): Flow<PagingData<TvShowsEntity>>
+    suspend fun getEpisodeByNumber(language: String = "en_US", seriesId: String, seasonNumber: String, episodeNumber: Int) : Result<EpisodeEntity>
 }

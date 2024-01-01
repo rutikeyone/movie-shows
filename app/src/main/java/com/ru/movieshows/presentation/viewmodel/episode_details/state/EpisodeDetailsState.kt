@@ -2,6 +2,7 @@ package com.ru.movieshows.presentation.viewmodel.episode_details.state
 
 import androidx.annotation.StringRes
 import com.ru.movieshows.domain.entity.EpisodeEntity
+import com.ru.movieshows.domain.entity.SeasonEntity
 
 data class EpisodeDetailsState(
     val seriesId: String,
@@ -15,6 +16,7 @@ sealed class EpisodeDetailsStatus {
     object Pure : EpisodeDetailsStatus()
     object InPending : EpisodeDetailsStatus()
     data class Success(
+        val season: SeasonEntity,
         val episode: EpisodeEntity,
     ) : EpisodeDetailsStatus()
     data class Failure(

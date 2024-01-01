@@ -18,8 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:context=".presentation.screens.movies.MoviesFragment">
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,14 +31,15 @@
                 tools:context=".presentation.screens.movies.MoviesFragment">
 
                 <ImageView
-                    android:id="@+id/movieBackDrop"
+                    android:id="@+id/movieBackDropImageView"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_200"
                     android:src="@drawable/backdrop_placeholder_bg"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:background="@color/yellow" />
+                    tools:background="@color/yellow"
+                    android:contentDescription="@string/backdrop_description" />
 
                 <ImageView
                     android:id="@+id/moviePoster"
@@ -54,7 +54,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0"
-                    tools:background="@color/red" />
+                    android:contentDescription="@string/backdrop_description" />
 
                 <TextView
                     android:id="@+id/ratingText"
@@ -67,7 +67,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintStart_toEndOf="@id/moviePoster"
-                    app:layout_constraintTop_toBottomOf="@id/movieBackDrop"
+                    app:layout_constraintTop_toBottomOf="@id/movieBackDropImageView"
                     app:layout_constraintVertical_bias="0"
                     tools:text="8.3" />
 

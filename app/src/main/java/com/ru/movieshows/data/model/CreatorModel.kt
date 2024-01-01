@@ -21,7 +21,6 @@ data class CreatorModel(
         id,
         name,
         creditId,
-        if(this.photo != null) BuildConfig.TMDB_IMAGE_URL + this.photo else null,
-
-        )
+        if(this.photo != null) BuildConfig.TMDB_IMAGE_URL + this.photo else null
+    )
 }
