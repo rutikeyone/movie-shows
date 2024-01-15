@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/tvsFragment"
-        android:name="com.ru.movieshows.presentation.screens.tv_shows.TvShowsFragment"
+        android:name="com.ru.movieshows.app.presentation.screens.tv_shows.TvShowsFragment"
         android:label="@string/tvs"
         tools:layout="@layout/fragment_tv_shows" >
         <action
@@ -48,7 +48,7 @@
     </fragment>
     <fragment
         android:id="@+id/tvShowSearchFragment"
-        android:name="com.ru.movieshows.presentation.screens.tv_show_search.TvShowSearchFragment"
+        android:name="com.ru.movieshows.app.presentation.screens.tv_shows.TvShowSearchFragment"
         android:label="@string/search"
         tools:layout="@layout/fragment_tv_show_search" >
         <action
@@ -61,7 +61,7 @@
     </fragment>
     <fragment
         android:id="@+id/tvShowDetailsFragment"
-        android:name="com.ru.movieshows.presentation.screens.tv_show_details.TvShowDetailsFragment"
+        android:name="com.ru.movieshows.app.presentation.screens.tv_shows.TvShowDetailsFragment"
         android:label="@string/empty"
         tools:layout="@layout/fragment_tv_show_details">
         <argument
@@ -81,10 +81,17 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_tvShowDetailsFragment_to_tvReviewsFragment"
+            app:destination="@id/tvReviewsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/airTvShowsFragment"
-        android:name="com.ru.movieshows.presentation.screens.air_tv_shows.AirTvShowsFragment"
+        android:name="com.ru.movieshows.app.presentation.screens.tv_shows.AirTvShowsFragment"
         android:label="@string/on_the_air"
         tools:layout="@layout/fragment_air_tv_shows" >
         <action
@@ -97,7 +104,7 @@
     </fragment>
     <fragment
         android:id="@+id/topRatedTvShowsFragment"
-        android:name="com.ru.movieshows.presentation.screens.top_rated_tv_shows.TopRatedTvShowsFragment"
+        android:name="com.ru.movieshows.app.presentation.screens.tv_shows.TopRatedTvShowsFragment"
         android:label="@string/top_rated"
         tools:layout="@layout/fragment_top_rated_tv_shows" >
         <action
@@ -110,7 +117,7 @@
     </fragment>
     <fragment
         android:id="@+id/popularTvShowsFragment"
-        android:name="com.ru.movieshows.presentation.screens.popular_tv_shows.PopularTvShowsFragment"
+        android:name="com.ru.movieshows.app.presentation.screens.tv_shows.PopularTvShowsFragment"
         android:label="@string/popular_tv_shows"
         tools:layout="@layout/fragment_popular_tv_shows" >
         <action
@@ -123,7 +130,7 @@
     </fragment>
     <fragment
         android:id="@+id/seasonEpisodesFragment"
-        android:name="com.ru.movieshows.presentation.screens.season_episodes.SeasonEpisodesFragment"
+        android:name="com.ru.movieshows.app.presentation.screens.episodes.SeasonEpisodesFragment"
         android:label="@string/episodes"
         tools:layout="@layout/fragment_season_episodes">
         <argument
@@ -143,12 +150,12 @@
 
     <dialog
         android:id="@+id/seasonDetailsBottomSheetDialogFragment"
-        android:name="com.ru.movieshows.presentation.screens.tv_show_details.SeasonDetailsBottomSheetDialogFragment"
+        android:name="com.ru.movieshows.app.presentation.screens.tv_shows.SeasonDetailsBottomSheetDialogFragment"
         android:label="SeasonDetailsBottomSheetDialogFragment"
         tools:layout="@layout/season_modal_sheet">
         <argument
             android:name="season_args"
-            app:argType="com.ru.movieshows.domain.entity.SeasonEntity" />
+            app:argType="com.ru.movieshows.sources.tv_shows.entities.SeasonEntity" />
         <argument
             android:name="season_number"
             app:argType="string" />
@@ -165,16 +172,16 @@
     </dialog>
     <activity
         android:id="@+id/videoPlayerActivity"
-        android:name="com.ru.movieshows.presentation.screens.video.VideoPlayerActivity"
+        android:name="com.ru.movieshows.app.presentation.screens.video.VideoPlayerActivity"
         android:label="activity_video_player"
         tools:layout="@layout/activity_video_player" >
         <argument
             android:name="video"
-            app:argType="com.ru.movieshows.domain.entity.VideoEntity" />
+            app:argType="com.ru.movieshows.sources.movies.entities.VideoEntity" />
     </activity>
     <fragment
         android:id="@+id/episodeDetailsFragment"
-        android:name="com.ru.movieshows.presentation.screens.episode_details.EpisodeDetailsFragment"
+        android:name="com.ru.movieshows.app.presentation.screens.episodes.EpisodeDetailsFragment"
         android:label="@string/empty"
         tools:layout="@layout/fragment_episode_details" >
         <argument
@@ -186,6 +193,16 @@
         <argument
             android:name="episodeNumber"
             app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/tvReviewsFragment"
+        android:name="com.ru.movieshows.app.presentation.screens.tv_shows.TvReviewsFragment"
+        android:label="@string/reviews"
+        tools:layout="@layout/fragment_tv_reviews" >
+        <argument
+            android:name="tvShowId"
+            app:argType="string" />
     </fragment>
 
 </navigation>

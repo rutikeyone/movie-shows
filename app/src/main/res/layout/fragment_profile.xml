@@ -24,6 +24,7 @@
             tools:src="@drawable/avatar_placeholder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:contentDescription="@string/avatar_description"
             />
 
     </com.google.android.material.card.MaterialCardView>
@@ -41,37 +42,6 @@
         style="?attr/MovieShows.TextAppearance.Headline5"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/watchlistButton"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_55"
-        android:text="@string/watchlist"
-        style="?attr/MovieShows.TextButton.Light"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/nameTextView"
-        android:layout_marginTop="@dimen/dp_16"
-        android:textAlignment="textStart"
-        android:paddingStart="@dimen/dp_16"
-        android:paddingEnd="@dimen/dp_16"
-        android:drawableEnd="@drawable/arrow_right"
-        />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/favouritesButton"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_55"
-        android:text="@string/favorites"
-        style="?attr/MovieShows.TextButton.Light"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/watchlistButton"
-        android:textAlignment="textStart"
-        android:paddingStart="@dimen/dp_16"
-        android:paddingEnd="@dimen/dp_16"
-        android:drawableEnd="@drawable/arrow_right"
-        />
-
-    <com.google.android.material.button.MaterialButton
         android:id="@+id/logoutButton"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_55"
@@ -79,10 +49,11 @@
         style="?attr/MovieShows.TextButton.Light"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/favouritesButton"
+        app:layout_constraintTop_toBottomOf="@id/nameTextView"
         android:textAlignment="textStart"
         android:paddingStart="@dimen/dp_16"
         android:paddingEnd="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_16"
         android:drawableEnd="@drawable/arrow_right"
         />
 
@@ -96,6 +67,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:visibility="visible"/>
 
+    <TextView
+        android:id="@+id/notAuthenticatedHeaderTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/in_order_to_see_the_profile_data_message"
+        style="?attr/MovieShows.TextAppearance.Headline6.Bold"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <Button
+        android:id="@+id/signInButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_in_header"
+        style="?attr/MovieShows.TextAppearance.Body1"
+        android:layout_marginTop="@dimen/dp_12"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/notAuthenticatedHeaderTextView"
+        />
+
     <androidx.constraintlayout.widget.Group
         android:id="@+id/progressGroup"
         android:layout_width="match_parent"
@@ -107,8 +103,15 @@
         android:id="@+id/authenticatedGroup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:constraint_referenced_ids="avatarCardView, nameTextView, favouritesButton, watchlistButton, logoutButton"
+        app:constraint_referenced_ids="avatarCardView, nameTextView, logoutButton"
         android:visibility="visible"
         />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/notAuthenticatedGroup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:constraint_referenced_ids="notAuthenticatedHeaderTextView, signInButton"
+    />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

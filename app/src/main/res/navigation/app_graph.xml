@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/tabsFragment"
-        android:name="com.ru.movieshows.presentation.screens.tabs.TabsFragment"
+        android:name="com.ru.movieshows.app.presentation.screens.tabs.TabsFragment"
         android:label="fragment_tabs"
         tools:layout="@layout/fragment_tabs">
 
@@ -24,7 +24,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.ru.movieshows.presentation.screens.splash.SplashFragment"
+        android:name="com.ru.movieshows.app.presentation.screens.auth.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash">
         <action
@@ -49,7 +49,7 @@
 
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.ru.movieshows.presentation.screens.sign_in.SignInFragment"
+        android:name="com.ru.movieshows.app.presentation.screens.auth.SignInFragment"
         android:label="fragment_sign_in"
         tools:layout="@layout/fragment_sign_in">
 

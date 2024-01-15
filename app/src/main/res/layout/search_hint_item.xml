@@ -29,6 +29,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/hintNameTextView"
         android:layout_marginEnd="@dimen/dp_16"
+        android:contentDescription="@string/icon_description"
         />
 
     <View

@@ -54,7 +54,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/hello_there_sign_in_continue"
+                        android:text="@string/you_must_have_a_tmdb_account_in_order_to_log_in"
                         android:layout_marginTop="@dimen/dp_4"
                         style="?attr/MovieShows.TextAppearance.Body2.Hint"/>
 
@@ -122,6 +122,17 @@
                         android:layout_marginTop="@dimen/dp_16"
                         android:text="@string/sign_in"
                         />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/skipSignInButton"
+                        android:layout_height="@dimen/dp_55"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="@dimen/dp_8"
+                        android:text="@string/skip"
+                        style="?attr/MovieShows.TextButton.Body3.Hint.Bold"
+                        android:textAlignment="center"
+                        />
+
 
                     <ProgressBar
                         android:id="@+id/progressBar"

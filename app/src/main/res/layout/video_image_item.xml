@@ -20,14 +20,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/poster_placeholder_bg"/>
+            android:src="@drawable/poster_placeholder_bg"
+            android:contentDescription="@string/poster_description"/>
 
         <ImageView
             android:id="@+id/playIcon"
             android:layout_width="@dimen/dp_75"
             android:layout_height="@dimen/dp_75"
             android:layout_centerInParent="true"
-            android:src="@drawable/ic_youtube_play_button" />
+            android:src="@drawable/ic_youtube_play_button"
+            android:contentDescription="@string/poster_description"/>
 
     </RelativeLayout>
 
