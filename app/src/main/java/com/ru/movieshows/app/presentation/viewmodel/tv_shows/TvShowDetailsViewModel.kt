@@ -8,11 +8,16 @@ import com.ru.movieshows.app.model.people.PeopleRepository
 import com.ru.movieshows.app.model.tv_shows.TvShowRepository
 import com.ru.movieshows.app.presentation.screens.tv_shows.TvShowDetailsFragmentDirections
 import com.ru.movieshows.app.presentation.sideeffects.navigator.Navigator
+import com.ru.movieshows.app.presentation.sideeffects.resources.Resources
+import com.ru.movieshows.app.presentation.sideeffects.toast.Toasts
 import com.ru.movieshows.app.presentation.viewmodel.BaseViewModel
 import com.ru.movieshows.app.presentation.viewmodel.tv_shows.state.TvShowDetailsState
+import com.ru.movieshows.app.utils.MutableLiveEvent
+import com.ru.movieshows.app.utils.publishEvent
 import com.ru.movieshows.app.utils.share
 import com.ru.movieshows.sources.movies.entities.ReviewEntity
 import com.ru.movieshows.sources.movies.entities.VideoEntity
+import com.ru.movieshows.sources.people.entities.PersonEntity
 import com.ru.movieshows.sources.tv_shows.entities.TvShowDetailsEntity
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -22,6 +27,8 @@ import kotlinx.coroutines.launch
 class TvShowDetailsViewModel @AssistedInject constructor(
     @Assisted private val tvShowId: String,
     @Assisted private val navigator: Navigator,
+    @Assisted private val toasts: Toasts,
+    @Assisted private val resources: Resources,
     private val tvShowRepository: TvShowRepository,
     private val peopleRepository: PeopleRepository,
 ) : BaseViewModel() {
@@ -30,6 +37,9 @@ class TvShowDetailsViewModel @AssistedInject constructor(
 
     private val _titleState = MutableLiveData("")
     val titleState = _titleState.share()
+
+    private val _showPeopleDetailsEvent = MutableLiveEvent<PersonEntity>()
+    val showPeopleDetailsEvent = _showPeopleDetailsEvent.share()
 
     init {
         fetchData()
@@ -74,6 +84,24 @@ class TvShowDetailsViewModel @AssistedInject constructor(
         }
     }
 
+    fun getPersonDetails(personId: String) = viewModelScope.launch {
+        val getPersonDetailResult = peopleRepository.getPersonDetails(personId, languageTag)
+        getPersonDetailResult.fold(
+            ::handleGetPersonDetailsFailureResult,
+            ::handleGetPersonDetailsSuccessResult
+        )
+    }
+
+    private fun handleGetPersonDetailsSuccessResult(personEntity: PersonEntity) {
+        _showPeopleDetailsEvent.publishEvent(personEntity)
+    }
+
+    private fun handleGetPersonDetailsFailureResult(appFailure: AppFailure) {
+        val errorResource = appFailure.errorResource()
+        val error = resources.getString(errorResource)
+        toasts.toast(error)
+    }
+
     fun navigateToVideo(video: VideoEntity) {
         val action = TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToVideoPlayerActivity(video)
         navigator.navigate(action)
@@ -94,6 +122,11 @@ class TvShowDetailsViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(movieId: String, navigator: Navigator): TvShowDetailsViewModel
+        fun create(
+            tvShowId: String,
+            navigator: Navigator,
+            toasts: Toasts,
+            resources: Resources,
+        ): TvShowDetailsViewModel
     }
 }

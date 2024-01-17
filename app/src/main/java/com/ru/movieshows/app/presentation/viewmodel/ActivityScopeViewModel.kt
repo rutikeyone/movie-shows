@@ -63,13 +63,12 @@ class ActivityScopeViewModel @Inject constructor(
 
     private fun handleNotAuthenticatedState(state: AuthStateEntity.NotAuth) {
         val isPrevStateAuth = state.isPrevStateAuth
-        if(!isPrevStateAuth) navigator.notAuthenticated(state.isFirstLaunch)
-        hideLoader()
-        state.error?.let {
-            val errorResource = it.errorResource()
-            val error = resources.getString(errorResource)
-            toasts.toast(error)
+        if(!isPrevStateAuth) {
+            navigator.notAuthenticated(state.isFirstLaunch)
+        } else {
+            navigator.authenticated()
         }
+        hideLoader()
     }
 
     override fun showLoader() {

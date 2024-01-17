@@ -1,7 +1,10 @@
 package com.ru.movieshows.sources.people.entities
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import java.util.Date
 
+@Parcelize
 data class PersonEntity(
     val id: String?,
     val name: String?,
@@ -15,4 +18,4 @@ data class PersonEntity(
     val profilePath: String?,
     val birthday: Date?,
     val deathday: Date?,
-)
+): Parcelable

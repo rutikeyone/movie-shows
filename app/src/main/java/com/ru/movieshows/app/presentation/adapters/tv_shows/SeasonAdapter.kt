@@ -1,5 +1,6 @@
 package com.ru.movieshows.app.presentation.adapters.tv_shows
 
+import android.app.ActionBar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.R
+import com.ru.movieshows.databinding.EpisodeItemBinding
 import com.ru.movieshows.databinding.SeasonItemBinding
 import com.ru.movieshows.sources.tv_shows.entities.SeasonEntity
 
@@ -42,6 +44,7 @@ class SeasonAdapter(
                 }
             }
             bindPoster(season, binding)
+            bindLayoutParams(binding)
         }
 
         private fun bindPoster(
@@ -68,6 +71,14 @@ class SeasonAdapter(
                     .into(this)
             }
         }
+    }
+
+    private fun bindLayoutParams(binding: SeasonItemBinding) = with(binding.root) {
+        val layoutParams = ActionBar.LayoutParams(
+            resources.getDimensionPixelOffset(R.dimen.dp_120),
+            resources.getDimensionPixelOffset(R.dimen.dp_190),
+        )
+        this.layoutParams = layoutParams
     }
 
 }

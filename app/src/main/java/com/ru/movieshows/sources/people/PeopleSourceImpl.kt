@@ -11,12 +11,14 @@ class PeopleSourceImpl @Inject constructor(
     private val networkConfig: NetworkConfig,
 ) : PeopleSource, BaseRetrofitSource(networkConfig) {
 
+    private val imageUrl = networkConfig.imageUrl
+
     override suspend fun getPersonDetails(
         personId: String,
         language: String
     ): PersonEntity = wrapRetrofitExceptions {
         val personModel = peopleApi.getPersonDetails(personId, language)
-        val personEntity = personModel.toEntity()
+        val personEntity = personModel.toEntity(imageUrl)
         personEntity
     }
 

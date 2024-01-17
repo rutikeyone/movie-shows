@@ -104,6 +104,8 @@
     <string name="sign_in_header">Sign in</string>
     <string name="in_order_to_see_the_profile_data_message">In order to see the profile data, you need to log in</string>
     <string name="you_must_have_a_tmdb_account_in_order_to_log_in">You must have a TMDB account in order to log in</string>
+    <string name="date_of_birth">Date of birth</string>
+    <string name="date_of_death">Date of death</string>
     <plurals name="count_replies">
         <item quantity="zero">zero</item>
         <item quantity="one">%1$d reply</item>

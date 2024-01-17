@@ -3,13 +3,14 @@ package com.ru.movieshows.app.presentation.screens.tv_shows
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.flexbox.FlexDirection
@@ -17,7 +18,6 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.ru.movieshows.R
 import com.ru.movieshows.app.presentation.adapters.InfoAdapter
-import com.ru.movieshows.app.presentation.adapters.ItemDecoration
 import com.ru.movieshows.app.presentation.adapters.VideosAdapter
 import com.ru.movieshows.app.presentation.adapters.tv_shows.CreatorAdapter
 import com.ru.movieshows.app.presentation.adapters.tv_shows.SeasonAdapter
@@ -25,12 +25,15 @@ import com.ru.movieshows.app.presentation.screens.BaseFragment
 import com.ru.movieshows.app.presentation.viewmodel.tv_shows.TvShowDetailsViewModel
 import com.ru.movieshows.app.presentation.viewmodel.tv_shows.state.TvShowDetailsState
 import com.ru.movieshows.app.utils.OnTouchListener
+import com.ru.movieshows.app.utils.clearDecorations
+import com.ru.movieshows.app.utils.observeEvent
 import com.ru.movieshows.app.utils.viewModelCreator
 import com.ru.movieshows.databinding.FailurePartBinding
 import com.ru.movieshows.databinding.FragmentTvShowDetailsBinding
 import com.ru.movieshows.databinding.ReviewItemBinding
 import com.ru.movieshows.sources.movies.entities.ReviewEntity
 import com.ru.movieshows.sources.movies.entities.VideoEntity
+import com.ru.movieshows.sources.people.entities.PersonEntity
 import com.ru.movieshows.sources.tv_shows.entities.CreatorEntity
 import com.ru.movieshows.sources.tv_shows.entities.SeasonEntity
 import com.ru.movieshows.sources.tv_shows.entities.TvShowDetailsEntity
@@ -49,8 +52,10 @@ class TvShowDetailsFragment : BaseFragment() {
     lateinit var factory: TvShowDetailsViewModel.Factory
     override val viewModel by viewModelCreator {
         factory.create(
-            movieId = args.id,
+            tvShowId = args.id,
             navigator = navigator(),
+            toasts = toasts(),
+            resources = resources(),
         )
     }
 
@@ -67,6 +72,12 @@ class TvShowDetailsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.titleState.observe(viewLifecycleOwner, ::handleTitleState)
         viewModel.state.observe(viewLifecycleOwner, ::handleState)
+        viewModel.showPeopleDetailsEvent.observeEvent(viewLifecycleOwner, ::showPeopleDetailsModalBottomSheet)
+    }
+
+    private fun showPeopleDetailsModalBottomSheet(person: PersonEntity) {
+        val fragment = PersonDetailsBottomSheetDialogFragment.newInstance(person)
+        fragment.show(childFragmentManager, PERSON_DETAILS_MODAL_BOTTOM_SHEET_TAG)
     }
 
     private fun handleState(state: TvShowDetailsState) = with(binding) {
@@ -100,10 +111,16 @@ class TvShowDetailsFragment : BaseFragment() {
 
     private fun configureVideos(videos: ArrayList<VideoEntity>) {
         if (videos.isNotEmpty()) {
-            val itemDecorator = ItemDecoration(8F, resources.displayMetrics)
+            val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.HORIZONTAL).apply {
+                ContextCompat.getDrawable(requireContext(), R.drawable.divider)
+                    ?.let { this.setDrawable(it) }
+            }
             val adapter = VideosAdapter(::navigateToVideo).also { it.updateData(videos) }
-            binding.videosRecyclerView.adapter = adapter
-            binding.videosRecyclerView.addItemDecoration(itemDecorator)
+            with(binding.videosRecyclerView) {
+                clearDecorations()
+                this.adapter = adapter
+                addItemDecoration(decoration)
+            }
         } else {
             binding.videosTextView.visibility = View.GONE
             binding.videosRecyclerView.visibility = View.GONE
@@ -115,13 +132,19 @@ class TvShowDetailsFragment : BaseFragment() {
     ) = with(binding) {
         val seasonsValue = tvShow.seasons
         if(!seasonsValue.isNullOrEmpty()) {
-            val itemDecoration = ItemDecoration(8F, resources.displayMetrics)
+            val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.HORIZONTAL).apply {
+                ContextCompat.getDrawable(requireContext(), R.drawable.divider)
+                    ?.let { this.setDrawable(it) }
+            }
             val adapter = SeasonAdapter(seasonsValue, ::showSeasonModalBottomSheet)
-            seasons.adapter = adapter
-            seasons.addItemDecoration(itemDecoration)
+            with(seasonsRecyclerView) {
+                clearDecorations()
+                this.adapter = adapter
+                addItemDecoration(decoration)
+            }
         } else {
             seasonsHeader.isVisible = false
-            seasons.isVisible = false
+            seasonsRecyclerView.isVisible = false
         }
     }
 
@@ -133,7 +156,7 @@ class TvShowDetailsFragment : BaseFragment() {
             seasonNumber = seasonNumber,
             seriesId = args.id
         )
-        fragment.show(childFragmentManager, MODAL_BOTTOM_SHEET_CODE)
+        fragment.show(childFragmentManager, SEASON_DETAILS_MODAL_BOTTOM_SHEET_TAG)
         childFragmentManager.setFragmentResultListener(SeasonDetailsBottomSheetDialogFragment.NAVIGATE_TO_EPISODES_CODE, viewLifecycleOwner) { _, data ->
             val seriesIdArg = data.getString(SeasonDetailsBottomSheetDialogFragment.SERIES_ID_ARG)
             ?: throw IllegalStateException("The seasonId argument must be passed")
@@ -146,10 +169,16 @@ class TvShowDetailsFragment : BaseFragment() {
     private fun configureCreatedBy(tvShow: TvShowDetailsEntity) = with(binding) {
         val createdBy = tvShow.createdBy
         if(!createdBy.isNullOrEmpty()) {
-            val itemDecoration = ItemDecoration(8F, resources.displayMetrics)
+            val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.HORIZONTAL).apply {
+                ContextCompat.getDrawable(requireContext(), R.drawable.divider)
+                    ?.let { this.setDrawable(it) }
+            }
             val adapter = CreatorAdapter(createdBy, ::showPersonModalBottomSheetCallback)
-            creators.adapter = adapter
-            creators.addItemDecoration(itemDecoration)
+            with(creators) {
+                clearDecorations()
+                this.adapter = adapter
+                addItemDecoration(decoration)
+            }
         } else {
             createdByHeader.isVisible = false
             creators.isVisible = false 
@@ -158,7 +187,7 @@ class TvShowDetailsFragment : BaseFragment() {
 
     private fun showPersonModalBottomSheetCallback(creator: CreatorEntity) {
         val id = creator.id ?: return
-        Log.e("TAG123", id)
+        viewModel.getPersonDetails(id)
     }
 
     private fun configureOverview(tvShow: TvShowDetailsEntity) = with(binding){
@@ -400,7 +429,8 @@ class TvShowDetailsFragment : BaseFragment() {
     private fun navigateToVideo(video: VideoEntity) = viewModel.navigateToVideo(video)
 
     companion object {
-        const val MODAL_BOTTOM_SHEET_CODE = "ModalBottomSheet"
+        const val SEASON_DETAILS_MODAL_BOTTOM_SHEET_TAG = "ModalBottomSheetTag"
+        const val PERSON_DETAILS_MODAL_BOTTOM_SHEET_TAG = "PersonDetailsModalBottomSheetTag"
     }
 
 }

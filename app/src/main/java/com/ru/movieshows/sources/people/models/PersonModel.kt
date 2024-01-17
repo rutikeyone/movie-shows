@@ -27,7 +27,7 @@ data class PersonModel(
     val deathday: Date?,
 ) {
 
-    fun toEntity() = PersonEntity(
+    fun toEntity(imageUrl: String) = PersonEntity(
         id,
         name,
         adult,
@@ -37,7 +37,7 @@ data class PersonModel(
         imdbId,
         knownForDepartment,
         placeOfBirth,
-        profilePath,
+        if(!profilePath.isNullOrEmpty()) imageUrl + profilePath else null,
         birthday,
         deathday,
     )

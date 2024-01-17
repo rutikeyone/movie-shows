@@ -55,7 +55,6 @@ class SeasonDetailsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
         factory.create(
             initialSeason = initialSeason,
             arguments = Pair(seasonNumber, seriesId),
-            navigator = navigator(),
         )
     }
 
@@ -69,7 +68,7 @@ class SeasonDetailsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.season.observe(viewLifecycleOwner, ::handleUI)
-        viewModel.updateData()
+        viewModel.update()
         super.onViewCreated(view, savedInstanceState)
     }
 

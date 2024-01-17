@@ -3,7 +3,6 @@ package com.ru.movieshows.app.presentation.viewmodel.tv_shows
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ru.movieshows.app.model.tv_shows.TvShowRepository
-import com.ru.movieshows.app.presentation.sideeffects.navigator.Navigator
 import com.ru.movieshows.app.presentation.viewmodel.BaseViewModel
 import com.ru.movieshows.app.utils.share
 import com.ru.movieshows.sources.tv_shows.entities.SeasonEntity
@@ -16,7 +15,6 @@ import kotlinx.coroutines.launch
 class SeasonDetailsViewModel @AssistedInject constructor(
     @Assisted private val arguments: Pair<String, String>,
     @Assisted private val initialSeason: SeasonEntity,
-    @Assisted private val navigator: Navigator,
     private val tvShowRepository: TvShowRepository,
 ) : BaseViewModel() {
 
@@ -27,7 +25,7 @@ class SeasonDetailsViewModel @AssistedInject constructor(
         _season.value = initialSeason
     }
 
-   fun updateData() = viewModelScope.launch {
+   fun update() = viewModelScope.launch {
        val language = languageTag
        val season = tvShowRepository.getSeason(language, arguments.second, arguments.first)
        val result = season.getOrNull()
@@ -41,7 +39,6 @@ class SeasonDetailsViewModel @AssistedInject constructor(
         fun create(
             arguments: Pair<String, String>,
             initialSeason: SeasonEntity,
-            navigator: Navigator,
         ): SeasonDetailsViewModel
     }
 
