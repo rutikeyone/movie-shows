@@ -24,10 +24,9 @@ class AccountsRepositoryImpl @Inject constructor(
 
     private val isFirstLaunch = appSettingsRepository.getIsFirstLaunch()
 
-    private val accountLazyFlowSubject =
-        LazyFlowSubject<Unit, AuthStateEntity> {
-            getAuthState()
-        }
+    private val accountLazyFlowSubject = LazyFlowSubject<Unit, AuthStateEntity> {
+        getAuthState()
+    }
 
     private fun previousValue(): AuthStateEntity {
         val previousValue = accountLazyFlowSubject.futureRecord(Unit)?.previousValue?.getValueOrNull()

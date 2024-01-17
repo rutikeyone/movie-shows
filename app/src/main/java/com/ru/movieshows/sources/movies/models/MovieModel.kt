@@ -18,12 +18,12 @@ data class MovieModel(
     @SerializedName("overview")
     val overview: String?
 ) {
-    fun toEntity(): MovieEntity = MovieEntity(
+    fun toEntity(imageUrl: String): MovieEntity = MovieEntity(
         id,
         rating,
         title,
-        if(this.backDrop != null) BuildConfig.TMDB_IMAGE_URL + this.backDrop else null,
-        if(this.poster != null) BuildConfig.TMDB_IMAGE_URL + this.poster else null,
+        if(this.backDrop != null) imageUrl + this.backDrop else null,
+        if(this.poster != null) imageUrl + this.poster else null,
         overview
     )
 }

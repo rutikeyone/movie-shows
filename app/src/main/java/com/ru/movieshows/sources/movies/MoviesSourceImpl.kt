@@ -2,7 +2,7 @@ package com.ru.movieshows.sources.movies
 
 import com.ru.movieshows.app.model.movies.MoviesSource
 import com.ru.movieshows.sources.base.BaseRetrofitSource
-import com.ru.movieshows.sources.base.RetrofitConfig
+import com.ru.movieshows.sources.base.NetworkConfig
 import com.ru.movieshows.sources.movies.entities.MovieDetailsEntity
 import com.ru.movieshows.sources.movies.entities.MovieEntity
 import com.ru.movieshows.sources.movies.entities.ReviewEntity
@@ -11,8 +11,10 @@ import javax.inject.Inject
 
 class MoviesSourceImpl @Inject constructor(
     private val moviesApi: MoviesApi,
-    private val retrofitConfig: RetrofitConfig,
-) : MoviesSource, BaseRetrofitSource(retrofitConfig) {
+    private val networkConfig: NetworkConfig,
+) : MoviesSource, BaseRetrofitSource(networkConfig) {
+
+    private val imageUrl = networkConfig.imageUrl
 
     override suspend fun getMovieReviews(
         movieId: String,
@@ -22,7 +24,7 @@ class MoviesSourceImpl @Inject constructor(
         val response = moviesApi.getMovieReviews(movieId, language, page)
         val body = response.body()!!
         val reviewModels = body.results
-        val reviewEntities = ArrayList(reviewModels.map { it.toEntity() })
+        val reviewEntities = ArrayList(reviewModels.map { it.toEntity(imageUrl) })
         val totalPages = body.totalPages
         Pair(totalPages, reviewEntities)
     }
@@ -44,7 +46,7 @@ class MoviesSourceImpl @Inject constructor(
     ): ArrayList<MovieEntity> = wrapRetrofitExceptions {
         val response = moviesApi.getSimilarMovies(movieId, language, page)
         val movieModels = response.body()!!.results
-        ArrayList(movieModels.map { it.toEntity() })
+        ArrayList(movieModels.map { it.toEntity(imageUrl) })
     }
 
     override suspend fun getDiscoverMovies(
@@ -54,7 +56,7 @@ class MoviesSourceImpl @Inject constructor(
     ): ArrayList<MovieEntity> = wrapRetrofitExceptions {
         val response = moviesApi.getDiscoverMovies(language, page, withGenresId)
         val movieModels = response.body()!!.results
-        ArrayList(movieModels.map { it.toEntity() })
+        ArrayList(movieModels.map { it.toEntity(imageUrl) })
     }
 
     override suspend fun getMovieDetails(
@@ -62,7 +64,7 @@ class MoviesSourceImpl @Inject constructor(
         language: String,
     ): MovieDetailsEntity = wrapRetrofitExceptions {
         val response = moviesApi.getMovieDetails(movieId, language)
-        response.body()!!.toMovieDetailsEntity()
+        response.body()!!.toMovieDetailsEntity(imageUrl)
     }
 
     override suspend fun getNowPlayingMovies(
@@ -71,7 +73,7 @@ class MoviesSourceImpl @Inject constructor(
     ): ArrayList<MovieEntity> = wrapRetrofitExceptions {
         val response = moviesApi.getMoviesNowPlaying(language, page)
         val models = response.body()!!.results
-        ArrayList(models.map { it.toEntity() })
+        ArrayList(models.map { it.toEntity(imageUrl) })
     }
 
     override suspend fun getUpcomingMovies(
@@ -81,7 +83,7 @@ class MoviesSourceImpl @Inject constructor(
         val response = moviesApi.getUpcomingMovies(language, page)
         val body = response.body()!!
         val models = body.results
-        val entities = ArrayList(models.map { it.toEntity() })
+        val entities = ArrayList(models.map { it.toEntity(imageUrl) })
         val totalPages = body.totalPages
         Pair(totalPages, entities)
     }
@@ -93,7 +95,7 @@ class MoviesSourceImpl @Inject constructor(
         val response = moviesApi.getPopularMovies(language, page)
         val body = response.body()!!
         val models = body.results
-        val entities = ArrayList(models.map { it.toEntity() })
+        val entities = ArrayList(models.map { it.toEntity(imageUrl) })
         val totalPages = body.totalPages
         Pair(totalPages, entities)
     }
@@ -105,7 +107,7 @@ class MoviesSourceImpl @Inject constructor(
         val response = moviesApi.getTopRatedMovies(language, page)
         val body = response.body()!!
         val models = body.results
-        val entities = ArrayList(models.map { it.toEntity() })
+        val entities = ArrayList(models.map { it.toEntity(imageUrl) })
         val totalPages = body.totalPages
         Pair(totalPages, entities)
     }
@@ -118,7 +120,7 @@ class MoviesSourceImpl @Inject constructor(
         val response = moviesApi.searchMovies(language, page, query)
         val body = response.body()!!
         val models = body.results
-        val entities = ArrayList(models.map { it.toEntity() })
+        val entities = ArrayList(models.map { it.toEntity(imageUrl) })
         val totalPages = body.totalPages
         Pair(totalPages, entities)
     }

@@ -27,7 +27,7 @@ data class EpisodeModel(
     val overview: String?,
     val crew: ArrayList<CrewModel>?
 ) {
-    fun toEntity(): EpisodeEntity {
+    fun toEntity(imageUrl: String): EpisodeEntity {
         return EpisodeEntity(
             id,
             airDate,
@@ -35,11 +35,11 @@ data class EpisodeModel(
             episodeNumber,
             name,
             showId,
-            if(this.stillPath != null) BuildConfig.TMDB_IMAGE_URL + this.stillPath else null,
+            if(this.stillPath != null) imageUrl + this.stillPath else null,
             rating,
             overview,
             crew?.let { crew ->
-                ArrayList(crew.map { it.toEntity() })
+                ArrayList(crew.map { it.toEntity(imageUrl) })
             }
         )
     }

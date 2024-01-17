@@ -3,6 +3,7 @@ package com.ru.movieshows.app.presentation.screens.tv_shows
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Html
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +31,7 @@ import com.ru.movieshows.databinding.FragmentTvShowDetailsBinding
 import com.ru.movieshows.databinding.ReviewItemBinding
 import com.ru.movieshows.sources.movies.entities.ReviewEntity
 import com.ru.movieshows.sources.movies.entities.VideoEntity
+import com.ru.movieshows.sources.tv_shows.entities.CreatorEntity
 import com.ru.movieshows.sources.tv_shows.entities.SeasonEntity
 import com.ru.movieshows.sources.tv_shows.entities.TvShowDetailsEntity
 import dagger.hilt.android.AndroidEntryPoint
@@ -63,7 +65,7 @@ class TvShowDetailsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.title.observe(viewLifecycleOwner, ::handleTitleState)
+        viewModel.titleState.observe(viewLifecycleOwner, ::handleTitleState)
         viewModel.state.observe(viewLifecycleOwner, ::handleState)
     }
 
@@ -123,27 +125,40 @@ class TvShowDetailsFragment : BaseFragment() {
         }
     }
 
+    @SuppressLint("ResourceType")
     private fun showSeasonModalBottomSheet(season: SeasonEntity) {
         val seasonNumber = season.seasonNumber?.toString() ?: return
-        val action = TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToSeasonDetailsBottomSheetDialogFragment(
-            seasonArgs = season,
+        val fragment = SeasonDetailsBottomSheetDialogFragment.newInstance(
+            season = season,
             seasonNumber = seasonNumber,
             seriesId = args.id
         )
-        navigator().navigate(action)
+        fragment.show(childFragmentManager, MODAL_BOTTOM_SHEET_CODE)
+        childFragmentManager.setFragmentResultListener(SeasonDetailsBottomSheetDialogFragment.NAVIGATE_TO_EPISODES_CODE, viewLifecycleOwner) { _, data ->
+            val seriesIdArg = data.getString(SeasonDetailsBottomSheetDialogFragment.SERIES_ID_ARG)
+            ?: throw IllegalStateException("The seasonId argument must be passed")
+            val seasonNumberArg = data.getString(SeasonDetailsBottomSheetDialogFragment.SEASON_NUMBER_ARG)
+            ?: throw IllegalStateException("The seasonNumber argument must be passed")
+            viewModel.navigateToEpisodes(seriesIdArg, seasonNumberArg)
+        }
     }
 
     private fun configureCreatedBy(tvShow: TvShowDetailsEntity) = with(binding) {
         val createdBy = tvShow.createdBy
         if(!createdBy.isNullOrEmpty()) {
             val itemDecoration = ItemDecoration(8F, resources.displayMetrics)
-            val adapter = CreatorAdapter(createdBy)
+            val adapter = CreatorAdapter(createdBy, ::showPersonModalBottomSheetCallback)
             creators.adapter = adapter
             creators.addItemDecoration(itemDecoration)
         } else {
             createdByHeader.isVisible = false
             creators.isVisible = false 
         }
+    }
+
+    private fun showPersonModalBottomSheetCallback(creator: CreatorEntity) {
+        val id = creator.id ?: return
+        Log.e("TAG123", id)
     }
 
     private fun configureOverview(tvShow: TvShowDetailsEntity) = with(binding){
@@ -170,7 +185,7 @@ class TvShowDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun configurePoster(tvShow: TvShowDetailsEntity) = with(binding.poster) {
+    private fun configurePoster(tvShow: TvShowDetailsEntity) = with(binding.tvShowsPosterImageView) {
         val poster = tvShow.poster
         if(!poster.isNullOrEmpty()) {
             Glide
@@ -248,6 +263,8 @@ class TvShowDetailsFragment : BaseFragment() {
 
     private fun handleTitleState(value: String?) {
         navigator().targetNavigator {
+            val title = it.getToolbar()?.title
+            if(title == value) return@targetNavigator
             it.getToolbar()?.title = value
         }
     }
@@ -381,5 +398,9 @@ class TvShowDetailsFragment : BaseFragment() {
     }
 
     private fun navigateToVideo(video: VideoEntity) = viewModel.navigateToVideo(video)
+
+    companion object {
+        const val MODAL_BOTTOM_SHEET_CODE = "ModalBottomSheet"
+    }
 
 }

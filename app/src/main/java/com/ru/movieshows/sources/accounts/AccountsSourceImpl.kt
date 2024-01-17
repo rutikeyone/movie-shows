@@ -3,17 +3,19 @@ package com.ru.movieshows.sources.accounts
 import com.ru.movieshows.app.model.accounts.AccountsSource
 import com.ru.movieshows.sources.accounts.entities.AccountEntity
 import com.ru.movieshows.sources.base.BaseRetrofitSource
-import com.ru.movieshows.sources.base.RetrofitConfig
+import com.ru.movieshows.sources.base.NetworkConfig
 import javax.inject.Inject
 
 class AccountsSourceImpl @Inject constructor(
     private val accountsApi: AccountsApi,
-    private val retrofitConfig: RetrofitConfig,
-) : AccountsSource, BaseRetrofitSource(retrofitConfig) {
+    private val networkConfig: NetworkConfig,
+) : AccountsSource, BaseRetrofitSource(networkConfig) {
+
+    private val imageUrl = networkConfig.imageUrl
 
     override suspend fun getAccountBySessionId(sessionId: String): AccountEntity = wrapRetrofitExceptions {
         val account = accountsApi.getAccountBySessionId(sessionId)
-        account.toEntity()
+        account.toEntity(imageUrl)
     }
 
     override suspend fun createRequestToken(): String = wrapRetrofitExceptions {

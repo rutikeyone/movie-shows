@@ -31,7 +31,7 @@ data class GetMovieDetailsResponseModels(
     val productionCompanies: ArrayList<ProductionCompanyModel>?,
 ) {
     @SuppressLint("SimpleDateFormat")
-    fun toMovieDetailsEntity(): MovieDetailsEntity {
+    fun toMovieDetailsEntity(imageUrl: String): MovieDetailsEntity {
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
         val date = if(releaseDate != null) simpleDateFormat.parse(releaseDate) else null
         val productionCompanies = this.productionCompanies?.let { it ->
@@ -43,8 +43,8 @@ data class GetMovieDetailsResponseModels(
             ArrayList(genres.map { it.toEntity() }),
             date,
             overview,
-            if(this.backDrop != null) BuildConfig.TMDB_IMAGE_URL + this.backDrop else null,
-            if(this.poster != null) BuildConfig.TMDB_IMAGE_URL + this.poster else null,
+            if(this.backDrop != null) imageUrl + this.backDrop else null,
+            if(this.poster != null) imageUrl + this.poster else null,
             rating,
             title,
             runtime,

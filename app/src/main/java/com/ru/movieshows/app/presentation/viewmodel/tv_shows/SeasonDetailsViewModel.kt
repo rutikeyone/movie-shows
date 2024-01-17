@@ -3,7 +3,6 @@ package com.ru.movieshows.app.presentation.viewmodel.tv_shows
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ru.movieshows.app.model.tv_shows.TvShowRepository
-import com.ru.movieshows.app.presentation.screens.tv_shows.SeasonDetailsBottomSheetDialogFragmentDirections
 import com.ru.movieshows.app.presentation.sideeffects.navigator.Navigator
 import com.ru.movieshows.app.presentation.viewmodel.BaseViewModel
 import com.ru.movieshows.app.utils.share
@@ -36,17 +35,6 @@ class SeasonDetailsViewModel @AssistedInject constructor(
            _season.value = result
        }
    }
-
-    fun navigateToEpisodes() {
-        val seriesId = arguments.second
-        val seasonNumber = arguments.first
-        val direction = SeasonDetailsBottomSheetDialogFragmentDirections
-        val action = direction.actionSeasonDetailsBottomSheetDialogFragmentToSeasonEpisodesFragment(
-            seasonNumber = seasonNumber,
-            seriesId = seriesId,
-        )
-        navigator.navigate(action)
-    }
 
     @AssistedFactory
     interface Factory {

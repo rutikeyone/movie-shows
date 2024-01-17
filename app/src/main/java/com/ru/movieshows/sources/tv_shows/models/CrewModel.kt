@@ -28,7 +28,7 @@ data class CrewModel(
     val profilePath: String?
 ) : Parcelable {
 
-    fun toEntity() = CrewEntity(
+    fun toEntity(imageUrl: String) = CrewEntity(
         id,
         job,
         department,
@@ -38,7 +38,7 @@ data class CrewModel(
         name,
         originalName,
         popularity,
-        if(this.profilePath != null) BuildConfig.TMDB_IMAGE_URL + this.profilePath else null,
+        if(this.profilePath != null) imageUrl + this.profilePath else null,
     )
 
 }

@@ -7,7 +7,7 @@ import com.ru.movieshows.sources.movies.entities.VideoEntity
 
 interface MoviesSource {
 
-    suspend fun getMovieReviews(movieId: String, language: String = "en_US", page: Int): Pair<Int, ArrayList<ReviewEntity>>
+    suspend fun getMovieReviews(movieId: String, language: String, page: Int): Pair<Int, ArrayList<ReviewEntity>>
 
     suspend fun getVideosById(movieId: String, language: String): ArrayList<VideoEntity>
 

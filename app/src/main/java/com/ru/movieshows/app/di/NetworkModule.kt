@@ -3,7 +3,7 @@ package com.ru.movieshows.app.di
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.ru.movieshows.BuildConfig
-import com.ru.movieshows.sources.base.RetrofitConfig
+import com.ru.movieshows.sources.base.NetworkConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -65,11 +65,15 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofitConfig(
+    fun provideNetworkConfig(
         gson: Gson,
         retrofit: Retrofit,
-    ): RetrofitConfig {
-        return RetrofitConfig(retrofit, gson)
+    ): NetworkConfig {
+        return NetworkConfig(
+            retrofit = retrofit,
+            gson = gson,
+            imageUrl = "https://image.tmdb.org/t/p/original",
+        )
     }
 
 }

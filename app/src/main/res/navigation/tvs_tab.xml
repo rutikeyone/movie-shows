@@ -68,22 +68,23 @@
             android:name="id"
             app:argType="string" />
         <action
-            android:id="@+id/action_tvShowDetailsFragment_to_seasonDetailsBottomSheetDialogFragment"
-            app:destination="@id/seasonDetailsBottomSheetDialogFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
             android:id="@+id/action_tvShowDetailsFragment_to_videoPlayerActivity"
             app:destination="@id/videoPlayerActivity"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/tvShowDetailsFragment" />
         <action
             android:id="@+id/action_tvShowDetailsFragment_to_tvReviewsFragment"
             app:destination="@id/tvReviewsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_tvShowDetailsFragment_to_seasonEpisodesFragment"
+            app:destination="@id/seasonEpisodesFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -148,28 +149,6 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
-    <dialog
-        android:id="@+id/seasonDetailsBottomSheetDialogFragment"
-        android:name="com.ru.movieshows.app.presentation.screens.tv_shows.SeasonDetailsBottomSheetDialogFragment"
-        android:label="SeasonDetailsBottomSheetDialogFragment"
-        tools:layout="@layout/season_modal_sheet">
-        <argument
-            android:name="season_args"
-            app:argType="com.ru.movieshows.sources.tv_shows.entities.SeasonEntity" />
-        <argument
-            android:name="season_number"
-            app:argType="string" />
-        <argument
-            android:name="series_id"
-            app:argType="string" />
-        <action
-            android:id="@+id/action_seasonDetailsBottomSheetDialogFragment_to_seasonEpisodesFragment"
-            app:destination="@id/seasonEpisodesFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-    </dialog>
     <activity
         android:id="@+id/videoPlayerActivity"
         android:name="com.ru.movieshows.app.presentation.screens.video.VideoPlayerActivity"

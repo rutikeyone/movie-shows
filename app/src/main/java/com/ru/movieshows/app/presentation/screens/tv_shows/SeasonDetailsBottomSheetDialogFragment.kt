@@ -1,12 +1,13 @@
 package com.ru.movieshows.app.presentation.screens.tv_shows
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
-import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.R
@@ -20,19 +21,39 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import javax.inject.Inject
 
+@Suppress("DEPRECATION")
 @AndroidEntryPoint
 class SeasonDetailsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
 
-    private val arguments by navArgs<SeasonDetailsBottomSheetDialogFragmentArgs>()
+    private val initialSeason: SeasonEntity by lazy {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arguments?.getParcelable(SEASON_ARG, SeasonEntity::class.java)
+        } else {
+            arguments?.getParcelable(SEASON_ARG)
+        } ?: throw IllegalStateException("The season argument must be passed")
+    }
+
+    private val seasonNumber: String by lazy {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arguments?.getString(SEASON_NUMBER_ARG)
+        } else {
+            arguments?.getString(SEASON_NUMBER_ARG)
+        } ?: throw IllegalStateException("The seasonNumber argument must be passed")
+    }
+
+    private val seriesId: String by lazy {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arguments?.getString(SERIES_ID_ARG)
+        } else {
+            arguments?.getString(SERIES_ID_ARG)
+        } ?: throw IllegalStateException("The seriesId argument must be passed")
+    }
 
     @Inject
     lateinit var factory: SeasonDetailsViewModel.Factory
     val viewModel by viewModelCreator {
-        val season = arguments.seasonArgs
-        val seasonNumber = arguments.seasonNumber
-        val seriesId = arguments.seriesId
         factory.create(
-            initialSeason = season,
+            initialSeason = initialSeason,
             arguments = Pair(seasonNumber, seriesId),
             navigator = navigator(),
         )
@@ -69,12 +90,23 @@ class SeasonDetailsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
             if (countEpisodes != null && countEpisodes > 0) {
                 episodesButton.isVisible = true
                 episodesButton.setOnClickListener {
-                    viewModel.navigateToEpisodes()
+                    navigateToEpisodes()
                 }
             } else {
                 episodesButton.isVisible = false
             }
         }
+    }
+
+    private fun navigateToEpisodes() {
+        parentFragmentManager.setFragmentResult(
+            NAVIGATE_TO_EPISODES_CODE,
+            bundleOf(
+                SERIES_ID_ARG to seriesId,
+                SEASON_NUMBER_ARG to seasonNumber
+            )
+        )
+        dismiss()
     }
 
     @SuppressLint("SetTextI18n")
@@ -153,6 +185,31 @@ class SeasonDetailsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
                 .centerCrop()
                 .into(this)
         }
+    }
+
+    companion object {
+
+        fun newInstance(
+            season: SeasonEntity,
+            seasonNumber: String,
+            seriesId: String
+        ): SeasonDetailsBottomSheetDialogFragment {
+            val arguments = Bundle().also {
+                it.putParcelable(SEASON_ARG, season)
+                it.putString(SEASON_NUMBER_ARG, seasonNumber)
+                it.putString(SERIES_ID_ARG, seriesId)
+            }
+            val fragment = SeasonDetailsBottomSheetDialogFragment().apply {
+                this.arguments = arguments
+            }
+            return fragment
+        }
+
+        const val NAVIGATE_TO_EPISODES_CODE = "navigateToEpisodeCode"
+        const val SEASON_ARG = "seasonArgument"
+        const val SEASON_NUMBER_ARG = "seasonNumberArgument"
+        const val SERIES_ID_ARG = "seriesIdArgument"
+
     }
 
 }

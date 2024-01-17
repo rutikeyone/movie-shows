@@ -13,7 +13,8 @@ import com.ru.movieshows.databinding.CreatorItemBinding
 import com.ru.movieshows.sources.tv_shows.entities.CreatorEntity
 
 class CreatorAdapter(
-    private val creators: ArrayList<CreatorEntity>
+    private val creators: ArrayList<CreatorEntity>,
+    private val onTap: (CreatorEntity) -> Unit,
 ) : RecyclerView.Adapter<CreatorAdapter.Holder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -26,16 +27,20 @@ class CreatorAdapter(
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val creator = creators[position]
-        holder.bind(creator)
+        holder.bind(creator, onTap)
     }
 
     inner class Holder(private val view: View): RecyclerView.ViewHolder(view) {
 
-        fun bind(creator: CreatorEntity) {
+        fun bind(
+            creator: CreatorEntity,
+            onTap: (CreatorEntity) -> Unit,
+        ) {
             val binding = CreatorItemBinding.bind(view)
             bindPhotoImage(creator, binding)
             bindLayoutParams(binding)
             bindName(creator, binding)
+            binding.root.setOnClickListener { onTap(creator) }
         }
 
     }

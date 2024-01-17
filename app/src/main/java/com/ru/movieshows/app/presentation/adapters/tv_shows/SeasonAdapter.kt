@@ -13,7 +13,7 @@ import com.ru.movieshows.sources.tv_shows.entities.SeasonEntity
 class SeasonAdapter(
     private val seasons: ArrayList<SeasonEntity>,
     private val onTap: (SeasonEntity) -> Unit,
-    ) : RecyclerView.Adapter<SeasonAdapter.Holder>() {
+) : RecyclerView.Adapter<SeasonAdapter.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)

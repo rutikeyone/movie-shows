@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import arrow.core.getOrElse
 import com.ru.movieshows.app.model.AppFailure
+import com.ru.movieshows.app.model.people.PeopleRepository
 import com.ru.movieshows.app.model.tv_shows.TvShowRepository
 import com.ru.movieshows.app.presentation.screens.tv_shows.TvShowDetailsFragmentDirections
 import com.ru.movieshows.app.presentation.sideeffects.navigator.Navigator
@@ -22,12 +23,13 @@ class TvShowDetailsViewModel @AssistedInject constructor(
     @Assisted private val tvShowId: String,
     @Assisted private val navigator: Navigator,
     private val tvShowRepository: TvShowRepository,
+    private val peopleRepository: PeopleRepository,
 ) : BaseViewModel() {
     private val _state = MutableLiveData<TvShowDetailsState>(TvShowDetailsState.Empty)
     val state get() = _state.share()
 
-    private val _title = MutableLiveData("")
-    val title = _title.share()
+    private val _titleState = MutableLiveData("")
+    val titleState = _titleState.share()
 
     init {
         fetchData()
@@ -35,13 +37,13 @@ class TvShowDetailsViewModel @AssistedInject constructor(
 
     fun fetchData() = viewModelScope.launch {
         languageTagFlow.collect {
-            _title.value = ""
+            _titleState.value = ""
             _state.value = TvShowDetailsState.InPending
             try {
                 val tvShow = getTvShowById(it)
                 val videos = getVideosById(it)
                 val reviews = getReviewsBySeriesId(it).second
-                _title.value = tvShow.name
+                _titleState.value = tvShow.name
                 _state.value = TvShowDetailsState.Success(tvShow, videos, reviews)
             } catch (e: AppFailure) {
                 val failureState = TvShowDetailsState.Failure(e.headerResource(), e.errorResource())
@@ -79,6 +81,14 @@ class TvShowDetailsViewModel @AssistedInject constructor(
 
     fun navigateToTvReviews() {
         val action = TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToTvReviewsFragment(tvShowId)
+        navigator.navigate(action)
+    }
+
+    fun navigateToEpisodes(seriesId: String, seasonNumber: String) {
+        val action = TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToSeasonEpisodesFragment(
+            seriesId = seriesId,
+            seasonNumber = seasonNumber,
+        )
         navigator.navigate(action)
     }
 

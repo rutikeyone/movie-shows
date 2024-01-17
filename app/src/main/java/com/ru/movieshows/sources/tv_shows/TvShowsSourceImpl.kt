@@ -2,7 +2,7 @@ package com.ru.movieshows.sources.tv_shows
 
 import com.ru.movieshows.app.model.tv_shows.TvShowsSource
 import com.ru.movieshows.sources.base.BaseRetrofitSource
-import com.ru.movieshows.sources.base.RetrofitConfig
+import com.ru.movieshows.sources.base.NetworkConfig
 import com.ru.movieshows.sources.movies.entities.ReviewEntity
 import com.ru.movieshows.sources.movies.entities.VideoEntity
 import com.ru.movieshows.sources.tv_shows.entities.EpisodeEntity
@@ -12,9 +12,11 @@ import com.ru.movieshows.sources.tv_shows.entities.TvShowsEntity
 import javax.inject.Inject
 
 class TvShowsSourceImpl @Inject constructor(
-    private val retrofitConfig: RetrofitConfig,
+    private val networkConfig: NetworkConfig,
     private val tvShowsApi: TvShowsApi,
-) : TvShowsSource, BaseRetrofitSource(retrofitConfig) {
+) : TvShowsSource, BaseRetrofitSource(networkConfig) {
+
+    private val imageUrl = networkConfig.imageUrl
 
     override suspend fun getVideosById(
         seriesId: String,
@@ -33,7 +35,7 @@ class TvShowsSourceImpl @Inject constructor(
         language: String,
     ): SeasonEntity = wrapRetrofitExceptions {
         val seasonModel = tvShowsApi.getSeason(seriesId, seasonNumber, language)
-        val seasonEntity = seasonModel.toEntity()
+        val seasonEntity = seasonModel.toEntity(imageUrl)
         seasonEntity
     }
 
@@ -45,7 +47,7 @@ class TvShowsSourceImpl @Inject constructor(
         val response = tvShowsApi.getSimilarTvShows(seriesId, language, page)
         val body = response.body()!!
         val models = body.result
-        val entities = ArrayList(models.map { it.toEntity() })
+        val entities = ArrayList(models.map { it.toEntity(imageUrl) })
         val totalPages = body.totalPages
         Pair(totalPages, entities)
     }
@@ -57,7 +59,7 @@ class TvShowsSourceImpl @Inject constructor(
         val response = tvShowsApi.getDiscoverTvShows(language, page)
         val body = response.body()!!
         val models = body.result
-        val entities = ArrayList(models.map { it.toEntity() })
+        val entities = ArrayList(models.map { it.toEntity(imageUrl) })
         val totalPages = body.totalPages
         Pair(totalPages, entities)
     }
@@ -68,7 +70,7 @@ class TvShowsSourceImpl @Inject constructor(
     ): TvShowDetailsEntity = wrapRetrofitExceptions {
         val response = tvShowsApi.getTvShowDetails(id, language)
         val model = response.body()!!
-        val entity = model.toEntity()
+        val entity = model.toEntity(imageUrl)
         entity
     }
 
@@ -79,7 +81,7 @@ class TvShowsSourceImpl @Inject constructor(
         val response = tvShowsApi.getTopRatedTvShows(language, page)
         val body = response.body()!!
         val models = body.result
-        val entities = ArrayList(models.map { it.toEntity() })
+        val entities = ArrayList(models.map { it.toEntity(imageUrl) })
         val totalPages = body.totalPages
         Pair(totalPages, entities)
     }
@@ -91,7 +93,7 @@ class TvShowsSourceImpl @Inject constructor(
         val response = tvShowsApi.getPopularTvShows(language, page)
         val body = response.body()!!
         val models = body.result
-        val entities = ArrayList(models.map { it.toEntity() })
+        val entities = ArrayList(models.map { it.toEntity(imageUrl) })
         val totalPages = body.totalPages
         Pair(totalPages, entities)
     }
@@ -103,7 +105,7 @@ class TvShowsSourceImpl @Inject constructor(
         val response = tvShowsApi.getOnTheAirTvShows(language, page)
         val body = response.body()!!
         val models = body.result
-        val entities = ArrayList(models.map { it.toEntity() })
+        val entities = ArrayList(models.map { it.toEntity(imageUrl) })
         val totalPages = body.totalPages
         Pair(totalPages, entities)
     }
@@ -115,7 +117,7 @@ class TvShowsSourceImpl @Inject constructor(
         val response = tvShowsApi.getTrendingTvShows(language, page)
         val body = response.body()!!
         val models = body.result
-        val entities = ArrayList(models.map { it.toEntity() })
+        val entities = ArrayList(models.map { it.toEntity(imageUrl) })
         val totalPages = body.totalPages
         Pair(totalPages, entities)
     }
@@ -128,7 +130,7 @@ class TvShowsSourceImpl @Inject constructor(
         val response = tvShowsApi.searchTvShows(language, page, query)
         val body = response.body()!!
         val models = body.result
-        val entities = ArrayList(models.map { it.toEntity() })
+        val entities = ArrayList(models.map { it.toEntity(imageUrl) })
         val totalPages = body.totalPages
         Pair(totalPages, entities)
     }
@@ -140,7 +142,7 @@ class TvShowsSourceImpl @Inject constructor(
         episodeNumber: Int,
     ): EpisodeEntity = wrapRetrofitExceptions {
         val model = tvShowsApi.getEpisodeByNumber(seriesId, seasonNumber, episodeNumber.toString(), language)
-        val entity = model.toEntity()
+        val entity = model.toEntity(imageUrl)
         entity
     }
 
@@ -152,7 +154,7 @@ class TvShowsSourceImpl @Inject constructor(
         val response = tvShowsApi.getTvReviews(seriesId, language, page)
         val body = response.body()!!
         val models = body.results
-        val entities = ArrayList(models.map { it.toEntity() })
+        val entities = ArrayList(models.map { it.toEntity(imageUrl) })
         val totalPages = body.totalPages
         Pair(totalPages, entities)
     }

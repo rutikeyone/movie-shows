@@ -36,7 +36,7 @@ data class TvShowDetailsModel(
     val productionCompanies: ArrayList<ProductionCompanyModel>?,
 ){
     @SuppressLint("SimpleDateFormat")
-    fun toEntity(): TvShowDetailsEntity {
+    fun toEntity(imageUrl: String): TvShowDetailsEntity {
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
         val date = if(firstAirDate != null) simpleDateFormat.parse(firstAirDate) else null
         val productionCompanies = this.productionCompanies?.let { it ->
@@ -48,14 +48,14 @@ data class TvShowDetailsModel(
             genres?.map { it.toEntity() }?.let { ArrayList(it) },
             date,
             overview,
-            if(this.backDrop != null) BuildConfig.TMDB_IMAGE_URL + this.backDrop else null,
-            if(this.poster != null) BuildConfig.TMDB_IMAGE_URL + this.poster else null,
+            if(this.backDrop != null) imageUrl + this.backDrop else null,
+            if(this.poster != null) imageUrl + this.poster else null,
             rating,
             name,
             numberOfEpisodes,
             numberOfSeasons,
-            createdBy?.map { it.toEntity() }?.let { ArrayList(it) },
-            seasons?.map { it.toEntity() }?.let { ArrayList(it) },
+            createdBy?.map { it.toEntity(imageUrl) }?.let { ArrayList(it) },
+            seasons?.map { it.toEntity(imageUrl) }?.let { ArrayList(it) },
             productionCompanies
         )
     }

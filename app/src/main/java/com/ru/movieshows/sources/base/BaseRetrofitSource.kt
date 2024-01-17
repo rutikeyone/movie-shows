@@ -19,10 +19,10 @@ data class ErrorResponseBody(
 )
 
 open class BaseRetrofitSource(
-    retrofitConfig: RetrofitConfig,
+    networkConfig: NetworkConfig,
 ) {
 
-    private val gson = retrofitConfig.gson
+    private val gson = networkConfig.gson
 
     suspend fun <T> wrapRetrofitExceptions(block: suspend () -> T): T {
         return try {

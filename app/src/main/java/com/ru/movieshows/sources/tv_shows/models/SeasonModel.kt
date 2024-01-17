@@ -29,9 +29,9 @@ data class SeasonModel(
     @SerializedName("episodes")
     val episodes: ArrayList<EpisodeModel>?,
 ) {
-    fun toEntity(): SeasonEntity {
+    fun toEntity(imageUrl: String): SeasonEntity {
         val episodes = this.episodes?.let { it ->
-            ArrayList(it.map { it.toEntity() })
+            ArrayList(it.map { it.toEntity(imageUrl) })
         }
 
         return SeasonEntity(
@@ -42,7 +42,7 @@ data class SeasonModel(
             seasonNumber,
             rating,
             airDate,
-            poster,
+            if(!poster.isNullOrEmpty()) imageUrl + poster else null,
             episodes,
         )
     }

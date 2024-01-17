@@ -12,5 +12,7 @@ data class GenreModel(
     @SerializedName("name")
     val name: String?,
 ) : Parcelable {
+
     fun toEntity(): GenreEntity = GenreEntity(id, name)
+
 }

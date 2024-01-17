@@ -13,5 +13,10 @@ data class ReviewModel(
     @SerializedName("author_details")
     val authorDetails: AuthorDetailsModel?
 ) {
-    fun toEntity(): ReviewEntity = ReviewEntity(id, author, content, authorDetails?.toEntity())
+    fun toEntity(imageUrl: String): ReviewEntity = ReviewEntity(
+        id,
+        author,
+        content,
+        authorDetails?.toEntity(imageUrl)
+    )
 }

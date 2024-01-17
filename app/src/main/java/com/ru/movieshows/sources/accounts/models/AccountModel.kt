@@ -19,11 +19,11 @@ data class AccountModel(
     @JsonAdapter(value = AvatarConverter::class)
     val avatar: String?,
 ) {
-    fun toEntity() : AccountEntity = AccountEntity(
+    fun toEntity(imageUrl: String) : AccountEntity = AccountEntity(
         id,
         name,
         includeAdult,
         username,
-        if(this.avatar != null) BuildConfig.TMDB_IMAGE_URL + this.avatar else null,
+        if(this.avatar != null) imageUrl + this.avatar else null,
     )
 }

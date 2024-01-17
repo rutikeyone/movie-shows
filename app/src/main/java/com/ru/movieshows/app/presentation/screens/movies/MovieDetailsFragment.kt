@@ -321,7 +321,7 @@ class MovieDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun configureMoviePoster(movieDetails: MovieDetailsEntity) = with(binding.moviePoster) {
+    private fun configureMoviePoster(movieDetails: MovieDetailsEntity) = with(binding.moviePosterImageView) {
         val poster = movieDetails.poster
         if(!poster.isNullOrEmpty()) {
             Glide
