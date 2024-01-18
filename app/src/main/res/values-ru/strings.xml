@@ -99,6 +99,8 @@
     <string name="you_must_have_a_tmdb_account_in_order_to_log_in">Вы должны иметь аккаунт TMDB для того чтобы авторизоваться</string>
     <string name="date_of_birth">Дата рождения</string>
     <string name="date_of_death">Дата смерти</string>
+    <string name="biography">Биография</string>
+    <string name="place_of_birth">Место рождения</string>
     <plurals name="count_replies">
         <item quantity="one">%1$d ответ</item>
         <item quantity="few">%1$d ответов</item>

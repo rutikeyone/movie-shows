@@ -106,6 +106,8 @@
     <string name="you_must_have_a_tmdb_account_in_order_to_log_in">You must have a TMDB account in order to log in</string>
     <string name="date_of_birth">Date of birth</string>
     <string name="date_of_death">Date of death</string>
+    <string name="biography">Biography</string>
+    <string name="place_of_birth">Place of birth</string>
     <plurals name="count_replies">
         <item quantity="zero">zero</item>
         <item quantity="one">%1$d reply</item>

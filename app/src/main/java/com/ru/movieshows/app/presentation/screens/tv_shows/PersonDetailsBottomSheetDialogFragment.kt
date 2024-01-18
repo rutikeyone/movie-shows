@@ -61,6 +61,32 @@ class PersonDetailsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
         configureHeader(person)
         configureDateOfBirth(person)
         configureDateOfDeath(person)
+        configureBiography(person)
+        configurePlaceOfBirth(person)
+    }
+
+    private fun configurePlaceOfBirth(person: PersonEntity) {
+        val placeOfBirth = person.placeOfBirth
+        if(!placeOfBirth.isNullOrEmpty()) {
+            binding.placeOfBirthTextView.text = placeOfBirth
+            binding.placeOfBirthTextView.isVisible = true
+            binding.placeOfBirthHeaderTextView.isVisible = true
+        } else {
+            binding.placeOfBirthTextView.isVisible = false
+            binding.placeOfBirthHeaderTextView.isVisible = false
+        }
+    }
+
+    private fun configureBiography(person: PersonEntity) {
+        val biography = person.biography
+        if(!biography.isNullOrEmpty()) {
+            binding.biographyTextView.text = biography
+            binding.biographyHeaderTextView.isVisible = true
+            binding.biographyTextView.isVisible = true
+        } else {
+            binding.biographyHeaderTextView.isVisible = false
+            binding.biographyTextView.isVisible = false
+        }
     }
 
     @SuppressLint("SimpleDateFormat")
