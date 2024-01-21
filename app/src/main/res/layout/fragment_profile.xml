@@ -38,14 +38,14 @@
         app:layout_constraintTop_toBottomOf="@id/avatarCardView"
         android:layout_marginTop="@dimen/dp_12"
         tools:text="@string/ivanov_ivan"
-        style="?attr/MovieShows.TextAppearance.Headline5"/>
+        style="?attr/textappearance.movieshows.headline5"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/logoutButton"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_55"
         android:text="@string/sign_out"
-        style="?attr/MovieShows.TextButton.Light"
+        style="?attr/textbutton.movieshows.light"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nameTextView"
@@ -71,7 +71,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/in_order_to_see_the_profile_data_message"
-        style="?attr/MovieShows.TextAppearance.Headline6.Bold"
+        style="?attr/textappearance.movieshows.headline6.bold"
         android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -84,7 +84,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sign_in_header"
-        style="?attr/MovieShows.TextAppearance.Body1"
+        style="?attr/textappearance.movieshows.body1"
         android:layout_marginTop="@dimen/dp_12"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

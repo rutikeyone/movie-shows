@@ -5,12 +5,20 @@ import androidx.lifecycle.viewModelScope
 import arrow.core.getOrElse
 import com.ru.movieshows.R
 import com.ru.movieshows.app.model.AppFailure
+import com.ru.movieshows.app.model.people.PeopleRepository
 import com.ru.movieshows.app.model.tv_shows.TvShowRepository
+import com.ru.movieshows.app.presentation.adapters.episode.CrewAdapter
 import com.ru.movieshows.app.presentation.screens.episodes.EpisodeDetailsFragmentArgs
+import com.ru.movieshows.app.presentation.sideeffects.resources.Resources
+import com.ru.movieshows.app.presentation.sideeffects.toast.Toasts
 import com.ru.movieshows.app.presentation.viewmodel.BaseViewModel
 import com.ru.movieshows.app.presentation.viewmodel.episode.state.EpisodeDetailsState
 import com.ru.movieshows.app.presentation.viewmodel.episode.state.EpisodeDetailsStatus
+import com.ru.movieshows.app.utils.MutableLiveEvent
+import com.ru.movieshows.app.utils.publishEvent
 import com.ru.movieshows.app.utils.share
+import com.ru.movieshows.sources.people.entities.PersonEntity
+import com.ru.movieshows.sources.tv_shows.entities.CrewEntity
 import com.ru.movieshows.sources.tv_shows.entities.EpisodeEntity
 import com.ru.movieshows.sources.tv_shows.entities.SeasonEntity
 import dagger.assisted.Assisted
@@ -20,8 +28,11 @@ import kotlinx.coroutines.launch
 
 class EpisodeDetailsViewModel @AssistedInject constructor(
     @Assisted private val arguments: EpisodeDetailsFragmentArgs,
-    private val repository: TvShowRepository,
-) : BaseViewModel() {
+    @Assisted private val toasts: Toasts,
+    @Assisted private val resources: Resources,
+    private val tvShowRepository: TvShowRepository,
+    private val peopleRepository: PeopleRepository,
+) : BaseViewModel(), CrewAdapter.Listener {
 
     private val _state = MutableLiveData(
         EpisodeDetailsState(
@@ -31,10 +42,12 @@ class EpisodeDetailsViewModel @AssistedInject constructor(
             title = "",
         )
     )
+    val state = _state.share()
 
     private val currentState get() = _state.value!!
 
-    val state = _state.share()
+    private val _showPeopleDetailsEvent = MutableLiveEvent<PersonEntity>()
+    val showPeopleDetailsEvent = _showPeopleDetailsEvent.share()
 
     init {
         getData()
@@ -65,7 +78,7 @@ class EpisodeDetailsViewModel @AssistedInject constructor(
     private suspend fun getSeason(language: String): SeasonEntity {
         val seriesId = currentState.seriesId
         val seasonNumber = currentState.seasonNumber
-        val getSeasonResult = repository.getSeason(language, seriesId, seasonNumber)
+        val getSeasonResult = tvShowRepository.getSeason(language, seriesId, seasonNumber)
         return getSeasonResult.getOrElse {
             throw it
         }
@@ -75,15 +88,40 @@ class EpisodeDetailsViewModel @AssistedInject constructor(
         val seriesId = currentState.seriesId
         val seasonNumber = currentState.seasonNumber
         val episodeNumber = currentState.episodeNumber
-        val getEpisodeResult = repository.getEpisodeByNumber(language, seriesId, seasonNumber, episodeNumber)
+        val getEpisodeResult = tvShowRepository.getEpisodeByNumber(language, seriesId, seasonNumber, episodeNumber)
         return getEpisodeResult.getOrElse {
             throw it
         }
     }
 
+    private fun handleGetPersonDetailsSuccessResult(personEntity: PersonEntity) {
+        _showPeopleDetailsEvent.publishEvent(personEntity)
+    }
+
+    private fun handleGetPersonDetailsFailureResult(appFailure: AppFailure) {
+        val errorResource = appFailure.errorResource()
+        val error = resources.getString(errorResource)
+        toasts.toast(error)
+    }
+
+    override fun onChooseCrew(crew: CrewEntity) {
+        viewModelScope.launch {
+            val personId = crew.id.toString()
+            val getPersonDetailResult = peopleRepository.getPersonDetails(personId, languageTag)
+            getPersonDetailResult.fold(
+                ::handleGetPersonDetailsFailureResult,
+                ::handleGetPersonDetailsSuccessResult
+            )
+        }
+    }
+
     @AssistedFactory
     interface Factory {
-        fun create(arguments: EpisodeDetailsFragmentArgs): EpisodeDetailsViewModel
+        fun create(
+            arguments: EpisodeDetailsFragmentArgs,
+            toasts: Toasts,
+            resources: Resources,
+        ): EpisodeDetailsViewModel
     }
 
 }

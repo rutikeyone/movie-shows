@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="Theme.MovieShows">
-        <attr name="MovieShows.TextAppearance.Headline4" format="reference"/>
-        <attr name="MovieShows.TextAppearance.Headline4.Bold" format="reference"/>
-        <attr name="MovieShows.TextAppearance.Headline5" format="reference"/>
-        <attr name="MovieShows.TextAppearance.Headline5.Bold" format="reference"/>
-        <attr name="MovieShows.TextAppearance.Headline5.Primary" format="reference"/>
-        <attr name="MovieShows.TextAppearance.Headline5.Primary.Bold" format="reference"/>
-        <attr name="MovieShows.TextAppearance.Body1" format="reference"/>
-        <attr name="MovieShows.TextAppearance.Body2" format="reference"/>
-        <attr name="MovieShows.TextAppearance.Body2.Hint" format="reference"/>
-        <attr name="MovieShows.TextAppearance.Body3" format="reference"/>
-        <attr name="MovieShows.TextAppearance.Body3.Hint.Bold" format="reference"/>
-        <attr name="MovieShows.TextAppearance.Body3.Bold" format="reference"/>
-        <attr name="MovieShows.TextAppearance.Body3.Bold.Accent" format="reference"/>
-        <attr name="MovieShows.TextAppearance.Headline6" format="reference"/>
-        <attr name="MovieShows.TextAppearance.Headline6.Bold" format="reference"/>
-        <attr name="MovieShows.SelectedDots" format="color"/>
-        <attr name="MovieShows.Dots" format="color"/>
-        <attr name="MovieShows.TextButton.Body3.Hint.Bold" format="reference"/>
-        <attr name="MovieShows.Darken" format="color"/>
-        <attr name="MovieShows.Color.Default" format="color"/>
-        <attr name="MovieShows.TextButton.Light" format="reference"/>
-        <attr name="MovieShows.Poster.Placeholder.Color" format="color"/>
-        <attr name="MovieShows.BackDrop.Placeholder.Color" format="color"/>
+    <declare-styleable name="Base.Theme.MovieShows">
+        <attr name="textappearance.movieshows.headline4" format="reference"/>
+        <attr name="textappearance.movieshows.headline4.bold" format="reference"/>
+        <attr name="textappearance.movieshows.headline5" format="reference"/>
+        <attr name="textappearance.movieshows.headline5.bold" format="reference"/>
+        <attr name="textappearance.movieshows.headline5.primary" format="reference"/>
+        <attr name="textappearance.movieshows.headline5.primary.bold" format="reference"/>
+        <attr name="textappearance.movieshows.body1" format="reference"/>
+        <attr name="textappearance.movieshows.body2" format="reference"/>
+        <attr name="textappearance.movieshows.body2.hint" format="reference"/>
+        <attr name="textappearance.movieshows.body3" format="reference"/>
+        <attr name="textappearance.movieshows.body3.hint.bold" format="reference"/>
+        <attr name="textappearance.movieshows.body3.bold" format="reference"/>
+        <attr name="textappearance.movieshows.body3.bold.accent" format="reference"/>
+        <attr name="textappearance.movieshows.headline6" format="reference"/>
+        <attr name="textappearance.movieshows.headline6.bold" format="reference"/>
+        <attr name="movieshows.selecteddots" format="color"/>
+        <attr name="movieshows.dots" format="color"/>
+        <attr name="textbutton.movieshows.body3.hint.bold" format="reference"/>
+        <attr name="color.movieshows.darken" format="color"/>
+        <attr name="color.movieshows.default" format="color"/>
+        <attr name="textbutton.movieshows.light" format="reference"/>
+        <attr name="color.movieshows.poster.placeholder" format="color"/>
+        <attr name="color.movieshows.backdrop.placeholder" format="color"/>
         <attr name="textColorAccent" format="color"/>
     </declare-styleable>
 </resources>

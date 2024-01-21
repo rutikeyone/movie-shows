@@ -32,7 +32,7 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/videoNameTextView"
-        style="?attr/MovieShows.TextAppearance.Body3"
+        style="?attr/textappearance.movieshows.body3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_4"

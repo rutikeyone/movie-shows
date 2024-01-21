@@ -20,25 +20,26 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class RepositoriesModule {
+interface RepositoriesModule {
 
     @Binds
-    abstract fun bindGenresRepository(genresRepositoryImpl: GenresRepositoryImpl): GenresRepository
+    fun bindGenresRepository(genresRepositoryImpl: GenresRepositoryImpl): GenresRepository
 
     @Binds
-    abstract fun bindMoviesRepository(moviesRepositoryImpl: MoviesRepositoryImpl): MoviesRepository
+    fun bindMoviesRepository(moviesRepositoryImpl: MoviesRepositoryImpl): MoviesRepository
 
     @Binds
-    abstract fun bindTvShowsRepository(tvShowsRepositoryImpl: TvShowRepositoryImpl): TvShowRepository
-
-    @Binds
-    @Singleton
-    abstract fun bindAppSettingsRepository(repository: SharedPreferencesAppSettingsRepository): AppSettingsRepository
+    fun bindTvShowsRepository(tvShowsRepositoryImpl: TvShowRepositoryImpl): TvShowRepository
 
     @Binds
     @Singleton
-    abstract fun bindAccountsRepository(repository: AccountsRepositoryImpl) : AccountRepository
+    fun bindAppSettingsRepository(repository: SharedPreferencesAppSettingsRepository): AppSettingsRepository
 
     @Binds
-    abstract fun bindPeopleRepository(repository: PeopleRepositoryImpl): PeopleRepository
+    @Singleton
+    fun bindAccountsRepository(repository: AccountsRepositoryImpl) : AccountRepository
+
+    @Binds
+    fun bindPeopleRepository(repository: PeopleRepositoryImpl): PeopleRepository
+
 }

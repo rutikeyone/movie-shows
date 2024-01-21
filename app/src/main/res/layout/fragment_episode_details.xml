@@ -36,8 +36,9 @@
                 tools:background="@color/yellow"
                 android:contentDescription="@string/backdrop_description" />
 
-            <ImageView
-                android:id="@+id/episodePosterImageView"
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/episodePosterCardView"
                 android:layout_width="120dp"
                 android:layout_height="180dp"
                 android:layout_marginStart="@dimen/dp_16"
@@ -49,13 +50,26 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0"
-                android:contentDescription="@string/backdrop_description" />
+                app:cardCornerRadius="@dimen/dp_8">
+
+                <ImageView
+                    android:id="@+id/episodePosterImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toTopOf="@id/movieName"
+                    android:src="@drawable/poster_placeholder_bg"
+                    android:contentDescription="@string/image_description" />
+
+            </androidx.cardview.widget.CardView>
+
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/episodePosterImageView"
+                app:layout_constraintStart_toEndOf="@id/episodePosterCardView"
                 app:layout_constraintTop_toBottomOf="@id/seasonBackDropImageView"
                 android:orientation="vertical"
                 android:layout_marginStart="@dimen/dp_16"
@@ -63,13 +77,13 @@
 
                 <TextView
                     android:id="@+id/episodeNameTextView"
-                    style="?attr/MovieShows.TextAppearance.Headline6"
+                    style="?attr/textappearance.movieshows.headline6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_8"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintStart_toEndOf="@id/episodePosterImageView"
+                    app:layout_constraintStart_toEndOf="@id/episodePosterCardView"
                     app:layout_constraintTop_toBottomOf="@id/seasonBackDropImageView"
                     app:layout_constraintVertical_bias="0"
                     tools:text="Episode name"
@@ -83,7 +97,7 @@
 
                     <TextView
                         android:id="@+id/ratingText"
-                        style="?attr/MovieShows.TextAppearance.Headline5.Bold"
+                        style="?attr/textappearance.movieshows.headline5.bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         tools:text="8.3"
@@ -111,13 +125,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/release_date"
-                        style="?attr/MovieShows.TextAppearance.Body3.Hint.Bold"
+                        style="?attr/textappearance.movieshows.body3.hint.bold"
                         android:textAllCaps="true"
                         android:layout_marginEnd="@dimen/dp_8"/>
 
                     <TextView
                         android:id="@+id/releaseDateValue"
-                        style="?attr/MovieShows.TextAppearance.Body3.Bold.Accent"
+                        style="?attr/textappearance.movieshows.body3.bold.accent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         tools:text="2021-12-15" />
@@ -130,7 +144,7 @@
 
             <TextView
                 android:id="@+id/overviewHeader"
-                style="?attr/MovieShows.TextAppearance.Body3.Hint.Bold"
+                style="?attr/textappearance.movieshows.body3.hint.bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_16"
@@ -142,7 +156,7 @@
 
             <TextView
                 android:id="@+id/overviewText"
-                style="?attr/MovieShows.TextAppearance.Body3"
+                style="?attr/textappearance.movieshows.body3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_16"
@@ -153,7 +167,7 @@
 
             <TextView
                 android:id="@+id/crewHeaderTextView"
-                style="?attr/MovieShows.TextAppearance.Body3.Hint.Bold"
+                style="?attr/textappearance.movieshows.body3.hint.bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_16"

@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/comment"
-            style="?attr/MovieShows.TextAppearance.Headline6.Bold"
+            style="?attr/textappearance.movieshows.headline6.bold"
             android:layout_alignBottom="@+id/closeImageView"
             android:layout_marginEnd="@dimen/dp_16"
             android:layout_alignParentTop="true"

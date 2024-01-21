@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/movies"
+        android:id="@+id/moviesRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -27,7 +27,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        style="?attr/MovieShows.TextAppearance.Headline6"
+        style="?attr/textappearance.movieshows.headline6"
         />
 
     <androidx.core.widget.NestedScrollView
@@ -50,7 +50,7 @@
                 android:layout_marginStart="@dimen/dp_16"
                 android:layout_marginEnd="@dimen/dp_16"
                 android:layout_marginTop="@dimen/dp_16"
-                style="?attr/MovieShows.TextAppearance.Headline6"
+                style="?attr/textappearance.movieshows.headline6"
                 android:text="@string/it_may_be_useful"
                 />
 

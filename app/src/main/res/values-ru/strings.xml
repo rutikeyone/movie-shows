@@ -79,7 +79,7 @@
     <string name="the_session_was_not_found">Сессия не была найдена</string>
     <string name="your_account_is_no_longer_active_contact_tmdb_message">Ваша учетная запись больше не активна. Свяжитесь с TMDb, если это ошибка</string>
     <string name="the_email_address_has_not_been_confirmed">Адрес электронной почты не подтвержден.</string>
-    <string name="tmdb_service_is_not_available_from_russia">Сервис TMDB недоступен из России</string>
+    <string name="tmdb_service_is_not_available_from_russia">Сервис TMDB недоступен в России</string>
     <string name="image_description">Описание изображения</string>
     <string name="maybe_you_re_looking_for">Может вы ищите</string>
     <string name="it_may_be_useful">Может быть полезно</string>

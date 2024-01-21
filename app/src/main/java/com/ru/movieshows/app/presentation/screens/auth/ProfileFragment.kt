@@ -24,6 +24,7 @@ class ProfileFragment : BaseFragment() {
     @Inject
     lateinit var factory: ProfileViewModel.Factory
 
+
     override val viewModel by viewModelCreator {
         factory.create(
             navigator = navigator()

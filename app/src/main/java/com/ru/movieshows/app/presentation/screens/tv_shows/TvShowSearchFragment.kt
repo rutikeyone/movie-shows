@@ -16,6 +16,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ru.movieshows.R
 import com.ru.movieshows.app.model.AppFailure
@@ -119,11 +120,11 @@ class TvShowSearchFragment : BaseFragment() {
         val tryAgainAction: TryAgainAction = { adapter.refresh() }
         val footerAdapter = LoadStateAdapter(tryAgainAction, requireContext())
         val layoutManager = LinearLayoutManager(requireContext())
-        binding.tvShows.layoutManager = layoutManager
+        binding.tvShowsRecyclerView.layoutManager = layoutManager
         binding.failurePart.retryButton.setOnClickListener { adapter.retry() }
-        binding.tvShows.adapter = adapter.withLoadStateFooter(footerAdapter)
-        binding.tvShows.addItemDecoration(itemDecoration)
-        binding.tvShows.itemAnimator = null
+        binding.tvShowsRecyclerView.adapter = adapter.withLoadStateFooter(footerAdapter)
+        binding.tvShowsRecyclerView.addItemDecoration(itemDecoration)
+        binding.tvShowsRecyclerView.itemAnimator = null
     }
 
     private fun collectUiState() {
@@ -185,7 +186,7 @@ class TvShowSearchFragment : BaseFragment() {
         val searchMode = viewModel.isSearchMode
         val isListEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
         val showTvShows = !isListEmpty && loadState.source.refresh is LoadState.NotLoading && searchMode
-        binding.tvShows.isVisible = showTvShows
+        binding.tvShowsRecyclerView.isVisible = showTvShows
         binding.progressContainer.isVisible = loadState.source.refresh is LoadState.Loading && searchMode
         binding.successEmptyContainer.isVisible = loadState.source.refresh is LoadState.NotLoading && searchMode && isListEmpty
         configureFailurePart(loadState, searchMode)

@@ -16,6 +16,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ru.movieshows.R
 import com.ru.movieshows.app.model.AppFailure
@@ -71,6 +72,7 @@ class MovieSearchFragment : BaseFragment() {
     }
 
     private val onQueryTextListener = object : SearchView.OnQueryTextListener {
+
         override fun onQueryTextSubmit(query: String): Boolean {
             val isEmpty = query.isEmpty()
             val delay = if(isEmpty) 0L else 500
@@ -90,6 +92,7 @@ class MovieSearchFragment : BaseFragment() {
             }, delay)
             return true
         }
+
     }
 
     override fun onCreateView(
@@ -161,11 +164,11 @@ class MovieSearchFragment : BaseFragment() {
         val tryAgainAction: TryAgainAction = { adapter.retry() }
         val footerAdapter = LoadStateAdapter(tryAgainAction, requireContext())
         val layoutManager = LinearLayoutManager(requireContext())
-        binding.movies.layoutManager = layoutManager
+        binding.moviesRecyclerView.layoutManager = layoutManager
         binding.failurePart.retryButton.setOnClickListener { adapter.retry() }
-        binding.movies.adapter = adapter.withLoadStateFooter(footerAdapter)
-        binding.movies.addItemDecoration(itemDecorator)
-        binding.movies.itemAnimator = null
+        binding.moviesRecyclerView.adapter = adapter.withLoadStateFooter(footerAdapter)
+        binding.moviesRecyclerView.addItemDecoration(itemDecorator)
+        binding.moviesRecyclerView.itemAnimator = null
     }
 
     private fun navigateToMovieDetails(movieEntity: MovieEntity) = viewModel.navigateToMovieDetails(movieEntity)
@@ -174,7 +177,7 @@ class MovieSearchFragment : BaseFragment() {
         val searchMode = viewModel.isSearchMode
         val isListEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
         val showMovies = !isListEmpty && loadState.source.refresh is LoadState.NotLoading && searchMode
-        movies.isVisible = showMovies
+        moviesRecyclerView.isVisible = showMovies
         progressContainer.isVisible = loadState.source.refresh is LoadState.Loading && searchMode
         successEmptyContainer.isVisible = loadState.source.refresh is LoadState.NotLoading && searchMode && isListEmpty
         configureFailurePart(loadState, searchMode)

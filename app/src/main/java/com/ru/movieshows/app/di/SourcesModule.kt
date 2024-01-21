@@ -17,21 +17,21 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class SourcesModule {
+interface SourcesModule {
 
     @Binds
-    abstract fun provideAccountSource(accountsSource: AccountsSourceImpl): AccountsSource
+    fun provideAccountSource(accountsSource: AccountsSourceImpl): AccountsSource
 
     @Binds
-    abstract fun bindsGenresSource(genresSource: GenresSourceImpl): GenresSource
+    fun bindsGenresSource(genresSource: GenresSourceImpl): GenresSource
 
     @Binds
-    abstract fun bindsMoviesSource(moviesSource: MoviesSourceImpl): MoviesSource
+    fun bindsMoviesSource(moviesSource: MoviesSourceImpl): MoviesSource
 
     @Binds
-    abstract fun bindsTvShowsSource(tvShowSource: TvShowsSourceImpl): TvShowsSource
+    fun bindsTvShowsSource(tvShowSource: TvShowsSourceImpl): TvShowsSource
 
     @Binds
-    abstract fun bindsPeopleSource(peopleSource: PeopleSourceImpl): PeopleSource
+    fun bindsPeopleSource(peopleSource: PeopleSourceImpl): PeopleSource
 
 }

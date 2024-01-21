@@ -14,13 +14,17 @@ import com.ru.movieshows.R
 import com.ru.movieshows.app.presentation.adapters.ItemDecoration
 import com.ru.movieshows.app.presentation.adapters.episode.CrewAdapter
 import com.ru.movieshows.app.presentation.screens.BaseFragment
+import com.ru.movieshows.app.presentation.screens.tv_shows.PersonDetailsBottomSheetDialogFragment
+import com.ru.movieshows.app.presentation.screens.tv_shows.TvShowDetailsFragment
 import com.ru.movieshows.app.presentation.viewmodel.episode.EpisodeDetailsViewModel
 import com.ru.movieshows.app.presentation.viewmodel.episode.state.EpisodeDetailsStatus
 import com.ru.movieshows.app.utils.clearDecorations
+import com.ru.movieshows.app.utils.observeEvent
 import com.ru.movieshows.app.utils.viewBinding
 import com.ru.movieshows.app.utils.viewModelCreator
 import com.ru.movieshows.databinding.FailurePartBinding
 import com.ru.movieshows.databinding.FragmentEpisodeDetailsBinding
+import com.ru.movieshows.sources.people.entities.PersonEntity
 import com.ru.movieshows.sources.tv_shows.entities.CrewEntity
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -39,6 +43,8 @@ class EpisodeDetailsFragment : BaseFragment() {
     override val viewModel by viewModelCreator {
         factory.create(
             arguments = arguments,
+            toasts = toasts(),
+            resources = resources(),
         )
     }
 
@@ -53,6 +59,12 @@ class EpisodeDetailsFragment : BaseFragment() {
             configureTitle(state.title)
             handleStatus(state.status)
         }
+        viewModel.showPeopleDetailsEvent.observeEvent(viewLifecycleOwner, ::showPeopleDetailsModalBottomSheet)
+    }
+
+    private fun showPeopleDetailsModalBottomSheet(person: PersonEntity) {
+        val fragment = PersonDetailsBottomSheetDialogFragment.newInstance(person)
+        fragment.show(childFragmentManager, PERSON_DETAILS_MODAL_BOTTOM_SHEET_TAG)
     }
 
     private fun handleStatus(status: EpisodeDetailsStatus) {
@@ -91,7 +103,7 @@ class EpisodeDetailsFragment : BaseFragment() {
 
     private fun configureCrew(crew: ArrayList<CrewEntity>?) = with(binding) {
         if(!crew.isNullOrEmpty()) {
-            val adapter = CrewAdapter(crew)
+            val adapter = CrewAdapter(crew, viewModel)
             val itemDecorator = ItemDecoration(8F, resources.displayMetrics)
             episodeCrewRecyclerView.clearDecorations()
             episodeCrewRecyclerView.addItemDecoration(itemDecorator)
@@ -196,4 +208,10 @@ class EpisodeDetailsFragment : BaseFragment() {
             binding.overviewText.isVisible = false
         }
     }
+
+    companion object {
+        const val SEASON_DETAILS_MODAL_BOTTOM_SHEET_TAG = "ModalBottomSheetTag"
+        const val PERSON_DETAILS_MODAL_BOTTOM_SHEET_TAG = "PersonDetailsModalBottomSheetTag"
+    }
+
 }

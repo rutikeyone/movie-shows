@@ -1,5 +1,10 @@
 buildscript {
-    ext.nav_version = "2.5.3"
+    ext.nav_version = "2.6.0"
+    ext.google_services_version = "4.4.0"
+    ext.application_version = "8.0.2"
+    ext.library_version = "8.0.2"
+    ext.kotlin_version = "1.8.20"
+    ext.hilt_version = "2.44"
 
     repositories {
         google()
@@ -8,14 +13,14 @@ buildscript {
     }
     dependencies {
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
-        classpath "com.google.gms:google-services:4.4.0"
+        classpath "com.google.gms:google-services:$google_services_version"
     }
 }
 
 plugins {
-    id 'com.android.application' version '8.0.2' apply false
-    id 'com.android.library' version '8.0.2' apply false
-    id 'org.jetbrains.kotlin.android' version '1.8.20' apply false
-    id 'com.google.dagger.hilt.android' version '2.44' apply false
-    id 'androidx.navigation.safeargs' version '2.5.3' apply false
+    id 'com.android.application' version "$application_version" apply false
+    id 'com.android.library' version "$library_version" apply false
+    id 'org.jetbrains.kotlin.android' version "$kotlin_version" apply false
+    id 'com.google.dagger.hilt.android' version "$hilt_version" apply false
+    id 'androidx.navigation.safeargs' version "$nav_version" apply false
 }

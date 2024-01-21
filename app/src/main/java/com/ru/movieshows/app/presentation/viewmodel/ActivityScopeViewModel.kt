@@ -52,20 +52,19 @@ class ActivityScopeViewModel @Inject constructor(
     }
 
     private fun handlePendingState(state: AuthStateEntity.Pending) {
-        val isNotAuth = state.isNotAuth
-        if (!isNotAuth) {
+        val isNotAuthenticated = state.isNotAuthenticated
+        if (!isNotAuthenticated) {
             navigator.setStartDestination()
-        }
-        else {
+        } else {
             showLoader()
         }
     }
 
     private fun handleNotAuthenticatedState(state: AuthStateEntity.NotAuth) {
-        val isPrevStateAuth = state.isPrevStateAuth
-        if(!isPrevStateAuth) {
-            navigator.notAuthenticated(state.isFirstLaunch)
-        } else {
+        val previousStateAuthenticated = state.previousStateAuthenticated
+        if(state.isFirstLaunch) {
+            navigator.notAuthenticated(true)
+        } else if(!previousStateAuthenticated) {
             navigator.authenticated()
         }
         hideLoader()

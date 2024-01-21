@@ -22,27 +22,9 @@ class AccountsRepositoryImpl @Inject constructor(
     private val appSettingsRepository: AppSettingsRepository,
     ) : AccountRepository  {
 
-    private val isFirstLaunch = appSettingsRepository.getIsFirstLaunch()
-
     private val accountLazyFlowSubject = LazyFlowSubject<Unit, AuthStateEntity> {
         getAuthState()
     }
-
-    private fun previousValue(): AuthStateEntity {
-        val previousValue = accountLazyFlowSubject.futureRecord(Unit)?.previousValue?.getValueOrNull()
-        return previousValue ?: AuthStateEntity.Empty
-    }
-
-    private fun lastValue(): AuthStateEntity {
-        val lastValue = accountLazyFlowSubject.futureRecord(Unit)?.lastValue?.getValueOrNull()
-        return lastValue ?: AuthStateEntity.Empty
-    }
-
-    private fun isPreviousAuthState() = previousValue() is AuthStateEntity.Auth
-
-    private fun isPreviousNotAuthState() = previousValue() is AuthStateEntity.NotAuth
-
-    private fun isLastValueAuthState() = lastValue() is AuthStateEntity.Auth
 
     override suspend fun getState(): Flow<AuthStateEntity> {
         return accountLazyFlowSubject.listen(Unit).flatMapLatest{ result ->
@@ -50,7 +32,7 @@ class AccountsRepositoryImpl @Inject constructor(
                 is Empty -> AuthStateEntity.Empty
                 is Pending -> AuthStateEntity.Pending(isPreviousNotAuthState())
                 is Success -> result.value
-                is Error -> AuthStateEntity.NotAuth(isFirstLaunch, isPreviousAuthState())
+                is Error -> AuthStateEntity.NotAuth(isFirstLaunch(), isPreviousAuthState())
             }
             flowOf(state)
         }
@@ -76,7 +58,7 @@ class AccountsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun logout() {
-        val notAuthState = AuthStateEntity.NotAuth(isFirstLaunch, isLastValueAuthState())
+        val notAuthState = AuthStateEntity.NotAuth(isFirstLaunch(), isLastValueAuthState())
         appSettingsRepository.cleanCurrentSessionId()
         accountLazyFlowSubject.updateAllValues(notAuthState)
     }
@@ -90,17 +72,34 @@ class AccountsRepositoryImpl @Inject constructor(
             val sessionId = appSettingsRepository.getCurrentSessionId()
             if (sessionId != null) {
                 val account = getAccountBySessionId(sessionId)
-                AuthStateEntity.Auth(isFirstLaunch, account)
+                AuthStateEntity.Auth(isFirstLaunch(), account)
             } else {
-                AuthStateEntity.NotAuth(isFirstLaunch, isPreviousAuthState())
+                AuthStateEntity.NotAuth(isFirstLaunch(), isPreviousAuthState())
             }
         } catch (e: AppFailure) {
             appSettingsRepository.cleanCurrentSessionId()
-            AuthStateEntity.NotAuth(isFirstLaunch, isPreviousAuthState(), e)
+            AuthStateEntity.NotAuth(isFirstLaunch(), isPreviousAuthState(), e)
         } catch (e: Exception) {
             appSettingsRepository.cleanCurrentSessionId()
-            AuthStateEntity.NotAuth(isFirstLaunch, isPreviousAuthState(), AppFailure.Empty)
+            AuthStateEntity.NotAuth(isFirstLaunch(), isPreviousAuthState(), AppFailure.Empty)
         }
     }
 
+    private fun previousValue(): AuthStateEntity {
+        val previousValue = accountLazyFlowSubject.futureRecord(Unit)?.previousValue?.getValueOrNull()
+        return previousValue ?: AuthStateEntity.Empty
+    }
+
+    private fun lastValue(): AuthStateEntity {
+        val lastValue = accountLazyFlowSubject.futureRecord(Unit)?.lastValue?.getValueOrNull()
+        return lastValue ?: AuthStateEntity.Empty
+    }
+
+    private fun isPreviousAuthState() = previousValue() is AuthStateEntity.Auth
+
+    private fun isPreviousNotAuthState() = previousValue() is AuthStateEntity.NotAuth
+
+    private fun isLastValueAuthState() = lastValue() is AuthStateEntity.Auth
+
+    private fun isFirstLaunch() = appSettingsRepository.getIsFirstLaunch()
 }

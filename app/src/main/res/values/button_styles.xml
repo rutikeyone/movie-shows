@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="MovieShows.TextButton.Body3.Hint.Bold.Style" parent="Widget.MaterialComponents.Button.TextButton">
+    <style name="TextButton.MovieShows.Body3.Hint.Bold.Style" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/darkGreyPurple</item>
         <item name="rippleColor">@color/yellow</item>
     </style>
 
 
-    <style name="MovieShows.TextButton.Light.Style" parent="MovieShows.TextButton.Body3.Hint.Bold.Style">
+    <style name="TextButton.MovieShows.Light.Style" parent="TextButton.MovieShows.Body3.Hint.Bold.Style">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">12sp</item>
     </style>

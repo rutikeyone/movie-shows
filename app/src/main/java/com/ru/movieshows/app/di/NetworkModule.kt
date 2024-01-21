@@ -43,7 +43,7 @@ class NetworkModule {
     fun provideAuthInterceptor(): Interceptor {
         return Interceptor { chain ->
             val requestBuilder: Request.Builder = chain.request().newBuilder()
-            requestBuilder.header("Authorization", "Bearer ${BuildConfig.TMDB_API_KEY}")
+            requestBuilder.header("Authorization", "Bearer $API_KEY")
             chain.proceed(requestBuilder.build())
         }
     }
@@ -74,6 +74,10 @@ class NetworkModule {
             gson = gson,
             imageUrl = "https://image.tmdb.org/t/p/original",
         )
+    }
+
+    companion object {
+        private const val API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4NzAyMTcxODRhZGUyZWRlY2VlMmI3MWY1ODQyYjM1YSIsInN1YiI6IjY0OWFlZjU0ZDM1ZGVhMDEwYjgwOWMxNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ACObrzeuDKfRwBr_c8_HxEyjikVEF-SJ2bT9wmIHjO8"
     }
 
 }

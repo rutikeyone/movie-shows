@@ -31,7 +31,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/typeNameTextView"
         android:layout_marginEnd="@dimen/dp_16"
-        style="?attr/MovieShows.TextAppearance.Body1"
+        style="?attr/textappearance.movieshows.body1"
         tools:text="24"
         />
 

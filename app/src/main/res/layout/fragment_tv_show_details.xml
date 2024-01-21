@@ -80,7 +80,7 @@
                         android:layout_marginTop="@dimen/dp_4"
                         android:layout_marginStart="@dimen/dp_16"
                         tools:text="8.3"
-                        style="?attr/MovieShows.TextAppearance.Headline5.Bold"
+                        style="?attr/textappearance.movieshows.headline5.bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
@@ -115,7 +115,7 @@
                         android:layout_marginStart="@dimen/dp_16"
                         app:layout_goneMarginTop="@dimen/dp_16"
                         android:textAllCaps="true"
-                        style="?attr/MovieShows.TextAppearance.Body3.Hint.Bold"
+                        style="?attr/textappearance.movieshows.body3.hint.bold"
                         tools:visibility="visible"
                         />
 
@@ -131,7 +131,7 @@
                         app:layout_constraintBottom_toBottomOf="@id/tvShowsPosterCardView"
                         android:layout_marginTop="@dimen/dp_4"
                         app:layout_constraintVertical_bias="0"
-                        style="?attr/MovieShows.TextAppearance.Body3.Bold.Accent"
+                        style="?attr/textappearance.movieshows.body3.bold.accent"
                         />
 
                     <TextView
@@ -146,7 +146,7 @@
                         app:layout_constraintVertical_bias="0"
                         android:layout_marginEnd="@dimen/dp_16"
                         android:textAllCaps="true"
-                        style="?attr/MovieShows.TextAppearance.Body3.Hint.Bold"
+                        style="?attr/textappearance.movieshows.body3.hint.bold"
                         tools:visibility="visible"
                         />
 
@@ -162,7 +162,7 @@
                         app:layout_constraintBottom_toBottomOf="@id/tvShowsPosterCardView"
                         android:layout_marginTop="@dimen/dp_4"
                         app:layout_constraintVertical_bias="0"
-                        style="?attr/MovieShows.TextAppearance.Body3.Bold.Accent"
+                        style="?attr/textappearance.movieshows.body3.bold.accent"
                         android:layout_marginEnd="@dimen/dp_16"
                         />
 
@@ -187,7 +187,7 @@
                         android:layout_marginStart="@dimen/dp_16"
                         android:layout_marginEnd="@dimen/dp_16"
                         android:textAllCaps="true"
-                        style="?attr/MovieShows.TextAppearance.Body3.Hint.Bold"
+                        style="?attr/textappearance.movieshows.body3.hint.bold"
                         tools:visibility="visible"
                         />
 
@@ -199,7 +199,7 @@
                         android:layout_marginTop="@dimen/dp_8"
                         android:layout_marginStart="@dimen/dp_16"
                         android:layout_marginEnd="@dimen/dp_16"
-                        style="?attr/MovieShows.TextAppearance.Body3"
+                        style="?attr/textappearance.movieshows.body3"
                         tools:visibility="visible"
                         />
 
@@ -212,7 +212,7 @@
                         android:layout_marginStart="@dimen/dp_16"
                         android:layout_marginEnd="@dimen/dp_2"
                         android:textAllCaps="true"
-                        style="?attr/MovieShows.TextAppearance.Body3.Hint.Bold"
+                        style="?attr/textappearance.movieshows.body3.hint.bold"
                         tools:visibility="visible"
                         />
 
@@ -238,7 +238,7 @@
                         android:layout_marginStart="@dimen/dp_16"
                         android:layout_marginEnd="@dimen/dp_2"
                         android:textAllCaps="true"
-                        style="?attr/MovieShows.TextAppearance.Body3.Hint.Bold"
+                        style="?attr/textappearance.movieshows.body3.hint.bold"
                         tools:visibility="visible"
                         />
 
@@ -264,7 +264,7 @@
                         android:layout_marginStart="@dimen/dp_16"
                         android:layout_marginEnd="@dimen/dp_16"
                         android:textAllCaps="true"
-                        style="?attr/MovieShows.TextAppearance.Body3.Hint.Bold"
+                        style="?attr/textappearance.movieshows.body3.hint.bold"
                         tools:visibility="visible"
                         />
 
@@ -289,7 +289,7 @@
                         android:layout_marginStart="@dimen/dp_16"
                         android:layout_marginEnd="@dimen/dp_2"
                         android:textAllCaps="true"
-                        style="?attr/MovieShows.TextAppearance.Body3.Hint.Bold"
+                        style="?attr/textappearance.movieshows.body3.hint.bold"
                         tools:visibility="visible"
                         />
 
@@ -315,7 +315,7 @@
                         android:layout_marginEnd="@dimen/dp_16"
                         android:layout_marginTop="@dimen/dp_16"
                         android:textAllCaps="true"
-                        style="?attr/MovieShows.TextAppearance.Body3.Hint.Bold"
+                        style="?attr/textappearance.movieshows.body3.hint.bold"
                         tools:visibility="visible"
                         />
 
@@ -338,7 +338,7 @@
 
                         <TextView
                             android:id="@+id/reviewsHeaderTextView"
-                            style="?attr/MovieShows.TextAppearance.Body3.Hint.Bold"
+                            style="?attr/textappearance.movieshows.body3.hint.bold"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/dp_16"
@@ -352,7 +352,7 @@
 
                         <Button
                             android:id="@+id/showAllReviewsButton"
-                            style="?attr/MovieShows.TextAppearance.Body3.Bold"
+                            style="?attr/textappearance.movieshows.body3.bold"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/dp_16"

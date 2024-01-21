@@ -1,67 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="MovieShows.TextAppearance.Headline4.Style" parent="TextAppearance.MaterialComponents.Headline4">
+    <style name="TextAppearance.MovieShows.Headline4.Style" parent="TextAppearance.MaterialComponents.Headline4">
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="MovieShows.TextAppearance.Headline4.Bold.Style" parent="MovieShows.TextAppearance.Headline4.Style">
+    <style name="TextAppearance.MovieShows.Headline4.Bold.Style" parent="TextAppearance.MovieShows.Headline4.Style">
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="MovieShows.TextAppearance.Headline5.Style" parent="TextAppearance.MaterialComponents.Headline5">
+    <style name="TextAppearance.MovieShows.Headline5.Style" parent="TextAppearance.MaterialComponents.Headline5">
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="MovieShows.TextAppearance.Headline5.Bold.Style" parent="MovieShows.TextAppearance.Headline5.Style">
+    <style name="TextAppearance.MovieShows.Headline5.Bold.Style" parent="TextAppearance.MovieShows.Headline5.Style">
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="MovieShows.TextAppearance.Headline5.Primary.Style" parent="TextAppearance.MaterialComponents.Headline5">
+    <style name="TextAppearance.MovieShows.Headline5.Primary.Style" parent="TextAppearance.MaterialComponents.Headline5">
         <item name="android:textColor">@color/darkGreyPurple</item>
     </style>
 
-    <style name="MovieShows.TextAppearance.Headline5.Primary.Bold.Style" parent="MovieShows.TextAppearance.Headline5.Primary.Style">
+    <style name="TextAppearance.MovieShows.Headline5.Primary.Bold.Style" parent="TextAppearance.MovieShows.Headline5.Primary.Style">
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="MovieShows.TextAppearance.Headline6.Style" parent="TextAppearance.MaterialComponents.Headline6">
+    <style name="TextAppearance.MovieShows.Headline6.Style" parent="TextAppearance.MaterialComponents.Headline6">
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="MovieShows.TextAppearance.Headline6.Bold.Style" parent="MovieShows.TextAppearance.Headline6.Style">
+    <style name="TextAppearance.MovieShows.Headline6.Bold.Style" parent="TextAppearance.MovieShows.Headline6.Style">
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="MovieShows.TextAppearance.Body1.Style" parent="TextAppearance.MaterialComponents.Body1">
+    <style name="TextAppearance.MovieShows.Body1.Style" parent="TextAppearance.MaterialComponents.Body1">
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="MovieShows.TextAppearance.Body2.Style" parent="MovieShows.TextAppearance.Body1.Style">
+    <style name="TextAppearance.MovieShows.Body2.Style" parent="TextAppearance.MovieShows.Body1.Style">
         <item name="android:textSize">13sp</item>
     </style>
 
-    <style name="MovieShows.TextAppearance.Body3.Style" parent="MovieShows.TextAppearance.Body1.Style">
+    <style name="TextAppearance.MovieShows.Body3.Style" parent="TextAppearance.MovieShows.Body1.Style">
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="MovieShows.TextAppearance.Body3.Bold.Style" parent="MovieShows.TextAppearance.Body3.Style">
+    <style name="TextAppearance.MovieShows.Body3.Bold.Style" parent="TextAppearance.MovieShows.Body3.Style">
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="MovieShows.TextAppearance.Body3.Hint.Style" parent="TextAppearance.MaterialComponents.Body2">
+    <style name="TextAppearance.MovieShows.Body3.Hint.Style" parent="TextAppearance.MaterialComponents.Body2">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/darkGreyPurple</item>
     </style>
 
-    <style name="MovieShows.TextAppearance.Body3.Hint.Bold.Style" parent="MovieShows.TextAppearance.Body3.Hint.Style">
+    <style name="TextAppearance.MovieShows.Body3.Hint.Bold.Style" parent="TextAppearance.MovieShows.Body3.Hint.Style">
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="MovieShows.TextAppearance.Body3.Bold.Accent.Style" parent="MovieShows.TextAppearance.Body3.Style">
+    <style name="TextAppearance.MovieShows.Body3.Bold.Accent.Style" parent="TextAppearance.MovieShows.Body3.Style">
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/yellow</item>
     </style>
-
 
 </resources>

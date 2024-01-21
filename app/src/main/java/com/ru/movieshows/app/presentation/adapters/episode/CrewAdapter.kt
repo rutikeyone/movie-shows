@@ -2,6 +2,7 @@ package com.ru.movieshows.app.presentation.adapters.episode
 
 import android.app.ActionBar
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
@@ -13,12 +14,14 @@ import com.ru.movieshows.sources.tv_shows.entities.CrewEntity
 
 class CrewAdapter(
     private val crew: ArrayList<CrewEntity>,
-) : RecyclerView.Adapter<CrewAdapter.Holder>() {
+    private val listener: Listener,
+) : RecyclerView.Adapter<CrewAdapter.Holder>(), View.OnClickListener {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = CrewItemBinding.inflate(inflater, parent, false)
-        return Holder(view)
+        val binding = CrewItemBinding.inflate(inflater, parent, false)
+        binding.root.setOnClickListener(this)
+        return Holder(binding)
     }
 
     override fun getItemCount(): Int = crew.size
@@ -28,11 +31,21 @@ class CrewAdapter(
         holder.bind(item)
     }
 
+    override fun onClick(v: View) {
+        val crew = v.tag as CrewEntity
+        listener.onChooseCrew(crew)
+    }
+
+    interface Listener {
+        fun onChooseCrew(crew: CrewEntity)
+    }
+
     inner class Holder(
         private val binding: CrewItemBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(crew: CrewEntity) {
+            binding.root.tag = crew
             bindPhotoImage(crew.profilePath)
             bindLayoutParams()
             bindName(crew.name)
