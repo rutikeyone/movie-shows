@@ -16,11 +16,12 @@ import com.ru.movieshows.app.presentation.adapters.LoadStateAdapter
 import com.ru.movieshows.app.presentation.adapters.TryAgainAction
 import com.ru.movieshows.app.presentation.adapters.tv_shows.TvShowPaginationAdapter
 import com.ru.movieshows.app.presentation.screens.BaseFragment
+import com.ru.movieshows.app.presentation.screens.movies.LoadStateListener
 import com.ru.movieshows.app.presentation.viewmodel.tv_shows.AirTvShowsViewModel
+import com.ru.movieshows.app.utils.applyDecoration
 import com.ru.movieshows.app.utils.viewBinding
 import com.ru.movieshows.app.utils.viewModelCreator
 import com.ru.movieshows.databinding.FragmentAirTvShowsBinding
-import com.ru.movieshows.sources.tv_shows.entities.TvShowsEntity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -32,6 +33,7 @@ class AirTvShowsFragment : BaseFragment() {
 
     @Inject
     lateinit var factory: AirTvShowsViewModel.Factory
+
     override val viewModel by viewModelCreator {
         factory.create(
             navigator = navigator(),
@@ -40,7 +42,21 @@ class AirTvShowsFragment : BaseFragment() {
 
     private val binding by viewBinding<FragmentAirTvShowsBinding>()
 
-    private val adapter = TvShowPaginationAdapter(::navigateToTvShowDetails)
+    private val tvShowPaginationAdapter: TvShowPaginationAdapter by lazy {
+        TvShowPaginationAdapter(viewModel)
+    }
+
+    private val tvShowsSpanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+        override fun getSpanSize(position: Int): Int {
+            val loadingItem = TvShowPaginationAdapter.LOADING_ITEM
+            val isLoadingItem = tvShowPaginationAdapter.getItemViewType(position) === loadingItem
+            return if (isLoadingItem) 1 else 3
+        }
+    }
+
+    private val loadStateLoader: LoadStateListener = { state ->
+        configureUI(state)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,39 +66,42 @@ class AirTvShowsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initView()
-        collectUiState()
+        collectUIState()
         super.onViewCreated(view, savedInstanceState)
     }
 
     private fun initView() = with(binding) {
-        adapter.addLoadStateListener { loadState -> configureUI(loadState) }
-        val itemDecoration = ItemDecoration(8F, resources.displayMetrics)
-        val tryAgainAction: TryAgainAction = { adapter.retry() }
-        val footerAdapter = LoadStateAdapter(tryAgainAction, requireContext())
-        val gridLayoutManager = GridLayoutManager(requireContext(), 3)
-        failurePart.retryButton.setOnClickListener { adapter.retry() }
-        tvShowsRecyclerView.layoutManager = gridLayoutManager
-        tvShowsRecyclerView.adapter = adapter.withLoadStateFooter(footerAdapter)
-        tvShowsRecyclerView.addItemDecoration(itemDecoration)
-        tvShowsRecyclerView.itemAnimator = null
-        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                val loadingItem = TvShowPaginationAdapter.LOADING_ITEM
-                val isLoadingItem = adapter.getItemViewType(position) === loadingItem
-                return if (isLoadingItem) 1 else 3
-            }
+        val spanCount = getSpanCount()
+        val itemDecoration = ItemDecoration(spanCount = spanCount)
+        val context = requireContext()
+        val tryAgainAction: TryAgainAction = { tvShowPaginationAdapter.retry() }
+        val footerAdapter = LoadStateAdapter(requireContext(), tryAgainAction)
+
+        val gridLayoutManager = GridLayoutManager(context, spanCount).apply {
+            spanSizeLookup = tvShowsSpanSizeLookup
         }
+
+        tvShowPaginationAdapter.addLoadStateListener(loadStateLoader)
+
+        with(binding) {
+            failurePart.retryButton.setOnClickListener { tvShowPaginationAdapter.retry() }
+            tvShowsRecyclerView.layoutManager = gridLayoutManager
+            tvShowsRecyclerView.applyDecoration(itemDecoration)
+            tvShowsRecyclerView.adapter = tvShowPaginationAdapter.withLoadStateFooter(footerAdapter)
+            tvShowsRecyclerView.itemAnimator = null
+        }
+
     }
 
     private fun configureUI(loadState: CombinedLoadStates) = with(binding) {
-        val isListEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
+        val isListEmpty = loadState.refresh is LoadState.NotLoading && tvShowPaginationAdapter.itemCount == 0
         val showList = !isListEmpty || loadState.source.refresh is LoadState.NotLoading
         binding.tvShowsRecyclerView.isVisible = showList
         binding.progressBarTvShows.isVisible = loadState.source.refresh is LoadState.Loading
-        configureFailurePart(loadState)
+        configureFailurePartUI(loadState)
     }
 
-    private fun configureFailurePart(loadState: CombinedLoadStates) {
+    private fun configureFailurePartUI(loadState: CombinedLoadStates) {
         binding.failurePart.root.isVisible = loadState.source.refresh is LoadState.Error
         if(loadState.source.refresh !is LoadState.Error) return
         val errorState = loadState.refresh as LoadState.Error
@@ -93,13 +112,17 @@ class AirTvShowsFragment : BaseFragment() {
         }
     }
 
-    private fun collectUiState() {
+    private fun collectUIState() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.airTvShows.collectLatest { tvShows ->
-                adapter.submitData(tvShows)
+                tvShowPaginationAdapter.submitData(tvShows)
             }
         }
     }
 
-    private fun navigateToTvShowDetails(tvShow: TvShowsEntity) = viewModel.navigateToTvShowDetails(tvShow)
+    override fun onDestroyView() {
+        tvShowPaginationAdapter.removeLoadStateListener(loadStateLoader)
+        super.onDestroyView()
+    }
+
 }

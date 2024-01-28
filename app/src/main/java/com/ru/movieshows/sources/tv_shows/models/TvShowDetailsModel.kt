@@ -39,6 +39,8 @@ data class TvShowDetailsModel(
     fun toEntity(imageUrl: String): TvShowDetailsEntity {
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
         val date = if(firstAirDate != null) simpleDateFormat.parse(firstAirDate) else null
+        val backDropUrl = if(this.backDrop != null) imageUrl + this.backDrop else null
+        val posterUrl = if(this.poster != null) imageUrl + this.poster else null
         val productionCompanies = this.productionCompanies?.let { it ->
             ArrayList(it.map { it.toEntity() })
         }
@@ -48,8 +50,8 @@ data class TvShowDetailsModel(
             genres?.map { it.toEntity() }?.let { ArrayList(it) },
             date,
             overview,
-            if(this.backDrop != null) imageUrl + this.backDrop else null,
-            if(this.poster != null) imageUrl + this.poster else null,
+            backDropUrl,
+            posterUrl,
             rating,
             name,
             numberOfEpisodes,

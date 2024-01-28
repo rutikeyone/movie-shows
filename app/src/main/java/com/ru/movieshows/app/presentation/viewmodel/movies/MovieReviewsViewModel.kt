@@ -28,4 +28,5 @@ class MovieReviewsViewModel @AssistedInject constructor(
     interface Factory {
         fun create(movieId: Int): MovieReviewsViewModel
     }
+
 }

@@ -51,6 +51,7 @@ class SeasonDetailsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
 
     @Inject
     lateinit var factory: SeasonDetailsViewModel.Factory
+
     val viewModel by viewModelCreator {
         factory.create(
             initialSeason = initialSeason,
@@ -74,26 +75,24 @@ class SeasonDetailsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
 
     private fun handleUI(season: SeasonEntity?) {
         if(season == null) return
-        configureImage(season)
-        configureHeader(season)
-        configureOverview(season)
-        configureAirDate(season)
-        configureCountEpisodes(season)
-        configureRating(season)
-        configureEpisodesButton(season)
+        configureImageUI(season)
+        configureHeaderUI(season)
+        configureOverviewUI(season)
+        configureAirDateUI(season)
+        configureCountEpisodesUI(season)
+        configureRatingUI(season)
+        configureEpisodesButtonUI(season)
     }
 
-    private fun configureEpisodesButton(season: SeasonEntity) {
+    private fun configureEpisodesButtonUI(season: SeasonEntity) = with(binding) {
         val countEpisodes = season.episodeCount
-        with(binding) {
-            if (countEpisodes != null && countEpisodes > 0) {
-                episodesButton.isVisible = true
-                episodesButton.setOnClickListener {
-                    navigateToEpisodes()
-                }
-            } else {
-                episodesButton.isVisible = false
+        if (countEpisodes != null && countEpisodes > 0) {
+            episodesButton.isVisible = true
+            episodesButton.setOnClickListener {
+                navigateToEpisodes()
             }
+        } else {
+            episodesButton.isVisible = false
         }
     }
 
@@ -109,7 +108,7 @@ class SeasonDetailsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun configureRating(season: SeasonEntity) = with(binding) {
+    private fun configureRatingUI(season: SeasonEntity) = with(binding) {
         val rating = season.rating
         ratingBar.isEnabled = false;
         if (rating != null && rating > 0) {
@@ -121,7 +120,7 @@ class SeasonDetailsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
         }
     }
 
-    private fun configureCountEpisodes(season: SeasonEntity) = with(binding) {
+    private fun configureCountEpisodesUI(season: SeasonEntity) = with(binding) {
         val countEpisodes = season.episodeCount
         if(countEpisodes != null) {
             countEpisodesValue.text = countEpisodes.toString()
@@ -132,7 +131,7 @@ class SeasonDetailsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
     }
 
     @SuppressLint("SimpleDateFormat")
-    private fun configureAirDate(season: SeasonEntity) = with(binding){
+    private fun configureAirDateUI(season: SeasonEntity) = with(binding) {
         val airDate = season.airDate
         val simpleDateFormatter = SimpleDateFormat("d MMMM yyyy")
         val date = airDate?.let { simpleDateFormatter.format(it) }
@@ -144,7 +143,7 @@ class SeasonDetailsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
         }
     }
 
-    private fun configureOverview(season: SeasonEntity) = with(binding) {
+    private fun configureOverviewUI(season: SeasonEntity) = with(binding) {
         val overview = season.overview
         if(!overview.isNullOrEmpty()) {
             overviewText.text = overview
@@ -154,7 +153,7 @@ class SeasonDetailsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
         }
     }
 
-    private fun configureHeader(season: SeasonEntity) = with(binding) {
+    private fun configureHeaderUI(season: SeasonEntity) = with(binding) {
         val name = season.name
         if(!name.isNullOrEmpty()) {
             seasonName.text = name
@@ -164,7 +163,7 @@ class SeasonDetailsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
         }
     }
 
-    private fun configureImage(season: SeasonEntity) = with(binding.poster) {
+    private fun configureImageUI(season: SeasonEntity) = with(binding.poster) {
         val photo = season.poster
         if(!photo.isNullOrEmpty()) {
             Glide
@@ -187,7 +186,6 @@ class SeasonDetailsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
     }
 
     companion object {
-
         fun newInstance(
             season: SeasonEntity,
             seasonNumber: String,

@@ -20,7 +20,7 @@ import com.ru.movieshows.app.presentation.screens.BaseFragment
 import com.ru.movieshows.app.presentation.viewmodel.tabs.TabsViewModel
 import com.ru.movieshows.app.utils.viewBinding
 import com.ru.movieshows.databinding.FragmentTabsBinding
-import com.ru.movieshows.sources.accounts.entities.AuthStateEntity
+import com.ru.movieshows.sources.accounts.entities.UserAuthenticationState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -33,7 +33,9 @@ class TabsFragment : BaseFragment() {
     private val tabsTopLevelFragment = setOf(R.id.moviesFragment, R.id.tvsFragment, R.id.profileFragment)
 
     private val binding by viewBinding<FragmentTabsBinding>()
+
     private val navHost: NavHostFragment get() = childFragmentManager.findFragmentById(R.id.tabsContainer) as NavHostFragment
+
     private val navController: NavController get() = navHost.navController
 
     private val itemReselectedListener = NavigationBarView.OnItemReselectedListener {
@@ -55,7 +57,7 @@ class TabsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         configureNavController()
-        viewModel.authState
+        viewModel.authenticationState
             .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
             .onEach(::handleNotAuthenticatedEvent)
             .launchIn(viewLifecycleOwner.lifecycleScope)
@@ -69,8 +71,8 @@ class TabsFragment : BaseFragment() {
         bottomNavigationView.setOnItemReselectedListener(itemReselectedListener)
     }
 
-    private fun handleNotAuthenticatedEvent(state: AuthStateEntity) {
-        if(state !is AuthStateEntity.Auth) return
+    private fun handleNotAuthenticatedEvent(state: UserAuthenticationState) {
+        if(state !is UserAuthenticationState.Authentication) return
         navController.graph.nodes.forEach { _, value ->
             if(value.id == R.id.profile_tab) {
                 navController.popBackStack(R.id.profileFragment, inclusive = false)

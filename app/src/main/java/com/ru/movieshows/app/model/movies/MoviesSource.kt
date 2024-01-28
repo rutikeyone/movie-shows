@@ -26,4 +26,5 @@ interface MoviesSource {
     suspend fun getTopRatedMovies(language: String, page: Int): Pair<Int, ArrayList<MovieEntity>>
 
     suspend fun searchMovies(language: String, page: Int, query: String?): Pair<Int, ArrayList<MovieEntity>>
+
 }

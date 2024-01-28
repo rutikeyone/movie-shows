@@ -7,7 +7,7 @@ import com.ru.movieshows.R
 import com.ru.movieshows.app.model.AppFailure
 import com.ru.movieshows.app.model.people.PeopleRepository
 import com.ru.movieshows.app.model.tv_shows.TvShowRepository
-import com.ru.movieshows.app.presentation.adapters.episode.CrewAdapter
+import com.ru.movieshows.app.presentation.adapters.SimpleAdapterListener
 import com.ru.movieshows.app.presentation.screens.episodes.EpisodeDetailsFragmentArgs
 import com.ru.movieshows.app.presentation.sideeffects.resources.Resources
 import com.ru.movieshows.app.presentation.sideeffects.toast.Toasts
@@ -32,7 +32,7 @@ class EpisodeDetailsViewModel @AssistedInject constructor(
     @Assisted private val resources: Resources,
     private val tvShowRepository: TvShowRepository,
     private val peopleRepository: PeopleRepository,
-) : BaseViewModel(), CrewAdapter.Listener {
+) : BaseViewModel(), SimpleAdapterListener<CrewEntity> {
 
     private val _state = MutableLiveData(
         EpisodeDetailsState(
@@ -104,10 +104,13 @@ class EpisodeDetailsViewModel @AssistedInject constructor(
         toasts.toast(error)
     }
 
-    override fun onChooseCrew(crew: CrewEntity) {
+    override fun onClickItem(data: CrewEntity) {
         viewModelScope.launch {
-            val personId = crew.id.toString()
-            val getPersonDetailResult = peopleRepository.getPersonDetails(personId, languageTag)
+            val personId = data.id.toString()
+            val getPersonDetailResult = peopleRepository.getPersonDetails(
+                personId,
+                languageTag
+            )
             getPersonDetailResult.fold(
                 ::handleGetPersonDetailsFailureResult,
                 ::handleGetPersonDetailsSuccessResult

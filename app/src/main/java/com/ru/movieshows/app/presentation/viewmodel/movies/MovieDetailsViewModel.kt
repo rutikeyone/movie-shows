@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import arrow.core.getOrElse
 import com.ru.movieshows.app.model.AppFailure
 import com.ru.movieshows.app.model.movies.MoviesRepository
+import com.ru.movieshows.app.presentation.adapters.SimpleAdapterListener
 import com.ru.movieshows.app.presentation.screens.movies.MovieDetailsFragmentDirections
 import com.ru.movieshows.app.presentation.sideeffects.navigator.Navigator
 import com.ru.movieshows.app.presentation.viewmodel.BaseViewModel
@@ -27,36 +28,53 @@ class MovieDetailsViewModel @AssistedInject constructor(
     private val moviesRepository: MoviesRepository,
 ) : BaseViewModel(), DefaultLifecycleObserver {
 
-    private val _state = MutableLiveData<MovieDetailsState>(MovieDetailsState.InPending)
+    private val _state = MutableLiveData<MovieDetailsState>(MovieDetailsState.Empty)
     val state = _state.share()
 
     private val _title = MutableLiveData("")
     val titleState = _title.share()
 
+    val movieSimpleAdapterListener = object : SimpleAdapterListener<MovieEntity> {
+        override fun onClickItem(data: MovieEntity) {
+            navigateToMovieDetails(data)
+        }
+    }
+
+    val videoSimpleAdapterListener = object : SimpleAdapterListener<VideoEntity> {
+        override fun onClickItem(data: VideoEntity) {
+            navigateToVideo(data)
+        }
+    }
+
     init {
         fetchData()
     }
 
-    fun fetchData() = viewModelScope.launch {
-        languageTagFlow.collect {
-            _state.value = MovieDetailsState.InPending
-            _title.value = ""
-            try {
-                val movieDetails = fetchMovieDetails(it)
-                val similarMovies = fetchSimilarMovies(it)
-                val reviews = fetchReviews(it).second
-                val videos = fetchVideos(it)
-                _state.value = MovieDetailsState.Success(movieDetails, similarMovies, videos, reviews)
-                _title.value = movieDetails.title
+    fun fetchData() {
+        viewModelScope.launch {
+            languageTagFlow.collect {
+                _state.value = MovieDetailsState.Pending
+                _title.value = ""
+                try {
+                    val movieDetails = fetchMovieDetails(it)
+                    val similarMovies = fetchSimilarMovies(it)
+                    val reviews = fetchReviews(it).second
+                    val videos = fetchVideos(it)
+                    _state.value = MovieDetailsState.Success(movieDetails, similarMovies, videos, reviews)
+                    _title.value = movieDetails.title
 
-            } catch (e: AppFailure) {
-                _state.value = MovieDetailsState.Failure(e.headerResource(), e.errorResource())
+                } catch (e: AppFailure) {
+                    _state.value = MovieDetailsState.Failure(e.headerResource(), e.errorResource())
+                }
             }
         }
     }
 
     private suspend fun fetchMovieDetails(language: String): MovieDetailsEntity {
-        val fetchMovieDetailsResult = moviesRepository.getMovieDetails(movieId, language)
+        val fetchMovieDetailsResult = moviesRepository.getMovieDetails(
+            movieId = movieId,
+            language = language,
+        )
         return fetchMovieDetailsResult.getOrElse {
             throw it
         }
@@ -65,15 +83,24 @@ class MovieDetailsViewModel @AssistedInject constructor(
     private suspend fun fetchSimilarMovies(language: String): ArrayList<MovieEntity> {
         val page = 1
         val id = movieId.toString()
-        val fetchSimilarMoviesResult = moviesRepository.getSimilarMovies(language, id, page)
+        val fetchSimilarMoviesResult = moviesRepository.getSimilarMovies(
+            language = language,
+            movieId = id,
+            page = page
+        )
         return fetchSimilarMoviesResult.getOrElse {
             throw it
         }
     }
 
     private suspend fun fetchReviews(language: String): Pair<Int, ArrayList<ReviewEntity>> {
+        val firstPageIndex = 1
         val id = movieId.toString()
-        val fetchReviewsResult = moviesRepository.getMovieReviews(language, id, 1)
+        val fetchReviewsResult = moviesRepository.getMovieReviews(
+            language = language,
+            movieId = id,
+            page = firstPageIndex,
+        )
         return fetchReviewsResult.getOrElse {
             throw it
         }
@@ -87,18 +114,19 @@ class MovieDetailsViewModel @AssistedInject constructor(
         }
     }
 
-    fun navigateToMovieDetails(movie: MovieEntity){
-        val id = movie.id ?: return
-        val action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentSelf(id)
-        navigator.navigate(action)
-    }
     fun navigateToReviews(value: ArrayList<ReviewEntity>) {
         val reviews = value.toTypedArray()
         val action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToMovieReviewsFragment(movieId, reviews)
         navigator.navigate(action)
     }
 
-    fun navigateToVideo(video: VideoEntity) {
+    private fun navigateToMovieDetails(data: MovieEntity) {
+        val id = data.id ?: return
+        val action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentSelf(id)
+        navigator.navigate(action)
+    }
+
+    private fun navigateToVideo(video: VideoEntity) {
         val action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToVideoActivity(video)
         navigator.navigate(action)
     }
@@ -107,4 +135,5 @@ class MovieDetailsViewModel @AssistedInject constructor(
     interface Factory {
         fun create(navigator: Navigator, movieId: Int): MovieDetailsViewModel
     }
+
 }

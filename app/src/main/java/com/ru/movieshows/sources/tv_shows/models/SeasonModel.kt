@@ -30,6 +30,7 @@ data class SeasonModel(
     val episodes: ArrayList<EpisodeModel>?,
 ) {
     fun toEntity(imageUrl: String): SeasonEntity {
+        val posterUrl = if(!poster.isNullOrEmpty()) imageUrl + poster else null
         val episodes = this.episodes?.let { it ->
             ArrayList(it.map { it.toEntity(imageUrl) })
         }
@@ -42,7 +43,7 @@ data class SeasonModel(
             seasonNumber,
             rating,
             airDate,
-            if(!poster.isNullOrEmpty()) imageUrl + poster else null,
+            posterUrl,
             episodes,
         )
     }

@@ -17,4 +17,4 @@ import java.util.Date
      val createdBy: ArrayList<CreatorEntity>?,
      val seasons: ArrayList<SeasonEntity>?,
      val productionCompanies: ArrayList<ProductionCompanyEntity>?,
-    )
+)

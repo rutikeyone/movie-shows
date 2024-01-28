@@ -13,14 +13,13 @@ import androidx.core.view.children
 import androidx.core.view.isVisible
 import com.google.android.material.tabs.TabLayout
 import com.ru.movieshows.R
-import com.ru.movieshows.app.presentation.adapters.ItemDecoration
 import com.ru.movieshows.app.presentation.adapters.movies.MoviesAdapter
 import com.ru.movieshows.app.presentation.adapters.movies.MoviesViewPagerAdapter
 import com.ru.movieshows.app.presentation.screens.BaseFragment
 import com.ru.movieshows.app.presentation.viewmodel.movies.MoviesViewModel
 import com.ru.movieshows.app.presentation.viewmodel.movies.state.DiscoverMoviesState
-import com.ru.movieshows.app.presentation.viewmodel.movies.state.MoviesState
-import com.ru.movieshows.app.utils.clearDecorations
+import com.ru.movieshows.app.presentation.viewmodel.movies.state.MovieState
+import com.ru.movieshows.app.utils.applyDecoration
 import com.ru.movieshows.app.utils.viewBinding
 import com.ru.movieshows.app.utils.viewModelCreator
 import com.ru.movieshows.databinding.FailurePartBinding
@@ -32,10 +31,12 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MoviesFragment : BaseFragment() {
+
     private val binding by viewBinding<FragmentMoviesBinding>()
 
     @Inject
     lateinit var factory: MoviesViewModel.Factory
+
     override val viewModel by viewModelCreator {
         factory.create(
             navigator = navigator()
@@ -47,7 +48,9 @@ class MoviesFragment : BaseFragment() {
             val index = tab?.position ?: return
             viewModel.changeTabIndex(index)
         }
+
         override fun onTabUnselected(tab: TabLayout.Tab?) {}
+
         override fun onTabReselected(tab: TabLayout.Tab?) {}
     }
 
@@ -55,12 +58,13 @@ class MoviesFragment : BaseFragment() {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
             menuInflater.inflate(R.menu.search_menu, menu)
         }
+
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean = when(menuItem.itemId) {
-                R.id.search -> {
-                    navigateToMovieSearch()
-                    true
-                }
-                else -> false
+            R.id.search -> {
+                navigateToMovieSearch()
+                true
+            }
+            else -> false
         }
     }
 
@@ -83,29 +87,30 @@ class MoviesFragment : BaseFragment() {
         super.onStart()
     }
 
-
     private fun handleDiscoverMoviesUI(state: DiscoverMoviesState) {
         binding.discoverMoviesContainer.children.forEach { it.visibility = View.GONE }
         when(state) {
-            DiscoverMoviesState.InPending -> handleDiscoverMoviesInPendingUI()
+            DiscoverMoviesState.Empty -> {}
+            DiscoverMoviesState.Pending -> handleDiscoverMoviesInPendingUI()
             is DiscoverMoviesState.Failure -> handleDiscoverMoviesFailureUI(state.error)
             is DiscoverMoviesState.Success -> handleDiscoverMoviesSuccessUI(state.movies)
         }
     }
 
-    private fun handleDiscoverMoviesFailureUI(@StringRes error: Int?) = with(binding) {
-        discoverMoviesFailureContainer.visibility = View.VISIBLE
-        discoverMoviesRetryButton.setOnClickListener { viewModel.fetchDiscoverMovies() }
-        if(error != null) binding.discoverMoviesFailureTextMessage.text = resources.getString(error)
+    private fun handleDiscoverMoviesFailureUI(@StringRes error: Int?) {
+        with(binding) {
+            discoverMoviesFailureContainer.visibility = View.VISIBLE
+            discoverMoviesRetryButton.setOnClickListener { viewModel.fetchDiscoverMovies() }
+            if (error != null) binding.discoverMoviesFailureTextMessage.text =
+                resources.getString(error)
+        }
     }
 
     private fun handleDiscoverMoviesSuccessUI(movies: ArrayList<MovieEntity>) {
+        val moviesAdapter = MoviesAdapter(viewModel).also { it.updateData(movies) }
         with(binding.discoverMovies) {
-            val movieAdapter = MoviesAdapter(::navigateToMovieDetails).also { it.updateData(movies) }
-            val itemDecorator = ItemDecoration(8F, resources.displayMetrics)
-            binding.discoverMovies.clearDecorations()
-            addItemDecoration(itemDecorator)
-            adapter = movieAdapter
+            applyDecoration()
+            adapter = moviesAdapter
         }
         binding.discoverMoviesSuccessContainer.isVisible = true
     }
@@ -122,64 +127,62 @@ class MoviesFragment : BaseFragment() {
         super.onStop()
     }
 
-    private fun handleUI(moviesState: MoviesState) {
+    private fun handleUI(movieState: MovieState) {
         binding.root.children.forEach { it.isVisible = false }
         binding.genresTabLayout.removeOnTabSelectedListener(onTabSelectedListener)
-        when (moviesState) {
-            MoviesState.InPending -> handleInPendingUI()
-            is MoviesState.Success -> handleSuccessUI(moviesState)
-            is MoviesState.Failure -> handleFailureUI(moviesState.header, moviesState.error)
+        when (movieState) {
+            MovieState.Empty -> {}
+            MovieState.Pending -> handleInPendingUI()
+            is MovieState.Success -> handleSuccessUI(movieState)
+            is MovieState.Failure -> handleFailureUI(movieState.header, movieState.error)
         }
     }
 
-    private fun handleSuccessUI(state: MoviesState.Success) {
+    private fun handleSuccessUI(state: MovieState.Success) {
         binding.successContainer.visibility = View.VISIBLE
-        configureNowPlayingPager(state)
-        configureDots()
-        configureGenresTab(state)
-        configureUpcomingMoviesRecyclerView(state)
-        configurePopularMoviesRecyclerView(state)
-        configureTopRatedRecyclerView(state)
+        configureNowPlayingPagerUI(state)
+        configureDotsUI()
+        configureGenresTabUI(state)
+        configureUpcomingMoviesRecyclerViewUI(state)
+        configurePopularMoviesRecyclerViewUI(state)
+        configureTopRatedRecyclerViewUI(state)
 
     }
 
-    private fun configureTopRatedRecyclerView(state: MoviesState.Success) {
-        val itemDecorator = ItemDecoration(8F, resources.displayMetrics)
-        val adapter = MoviesAdapter(::navigateToMovieDetails).also { it.updateData(state.topRatedMovies) }
+    private fun configureTopRatedRecyclerViewUI(state: MovieState.Success) {
+        val adapter = MoviesAdapter(viewModel).also { it.updateData(state.topRatedMovies) }
         binding.topRatedMovies.adapter = adapter
         binding.showAllTopRatedMoviesButton.setOnClickListener { viewModel.navigateToTopRatedMovies() }
-        binding.topRatedMovies.addItemDecoration(itemDecorator)
+        binding.topRatedMovies.applyDecoration()
     }
 
 
-    private fun configurePopularMoviesRecyclerView(state: MoviesState.Success) {
-        val itemDecorator = ItemDecoration(8F, resources.displayMetrics)
-        val adapter = MoviesAdapter(::navigateToMovieDetails).also { it.updateData(state.popularMovies) }
+    private fun configurePopularMoviesRecyclerViewUI(state: MovieState.Success) {
+        val adapter = MoviesAdapter(viewModel).also { it.updateData(state.popularMovies) }
         binding.popularMovies.adapter = adapter
         binding.showAllPopularVideosButton.setOnClickListener { viewModel.navigateToPopularMovies() }
-        binding.popularMovies.addItemDecoration(itemDecorator)
+        binding.popularMovies.applyDecoration()
     }
 
-    private fun configureUpcomingMoviesRecyclerView(state: MoviesState.Success) {
-        val itemDecorator = ItemDecoration(8F, resources.displayMetrics)
-        val adapter = MoviesAdapter(::navigateToMovieDetails).also { it.updateData(state.upcomingMovies) }
+    private fun configureUpcomingMoviesRecyclerViewUI(state: MovieState.Success) {
+        val adapter = MoviesAdapter(viewModel).also { it.updateData(state.upcomingMovies) }
         binding.upcomingMovies.adapter = adapter
         binding.showAllUpcomingVideosButton.setOnClickListener { viewModel.navigateToUpcomingMovies() }
-        binding.upcomingMovies.addItemDecoration(itemDecorator)
+        binding.upcomingMovies.applyDecoration()
     }
 
-    private fun configureNowPlayingPager(state: MoviesState.Success) {
-        val notPlayingAdapter = MoviesViewPagerAdapter(state.nowPlayingMovies, ::navigateToMovieDetails)
+    private fun configureNowPlayingPagerUI(state: MovieState.Success) {
+        val notPlayingAdapter = MoviesViewPagerAdapter(state.nowPlayingMovies, viewModel)
         binding.nowPlayingViewPager.adapter = notPlayingAdapter
     }
 
-    private fun configureDots() {
+    private fun configureDotsUI() {
         binding.dotsIndicator.attachTo(binding.nowPlayingViewPager)
     }
 
-    private fun configureGenresTab(state: MoviesState.Success) = with(binding) {
+    private fun configureGenresTabUI(state: MovieState.Success) = with(binding) {
         val genres = state.genres
-        if(genres.isNotEmpty()) {
+        if (genres.isNotEmpty()) {
             state.genres.forEach { genre ->
                 val tab = genresTabLayout.newTab().also { tab ->
                     tab.contentDescription = genre.name
@@ -207,9 +210,6 @@ class MoviesFragment : BaseFragment() {
         binding.inPendingContainer.visibility = View.VISIBLE
     }
 
-    private fun navigateToMovieDetails(movieEntity: MovieEntity) = viewModel.navigateToMovieDetails(movieEntity)
-
     private fun navigateToMovieSearch() = viewModel.navigateToMovieSearch()
-
 }
 

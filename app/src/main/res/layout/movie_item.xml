@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    tools:layout_width="@dimen/dp_120"
     android:layout_height="@dimen/dp_255"
     android:layout_gravity="center"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
+    tools:layout_width="@dimen/dp_120"
+    tools:layout_marginEnd="@dimen/dp_16">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/discoverMovieImageCard"
@@ -28,6 +28,7 @@
             android:layout_width="match_parent"
             app:layout_constraintBottom_toTopOf="@id/movieName"
             android:src="@drawable/poster_placeholder_bg"
+            android:contentDescription="@string/image_description"
             />
 
     </androidx.cardview.widget.CardView>

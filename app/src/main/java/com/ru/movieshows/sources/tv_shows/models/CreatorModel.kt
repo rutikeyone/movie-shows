@@ -17,10 +17,14 @@ data class CreatorModel(
     @SerializedName("profile_path")
     val photo: String?,
 ): Parcelable {
-    fun toEntity(imageUrl: String): CreatorEntity = CreatorEntity(
-        id,
-        name,
-        creditId,
-        if(this.photo != null) imageUrl + this.photo else null
-    )
+    fun toEntity(imageUrl: String): CreatorEntity {
+        val photo = if(this.photo != null) imageUrl + this.photo else null
+
+        return CreatorEntity(
+            id,
+            name,
+            creditId,
+            photo
+        )
+    }
 }

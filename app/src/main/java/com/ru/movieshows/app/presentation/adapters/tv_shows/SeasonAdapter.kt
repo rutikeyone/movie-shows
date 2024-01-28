@@ -8,51 +8,47 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.R
-import com.ru.movieshows.databinding.EpisodeItemBinding
+import com.ru.movieshows.app.presentation.adapters.SimpleAdapterListener
 import com.ru.movieshows.databinding.SeasonItemBinding
 import com.ru.movieshows.sources.tv_shows.entities.SeasonEntity
 
 class SeasonAdapter(
     private val seasons: ArrayList<SeasonEntity>,
-    private val onTap: (SeasonEntity) -> Unit,
-) : RecyclerView.Adapter<SeasonAdapter.Holder>() {
+    private val listener: SimpleAdapterListener<SeasonEntity>,
+) : RecyclerView.Adapter<SeasonAdapter.Holder>(), View.OnClickListener {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(R.layout.season_item, parent, false)
-        return Holder(view)
+        val binding = SeasonItemBinding.inflate(inflater, parent, false)
+        binding.root.setOnClickListener(this)
+        return Holder(binding)
     }
 
     override fun getItemCount(): Int = seasons.size
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val season = seasons[position]
-        holder.bind(season, onTap)
+        holder.bind(season)
+    }
+
+    override fun onClick(view: View) {
+        val season = view.tag as SeasonEntity
+        listener.onClickItem(season)
     }
 
     inner class Holder(
-        private val view: View
-    ): RecyclerView.ViewHolder(view) {
+        private val binding: SeasonItemBinding,
+    ): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(
-            season: SeasonEntity,
-            onTap: (SeasonEntity) -> Unit,
-        ) {
-            val binding =  SeasonItemBinding.bind(view).also {
-                it.root.setOnClickListener {
-                    onTap(season)
-                }
-            }
-            bindPoster(season, binding)
-            bindLayoutParams(binding)
+        fun bind(season: SeasonEntity) {
+            binding.root.tag = season
+            bindPosterUI(season)
+            bindLayoutParamsUI()
         }
 
-        private fun bindPoster(
-            season: SeasonEntity,
-            binding: SeasonItemBinding
-        ) = with(binding.image) {
+        private fun bindPosterUI(season: SeasonEntity) = with(binding.image) {
             val photo = season.poster
-            if(!photo.isNullOrEmpty()) {
+            if (!photo.isNullOrEmpty()) {
                 Glide
                     .with(context)
                     .load(photo)
@@ -71,14 +67,15 @@ class SeasonAdapter(
                     .into(this)
             }
         }
-    }
 
-    private fun bindLayoutParams(binding: SeasonItemBinding) = with(binding.root) {
-        val layoutParams = ActionBar.LayoutParams(
-            resources.getDimensionPixelOffset(R.dimen.dp_120),
-            resources.getDimensionPixelOffset(R.dimen.dp_190),
-        )
-        this.layoutParams = layoutParams
+        private fun bindLayoutParamsUI() = with(binding.root) {
+            val layoutParams = ActionBar.LayoutParams(
+                resources.getDimensionPixelOffset(R.dimen.dp_120),
+                resources.getDimensionPixelOffset(R.dimen.dp_190),
+            )
+            this.layoutParams = layoutParams
+        }
+
     }
 
 }

@@ -6,10 +6,12 @@ import com.ru.movieshows.sources.base.ErrorResponseBody
 
 
 sealed class AppFailure : Exception() {
-    object Empty: AppFailure()
-    object Connection: AppFailure()
-    data class Message(@StringRes val value: Int) : AppFailure()
 
+    object Empty: AppFailure()
+
+    object Connection: AppFailure()
+
+    data class Message(@StringRes val value: Int) : AppFailure()
 
     fun headerResource(): Int {
         return when(this) {

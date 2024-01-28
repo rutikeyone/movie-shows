@@ -19,5 +19,4 @@ class GenresRepositoryImpl @Inject constructor(
             Either.Left(AppFailure.Empty)
         }
     }
-
 }

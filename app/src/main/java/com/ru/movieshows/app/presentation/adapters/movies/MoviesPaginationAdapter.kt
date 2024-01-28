@@ -1,6 +1,7 @@
 package com.ru.movieshows.app.presentation.adapters.movies
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
@@ -8,12 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.R
+import com.ru.movieshows.app.presentation.adapters.SimpleAdapterListener
 import com.ru.movieshows.databinding.MovieItemBinding
 import com.ru.movieshows.sources.movies.entities.MovieEntity
 
 class MoviesPaginationAdapter(
-    private val onTap: (MovieEntity) -> Unit,
-) : PagingDataAdapter<MovieEntity, MoviesPaginationAdapter.Holder>(MoviesDiffItemCallback()) {
+    private val listener: SimpleAdapterListener<MovieEntity>,
+) : PagingDataAdapter<MovieEntity, MoviesPaginationAdapter.Holder>(MoviesDiffItemCallback()), View.OnClickListener {
 
     override fun getItemViewType(position: Int): Int {
         return if (position == itemCount) MOVIE_ITEM else LOADING_ITEM
@@ -27,22 +29,25 @@ class MoviesPaginationAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = MovieItemBinding.inflate(inflater, parent, false)
-        return Holder(binding, onTap)
+        binding.root.setOnClickListener(this)
+        return Holder(binding)
     }
 
-    class Holder(
-        private val binding: MovieItemBinding,
-        private val onTap: (MovieEntity) -> Unit,
-    ) : RecyclerView.ViewHolder(binding.root) {
+    override fun onClick(view: View) {
+        val item = view.tag as MovieEntity
+        listener.onClickItem(item)
+    }
+
+    class Holder(private val binding: MovieItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(movie: MovieEntity) {
-            binding.root.setOnClickListener { onTap(movie) }
-            bindMovieName(movie, binding)
-            bindMovieImage(movie, binding)
-            bindMovieRating(binding, movie.rating)
+            binding.root.tag = movie
+            bindMovieNameUI(movie, binding)
+            bindMovieImageUI(movie, binding)
+            bindMovieRatingUI(binding, movie.rating)
         }
 
-        private fun bindMovieRating(
+        private fun bindMovieRatingUI(
             binding: MovieItemBinding,
             rating: Double?,
         ) = with(binding){
@@ -62,7 +67,7 @@ class MoviesPaginationAdapter(
             }
         }
 
-        private fun bindMovieImage(
+        private fun bindMovieImageUI(
             movie: MovieEntity,
             binding: MovieItemBinding,
          ) = with(binding.discoverMovieImage) {
@@ -88,7 +93,7 @@ class MoviesPaginationAdapter(
             }
         }
 
-        private fun bindMovieName(
+        private fun bindMovieNameUI(
             movie: MovieEntity,
             binding: MovieItemBinding,
         ) = with(binding.movieName) {

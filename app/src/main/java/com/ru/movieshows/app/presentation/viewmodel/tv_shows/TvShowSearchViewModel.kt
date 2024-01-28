@@ -6,6 +6,7 @@ import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.ru.movieshows.app.model.tv_shows.TvShowRepository
+import com.ru.movieshows.app.presentation.adapters.SimpleAdapterListener
 import com.ru.movieshows.app.presentation.screens.tv_shows.TvShowSearchFragmentDirections
 import com.ru.movieshows.app.presentation.sideeffects.navigator.Navigator
 import com.ru.movieshows.app.presentation.viewmodel.BaseViewModel
@@ -23,7 +24,8 @@ import kotlinx.coroutines.launch
 class TvShowSearchViewModel @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val tvShowRepository: TvShowRepository,
-) : BaseViewModel() {
+) : BaseViewModel(), SimpleAdapterListener<TvShowsEntity> {
+
     val state = MediatorLiveData<TvShowSearchState>()
 
     private val _trendingTvShowsState = MutableLiveData<ArrayList<TvShowsEntity>?>()
@@ -81,10 +83,16 @@ class TvShowSearchViewModel @AssistedInject constructor(
         }
     }
 
-    fun navigateToTvShowDetails(tvShow: TvShowsEntity) {
-        val id = tvShow.id ?: return
+    override fun onClickItem(data: TvShowsEntity) {
+        val id = data.id ?: return
         val action = TvShowSearchFragmentDirections.actionTvShowSearchFragmentToTvShowDetailsFragment(id)
         navigator.navigate(action)
+    }
+
+
+    override fun onClickPosition(position: Int) {
+        val tvShow = state.value?.trendingTvShows?.getOrNull(position) ?: return
+        onClickItem(tvShow)
     }
 
     @AssistedFactory

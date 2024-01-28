@@ -9,12 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.R
+import com.ru.movieshows.app.presentation.adapters.SimpleAdapterListener
 import com.ru.movieshows.databinding.CrewItemBinding
 import com.ru.movieshows.sources.tv_shows.entities.CrewEntity
 
 class CrewAdapter(
     private val crew: ArrayList<CrewEntity>,
-    private val listener: Listener,
+    private val listener: SimpleAdapterListener<CrewEntity>,
 ) : RecyclerView.Adapter<CrewAdapter.Holder>(), View.OnClickListener {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -33,11 +34,7 @@ class CrewAdapter(
 
     override fun onClick(v: View) {
         val crew = v.tag as CrewEntity
-        listener.onChooseCrew(crew)
-    }
-
-    interface Listener {
-        fun onChooseCrew(crew: CrewEntity)
+        listener.onClickItem(crew)
     }
 
     inner class Holder(
@@ -46,13 +43,13 @@ class CrewAdapter(
 
         fun bind(crew: CrewEntity) {
             binding.root.tag = crew
-            bindPhotoImage(crew.profilePath)
-            bindLayoutParams()
-            bindName(crew.name)
-            bindJob(crew.job)
+            bindPhotoImageUI(crew.profilePath)
+            bindLayoutParamsUI()
+            bindNameUI(crew.name)
+            bindJobUI(crew.job)
         }
 
-        private fun bindPhotoImage(image: String?) = with(binding.image) {
+        private fun bindPhotoImageUI(image: String?) = with(binding.image) {
             val context = this.context
             if(!image.isNullOrEmpty()) {
                 Glide
@@ -74,7 +71,7 @@ class CrewAdapter(
             }
         }
 
-        private fun bindLayoutParams() = with(binding.root) {
+        private fun bindLayoutParamsUI() = with(binding.root) {
             val layoutParams = ActionBar.LayoutParams(
                 binding.root.resources.getDimensionPixelOffset(R.dimen.dp_120),
                 binding.root.resources.getDimensionPixelOffset(R.dimen.dp_250),
@@ -82,7 +79,7 @@ class CrewAdapter(
             this.layoutParams = layoutParams
         }
 
-        private fun bindName(name: String?) = with(binding.nameTextView) {
+        private fun bindNameUI(name: String?) = with(binding.nameTextView) {
             if(!name.isNullOrEmpty()) {
                 text = name
                 isVisible = true
@@ -91,7 +88,7 @@ class CrewAdapter(
             }
         }
 
-        private fun bindJob(job: String?) = with(binding.jobTextView) {
+        private fun bindJobUI(job: String?) = with(binding.jobTextView) {
             if(!job.isNullOrEmpty()) {
                 text = job
                 isVisible = true
@@ -99,6 +96,7 @@ class CrewAdapter(
                 isVisible = false
             }
         }
+
     }
 
 }

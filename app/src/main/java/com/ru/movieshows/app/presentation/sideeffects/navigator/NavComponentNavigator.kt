@@ -29,6 +29,7 @@ data class NavigationOptions(
 class NavComponentNavigator @Inject constructor(
     private val options: NavigationOptions
 ) : Navigator(), DefaultLifecycleObserver {
+
     private lateinit var activity: AppCompatActivity
 
     private val rootNavController: NavController get() {
@@ -161,6 +162,8 @@ class NavComponentNavigator @Inject constructor(
     }
 
     override fun isNestedRoute(): Boolean {
-        return (currentNavController ?: rootNavController).graph.id == options.tabFragmentId
+        val navController = currentNavController ?: rootNavController
+        return navController.graph.id == options.tabFragmentId
     }
+    
 }

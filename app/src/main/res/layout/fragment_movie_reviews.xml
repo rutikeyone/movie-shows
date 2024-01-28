@@ -27,7 +27,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:scrollbars="vertical"/>
+        android:scrollbars="vertical"
+        tools:listitem="@layout/review_item"
+        tools:layout_marginStart="@dimen/dp_16"
+        tools:layout_marginEnd="@dimen/dp_16"
+        />
 
     <include
         android:id="@+id/failurePart"

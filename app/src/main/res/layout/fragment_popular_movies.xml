@@ -19,7 +19,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvMovies"
+        android:id="@+id/moviesRecyclerView"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,8 +30,7 @@
         app:spanCount="3"
         android:scrollbars="vertical"
         android:layout_gravity="center"
-        android:paddingStart="@dimen/dp_8"
-        android:paddingEnd="@dimen/dp_8"
+        tools:listitem="@layout/movie_item"
         />
 
     <include

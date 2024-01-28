@@ -37,7 +37,6 @@ class MoviesRepositoryImpl @Inject constructor(
             ),
             pagingSourceFactory = { PagePagingSource(loader) }
         ).flow
-
     }
 
     override fun getPagedMovieReview(
@@ -59,7 +58,6 @@ class MoviesRepositoryImpl @Inject constructor(
             ),
             pagingSourceFactory = { PagePagingSource(loader) }
         ).flow
-
     }
 
     override fun getPagedTopRatedMovies(language: String): Flow<PagingData<MovieEntity>> {
@@ -78,7 +76,6 @@ class MoviesRepositoryImpl @Inject constructor(
             ),
             pagingSourceFactory = { PagePagingSource(loader) }
         ).flow
-
     }
 
     override fun getPagedPopularMovies(language: String): Flow<PagingData<MovieEntity>> {
@@ -97,7 +94,6 @@ class MoviesRepositoryImpl @Inject constructor(
             ),
             pagingSourceFactory = { PagePagingSource(loader) }
         ).flow
-
     }
 
     override fun getPagedUnComingMovies(language: String): Flow<PagingData<MovieEntity>> {
@@ -116,7 +112,6 @@ class MoviesRepositoryImpl @Inject constructor(
             ),
             pagingSourceFactory = { PagePagingSource(loader) }
         ).flow
-
     }
 
     override suspend fun getMovieReviews(

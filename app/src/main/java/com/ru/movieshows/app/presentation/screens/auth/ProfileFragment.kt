@@ -14,7 +14,7 @@ import com.ru.movieshows.app.utils.viewBinding
 import com.ru.movieshows.app.utils.viewModelCreator
 import com.ru.movieshows.databinding.FragmentProfileBinding
 import com.ru.movieshows.sources.accounts.entities.AccountEntity
-import com.ru.movieshows.sources.accounts.entities.AuthStateEntity
+import com.ru.movieshows.sources.accounts.entities.UserAuthenticationState
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -23,7 +23,6 @@ class ProfileFragment : BaseFragment() {
 
     @Inject
     lateinit var factory: ProfileViewModel.Factory
-
 
     override val viewModel by viewModelCreator {
         factory.create(
@@ -37,25 +36,25 @@ class ProfileFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_profile, container, false);
+    ): View? = inflater.inflate(R.layout.fragment_profile, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        configureUI()
+        setupUI()
     }
 
-    private fun configureUI() = with(binding) {
-        viewModel.authState.observe(viewLifecycleOwner, ::handleUI)
+    private fun setupUI() = with(binding) {
+        viewModel.authenticationState.observe(viewLifecycleOwner, ::configureUI)
         logoutButton.setOnClickListener { viewModel.logOut() }
     }
 
-    private fun handleUI(state: AuthStateEntity) = with(binding) {
+    private fun configureUI(state: UserAuthenticationState) = with(binding) {
         root.children.forEach { it.isVisible = false }
         when (state) {
-            AuthStateEntity.Empty -> {}
-            is AuthStateEntity.Pending -> progressGroup.isVisible = true
-            is AuthStateEntity.NotAuth -> configureNotAuthenticatedUI()
-            is AuthStateEntity.Auth -> configureAuthenticatedUI(state.account)
+            UserAuthenticationState.Empty -> {}
+            is UserAuthenticationState.Pending -> progressGroup.isVisible = true
+            is UserAuthenticationState.NotAuthentication -> configureNotAuthenticatedUI()
+            is UserAuthenticationState.Authentication -> configureAuthenticatedUI(state.account)
         }
     }
 
@@ -66,16 +65,16 @@ class ProfileFragment : BaseFragment() {
         }
     }
 
-    private fun configureAuthenticatedUI(account: AccountEntity) = with(binding.authenticatedGroup) {
-        configureName(account)
-        configureProfileAvatarImage(account)
-        isVisible = true
+    private fun configureAuthenticatedUI(account: AccountEntity) {
+        binding.authenticatedGroup.isVisible = true
+        configureNameUI(account)
+        configureProfileAvatarImageUI(account)
     }
 
 
-    private fun configureProfileAvatarImage(account: AccountEntity) = with(binding.avatarImageView) {
+    private fun configureProfileAvatarImageUI(account: AccountEntity) = with(binding.avatarImageView) {
         val photo = account.avatar
-        if(!photo.isNullOrEmpty()) {
+        if (!photo.isNullOrEmpty()) {
             Glide
                 .with(requireContext())
                 .load(photo)
@@ -94,7 +93,7 @@ class ProfileFragment : BaseFragment() {
         }
     }
 
-    private fun configureName(account: AccountEntity) = with(binding.nameTextView) {
+    private fun configureNameUI(account: AccountEntity) = with(binding.nameTextView) {
         val stringBuilder = StringBuilder().also {
             val username = account.username ?: ""
             it.append(username)

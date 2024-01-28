@@ -1,24 +1,27 @@
 package com.ru.movieshows.app.presentation.adapters.tv_shows
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.R
+import com.ru.movieshows.app.presentation.adapters.SimpleAdapterListener
 import com.ru.movieshows.databinding.TvShowTimeViewPagerItemBinding
 import com.ru.movieshows.sources.tv_shows.entities.TvShowsEntity
 
 class TvShowsViewPagerAdapter(
     private val tvShows: ArrayList<TvShowsEntity>,
-    private val onTap: (TvShowsEntity) -> Unit,
-    ) : RecyclerView.Adapter<TvShowsViewPagerAdapter.Holder>() {
+    private val listener: SimpleAdapterListener<TvShowsEntity>,
+) : RecyclerView.Adapter<TvShowsViewPagerAdapter.Holder>(), View.OnClickListener {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = TvShowTimeViewPagerItemBinding.inflate(inflater, parent, false)
-        return Holder(binding, onTap)
+        binding.root.setOnClickListener(this)
+        return Holder(binding)
     }
 
     override fun getItemCount(): Int = if(tvShows.size > 10) 10 else tvShows.size
@@ -28,23 +31,22 @@ class TvShowsViewPagerAdapter(
         holder.bind(item)
     }
 
-    inner class Holder(
-        private val binding: TvShowTimeViewPagerItemBinding,
-        private val onTap: (TvShowsEntity) -> Unit,
-        ) : RecyclerView.ViewHolder(binding.root) {
+    override fun onClick(view: View) {
+        val tvShow = view.tag as TvShowsEntity
+        listener.onClickItem(tvShow)
+    }
 
-        fun bind(tvShow: TvShowsEntity) = with(binding.root) {
-            setOnClickListener { onTap(tvShow) }
-            bindTitle(binding, tvShow)
-            bindMovieImage(binding, tvShow)
+    inner class Holder(private val binding: TvShowTimeViewPagerItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(tvShow: TvShowsEntity) {
+            binding.root.tag = tvShow
+            bindTitleUI(tvShow)
+            bindMovieImageUI(tvShow)
         }
 
-        private fun bindTitle(
-            binding: TvShowTimeViewPagerItemBinding,
-            tvShow: TvShowsEntity
-        ) = with(binding.tvShowName) {
+        private fun bindTitleUI(tvShow: TvShowsEntity) = with(binding.tvShowName) {
             val title = tvShow.name
-            if(!title.isNullOrEmpty()) {
+            if (!title.isNullOrEmpty()) {
                 text = title
                 isVisible = true
             } else {
@@ -52,20 +54,17 @@ class TvShowsViewPagerAdapter(
             }
         }
 
-        private fun bindMovieImage(
-            binding: TvShowTimeViewPagerItemBinding,
-            tvShow: TvShowsEntity
-        ) = with(binding.tvShowBackground){
+        private fun bindMovieImageUI(tvShow: TvShowsEntity) = with(binding.tvShowBackground) {
             val backDrop = tvShow.backDrop
-            if(!backDrop.isNullOrEmpty()) {
-            Glide
-                .with(context)
-                .load(backDrop)
-                .placeholder(R.drawable.poster_placeholder_bg)
-                .error(R.drawable.poster_placeholder_bg)
-                .centerCrop()
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(this)
+            if (!backDrop.isNullOrEmpty()) {
+                Glide
+                    .with(context)
+                    .load(backDrop)
+                    .placeholder(R.drawable.poster_placeholder_bg)
+                    .error(R.drawable.poster_placeholder_bg)
+                    .centerCrop()
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(this)
             } else {
                 Glide
                     .with(context)
@@ -76,6 +75,7 @@ class TvShowsViewPagerAdapter(
                     .into(this)
             }
         }
+
     }
 
 }

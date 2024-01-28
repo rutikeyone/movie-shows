@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.ru.movieshows.app.model.movies.MoviesRepository
+import com.ru.movieshows.app.presentation.adapters.SimpleAdapterListener
 import com.ru.movieshows.app.presentation.screens.movies.TopRatedMoviesFragmentDirections
 import com.ru.movieshows.app.presentation.sideeffects.navigator.Navigator
 import com.ru.movieshows.app.presentation.viewmodel.BaseViewModel
@@ -20,15 +21,15 @@ import kotlinx.coroutines.flow.flatMapLatest
 class TopRatedMoviesViewModel @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val moviesRepository: MoviesRepository
-) : BaseViewModel() {
+) : BaseViewModel(), SimpleAdapterListener<MovieEntity> {
 
      val topRatedMovies: Flow<PagingData<MovieEntity>> = languageTagFlow.flatMapLatest {
          moviesRepository
          .getPagedTopRatedMovies(it)
      }.cachedIn(viewModelScope)
 
-    fun navigateToMovieDetails(movie: MovieEntity) {
-        val id = movie.id ?: return
+    override fun onClickItem(data: MovieEntity) {
+        val id = data.id ?: return
         val action = TopRatedMoviesFragmentDirections.actionTopRatedMoviesFragmentToMovieDetailsFragment(id)
         navigator.navigate(action)
     }

@@ -7,12 +7,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.util.Locale
 
-open class BaseViewModel: ViewModel(){
+open class BaseViewModel: ViewModel() {
+
     protected val languageTag: String
-        get() {
-            val defaultLanguage = Locale.getDefault()
-            return defaultLanguage.toLanguageTag()
-        }
+        get() = Locale.getDefault().toLanguageTag()
 
     val languageTagState: LiveData<String>
         get() = _languageTagFlow.asLiveData()
@@ -24,4 +22,5 @@ open class BaseViewModel: ViewModel(){
     fun updateLanguageTag() {
         _languageTagFlow.value = languageTag
     }
+
 }

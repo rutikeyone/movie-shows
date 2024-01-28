@@ -7,19 +7,21 @@ import android.view.ViewGroup
 import androidx.core.view.forEach
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
 import com.ru.movieshows.R
 import com.ru.movieshows.app.presentation.adapters.ItemDecoration
 import com.ru.movieshows.app.presentation.adapters.episode.EpisodesAdapter
 import com.ru.movieshows.app.presentation.screens.BaseFragment
 import com.ru.movieshows.app.presentation.viewmodel.episode.SeasonEpisodesViewModel
 import com.ru.movieshows.app.presentation.viewmodel.episode.state.SeasonEpisodesState
-import com.ru.movieshows.app.utils.clearDecorations
+import com.ru.movieshows.app.utils.applyDecoration
 import com.ru.movieshows.app.utils.viewBinding
 import com.ru.movieshows.app.utils.viewModelCreator
 import com.ru.movieshows.databinding.FailurePartBinding
 import com.ru.movieshows.databinding.FragmentSeasonEpisodesBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class SeasonEpisodesFragment : BaseFragment() {
@@ -41,7 +43,7 @@ class SeasonEpisodesFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? = inflater.inflate(R.layout.fragment_season_episodes, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,18 +62,22 @@ class SeasonEpisodesFragment : BaseFragment() {
     }
 
     private fun configureSuccessUI(state: SeasonEpisodesState.Success) = with(binding) {
-        val itemDecoration = ItemDecoration(8F, resources.displayMetrics)
-        val adapter = EpisodesAdapter(state.episodes) { episode ->
-            viewModel.navigateToEpisodeDetails(episode)
+        val context = requireContext()
+        val spanCount = getSpanCount()
+        val itemDecoration = ItemDecoration(spanCount = spanCount)
+        val gridLayoutManager = GridLayoutManager(context, spanCount)
+        val episodesAdapter = EpisodesAdapter(state.episodes, viewModel)
+
+        with(episodesRecyclerView) {
+            this.adapter = episodesAdapter
+            layoutManager = gridLayoutManager
+            applyDecoration(itemDecoration)
         }
-        episodesRecyclerView.clearDecorations()
-        episodesRecyclerView.addItemDecoration(itemDecoration)
-        episodesRecyclerView.adapter = adapter
         successContainer.isVisible = true
     }
 
-    private fun configureSuccessEmptyUI() = with(binding) {
-        successEmptyContainer.isVisible = true
+    private fun configureSuccessEmptyUI() {
+        binding.successEmptyContainer.isVisible = true
     }
 
     private fun configureFailureUI(state: SeasonEpisodesState.Failure) = with(binding) {
@@ -80,13 +86,13 @@ class SeasonEpisodesFragment : BaseFragment() {
         failureContainer.isVisible = true
         FailurePartBinding.bind(failurePart.root).also {
             it.retryButton.setOnClickListener { viewModel.tryAgain() }
-            if(header != null) it.failureTextHeader.text = resources.getString(header)
-            if(error != null) it.failureTextMessage.text = resources.getString(error)
+            if (header != null) it.failureTextHeader.text = resources.getString(header)
+            if (error != null) it.failureTextMessage.text = resources.getString(error)
         }
     }
 
-    private fun configureInPendingUI() = with(binding) {
-        progressContainer.isVisible = true
+    private fun configureInPendingUI() {
+        binding.progressContainer.isVisible = true
     }
 
 }

@@ -35,9 +35,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(
-            initialPerson: PersonEntity,
-        ): PersonDetailsViewModel
+        fun create(initialPerson: PersonEntity): PersonDetailsViewModel
     }
 
 }

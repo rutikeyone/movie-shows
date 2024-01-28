@@ -4,7 +4,7 @@ enum class PasswordValidationStatus {
     PURE, EMPTY, INVALID, VALID
 }
 
-data class PasswordFieldEntity(
+data class PasswordField(
     val value: String = "",
     val status: PasswordValidationStatus = PasswordValidationStatus.PURE,
 ) {

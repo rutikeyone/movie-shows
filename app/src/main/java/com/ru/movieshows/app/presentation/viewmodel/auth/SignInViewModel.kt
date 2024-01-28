@@ -11,8 +11,8 @@ import com.ru.movieshows.app.presentation.sideeffects.toast.Toasts
 import com.ru.movieshows.app.presentation.viewmodel.BaseViewModel
 import com.ru.movieshows.app.presentation.viewmodel.auth.state.SignInState
 import com.ru.movieshows.app.utils.share
-import com.ru.movieshows.sources.accounts.entities.PasswordFieldEntity
-import com.ru.movieshows.sources.accounts.entities.UsernameFieldEntity
+import com.ru.movieshows.sources.accounts.entities.PasswordField
+import com.ru.movieshows.sources.accounts.entities.UsernameField
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -31,16 +31,16 @@ class SignInViewModel @AssistedInject constructor(
     fun changeUsername(value: String) {
         val prevState = _state.value ?: return
         if(prevState.email.isPure && value.isEmpty()) return
-        val status = UsernameFieldEntity.validate(value)
-        val email = UsernameFieldEntity(value, status)
+        val status = UsernameField.validate(value)
+        val email = UsernameField(value, status)
         _state.value = prevState.copy(email = email)
     }
 
     fun changePassword(value: String) {
         val prevState = _state.value ?: return
         if(prevState.password.isPure && value.isEmpty()) return
-        val status = PasswordFieldEntity.validate(value)
-        val password = PasswordFieldEntity(value, status)
+        val status = PasswordField.validate(value)
+        val password = PasswordField(value, status)
         _state.value = prevState.copy(password = password)
     }
 

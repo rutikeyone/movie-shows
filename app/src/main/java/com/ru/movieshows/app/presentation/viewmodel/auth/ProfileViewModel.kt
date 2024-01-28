@@ -7,7 +7,7 @@ import com.ru.movieshows.app.model.accounts.AccountRepository
 import com.ru.movieshows.app.presentation.screens.auth.ProfileFragmentDirections
 import com.ru.movieshows.app.presentation.sideeffects.navigator.Navigator
 import com.ru.movieshows.app.presentation.viewmodel.BaseViewModel
-import com.ru.movieshows.sources.accounts.entities.AuthStateEntity
+import com.ru.movieshows.sources.accounts.entities.UserAuthenticationState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -18,11 +18,11 @@ class ProfileViewModel @AssistedInject constructor(
     private val accountsRepository: AccountRepository,
 ) : BaseViewModel() {
 
-    lateinit var authState: LiveData<AuthStateEntity>
+    lateinit var authenticationState: LiveData<UserAuthenticationState>
 
     init {
         viewModelScope.launch {
-            authState = accountsRepository.getState().asLiveData()
+            authenticationState = accountsRepository.getUserAuthenticationState().asLiveData()
         }
     }
 

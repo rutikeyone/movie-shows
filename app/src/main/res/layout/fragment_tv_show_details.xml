@@ -249,10 +249,10 @@
                         tools:layout_height="@dimen/dp_40"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         android:layout_marginStart="@dimen/dp_16"
-                        android:layout_marginEnd="@dimen/dp_8"
+                        android:layout_marginEnd="@dimen/dp_16"
+                        app:layout_goneMarginEnd="@dimen/dp_16"
                         tools:listitem="@layout/info_item"
                         android:orientation="horizontal"
-                        app:layout_goneMarginEnd="@dimen/dp_8"
                         />
 
                     <TextView
@@ -272,9 +272,8 @@
                         android:id="@+id/videosRecyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_230"
-                        android:layout_marginStart="@dimen/dp_16"
-                        android:layout_marginEnd="@dimen/dp_16"
                         android:layout_marginTop="@dimen/dp_16"
+                        android:layout_marginStart="@dimen/dp_16"
                         android:orientation="horizontal"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:layout_height="wrap_content"
@@ -299,7 +298,6 @@
                         android:layout_height="@dimen/dp_230"
                         android:layout_marginTop="@dimen/dp_16"
                         android:layout_marginStart="@dimen/dp_16"
-                        android:layout_marginEnd="@dimen/dp_16"
                         android:orientation="horizontal"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:layout_height="wrap_content"
@@ -326,7 +324,6 @@
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         android:layout_marginTop="@dimen/dp_16"
                         android:layout_marginStart="@dimen/dp_16"
-                        android:layout_marginEnd="@dimen/dp_16"
                         android:orientation="horizontal"
                         tools:listitem="@layout/season_item"
                         />

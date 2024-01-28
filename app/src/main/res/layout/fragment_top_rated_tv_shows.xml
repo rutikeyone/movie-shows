@@ -30,8 +30,7 @@
         app:spanCount="3"
         android:scrollbars="vertical"
         android:layout_gravity="center"
-        android:paddingStart="@dimen/dp_8"
-        android:paddingEnd="@dimen/dp_8"
+        tools:listitem="@layout/tv_shows_item"
         />
 
     <include

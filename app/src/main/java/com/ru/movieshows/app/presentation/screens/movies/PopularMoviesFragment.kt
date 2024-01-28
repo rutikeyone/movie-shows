@@ -18,10 +18,10 @@ import com.ru.movieshows.app.presentation.adapters.movies.MoviesAdapter
 import com.ru.movieshows.app.presentation.adapters.movies.MoviesPaginationAdapter
 import com.ru.movieshows.app.presentation.screens.BaseFragment
 import com.ru.movieshows.app.presentation.viewmodel.movies.PopularMoviesViewModel
+import com.ru.movieshows.app.utils.applyDecoration
 import com.ru.movieshows.app.utils.viewBinding
 import com.ru.movieshows.app.utils.viewModelCreator
 import com.ru.movieshows.databinding.FragmentPopularMoviesBinding
-import com.ru.movieshows.sources.movies.entities.MovieEntity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -30,17 +30,32 @@ import javax.inject.Inject
 @Suppress("DEPRECATED_IDENTITY_EQUALS")
 @AndroidEntryPoint
 class PopularMoviesFragment : BaseFragment() {
+
     private val binding by viewBinding<FragmentPopularMoviesBinding>()
 
     @Inject
     lateinit var factory: PopularMoviesViewModel.Factory
+
     override val viewModel by viewModelCreator {
         factory.create(
             navigator = navigator(),
         )
     }
 
-    private var adapter: MoviesPaginationAdapter? = null
+    private var moviesAdapter: MoviesPaginationAdapter? = null
+
+    private val moviesSpanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+        override fun getSpanSize(position: Int): Int {
+            val loadingItem = MoviesAdapter.LOADING_ITEM
+            val isLoadingItem = moviesAdapter!!.getItemViewType(position) === loadingItem
+            return if (isLoadingItem) 1 else 3
+        }
+    }
+
+
+    private val loadStateLoader: LoadStateListener = { state ->
+        configureUI(state)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,60 +66,65 @@ class PopularMoviesFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        collectUiState()
+        collectState()
     }
 
     private fun initView() {
-        val tryAgainAction: TryAgainAction = { adapter?.retry() }
-        val footerAdapter = LoadStateAdapter(tryAgainAction, requireContext())
-        adapter = MoviesPaginationAdapter(::navigateToMovieDetails)
-        val gridLayoutManager = GridLayoutManager(requireContext(), 3)
-        binding.rvMovies.layoutManager = gridLayoutManager
-        adapter?.addLoadStateListener { loadState -> configureUI(loadState) }
-        val itemDecoration = ItemDecoration(metrics = resources.displayMetrics, paddingsInDips = 8F)
-        binding.rvMovies.addItemDecoration(itemDecoration)
-        binding.failurePart.retryButton.setOnClickListener { adapter?.retry() }
-        binding.rvMovies.adapter = adapter!!.withLoadStateFooter(footerAdapter)
-        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                val loadingItem = MoviesAdapter.LOADING_ITEM
-                val isLoadingItem = adapter!!.getItemViewType(position) === loadingItem
-                return if (isLoadingItem) 1 else 3
-            }
+        val context = requireContext()
+        val spanCount = getSpanCount()
+        val itemDecoration = ItemDecoration(spanCount = spanCount)
+        val tryAgainAction: TryAgainAction = { moviesAdapter?.retry() }
+        val footerAdapter = LoadStateAdapter(context, tryAgainAction)
+
+        val gridLayoutManager = GridLayoutManager(context, spanCount).apply {
+            spanSizeLookup = moviesSpanSizeLookup
+        }
+        moviesAdapter = MoviesPaginationAdapter(viewModel).apply {
+            addLoadStateListener(loadStateLoader)
+        }
+
+        with(binding) {
+            failurePart.retryButton.setOnClickListener { moviesAdapter?.retry() }
+            moviesRecyclerView.layoutManager = gridLayoutManager
+            moviesRecyclerView.applyDecoration(itemDecoration)
+            moviesRecyclerView.adapter = moviesAdapter?.withLoadStateFooter(footerAdapter)
+            moviesRecyclerView.itemAnimator = null
         }
     }
 
     override fun onDestroyView() {
+        moviesAdapter?.removeLoadStateListener(loadStateLoader)
+        moviesAdapter = null;
         super.onDestroyView()
-        adapter = null;
     }
 
-    private fun collectUiState() {
+    private fun collectState() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.popularMovies.collectLatest { movies ->
-                adapter?.submitData(movies)
+                moviesAdapter?.submitData(movies)
             }
         }
     }
 
     private fun configureUI(loadState: CombinedLoadStates) {
-        val isListEmpty = loadState.refresh is LoadState.NotLoading && adapter?.itemCount == 0
+        val isListEmpty = loadState.refresh is LoadState.NotLoading && moviesAdapter?.itemCount == 0
         val showReviews = !isListEmpty || loadState.source.refresh is LoadState.NotLoading
-        binding.rvMovies.isVisible = showReviews
+        binding.moviesRecyclerView.isVisible = showReviews
         binding.progressBarMovies.isVisible = loadState.source.refresh is LoadState.Loading
-        configureFailurePart(loadState)
+        configureFailurePartUI(loadState)
     }
 
-    private fun configureFailurePart(loadState: CombinedLoadStates) {
+    private fun configureFailurePartUI(loadState: CombinedLoadStates) {
         binding.failurePart.root.isVisible = loadState.source.refresh is LoadState.Error
         if(loadState.source.refresh !is LoadState.Error) return
         val errorState = loadState.refresh as LoadState.Error
         val error = errorState.error as? AppFailure
+        val headerError = error?.headerResource() ?: R.string.error_header
+        val messageError = error?.errorResource() ?: R.string.an_error_occurred_during_the_operation
         with(binding.failurePart) {
-            failureTextHeader.text = resources.getString((error?.headerResource() ?: R.string.error_header))
-            failureTextMessage.text = resources.getString(error?.errorResource() ?: R.string.an_error_occurred_during_the_operation)
+            failureTextHeader.text = resources.getString(headerError)
+            failureTextMessage.text = resources.getString(messageError)
         }
     }
 
-    private fun navigateToMovieDetails(movie: MovieEntity) = viewModel.navigateToMovieDetails(movie)
 }

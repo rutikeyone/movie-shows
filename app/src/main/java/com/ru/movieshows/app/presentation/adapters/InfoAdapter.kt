@@ -27,14 +27,15 @@ class InfoAdapter(
         private val binding: InfoItemBinding
     ): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: String?) = with(binding){
-            if(!data.isNullOrEmpty()) {
+        fun bind(data: String?) = with(binding) {
+            if (!data.isNullOrEmpty()) {
                 value.text = data
                 value.isVisible = true
             } else {
                 value.isVisible = false
             }
         }
+
     }
 
 }

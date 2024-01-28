@@ -27,18 +27,20 @@ data class CrewModel(
     @SerializedName("profile_path")
     val profilePath: String?
 ) : Parcelable {
+    fun toEntity(imageUrl: String): CrewEntity {
+        val profilePath = if(this.profilePath != null) imageUrl + this.profilePath else null
 
-    fun toEntity(imageUrl: String) = CrewEntity(
-        id,
-        job,
-        department,
-        creditId,
-        adult,
-        knownForDepartment,
-        name,
-        originalName,
-        popularity,
-        if(this.profilePath != null) imageUrl + this.profilePath else null,
-    )
-
+        return CrewEntity(
+            id,
+            job,
+            department,
+            creditId,
+            adult,
+            knownForDepartment,
+            name,
+            originalName,
+            popularity,
+            profilePath,
+        )
+    }
 }

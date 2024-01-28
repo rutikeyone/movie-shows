@@ -17,7 +17,6 @@ import com.ru.movieshows.app.utils.viewModelCreator
 import com.ru.movieshows.databinding.FragmentPersonDetailsBottomSheetDialogBinding
 import com.ru.movieshows.sources.people.entities.PersonEntity
 import dagger.hilt.android.AndroidEntryPoint
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import javax.inject.Inject
 
@@ -51,21 +50,21 @@ class PersonDetailsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.person.observe(viewLifecycleOwner, ::handleState)
+        viewModel.person.observe(viewLifecycleOwner, ::configureUI)
         viewModel.update()
     }
 
-    private fun handleState(person: PersonEntity?) {
+    private fun configureUI(person: PersonEntity?) {
         if(person == null) return
-        configureImage(person)
-        configureHeader(person)
-        configureDateOfBirth(person)
-        configureDateOfDeath(person)
-        configureBiography(person)
-        configurePlaceOfBirth(person)
+        configureImageUI(person)
+        configureHeaderUI(person)
+        configureDateOfBirthUI(person)
+        configureDateOfDeathUI(person)
+        configureBiographyUI(person)
+        configurePlaceOfBirthUI(person)
     }
 
-    private fun configurePlaceOfBirth(person: PersonEntity) {
+    private fun configurePlaceOfBirthUI(person: PersonEntity) {
         val placeOfBirth = person.placeOfBirth
         if(!placeOfBirth.isNullOrEmpty()) {
             binding.placeOfBirthTextView.text = placeOfBirth
@@ -77,7 +76,7 @@ class PersonDetailsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
         }
     }
 
-    private fun configureBiography(person: PersonEntity) {
+    private fun configureBiographyUI(person: PersonEntity) {
         val biography = person.biography
         if(!biography.isNullOrEmpty()) {
             binding.biographyTextView.text = biography
@@ -90,7 +89,7 @@ class PersonDetailsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
     }
 
     @SuppressLint("SimpleDateFormat")
-    private fun configureDateOfDeath(person: PersonEntity) {
+    private fun configureDateOfDeathUI(person: PersonEntity) {
         val deathday = person.deathday
         val dateFormatter = SimpleDateFormat("dd MMMM yyyy")
         if(deathday != null) {
@@ -103,7 +102,7 @@ class PersonDetailsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
     }
 
     @SuppressLint("SimpleDateFormat")
-    private fun configureDateOfBirth(person: PersonEntity) {
+    private fun configureDateOfBirthUI(person: PersonEntity) {
         val birthday = person.birthday
         val dateFormatter = SimpleDateFormat("dd MMMM yyyy")
         if(birthday != null) {
@@ -115,7 +114,7 @@ class PersonDetailsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
         }
     }
 
-    private fun configureHeader(person: PersonEntity) = with(binding) {
+    private fun configureHeaderUI(person: PersonEntity) = with(binding) {
         val name = person.name
         if(!name.isNullOrEmpty()) {
             seasonName.text = name
@@ -125,7 +124,7 @@ class PersonDetailsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
         }
     }
 
-    private fun configureImage(person: PersonEntity) = with(binding.poster) {
+    private fun configureImageUI(person: PersonEntity) = with(binding.poster) {
         val photo = person.profilePath
         if(!photo.isNullOrEmpty()) {
             Glide
@@ -148,7 +147,6 @@ class PersonDetailsBottomSheetDialogFragment : BaseBottomSheetDialogFragment() {
     }
 
     companion object {
-
         fun newInstance(person: PersonEntity): PersonDetailsBottomSheetDialogFragment {
             val arguments = Bundle()
             arguments.putParcelable(PERSON_ARG, person)

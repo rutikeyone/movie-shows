@@ -15,14 +15,14 @@ import com.ru.movieshows.app.model.AppFailure
 import com.ru.movieshows.app.presentation.adapters.ItemDecoration
 import com.ru.movieshows.app.presentation.adapters.LoadStateAdapter
 import com.ru.movieshows.app.presentation.adapters.TryAgainAction
-import com.ru.movieshows.app.presentation.adapters.movies.MoviesAdapter
 import com.ru.movieshows.app.presentation.adapters.movies.MoviesPaginationAdapter
+import com.ru.movieshows.app.presentation.adapters.tv_shows.TvShowPaginationAdapter
 import com.ru.movieshows.app.presentation.screens.BaseFragment
 import com.ru.movieshows.app.presentation.viewmodel.movies.UpcomingMoviesViewModel
+import com.ru.movieshows.app.utils.applyDecoration
 import com.ru.movieshows.app.utils.viewBinding
 import com.ru.movieshows.app.utils.viewModelCreator
 import com.ru.movieshows.databinding.FragmentUpcomingMoviesBinding
-import com.ru.movieshows.sources.movies.entities.MovieEntity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
@@ -31,12 +31,13 @@ import javax.inject.Inject
 
 
 @Suppress("DEPRECATED_IDENTITY_EQUALS")
-@OptIn(ExperimentalCoroutinesApi::class)
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class UpcomingMoviesFragment : BaseFragment() {
 
     @Inject
     lateinit var factory: UpcomingMoviesViewModel.Factory
+
     override val viewModel by viewModelCreator {
         factory.create(
             navigator = navigator(),
@@ -45,7 +46,19 @@ class UpcomingMoviesFragment : BaseFragment() {
 
     private val binding by viewBinding<FragmentUpcomingMoviesBinding>()
 
-    private var adapter: MoviesPaginationAdapter? = null
+    private var moviesPaginationAdapter: MoviesPaginationAdapter? = null
+
+    private val moviesSpanSizeLookup = object : SpanSizeLookup() {
+        override fun getSpanSize(position: Int): Int {
+            val loadingItem = TvShowPaginationAdapter.LOADING_ITEM
+            val isLoadingItem = moviesPaginationAdapter!!.getItemViewType(position) === loadingItem
+            return if (isLoadingItem) 1 else 3
+        }
+    }
+
+    private val loadStateLoader: LoadStateListener = { state ->
+        configureUI(state)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,48 +69,52 @@ class UpcomingMoviesFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        collectUiState()
+        collectUIState()
     }
 
     private fun initView() {
-        val itemDecoration = ItemDecoration(metrics = resources.displayMetrics, paddingsInDips = 8F)
-        val tryAgainAction: TryAgainAction = { adapter?.retry() }
-        val footerAdapter = LoadStateAdapter(tryAgainAction, requireContext())
-        val gridLayoutManager = GridLayoutManager(requireContext(), 3)
-        adapter = MoviesPaginationAdapter(::navigateToMovieDetails)
-        binding.rvMovies.layoutManager = gridLayoutManager
-        adapter?.addLoadStateListener { loadState -> configureUi(loadState) }
-        binding.rvMovies.addItemDecoration(itemDecoration)
-        binding.failurePart.retryButton.setOnClickListener { adapter?.retry() }
-        binding.rvMovies.adapter = adapter!!.withLoadStateFooter(footerAdapter)
-        gridLayoutManager.spanSizeLookup = object : SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                val loadingItem = MoviesAdapter.LOADING_ITEM
-                return if (adapter!!.getItemViewType(position) === loadingItem) 1 else 3
-            }
+        val context = requireContext()
+        val spanCount = getSpanCount()
+        val itemDecoration = ItemDecoration(spanCount = spanCount)
+        val tryAgainAction: TryAgainAction = { moviesPaginationAdapter?.retry() }
+        val footerAdapter = LoadStateAdapter(requireContext(), tryAgainAction)
+        val gridLayoutManager = GridLayoutManager(context, spanCount).apply {
+            spanSizeLookup = moviesSpanSizeLookup
+        }
+
+        moviesPaginationAdapter = MoviesPaginationAdapter(viewModel).apply {
+            addLoadStateListener(loadStateLoader)
+        }
+
+        with(binding) {
+            failurePart.retryButton.setOnClickListener { moviesPaginationAdapter?.retry() }
+            moviesRecyclerView.layoutManager = gridLayoutManager
+            moviesRecyclerView.applyDecoration(itemDecoration)
+            moviesRecyclerView.adapter = moviesPaginationAdapter?.withLoadStateFooter(footerAdapter)
         }
     }
 
     override fun onDestroyView() {
+        moviesPaginationAdapter?.removeLoadStateListener(loadStateLoader)
+        moviesPaginationAdapter = null;
         super.onDestroyView()
-        adapter = null;
     }
 
-    private fun collectUiState() = viewLifecycleOwner.lifecycleScope.launch {
+    private fun collectUIState() = viewLifecycleOwner.lifecycleScope.launch {
         viewModel.upcomingMovies.collectLatest { movies ->
-            adapter?.submitData(movies)
+            moviesPaginationAdapter?.submitData(movies)
         }
     }
 
-    private fun configureUi(loadState: CombinedLoadStates) {
-        val isListEmpty = loadState.refresh is LoadState.NotLoading && adapter?.itemCount == 0
+    private fun configureUI(loadState: CombinedLoadStates) {
+        val isListEmpty = loadState.refresh is LoadState.NotLoading && moviesPaginationAdapter?.itemCount == 0
         val showReviews = !isListEmpty || loadState.source.refresh is LoadState.NotLoading
-        binding.rvMovies.isVisible = showReviews
+        binding.moviesRecyclerView.isVisible = showReviews
         binding.progressBarMovies.isVisible = loadState.source.refresh is LoadState.Loading
-        configureFailurePart(loadState)
+        configureFailurePartUI(loadState)
     }
 
-    private fun configureFailurePart(loadState: CombinedLoadStates) {
+    private fun configureFailurePartUI(loadState: CombinedLoadStates) {
         binding.failurePart.root.isVisible = loadState.source.refresh is LoadState.Error
         if(loadState.source.refresh !is LoadState.Error) return
         val errorState = loadState.refresh as LoadState.Error
@@ -108,5 +125,4 @@ class UpcomingMoviesFragment : BaseFragment() {
         }
     }
 
-    private fun navigateToMovieDetails(movie: MovieEntity) = viewModel.navigateToMovieDetails(movie)
 }

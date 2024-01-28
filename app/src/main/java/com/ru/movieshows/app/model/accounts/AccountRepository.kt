@@ -3,12 +3,12 @@ package com.ru.movieshows.app.model.accounts
 import arrow.core.Either
 import com.ru.movieshows.app.model.AppFailure
 import com.ru.movieshows.sources.accounts.entities.AccountEntity
-import com.ru.movieshows.sources.accounts.entities.AuthStateEntity
+import com.ru.movieshows.sources.accounts.entities.UserAuthenticationState
 import kotlinx.coroutines.flow.Flow
 
 interface AccountRepository {
 
-    suspend fun getState(): Flow<AuthStateEntity>
+    suspend fun getUserAuthenticationState(): Flow<UserAuthenticationState>
 
     suspend fun isSignedIn(): Boolean
 
@@ -17,4 +17,5 @@ interface AccountRepository {
     suspend fun logout()
 
     suspend fun getAccountBySessionId(sessionId: String): AccountEntity
+
 }

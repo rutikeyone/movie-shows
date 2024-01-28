@@ -1,6 +1,7 @@
 package com.ru.movieshows.app.presentation.adapters.movies
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
@@ -8,12 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.R
+import com.ru.movieshows.app.presentation.adapters.SimpleAdapterListener
 import com.ru.movieshows.databinding.SearchItemBinding
 import com.ru.movieshows.sources.movies.entities.MovieEntity
 
 class MoviesSearchPaginationAdapter(
-    private val onTap: (MovieEntity) -> Unit,
-) : PagingDataAdapter<MovieEntity, MoviesSearchPaginationAdapter.Holder>(MoviesDiffItemCallback()) {
+    private val listener: SimpleAdapterListener<MovieEntity>,
+) : PagingDataAdapter<MovieEntity, MoviesSearchPaginationAdapter.Holder>(MoviesDiffItemCallback()), View.OnClickListener {
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val movie = getItem(position) ?: return
@@ -23,24 +25,26 @@ class MoviesSearchPaginationAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = SearchItemBinding.inflate(inflater, parent, false)
-        return Holder(binding, onTap)
+        binding.root.setOnClickListener(this)
+        return Holder(binding)
     }
 
+    override fun onClick(view: View) {
+        val movie = view.tag as MovieEntity
+        listener.onClickItem(movie)
+    }
 
-    class Holder(
-        private val binding: SearchItemBinding,
-        private val onTap: (MovieEntity) -> Unit,
-    ) : RecyclerView.ViewHolder(binding.root) {
+    class Holder(private val binding: SearchItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(movie: MovieEntity) = with(binding) {
-            binding.root.setOnClickListener { onTap(movie) }
-            bindTitle(movie)
-            bindPoster(movie)
-            bindRating(movie)
-            bindDescription(movie)
+        fun bind(movie: MovieEntity) {
+            binding.root.tag = movie
+            bindTitleUI(movie)
+            bindPosterUI(movie)
+            bindRatingUI(movie)
+            bindDescriptionUI(movie)
         }
 
-        private fun bindTitle(movie: MovieEntity) = with(binding.headerText){
+        private fun bindTitleUI(movie: MovieEntity) = with(binding.headerText) {
             val title = movie.title
             if(!title.isNullOrEmpty()) {
                 text = movie.title
@@ -50,7 +54,7 @@ class MoviesSearchPaginationAdapter(
             }
         }
 
-        private fun bindDescription(movie: MovieEntity) = with(binding.descriptionText) {
+        private fun bindDescriptionUI(movie: MovieEntity) = with(binding.descriptionText) {
             val overview = movie.overview
             if(!overview.isNullOrEmpty()) {
                 text = overview
@@ -60,7 +64,7 @@ class MoviesSearchPaginationAdapter(
             }
         }
 
-        private fun bindRating(movie: MovieEntity) = with(binding) {
+        private fun bindRatingUI(movie: MovieEntity) = with(binding) {
             val rating = movie.rating
             ratingBar.isEnabled = false
             if(rating != null) {
@@ -78,7 +82,7 @@ class MoviesSearchPaginationAdapter(
             }
         }
 
-        private fun bindPoster(movie: MovieEntity) = with(binding.imageView) {
+        private fun bindPosterUI(movie: MovieEntity) = with(binding.imageView) {
             val poster = movie.poster
             val context = this.context
             if(!poster.isNullOrEmpty()) {

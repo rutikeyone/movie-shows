@@ -44,4 +44,5 @@ abstract class Navigator {
     open fun injectActivity(activity: AppCompatActivity) {
         throw NotImplementedError()
     }
+
 }

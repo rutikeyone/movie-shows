@@ -10,8 +10,10 @@ data class AuthorDetailsModel(
     @SerializedName("rating")
     val rating: Double?
 ) {
-    fun toEntity(imageUrl: String): AuthorDetailsEntity = AuthorDetailsEntity(
-        if(this.avatar != null) imageUrl + this.avatar else null,
-        rating
-    )
+    fun toEntity(imageUrl: String): AuthorDetailsEntity {
+        return AuthorDetailsEntity(
+            if(this.avatar != null) imageUrl + this.avatar else null,
+            rating
+        )
+    }
 }

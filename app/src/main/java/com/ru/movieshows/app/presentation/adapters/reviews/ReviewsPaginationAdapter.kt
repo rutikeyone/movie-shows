@@ -32,17 +32,17 @@ class ReviewsPaginationAdapter: PagingDataAdapter<ReviewEntity, ReviewsPaginatio
         private val binding: ReviewItemBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(review: ReviewEntity) = with(binding) {
-            if (review.author != null) reviewerHeaderView.text = review.author
-            bindRating(review)
-            bindAvatarImageView(review)
-            bindContent(review)
+        fun bind(review: ReviewEntity) {
+            if (review.author != null) binding.reviewerHeaderView.text = review.author
+            bindRatingUI(review)
+            bindAvatarImageViewUI(review)
+            bindContentUI(review)
         }
 
         @SuppressLint("ClickableViewAccessibility")
-        private fun bindContent(review: ReviewEntity) = with(binding) {
+        private fun bindContentUI(review: ReviewEntity) = with(binding) {
             val content = review.content
-            if(!content.isNullOrEmpty()) {
+            if (!content.isNullOrEmpty()) {
                 val value = Html.fromHtml(content, HtmlCompat.FROM_HTML_MODE_LEGACY)
                 val onTouchListener = OnTouchListener()
                 reviewTextView.text = value
@@ -53,7 +53,7 @@ class ReviewsPaginationAdapter: PagingDataAdapter<ReviewEntity, ReviewsPaginatio
             }
         }
 
-        private fun bindRating(review: ReviewEntity, ) = with(binding.ratingBar) {
+        private fun bindRatingUI(review: ReviewEntity) = with(binding.ratingBar) {
             val rating = review.authorDetails?.rating
             if (rating != null && rating > 2) {
                 val value = review.authorDetails.rating.toFloat() / 2
@@ -64,9 +64,9 @@ class ReviewsPaginationAdapter: PagingDataAdapter<ReviewEntity, ReviewsPaginatio
             }
         }
 
-        private fun bindAvatarImageView(review: ReviewEntity) = with(binding.avatarImageView) {
+        private fun bindAvatarImageViewUI(review: ReviewEntity) = with(binding.avatarImageView) {
             val backDrop = review.authorDetails?.avatar
-            if(!backDrop.isNullOrEmpty()) {
+            if (!backDrop.isNullOrEmpty()) {
                 Glide
                     .with(this.context)
                     .load(backDrop)
@@ -85,6 +85,7 @@ class ReviewsPaginationAdapter: PagingDataAdapter<ReviewEntity, ReviewsPaginatio
                     .into(this)
             }
         }
+
     }
 
 }

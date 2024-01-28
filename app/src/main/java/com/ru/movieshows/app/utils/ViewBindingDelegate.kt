@@ -22,7 +22,7 @@ class ViewBindingDelegate<B : ViewBinding>(
     operator fun getValue(thisRef: Any?, property: KProperty<*>): B {
         val viewLifecycleOwner = fragment.viewLifecycleOwner
         if(viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.DESTROYED) {
-            throw IllegalStateException("Called after obDestroyView()")
+            throw IllegalStateException("Called after onDestroyView()")
         } else if(fragment.view != null) {
             return getOrCreateBinding(fragment.viewLifecycleOwner)
         } else {

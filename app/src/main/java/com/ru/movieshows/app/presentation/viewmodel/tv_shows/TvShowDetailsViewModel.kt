@@ -6,6 +6,7 @@ import arrow.core.getOrElse
 import com.ru.movieshows.app.model.AppFailure
 import com.ru.movieshows.app.model.people.PeopleRepository
 import com.ru.movieshows.app.model.tv_shows.TvShowRepository
+import com.ru.movieshows.app.presentation.adapters.SimpleAdapterListener
 import com.ru.movieshows.app.presentation.screens.tv_shows.TvShowDetailsFragmentDirections
 import com.ru.movieshows.app.presentation.sideeffects.navigator.Navigator
 import com.ru.movieshows.app.presentation.sideeffects.resources.Resources
@@ -18,6 +19,7 @@ import com.ru.movieshows.app.utils.share
 import com.ru.movieshows.sources.movies.entities.ReviewEntity
 import com.ru.movieshows.sources.movies.entities.VideoEntity
 import com.ru.movieshows.sources.people.entities.PersonEntity
+import com.ru.movieshows.sources.tv_shows.entities.SeasonEntity
 import com.ru.movieshows.sources.tv_shows.entities.TvShowDetailsEntity
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -31,7 +33,8 @@ class TvShowDetailsViewModel @AssistedInject constructor(
     @Assisted private val resources: Resources,
     private val tvShowRepository: TvShowRepository,
     private val peopleRepository: PeopleRepository,
-) : BaseViewModel() {
+) : BaseViewModel(), SimpleAdapterListener<VideoEntity> {
+
     private val _state = MutableLiveData<TvShowDetailsState>(TvShowDetailsState.Empty)
     val state get() = _state.share()
 
@@ -77,8 +80,12 @@ class TvShowDetailsViewModel @AssistedInject constructor(
     }
 
     private suspend fun getReviewsBySeriesId(language: String): Pair<Int, ArrayList<ReviewEntity>> {
-        val page = 1
-        val fetchReviewsByIdResult = tvShowRepository.getTvReviews(language, tvShowId, page)
+        val firstPageIndex = 1
+        val fetchReviewsByIdResult = tvShowRepository.getTvReviews(
+            language = language,
+            seriesId = tvShowId,
+            page = firstPageIndex,
+        )
         return fetchReviewsByIdResult.getOrElse {
             throw it
         }
@@ -87,22 +94,22 @@ class TvShowDetailsViewModel @AssistedInject constructor(
     fun getPersonDetails(personId: String) = viewModelScope.launch {
         val getPersonDetailResult = peopleRepository.getPersonDetails(personId, languageTag)
         getPersonDetailResult.fold(
-            ::handleGetPersonDetailsFailureResult,
-            ::handleGetPersonDetailsSuccessResult
+            { appFailure ->
+                val errorResource = appFailure.errorResource()
+                val error = resources.getString(errorResource)
+                toasts.toast(error)
+            },
+            { person ->
+                _showPeopleDetailsEvent.publishEvent(person)
+            }
         )
     }
 
-    private fun handleGetPersonDetailsSuccessResult(personEntity: PersonEntity) {
-        _showPeopleDetailsEvent.publishEvent(personEntity)
+    override fun onClickItem(data: VideoEntity) {
+        navigateToVideo(data)
     }
 
-    private fun handleGetPersonDetailsFailureResult(appFailure: AppFailure) {
-        val errorResource = appFailure.errorResource()
-        val error = resources.getString(errorResource)
-        toasts.toast(error)
-    }
-
-    fun navigateToVideo(video: VideoEntity) {
+    private fun navigateToVideo(video: VideoEntity) {
         val action = TvShowDetailsFragmentDirections.actionTvShowDetailsFragmentToVideoPlayerActivity(video)
         navigator.navigate(action)
     }
@@ -129,4 +136,5 @@ class TvShowDetailsViewModel @AssistedInject constructor(
             resources: Resources,
         ): TvShowDetailsViewModel
     }
+
 }

@@ -10,19 +10,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.R
+import com.ru.movieshows.app.presentation.adapters.SimpleAdapterListener
 import com.ru.movieshows.databinding.MovieItemBinding
 import com.ru.movieshows.sources.movies.entities.MovieEntity
 
 class MoviesAdapter(
-    private val onTap: (MovieEntity) -> Unit,
-): RecyclerView.Adapter<MoviesAdapter.MoviesHolder>() {
+    private val listener: SimpleAdapterListener<MovieEntity>,
+): RecyclerView.Adapter<MoviesAdapter.MoviesHolder>(), View.OnClickListener {
 
     private var movies = arrayListOf<MovieEntity>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val item = inflater.inflate(R.layout.movie_item, parent, false)
-        return MoviesHolder(item, onTap)
+        val binding = MovieItemBinding.inflate(inflater, parent, false)
+        binding.root.setOnClickListener(this)
+        return MoviesHolder(binding)
     }
 
     override fun getItemViewType(position: Int): Int = if (position == itemCount) MOVIE_ITEM else LOADING_ITEM
@@ -40,21 +42,24 @@ class MoviesAdapter(
         notifyDataSetChanged()
     }
 
+    override fun onClick(v: View) {
+        val movie = v.tag as MovieEntity
+        listener.onClickItem(movie)
+    }
+
     class MoviesHolder(
-        private val view: View,
-        private val onTap: (MovieEntity) -> Unit,
-    ) : RecyclerView.ViewHolder(view) {
+        private val binding: MovieItemBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(movie: MovieEntity) {
-            val binding = MovieItemBinding.bind(view)
-            binding.root.setOnClickListener { onTap(movie) }
-            bindLayoutParams(binding)
-            bindMovieName(movie, binding)
-            bindMovieImage(movie, binding)
-            bindMovieRating(binding, movie.rating)
+            binding.root.tag = movie
+            bindLayoutParamsUI(binding)
+            bindMovieNameUI(movie)
+            bindMovieImageUI(movie)
+            bindMovieRatingUI(movie.rating)
         }
 
-        private fun bindLayoutParams(binding: MovieItemBinding) = with(binding.root) {
+        private fun bindLayoutParamsUI(binding: MovieItemBinding) = with(binding.root) {
             val layoutParams = ActionBar.LayoutParams(
                 resources.getDimensionPixelOffset(R.dimen.dp_120),
                 resources.getDimensionPixelOffset(R.dimen.dp_255),
@@ -63,10 +68,7 @@ class MoviesAdapter(
         }
 
         @SuppressLint("SetTextI18n")
-        private fun bindMovieRating(
-            binding: MovieItemBinding,
-            rating: Double?,
-        ) = with(binding) {
+        private fun bindMovieRatingUI(rating: Double?) = with(binding) {
             ratingBar.isEnabled = false
             if (rating != null && rating > 0) {
                 val value = rating.toFloat() / 2
@@ -82,10 +84,7 @@ class MoviesAdapter(
             }
         }
 
-        private fun bindMovieImage(
-            movie: MovieEntity,
-            binding: MovieItemBinding,
-        ) = with(binding.discoverMovieImage){
+        private fun bindMovieImageUI(movie: MovieEntity) = with(binding.discoverMovieImage){
             val backDrop = movie.backDrop
             if(!backDrop.isNullOrEmpty()) {
                 Glide
@@ -107,10 +106,7 @@ class MoviesAdapter(
             }
         }
 
-        private fun bindMovieName(
-            movie: MovieEntity,
-            binding: MovieItemBinding,
-        ) = with(binding.movieName) {
+        private fun bindMovieNameUI(movie: MovieEntity) = with(binding.movieName) {
             val title = movie.title
             if(!title.isNullOrEmpty()) {
                 text = title
@@ -125,5 +121,4 @@ class MoviesAdapter(
         const val LOADING_ITEM = 0
         const val MOVIE_ITEM = 1
     }
-
 }

@@ -20,19 +20,17 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/episodesRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="3"
         tools:listitem="@layout/episode_item"
         android:scrollbars="vertical"
         android:layout_gravity="center"
-        tools:layout_marginStart="@dimen/dp_8"
-        tools:layout_marginEnd="@dimen/dp_8"
         />
 
     <include

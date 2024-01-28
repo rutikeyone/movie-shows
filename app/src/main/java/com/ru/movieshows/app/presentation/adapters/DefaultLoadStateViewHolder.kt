@@ -11,13 +11,15 @@ import com.ru.movieshows.app.model.AppFailure
 import com.ru.movieshows.databinding.PartDefaultLoadStateBinding
 
 class DefaultLoadStateViewHolder(
+    private val context: Context,
     private val binding: PartDefaultLoadStateBinding,
     private val tryAgainRetry: TryAgainAction,
-    private val context: Context,
 ): RecyclerView.ViewHolder(binding.root) {
 
     init {
-        binding.failurePart.retryButton.setOnClickListener { tryAgainRetry.invoke() }
+        binding.failurePart.retryButton.setOnClickListener {
+            tryAgainRetry.invoke()
+        }
     }
 
     fun bind(loadState: LoadState) {
@@ -35,12 +37,13 @@ class DefaultLoadStateViewHolder(
     }
 
     companion object {
+
         fun create(parent: ViewGroup, context: Context, retry: TryAgainAction): DefaultLoadStateViewHolder {
-            val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.part_default_load_state, parent, false)
-            val binding = PartDefaultLoadStateBinding.bind(view)
-            return DefaultLoadStateViewHolder(binding, retry, context)
+            val inflater = LayoutInflater.from(parent.context)
+            val binding = PartDefaultLoadStateBinding.inflate(inflater, parent, false)
+            return DefaultLoadStateViewHolder(context, binding, retry)
         }
+
     }
 
 }

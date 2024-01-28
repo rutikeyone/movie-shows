@@ -10,7 +10,7 @@ import com.ru.movieshows.app.presentation.sideeffects.navigator.Navigator
 import com.ru.movieshows.app.presentation.sideeffects.resources.Resources
 import com.ru.movieshows.app.presentation.sideeffects.toast.Toasts
 import com.ru.movieshows.app.utils.share
-import com.ru.movieshows.sources.accounts.entities.AuthStateEntity
+import com.ru.movieshows.sources.accounts.entities.UserAuthenticationState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,18 +30,18 @@ class ActivityScopeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            accountsRepository.getState().collect { state ->
+            accountsRepository.getUserAuthenticationState().collect { state ->
                 handleAuthState(state)
             }
         }
     }
 
-    private fun handleAuthState(state: AuthStateEntity) {
+    private fun handleAuthState(state: UserAuthenticationState) {
         when (state) {
-            AuthStateEntity.Empty -> {}
-            is AuthStateEntity.Pending -> handlePendingState(state)
-            is AuthStateEntity.Auth -> handleAuthenticatedState()
-            is AuthStateEntity.NotAuth -> handleNotAuthenticatedState(state)
+            UserAuthenticationState.Empty -> {}
+            is UserAuthenticationState.Pending -> handlePendingState(state)
+            is UserAuthenticationState.Authentication -> handleAuthenticatedState()
+            is UserAuthenticationState.NotAuthentication -> handleNotAuthenticatedState(state)
         }
     }
 
@@ -51,8 +51,8 @@ class ActivityScopeViewModel @Inject constructor(
         hideLoader()
     }
 
-    private fun handlePendingState(state: AuthStateEntity.Pending) {
-        val isNotAuthenticated = state.isNotAuthenticated
+    private fun handlePendingState(state: UserAuthenticationState.Pending) {
+        val isNotAuthenticated = state.previousNotAuthenticated
         if (!isNotAuthenticated) {
             navigator.setStartDestination()
         } else {
@@ -60,9 +60,9 @@ class ActivityScopeViewModel @Inject constructor(
         }
     }
 
-    private fun handleNotAuthenticatedState(state: AuthStateEntity.NotAuth) {
-        val previousStateAuthenticated = state.previousStateAuthenticated
-        if(state.isFirstLaunch) {
+    private fun handleNotAuthenticatedState(state: UserAuthenticationState.NotAuthentication) {
+        val previousStateAuthenticated = state.previousAuthenticated
+        if(state.firstLaunch) {
             navigator.notAuthenticated(true)
         } else if(!previousStateAuthenticated) {
             navigator.authenticated()
@@ -82,4 +82,5 @@ class ActivityScopeViewModel @Inject constructor(
         super.onCleared()
         navigator.clean()
     }
+
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.ru.movieshows.app.model.tv_shows.TvShowRepository
+import com.ru.movieshows.app.presentation.adapters.SimpleAdapterListener
 import com.ru.movieshows.app.presentation.screens.tv_shows.AirTvShowsFragmentDirections
 import com.ru.movieshows.app.presentation.sideeffects.navigator.Navigator
 import com.ru.movieshows.app.presentation.viewmodel.BaseViewModel
@@ -19,14 +20,16 @@ import kotlinx.coroutines.flow.flatMapLatest
 class AirTvShowsViewModel @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val tvShowRepository: TvShowRepository,
-) : BaseViewModel() {
+) : BaseViewModel(), SimpleAdapterListener<TvShowsEntity> {
 
     val airTvShows: Flow<PagingData<TvShowsEntity>> = languageTagFlow.flatMapLatest {
         tvShowRepository
         .getPagedTheAirTvShows(it)
     }.cachedIn(viewModelScope)
 
-    fun navigateToTvShowDetails(tvShow: TvShowsEntity) {
+    override fun onClickItem(data: TvShowsEntity) = navigateToTvShowDetails(data)
+
+    private fun navigateToTvShowDetails(tvShow: TvShowsEntity) {
         val id = tvShow.id ?: return
         val action = AirTvShowsFragmentDirections.actionAirTvShowsFragmentToTvShowDetailsFragment(id)
         navigator.navigate(action)

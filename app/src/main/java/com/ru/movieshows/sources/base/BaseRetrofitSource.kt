@@ -18,34 +18,21 @@ data class ErrorResponseBody(
     val statusMessage: String?
 )
 
-open class BaseRetrofitSource(
-    networkConfig: NetworkConfig,
-) {
+open class BaseRetrofitSource(networkConfig: NetworkConfig) {
 
     private val gson = networkConfig.gson
 
     suspend fun <T> wrapRetrofitExceptions(block: suspend () -> T): T {
         return try {
             block()
-        } catch (e: HttpException) {
-            val body = e.response()?.errorBody()?.string()
-            if(body != null) {
-                val error = gson.fromJson(body, ErrorResponseBody::class.java)
-                throw AppFailure.fromErrorResponseBody(error)
-            }
-            throw AppFailure.Empty
-        } catch (e: SocketTimeoutException) {
-            throw AppFailure.Connection
-        } catch (e: UnknownHostException) {
-            throw AppFailure.Connection
-        } catch (e: ConnectException) {
-            if(isRussianLanguageTag()) {
-                throw AppFailure.Message(R.string.tmdb_service_is_not_available_from_russia)
-            } else {
-                throw AppFailure.Connection
-            }
         } catch (e: Exception) {
-            throw AppFailure.Empty
+            when(e) {
+                is HttpException -> throw createThrowFromHttpException(e)
+                is SocketTimeoutException -> throw AppFailure.Connection
+                is ConnectException -> throw createThrowFromConnectionException()
+                is UnknownHostException -> throw AppFailure.Connection
+                else -> throw AppFailure.Empty
+            }
         }
     }
 
@@ -54,8 +41,23 @@ open class BaseRetrofitSource(
         return tag == russianLanguageTag
     }
 
+    private fun createThrowFromHttpException(e: HttpException): AppFailure {
+        val body = e.response()?.errorBody()?.string()
+        if(body != null) {
+            val error = gson.fromJson(body, ErrorResponseBody::class.java)
+            return AppFailure.fromErrorResponseBody(error)
+        }
+        return AppFailure.Empty
+    }
+
+    private fun createThrowFromConnectionException(): AppFailure {
+        if(isRussianLanguageTag()) {
+            return AppFailure.Message(R.string.tmdb_service_is_not_available_from_russia)
+        }
+        return AppFailure.Connection
+    }
+
     companion object {
         const val russianLanguageTag = "ru-RU"
     }
-
 }

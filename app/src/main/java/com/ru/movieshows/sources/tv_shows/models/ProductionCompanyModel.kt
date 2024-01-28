@@ -9,8 +9,5 @@ data class ProductionCompanyModel(
     @SerializedName("name")
     val name: String?
 ) {
-    fun toEntity(): ProductionCompanyEntity = ProductionCompanyEntity(
-        id,
-        name,
-    )
+    fun toEntity(): ProductionCompanyEntity = ProductionCompanyEntity(id, name)
 }

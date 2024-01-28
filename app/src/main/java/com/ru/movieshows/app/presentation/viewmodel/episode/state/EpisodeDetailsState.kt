@@ -9,18 +9,23 @@ data class EpisodeDetailsState(
     val seasonNumber: String,
     val episodeNumber: Int,
     val title: String = "",
-    val status: EpisodeDetailsStatus = EpisodeDetailsStatus.Pure,
+    val status: EpisodeDetailsStatus = EpisodeDetailsStatus.Empty,
 )
 
 sealed class EpisodeDetailsStatus {
-    object Pure : EpisodeDetailsStatus()
+
+    object Empty : EpisodeDetailsStatus()
+
     object InPending : EpisodeDetailsStatus()
+
     data class Success(
         val season: SeasonEntity,
         val episode: EpisodeEntity,
     ) : EpisodeDetailsStatus()
+
     data class Failure(
         @StringRes val header: Int? = null,
         @StringRes val error: Int? = null,
     ): EpisodeDetailsStatus()
+
 }

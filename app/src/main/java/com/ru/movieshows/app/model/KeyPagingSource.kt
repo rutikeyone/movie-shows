@@ -2,6 +2,7 @@ package com.ru.movieshows.app.model
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+
 typealias KeyPageLoader<T> = suspend (key: String?) -> KeyResponseEntity<T>
 
 data class KeyResponseEntity<T>(
@@ -22,7 +23,6 @@ class KeyPagingSource<T : KeyEntity>(
     }
 
     override suspend fun load(params: LoadParams<String>): LoadResult<String, T> {
-
         return try {
             val response = loader(params.key)
 

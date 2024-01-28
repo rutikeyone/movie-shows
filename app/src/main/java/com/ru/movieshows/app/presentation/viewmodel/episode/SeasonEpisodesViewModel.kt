@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ru.movieshows.app.model.AppFailure
 import com.ru.movieshows.app.model.tv_shows.TvShowRepository
+import com.ru.movieshows.app.presentation.adapters.SimpleAdapterListener
 import com.ru.movieshows.app.presentation.screens.episodes.SeasonEpisodesFragmentArgs
 import com.ru.movieshows.app.presentation.screens.episodes.SeasonEpisodesFragmentDirections
 import com.ru.movieshows.app.presentation.sideeffects.navigator.Navigator
@@ -21,7 +22,7 @@ class SeasonEpisodesViewModel @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     @Assisted private val arguments: SeasonEpisodesFragmentArgs,
     private val tvShowRepository: TvShowRepository,
-) : BaseViewModel() {
+) : BaseViewModel(), SimpleAdapterListener<EpisodeEntity> {
 
     private val _state = MutableLiveData<SeasonEpisodesState>(SeasonEpisodesState.InPending)
     val state = _state.share()
@@ -64,10 +65,10 @@ class SeasonEpisodesViewModel @AssistedInject constructor(
         }
     }
 
-    fun navigateToEpisodeDetails(episode: EpisodeEntity) {
+    override fun onClickItem(data: EpisodeEntity) {
         val seriesId = arguments.seriesId
         val seasonNumber = arguments.seasonNumber
-        val episodeNumber = episode.episodeNumber ?: return
+        val episodeNumber = data.episodeNumber ?: return
         val direction = SeasonEpisodesFragmentDirections
         val action = direction.actionSeasonEpisodesFragmentToEpisodeDetailsFragment(
             seriesId = seriesId,

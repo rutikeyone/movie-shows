@@ -1,6 +1,7 @@
 package com.ru.movieshows.app.presentation.adapters.tv_shows
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
@@ -8,12 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.R
+import com.ru.movieshows.app.presentation.adapters.SimpleAdapterListener
 import com.ru.movieshows.databinding.SearchItemBinding
 import com.ru.movieshows.sources.tv_shows.entities.TvShowsEntity
 
 class TvShowSearchPaginationAdapter(
-    private val onTap:(TvShowsEntity) -> Unit,
-) : PagingDataAdapter<TvShowsEntity, TvShowSearchPaginationAdapter.Holder>(TvShowDiffItemCallback()) {
+    private val listener: SimpleAdapterListener<TvShowsEntity>,
+) : PagingDataAdapter<TvShowsEntity, TvShowSearchPaginationAdapter.Holder>(TvShowDiffItemCallback()), View.OnClickListener {
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val tvShow = getItem(position) ?: return
@@ -23,25 +25,28 @@ class TvShowSearchPaginationAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = SearchItemBinding.inflate(inflater, parent, false)
-        return Holder(binding, onTap)
+        binding.root.setOnClickListener(this)
+        return Holder(binding)
     }
 
-    class Holder(
-        private val binding: SearchItemBinding,
-        private val onTap: (TvShowsEntity) -> Unit,
-    ) : RecyclerView.ViewHolder(binding.root) {
+    override fun onClick(view: View) {
+        val item = view.tag as TvShowsEntity
+        listener.onClickItem(item)
+    }
 
-        fun bind(tvShow: TvShowsEntity) = with(binding.root) {
-            setOnClickListener { onTap(tvShow) }
-            bindTitle(tvShow)
-            setupBackDrop(tvShow)
-            bindRating(tvShow)
-            bindDescription(tvShow)
+    class Holder(private val binding: SearchItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(tvShow: TvShowsEntity) {
+            binding.root.tag = tvShow
+            bindTitleUI(tvShow)
+            setupBackDropUI(tvShow)
+            bindRatingUI(tvShow)
+            bindDescriptionUI(tvShow)
         }
 
-        private fun bindTitle(tvShow: TvShowsEntity) = with(binding.headerText) {
+        private fun bindTitleUI(tvShow: TvShowsEntity) = with(binding.headerText) {
             val name = tvShow.name
-            if(name != null) {
+            if (name != null) {
                 text = name
                 isVisible = true
             } else {
@@ -49,18 +54,17 @@ class TvShowSearchPaginationAdapter(
             }
         }
 
-        private fun bindDescription(tvShow: TvShowsEntity) = with(binding) {
+        private fun bindDescriptionUI(tvShow: TvShowsEntity) = with(binding) {
             val overview = tvShow.overview
-            if(overview != null) {
+            if (overview != null) {
                 descriptionText.text = tvShow.overview
                 descriptionText.isVisible = true
             } else {
                 descriptionText.isVisible = false
             }
-
         }
 
-        private fun bindRating(tvShow: TvShowsEntity) = with(binding) {
+        private fun bindRatingUI(tvShow: TvShowsEntity) = with(binding) {
             val rating = tvShow.rating
             ratingBar.isEnabled = false
             if (rating != null && rating > 0) {
@@ -77,9 +81,9 @@ class TvShowSearchPaginationAdapter(
             }
         }
 
-        private fun setupBackDrop(tvShow: TvShowsEntity) = with(binding.imageView) {
+        private fun setupBackDropUI(tvShow: TvShowsEntity) = with(binding.imageView) {
             val poster = tvShow.poster
-            if(!poster.isNullOrEmpty()) {
+            if (!poster.isNullOrEmpty()) {
                 Glide
                     .with(binding.root)
                     .load(poster)
@@ -98,6 +102,7 @@ class TvShowSearchPaginationAdapter(
                     .into(this)
             }
         }
+
     }
 
 }

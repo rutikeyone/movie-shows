@@ -37,7 +37,6 @@ data class GetMovieDetailsResponseModels(
         val productionCompanies = this.productionCompanies?.let { it ->
             ArrayList(it.map { it.toEntity() })
         }
-
         return MovieDetailsEntity(
             id,
             ArrayList(genres.map { it.toEntity() }),

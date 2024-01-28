@@ -8,8 +8,8 @@ import androidx.paging.LoadStateAdapter
 typealias TryAgainAction = () -> Unit
 
 class LoadStateAdapter(
-    private val tryAgainAction: TryAgainAction,
     private val context: Context,
+    private val tryAgainAction: TryAgainAction,
 ): LoadStateAdapter<DefaultLoadStateViewHolder>() {
 
     override fun onBindViewHolder(holder: DefaultLoadStateViewHolder, loadState: LoadState) {

@@ -6,6 +6,7 @@ import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.ru.movieshows.app.model.movies.MoviesRepository
+import com.ru.movieshows.app.presentation.adapters.SimpleAdapterListener
 import com.ru.movieshows.app.presentation.screens.movies.MovieSearchFragmentDirections
 import com.ru.movieshows.app.presentation.sideeffects.navigator.Navigator
 import com.ru.movieshows.app.presentation.viewmodel.BaseViewModel
@@ -24,15 +25,16 @@ import kotlinx.coroutines.launch
 class MovieSearchViewModel @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val moviesRepository: MoviesRepository,
-) : BaseViewModel(){
+) : BaseViewModel(), SimpleAdapterListener<MovieEntity> {
+
     val state = MediatorLiveData<MovieSearchState>()
 
     private var _query = MutableLiveData("")
     val query = _query.share()
+    val queryValue get() = if(_query.value.isNullOrEmpty()) null else _query.value
 
     private val _nowPlayingMovies = MutableLiveData<ArrayList<MovieEntity>?>()
 
-    val queryValue get() = if(_query.value.isNullOrEmpty()) null else _query.value
     val isSearchMode: Boolean get() = !_query.value.isNullOrEmpty()
 
     val searchMovies = state.asFlow().flatMapLatest {
@@ -40,22 +42,20 @@ class MovieSearchViewModel @AssistedInject constructor(
     }.cachedIn(viewModelScope)
 
     init {
-        configureMediatorState()
+        setupMediatorState()
         collectNowPlayingMovies()
     }
 
     private fun collectNowPlayingMovies() = viewModelScope.launch {
         languageTagFlow.collect { language ->
-            val fetchMoviesNowPlayingResult = moviesRepository.getNowPlayingMovies(
-                page = 1,
-                language = language
-            )
+            val firstPageIndex = 1
+            val fetchMoviesNowPlayingResult = moviesRepository.getNowPlayingMovies(language, firstPageIndex)
             val movies = fetchMoviesNowPlayingResult.getOrNull()
             _nowPlayingMovies.value = movies
         }
     }
 
-    private fun configureMediatorState() {
+    private fun setupMediatorState() {
         state.addSource(_query) { query ->
             val languageTag = languageTagState.value ?: return@addSource
             val nowPlayingMovies = _nowPlayingMovies.value
@@ -81,10 +81,15 @@ class MovieSearchViewModel @AssistedInject constructor(
         }
     }
 
-    fun navigateToMovieDetails(movie: MovieEntity){
-        val id = movie.id ?: return
+    override fun onClickItem(data: MovieEntity){
+        val id = data.id ?: return
         val action = MovieSearchFragmentDirections.actionMovieSearchFragmentToMovieDetailsFragment(id)
         navigator.navigate(action)
+    }
+
+    override fun onClickPosition(position: Int) {
+        val item = state.value?.nowPlayingMovies?.getOrNull(position) ?: return
+        onClickItem(item)
     }
 
     @AssistedFactory

@@ -7,15 +7,21 @@ import com.ru.movieshows.sources.movies.entities.ReviewEntity
 import com.ru.movieshows.sources.movies.entities.VideoEntity
 
 sealed class MovieDetailsState {
-    object InPending : MovieDetailsState()
+
+    object Empty: MovieDetailsState()
+
+    object Pending : MovieDetailsState()
+
     data class Success(
         val movieDetails: MovieDetailsEntity,
         val similarMovies: ArrayList<MovieEntity>,
         val videos: ArrayList<VideoEntity>,
         val reviews: ArrayList<ReviewEntity>,
     ): MovieDetailsState()
+
     data class Failure(
         @StringRes val header: Int? = null,
         @StringRes val error: Int? = null,
     ): MovieDetailsState()
+
 }

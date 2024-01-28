@@ -8,18 +8,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.R
+import com.ru.movieshows.app.presentation.adapters.SimpleAdapterListener
 import com.ru.movieshows.databinding.MovieTileViewPagerItemBinding
 import com.ru.movieshows.sources.movies.entities.MovieEntity
 
 class MoviesViewPagerAdapter(
     private val movies: ArrayList<MovieEntity>,
-    private val onTap: (MovieEntity) -> Unit,
-    ) : RecyclerView.Adapter<MoviesViewPagerAdapter.Holder>(){
+    private val listener: SimpleAdapterListener<MovieEntity>,
+) : RecyclerView.Adapter<MoviesViewPagerAdapter.Holder>(), View.OnClickListener {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
-        val item = inflater.inflate(R.layout.movie_tile_view_pager_item, parent, false)
-        return Holder(item, onTap)
+        val binding = MovieTileViewPagerItemBinding.inflate(inflater, parent, false)
+        binding.root.setOnClickListener(this)
+        return Holder(binding)
     }
 
     override fun getItemCount(): Int = if(movies.size > 10) 10 else movies.size
@@ -29,25 +31,22 @@ class MoviesViewPagerAdapter(
         holder.bind(item)
     }
 
+    override fun onClick(view: View) {
+        val movie = view.tag as MovieEntity
+        listener.onClickItem(movie)
+    }
+
     inner class Holder(
-        private val view: View,
-        private val onTap: (MovieEntity) -> Unit,
-        ) : RecyclerView.ViewHolder(view) {
+        private val binding: MovieTileViewPagerItemBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(movie: MovieEntity) {
-            val binding = MovieTileViewPagerItemBinding.bind(view).also {
-                it.root.setOnClickListener {
-                    onTap(movie)
-                }
-            }
-            bindTitle(binding, movie)
-            bindMovieImage(binding, movie)
+            binding.root.tag = movie
+            bindTitleUI(movie)
+            bindMovieImageUI(movie)
         }
 
-        private fun bindTitle(
-            binding: MovieTileViewPagerItemBinding,
-            movie: MovieEntity
-        ) = with(binding.movieName) {
+        private fun bindTitleUI(movie: MovieEntity) = with(binding.movieName) {
             val title = movie.title
 
             if(!title.isNullOrEmpty()) {
@@ -58,10 +57,7 @@ class MoviesViewPagerAdapter(
             }
         }
 
-        private fun bindMovieImage(
-            binding: MovieTileViewPagerItemBinding,
-            movie: MovieEntity
-        ) = with(binding.movieBackground) {
+        private fun bindMovieImageUI(movie: MovieEntity) = with(binding.movieBackground) {
             val backDrop = movie.backDrop
             if(!backDrop.isNullOrEmpty()) {
                 Glide
@@ -82,6 +78,7 @@ class MoviesViewPagerAdapter(
                     .into(this)
             }
         }
+
     }
 
 }

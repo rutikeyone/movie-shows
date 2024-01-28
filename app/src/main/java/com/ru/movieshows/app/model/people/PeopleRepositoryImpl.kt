@@ -22,5 +22,4 @@ class PeopleRepositoryImpl @Inject constructor(
             Either.Left(AppFailure.Empty)
         }
     }
-
 }

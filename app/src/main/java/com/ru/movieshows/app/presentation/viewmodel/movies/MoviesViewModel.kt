@@ -7,11 +7,12 @@ import com.ru.movieshows.R
 import com.ru.movieshows.app.model.AppFailure
 import com.ru.movieshows.app.model.genres.GenresRepository
 import com.ru.movieshows.app.model.movies.MoviesRepository
+import com.ru.movieshows.app.presentation.adapters.SimpleAdapterListener
 import com.ru.movieshows.app.presentation.screens.movies.MoviesFragmentDirections
 import com.ru.movieshows.app.presentation.sideeffects.navigator.Navigator
 import com.ru.movieshows.app.presentation.viewmodel.BaseViewModel
 import com.ru.movieshows.app.presentation.viewmodel.movies.state.DiscoverMoviesState
-import com.ru.movieshows.app.presentation.viewmodel.movies.state.MoviesState
+import com.ru.movieshows.app.presentation.viewmodel.movies.state.MovieState
 import com.ru.movieshows.app.utils.share
 import com.ru.movieshows.sources.genres.entities.GenreEntity
 import com.ru.movieshows.sources.movies.entities.MovieEntity
@@ -19,17 +20,18 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
+import java.lang.IllegalStateException
 
 class MoviesViewModel @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val moviesRepository: MoviesRepository,
     private val genresRepository: GenresRepository,
-): BaseViewModel() {
+): BaseViewModel(), SimpleAdapterListener<MovieEntity> {
 
-    private val _moviesState = MutableLiveData<MoviesState>()
-    val moviesState = _moviesState.share()
+    private val _movieState = MutableLiveData<MovieState>(MovieState.Empty)
+    val moviesState = _movieState.share()
 
-    private val _discoverMoviesState = MutableLiveData<DiscoverMoviesState>()
+    private val _discoverMoviesState = MutableLiveData<DiscoverMoviesState>(DiscoverMoviesState.Empty)
     val discoverMoviesState = _discoverMoviesState.share()
 
     private val _tabIndexState = MutableLiveData(0)
@@ -41,17 +43,17 @@ class MoviesViewModel @AssistedInject constructor(
 
     fun fetchMoviesData() = viewModelScope.launch {
         languageTagFlow.collect {
-            _moviesState.value = MoviesState.InPending
+            _movieState.value = MovieState.Pending
             try {
                 val nowPlayingMovies = fetchNowPlayingMovies(it)
                 val genres = fetchGenres(it)
                 val upcomingMovies = fetchUpcomingMovies(it).second
                 val popularMovies = fetchPopularMovies(it).second
                 val topRatedMovies = fetchTopRatedMovies(it).second
-                _moviesState.value  = MoviesState.Success(nowPlayingMovies, genres, upcomingMovies, popularMovies, topRatedMovies)
+                _movieState.value  = MovieState.Success(nowPlayingMovies, genres, upcomingMovies, popularMovies, topRatedMovies)
                 fetchDiscoverMovies()
             } catch (e: AppFailure) {
-                _moviesState.value = MoviesState.Failure(e.headerResource(), e.errorResource())
+                _movieState.value = MovieState.Failure(e.headerResource(), e.errorResource())
             }
         }
     }
@@ -62,7 +64,8 @@ class MoviesViewModel @AssistedInject constructor(
     }
 
     private suspend fun fetchNowPlayingMovies(language: String): ArrayList<MovieEntity> {
-        val fetchMoviesNowPlayingResult = moviesRepository.getNowPlayingMovies(page = 1, language = language)
+        val firstPageIndex = 1
+        val fetchMoviesNowPlayingResult = moviesRepository.getNowPlayingMovies(language, firstPageIndex)
         return fetchMoviesNowPlayingResult.getOrElse {
             throw it
         }
@@ -76,11 +79,11 @@ class MoviesViewModel @AssistedInject constructor(
     }
 
     fun fetchDiscoverMovies() = viewModelScope.launch {
-        val currentState = _moviesState.value ?: return@launch
-        if(currentState !is MoviesState.Success) return@launch
+        val currentState = _movieState.value ?: return@launch
+        if(currentState !is MovieState.Success) return@launch
         val genres = currentState.genres
         if(genres.isEmpty()) return@launch
-        _discoverMoviesState.value = DiscoverMoviesState.InPending
+        _discoverMoviesState.value = DiscoverMoviesState.Pending
         try {
             val genre = genres[tabIndexState]
             val id = genre.id
@@ -95,39 +98,44 @@ class MoviesViewModel @AssistedInject constructor(
     }
 
     private suspend fun fetchDiscoverMoviesByGenre(genre: GenreEntity): ArrayList<MovieEntity> {
-        val page = 1
-        val fetchDiscoverMovies = moviesRepository.getDiscoverMovies(languageTag, page, genre.id!!)
+        val genreId = genre.id ?: throw IllegalStateException()
+        val firstPageIndex = 1
+        val fetchDiscoverMovies = moviesRepository.getDiscoverMovies(
+            language = languageTag,
+            page = firstPageIndex,
+            withGenresId = genreId,
+        )
         return fetchDiscoverMovies.getOrElse {
             throw it
         }
     }
 
     private suspend fun fetchUpcomingMovies(language: String): Pair<Int, ArrayList<MovieEntity>> {
-        val page = 1
-        val fetchUpcomingMovies = moviesRepository.getUpcomingMovies(language, page)
+        val firstPageIndex = 1
+        val fetchUpcomingMovies = moviesRepository.getUpcomingMovies(language, firstPageIndex)
         return fetchUpcomingMovies.getOrElse {
             throw it
         }
     }
 
     private suspend fun fetchPopularMovies(language: String): Pair<Int, ArrayList<MovieEntity>> {
-        val page = 1
-        val fetchPopularMovies = moviesRepository.getPopularMovies(language, page)
+        val firstPageIndex = 1
+        val fetchPopularMovies = moviesRepository.getPopularMovies(language, firstPageIndex)
         return fetchPopularMovies.getOrElse {
             throw it
         }
     }
 
     private suspend fun fetchTopRatedMovies(language: String): Pair<Int, ArrayList<MovieEntity>> {
-        val page = 1
-        val fetchTopRatedMovies = moviesRepository.getTopRatedMovies(language, page)
+        val firstPageIndex = 1
+        val fetchTopRatedMovies = moviesRepository.getTopRatedMovies(language, firstPageIndex)
         return fetchTopRatedMovies.getOrElse {
             throw it
         }
     }
 
-    fun navigateToMovieDetails(movie: MovieEntity){
-        val id = movie.id ?: return
+    override fun onClickItem(data: MovieEntity){
+        val id = data.id ?: return
         val action = MoviesFragmentDirections.actionMoviesFragmentToMovieDetailsFragment(id)
         navigator.navigate(action)
     }
@@ -156,4 +164,5 @@ class MoviesViewModel @AssistedInject constructor(
     interface Factory {
         fun create(navigator: Navigator): MoviesViewModel
     }
+
 }

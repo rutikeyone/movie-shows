@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_180"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:layout_marginTop="@dimen/dp_16">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/imageCard"

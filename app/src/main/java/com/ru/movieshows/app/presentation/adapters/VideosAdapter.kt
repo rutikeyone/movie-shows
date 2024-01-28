@@ -3,6 +3,7 @@ package com.ru.movieshows.app.presentation.adapters
 import android.annotation.SuppressLint
 import android.app.ActionBar
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
@@ -13,15 +14,16 @@ import com.ru.movieshows.databinding.VideoItemBinding
 import com.ru.movieshows.sources.movies.entities.VideoEntity
 
 class VideosAdapter (
-    private val onTap: (VideoEntity) -> Unit,
-) : RecyclerView.Adapter<VideosAdapter.Holder>() {
+    private val listener: SimpleAdapterListener<VideoEntity>,
+) : RecyclerView.Adapter<VideosAdapter.Holder>(), View.OnClickListener {
 
     private var videos = arrayListOf<VideoEntity>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = VideoItemBinding.inflate(inflater, parent, false)
-        return Holder(binding, onTap)
+        binding.root.setOnClickListener(this)
+        return Holder(binding)
     }
 
     override fun getItemCount(): Int = videos.size
@@ -37,21 +39,25 @@ class VideosAdapter (
         notifyDataSetChanged()
     }
 
+    override fun onClick(view: View) {
+        val video = view.tag as VideoEntity
+        listener.onClickItem(video)
+    }
+
     class Holder(
-        private val binding: VideoItemBinding,
-        private val onTap: (VideoEntity) -> Unit,
+        private val binding: VideoItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(video: VideoEntity) = with(binding.root) {
-            setOnClickListener { onTap(video) }
-            bindLayoutParams(binding)
-            bindImageView(video, binding)
-            bindName(video, binding)
+        fun bind(video: VideoEntity) {
+            binding.root.tag = video
+            bindLayoutParamsUI()
+            bindImageViewUI(video)
+            bindNameUI(video)
         }
 
-        private fun bindName(video: VideoEntity, binding: VideoItemBinding) = with(binding.videoNameTextView) {
+        private fun bindNameUI(video: VideoEntity) = with(binding.videoNameTextView) {
             val name = video.name
-            if(!name.isNullOrEmpty()) {
+            if (!name.isNullOrEmpty()) {
                 text = name
                 isVisible = true
             } else {
@@ -59,9 +65,9 @@ class VideosAdapter (
             }
         }
 
-        private fun bindImageView(video: VideoEntity, binding: VideoItemBinding) = with(binding.videoImageView){
+        private fun bindImageViewUI(video: VideoEntity) = with(binding.videoImageView) {
             val image = video.image
-            if(!image.isNullOrEmpty()) {
+            if (!image.isNullOrEmpty()) {
                 Glide
                     .with(context)
                     .load(image)
@@ -81,13 +87,16 @@ class VideosAdapter (
             }
         }
 
-        private fun bindLayoutParams(binding: VideoItemBinding) = with(binding.root){
-            val layoutParams = ActionBar.LayoutParams(
-                resources.getDimensionPixelOffset(R.dimen.dp_120),
-                resources.getDimensionPixelOffset(R.dimen.dp_230),
-            )
-            this.layoutParams = layoutParams
+        private fun bindLayoutParamsUI() {
+            with(binding.root) {
+                val layoutParams = ActionBar.LayoutParams(
+                    resources.getDimensionPixelOffset(R.dimen.dp_120),
+                    resources.getDimensionPixelOffset(R.dimen.dp_230),
+                )
+                this.layoutParams = layoutParams
+            }
         }
+
     }
 
 }

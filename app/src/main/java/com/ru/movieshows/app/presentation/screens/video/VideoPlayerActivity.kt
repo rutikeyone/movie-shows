@@ -20,13 +20,66 @@ import dagger.hilt.android.AndroidEntryPoint
 @SuppressLint("SourceLockedOrientationActivity")
 @AndroidEntryPoint
 class VideoPlayerActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityVideoPlayerBinding
 
     private val arguments by navArgs<VideoPlayerActivityArgs>()
 
     private var youTubePlayer: YouTubePlayer? = null
+
     private var isFullscreen = false
 
+    private val fullScreenListener = object : FullscreenListener {
+        override fun onEnterFullscreen(fullscreenView: View, exitFullscreen: () -> Unit) {
+            isFullscreen = true
+            binding.fullScreenViewContainer.visibility = View.VISIBLE
+            binding.fullScreenViewContainer.addView(fullscreenView)
+
+            if (requestedOrientation != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+                requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+            }
+        }
+
+        override fun onExitFullscreen() {
+            isFullscreen = false
+            binding.fullScreenViewContainer.visibility = View.GONE
+            binding.fullScreenViewContainer.removeAllViews()
+
+            if (requestedOrientation != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+                requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            }
+        }
+    }
+
+    private val youTubePlayerListener = object : AbstractYouTubePlayerListener() {
+        override fun onReady(youTubePlayer: YouTubePlayer) {
+            this@VideoPlayerActivity.youTubePlayer = youTubePlayer
+            arguments.video.key?.let {
+                youTubePlayer.loadOrCueVideo(lifecycle, it, 0f)
+            }
+            if (this@VideoPlayerActivity.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                if (!isFullscreen) {
+                    this@VideoPlayerActivity.youTubePlayer?.toggleFullscreen()
+                }
+            }
+        }
+
+        override fun onStateChange(
+            youTubePlayer: YouTubePlayer,
+            state: PlayerConstants.PlayerState
+        ) = with(binding) {
+            if (state == PlayerConstants.PlayerState.BUFFERING) {
+                youtubePlayerPlaceholderView.isVisible = false
+                youtubePlayerView.isVisible = true
+            }
+            super.onStateChange(youTubePlayer, state)
+        }
+    }
+
+    private val iFramePlayerOptions = IFramePlayerOptions.Builder()
+        .controls(1)
+        .fullscreen(1)
+        .build()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,61 +100,11 @@ class VideoPlayerActivity : AppCompatActivity() {
         }
     }
 
-    private fun initYouTubePlayerView() = with(binding){
+    private fun initYouTubePlayerView() = with(binding) {
         youtubePlayerPlaceholderView.isVisible = true
         youtubePlayerView.isVisible = false
         lifecycle.addObserver(youtubePlayerView)
-        youtubePlayerView.addFullscreenListener(object : FullscreenListener {
-            override fun onEnterFullscreen(fullscreenView: View, exitFullscreen: () -> Unit) {
-                isFullscreen = true
-                binding.fullScreenViewContainer.visibility = View.VISIBLE
-                binding.fullScreenViewContainer.addView(fullscreenView)
-
-                if (requestedOrientation != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-                    requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
-                }
-            }
-
-            override fun onExitFullscreen() {
-                isFullscreen = false
-                binding.fullScreenViewContainer.visibility = View.GONE
-                binding.fullScreenViewContainer.removeAllViews()
-
-                if (requestedOrientation != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-                    requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-                }
-            }
-        })
-
-        val youTubePlayerListener = object : AbstractYouTubePlayerListener() {
-            override fun onReady(youTubePlayer: YouTubePlayer) {
-                this@VideoPlayerActivity.youTubePlayer = youTubePlayer
-                arguments.video.key?.let {
-                    youTubePlayer.loadOrCueVideo(lifecycle, it, 0f)
-                }
-                if (this@VideoPlayerActivity.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    if (!isFullscreen) {
-                        this@VideoPlayerActivity.youTubePlayer?.toggleFullscreen()
-                    }
-                }
-            }
-
-            override fun onStateChange(
-                youTubePlayer: YouTubePlayer,
-                state: PlayerConstants.PlayerState
-            ) {
-                if(state == PlayerConstants.PlayerState.BUFFERING) {
-                    youtubePlayerPlaceholderView.isVisible = false
-                    youtubePlayerView.isVisible = true
-                }
-                super.onStateChange(youTubePlayer, state)
-            }
-        }
-
-        val iFramePlayerOptions = IFramePlayerOptions.Builder()
-            .controls(1)
-            .fullscreen(1)
-            .build()
+        youtubePlayerView.addFullscreenListener(fullScreenListener)
 
         youtubePlayerView.enableAutomaticInitialization = false
         youtubePlayerView.initialize(youTubePlayerListener, iFramePlayerOptions)

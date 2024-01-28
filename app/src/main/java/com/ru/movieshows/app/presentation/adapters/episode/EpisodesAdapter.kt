@@ -3,23 +3,26 @@ package com.ru.movieshows.app.presentation.adapters.episode
 import android.annotation.SuppressLint
 import android.app.ActionBar
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.R
+import com.ru.movieshows.app.presentation.adapters.SimpleAdapterListener
 import com.ru.movieshows.databinding.EpisodeItemBinding
 import com.ru.movieshows.sources.tv_shows.entities.EpisodeEntity
 
 class EpisodesAdapter(
     private val episodes: ArrayList<EpisodeEntity>,
-    private val onTap: (EpisodeEntity) -> Unit,
-) : RecyclerView.Adapter<EpisodesAdapter.Holder>() {
+    private val listener: SimpleAdapterListener<EpisodeEntity>,
+) : RecyclerView.Adapter<EpisodesAdapter.Holder>(), View.OnClickListener {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = EpisodeItemBinding.inflate(inflater, parent, false)
+        binding.root.setOnClickListener(this)
         return Holder(binding)
     }
 
@@ -27,28 +30,27 @@ class EpisodesAdapter(
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val episode = episodes[position]
-        holder.bind(episode, onTap)
+        holder.bind(episode)
+    }
+
+    override fun onClick(v: View) {
+        val episode = v.tag as EpisodeEntity
+        listener.onClickItem(episode)
     }
 
     inner class Holder(
         private val binding: EpisodeItemBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(
-            episode: EpisodeEntity,
-            onTap: (EpisodeEntity) -> Unit,
-        ) {
-            binding.root.setOnClickListener { onTap(episode) }
-            bindLayoutParams(binding)
-            bindEpisodeName(episode, binding)
-            bindEpisodeImage(episode, binding)
-            bindRating(binding, episode.rating)
+        fun bind(episode: EpisodeEntity) {
+            binding.root.tag = episode
+            //bindLayoutParamsUI()
+            bindEpisodeNameUI(episode)
+            bindEpisodeImageUI(episode)
+            bindRatingUI(episode.rating)
         }
 
-        private fun bindEpisodeImage(
-            episode: EpisodeEntity,
-            binding: EpisodeItemBinding
-        ) = with(binding.episodeImageView) {
+        private fun bindEpisodeImageUI(episode: EpisodeEntity) = with(binding.episodeImageView) {
             val poster = episode.stillPath
             val context = this.context
             if(!poster.isNullOrEmpty()) {
@@ -71,10 +73,7 @@ class EpisodesAdapter(
             }
         }
 
-        private fun bindEpisodeName(
-            episode: EpisodeEntity,
-            binding: EpisodeItemBinding
-        ) = with(binding.tvShowNameTextView) {
+        private fun bindEpisodeNameUI(episode: EpisodeEntity) = with(binding.tvShowNameTextView) {
             val title = episode.name
             if(!title.isNullOrEmpty()) {
                 text = title
@@ -84,19 +83,8 @@ class EpisodesAdapter(
             }
         }
 
-        private fun bindLayoutParams(binding: EpisodeItemBinding) = with(binding.root) {
-            val layoutParams = ActionBar.LayoutParams(
-                resources.getDimensionPixelOffset(R.dimen.dp_120),
-                resources.getDimensionPixelOffset(R.dimen.dp_250),
-            )
-            this.layoutParams = layoutParams
-        }
-
         @SuppressLint("SetTextI18n")
-        private fun bindRating(
-            binding: EpisodeItemBinding,
-            rating: Double?,
-        ) = with(binding) {
+        private fun bindRatingUI(rating: Double?) = with(binding) {
             ratingBar.isEnabled = false
             if (rating != null && rating > 0) {
                 val value = rating.toFloat()
@@ -110,6 +98,7 @@ class EpisodesAdapter(
                 ratingContainer.isVisible = false
             }
         }
+
     }
 
 }

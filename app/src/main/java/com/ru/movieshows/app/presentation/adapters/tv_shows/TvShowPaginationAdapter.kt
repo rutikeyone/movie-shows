@@ -2,6 +2,7 @@ package com.ru.movieshows.app.presentation.adapters.tv_shows
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
@@ -9,12 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.R
+import com.ru.movieshows.app.presentation.adapters.SimpleAdapterListener
 import com.ru.movieshows.databinding.TvShowsItemBinding
 import com.ru.movieshows.sources.tv_shows.entities.TvShowsEntity
 
 class TvShowPaginationAdapter(
-    private val onTap: (TvShowsEntity) -> Unit,
-) : PagingDataAdapter<TvShowsEntity, TvShowPaginationAdapter.Holder>(TvShowDiffItemCallback()) {
+    private val listener: SimpleAdapterListener<TvShowsEntity>,
+) : PagingDataAdapter<TvShowsEntity, TvShowPaginationAdapter.Holder>(TvShowDiffItemCallback()), View.OnClickListener {
 
     override fun getItemViewType(position: Int): Int {
         return if (position == itemCount) TV_SHOW_ITEM else LOADING_ITEM
@@ -28,27 +30,29 @@ class TvShowPaginationAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = TvShowsItemBinding.inflate(inflater, parent, false)
-        return Holder(binding, onTap)
+        binding.root.setOnClickListener(this)
+        return Holder(binding)
+    }
+
+    override fun onClick(view: View) {
+        val tvShows = view.tag as TvShowsEntity
+        listener.onClickItem(tvShows)
     }
 
     class Holder(
-        private val binding: TvShowsItemBinding,
-        private val onTap: (TvShowsEntity) -> Unit,
+        private val binding: TvShowsItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(tvShow: TvShowsEntity) {
-            binding.root.setOnClickListener { onTap(tvShow) }
-            bindTvShowName(tvShow, binding)
-            bindTvShowImage(tvShow, binding)
-            bindMovieRating(binding, tvShow.rating)
+            binding.root.tag = tvShow
+            bindTvShowNameUI(tvShow)
+            bindTvShowImageUI(tvShow)
+            bindMovieRatingUI(tvShow.rating)
         }
 
-        private fun bindTvShowImage(
-            tvShow: TvShowsEntity,
-            binding: TvShowsItemBinding
-        ) = with(binding.tvShowsMovieImage) {
+        private fun bindTvShowImageUI(tvShow: TvShowsEntity) = with(binding.tvShowsMovieImage) {
             val poster = tvShow.poster
-            if(!poster.isNullOrEmpty()) {
+            if (!poster.isNullOrEmpty()) {
                 Glide
                     .with(context)
                     .load(poster)
@@ -68,12 +72,9 @@ class TvShowPaginationAdapter(
             }
         }
 
-        private fun bindTvShowName(
-            tvShow: TvShowsEntity,
-            binding: TvShowsItemBinding
-        ) = with(binding.tvShowNameTextView) {
+        private fun bindTvShowNameUI(tvShow: TvShowsEntity) = with(binding.tvShowNameTextView) {
             val title = tvShow.name
-            if(!title.isNullOrEmpty()) {
+            if (!title.isNullOrEmpty()) {
                 text = title
                 isVisible = true
             } else {
@@ -82,12 +83,9 @@ class TvShowPaginationAdapter(
         }
 
         @SuppressLint("SetTextI18n")
-        private fun bindMovieRating(
-            binding: TvShowsItemBinding,
-            rating: Double?,
-        ) = with(binding){
+        private fun bindMovieRatingUI(rating: Double?) = with(binding) {
             ratingBar.isEnabled = false
-            if(rating != null) {
+            if (rating != null) {
                 val ratingText = "%.2f".format(rating)
                 val value = (rating.toFloat() / 2)
                 ratingValue.text = ratingText
@@ -101,7 +99,6 @@ class TvShowPaginationAdapter(
                 ratingContainer.isVisible = false
             }
         }
-
     }
 
     companion object {

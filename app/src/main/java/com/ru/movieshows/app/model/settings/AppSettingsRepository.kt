@@ -11,4 +11,5 @@ interface AppSettingsRepository {
     fun getIsFirstLaunch(): Boolean
 
     fun setIsFirstLaunch(value: Boolean)
+
 }

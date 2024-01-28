@@ -1,10 +1,12 @@
 package com.ru.movieshows.app.presentation.viewmodel.tv_shows
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import arrow.core.getOrElse
 import com.ru.movieshows.app.model.AppFailure
 import com.ru.movieshows.app.model.tv_shows.TvShowRepository
+import com.ru.movieshows.app.presentation.adapters.SimpleAdapterListener
 import com.ru.movieshows.app.presentation.screens.tv_shows.TvShowsFragmentDirections
 import com.ru.movieshows.app.presentation.sideeffects.navigator.Navigator
 import com.ru.movieshows.app.presentation.viewmodel.BaseViewModel
@@ -19,9 +21,9 @@ import kotlinx.coroutines.launch
 class TvShowsViewModel @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val tvShowsRepository: TvShowRepository,
-) : BaseViewModel() {
+) : BaseViewModel(), SimpleAdapterListener<TvShowsEntity> {
 
-    private val _state = MutableLiveData<TvShowsState>()
+    private val _state = MutableLiveData<TvShowsState>(TvShowsState.Empty)
     val state = _state.share()
 
     init {
@@ -76,8 +78,8 @@ class TvShowsViewModel @AssistedInject constructor(
         navigator.navigate(action)
     }
 
-    fun navigateToTvShowDetails(tvShow: TvShowsEntity) {
-        val id = tvShow.id ?: return
+    override fun onClickItem(data: TvShowsEntity) {
+        val id = data.id ?: return
         val action = TvShowsFragmentDirections.actionTvsFragmentToTvShowDetailsFragment(id)
         navigator.navigate(action)
     }
@@ -95,10 +97,6 @@ class TvShowsViewModel @AssistedInject constructor(
     fun navigateToPopularTvShows() {
         val action = TvShowsFragmentDirections.actionTvsFragmentToPopularTvShowsFragment()
         navigator.navigate(action)
-    }
-
-    override fun onCleared() {
-        super.onCleared()
     }
 
     @AssistedFactory

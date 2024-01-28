@@ -16,8 +16,9 @@ import com.ru.movieshows.app.presentation.adapters.LoadStateAdapter
 import com.ru.movieshows.app.presentation.adapters.TryAgainAction
 import com.ru.movieshows.app.presentation.adapters.reviews.ReviewsPaginationAdapter
 import com.ru.movieshows.app.presentation.screens.BaseFragment
+import com.ru.movieshows.app.presentation.screens.movies.LoadStateListener
 import com.ru.movieshows.app.presentation.viewmodel.tv_shows.TvShowReviewsViewModel
-import com.ru.movieshows.app.utils.clearDecorations
+import com.ru.movieshows.app.utils.applyDecoration
 import com.ru.movieshows.app.utils.viewBinding
 import com.ru.movieshows.app.utils.viewModelCreator
 import com.ru.movieshows.databinding.FragmentTvReviewsBinding
@@ -33,6 +34,7 @@ class TvReviewsFragment : BaseFragment() {
 
     @Inject
     lateinit var factory: TvShowReviewsViewModel.Factory
+
     override val viewModel by viewModelCreator {
         factory.create(
             tvShowId = arguments.tvShowId
@@ -40,7 +42,12 @@ class TvReviewsFragment : BaseFragment() {
     }
 
     private val binding by viewBinding<FragmentTvReviewsBinding>()
+
     private var adapter: ReviewsPaginationAdapter? = null
+
+    private val loadStateLoader: LoadStateListener = { state ->
+        configureUI(state)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,37 +57,40 @@ class TvReviewsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        collectUiState()
+        collectState()
     }
 
     private fun initView() {
-        val itemDecoration = ItemDecoration(metrics = resources.displayMetrics)
+        val context = requireContext()
+        val itemDecoration = ItemDecoration(halfPadding = false)
         val tryAgainAction: TryAgainAction = { adapter?.retry() }
-        adapter = ReviewsPaginationAdapter()
-        binding.reviewsRecyclerView.adapter = adapter?.withLoadStateHeaderAndFooter(
-            header = LoadStateAdapter(tryAgainAction, requireContext()),
-            footer = LoadStateAdapter(tryAgainAction, requireContext())
-        )
-        adapter?.addLoadStateListener { loadState -> handleUI(loadState) }
-        with(binding.reviewsRecyclerView) {
-            clearDecorations()
-            addItemDecoration(itemDecoration)
+
+        adapter = ReviewsPaginationAdapter().apply {
+            addLoadStateListener(loadStateLoader)
         }
-        binding.failurePart.retryButton.setOnClickListener { adapter?.retry() }
+
+        with(binding) {
+            failurePart.retryButton.setOnClickListener { adapter?.retry() }
+            reviewsRecyclerView.adapter = adapter?.withLoadStateFooter(
+                LoadStateAdapter(context, tryAgainAction)
+            )
+            reviewsRecyclerView.applyDecoration(itemDecoration)
+        }
     }
 
     override fun onDestroyView() {
+        adapter?.removeLoadStateListener(loadStateLoader)
+        adapter = null
         super.onDestroyView()
-        adapter = null;
     }
 
-    private fun collectUiState() = viewLifecycleOwner.lifecycleScope.launch {
+    private fun collectState() = viewLifecycleOwner.lifecycleScope.launch {
         viewModel.reviews.collectLatest { movies ->
             adapter?.submitData(movies)
         }
     }
 
-    private fun handleUI(loadState: CombinedLoadStates) {
+    private fun configureUI(loadState: CombinedLoadStates) {
         val isListEmpty = loadState.refresh is LoadState.NotLoading && adapter?.itemCount == 0
         val showReviews = !isListEmpty || loadState.source.refresh is LoadState.NotLoading
         binding.reviewsRecyclerView.isVisible = showReviews
@@ -88,7 +98,7 @@ class TvReviewsFragment : BaseFragment() {
         configureFailurePart(loadState)
     }
 
-    private fun configureFailurePart(loadState: CombinedLoadStates) = with(binding){
+    private fun configureFailurePart(loadState: CombinedLoadStates) = with(binding) {
         failurePart.root.isVisible = loadState.source.refresh is LoadState.Error
         if(loadState.source.refresh !is LoadState.Error) return
         val errorState = loadState.refresh as LoadState.Error

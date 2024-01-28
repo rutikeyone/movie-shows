@@ -6,11 +6,9 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.DividerItemDecoration
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.flexbox.FlexDirection
@@ -18,6 +16,7 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.ru.movieshows.R
 import com.ru.movieshows.app.presentation.adapters.InfoAdapter
+import com.ru.movieshows.app.presentation.adapters.SimpleAdapterListener
 import com.ru.movieshows.app.presentation.adapters.VideosAdapter
 import com.ru.movieshows.app.presentation.adapters.tv_shows.CreatorAdapter
 import com.ru.movieshows.app.presentation.adapters.tv_shows.SeasonAdapter
@@ -25,12 +24,12 @@ import com.ru.movieshows.app.presentation.screens.BaseFragment
 import com.ru.movieshows.app.presentation.viewmodel.tv_shows.TvShowDetailsViewModel
 import com.ru.movieshows.app.presentation.viewmodel.tv_shows.state.TvShowDetailsState
 import com.ru.movieshows.app.utils.OnTouchListener
-import com.ru.movieshows.app.utils.clearDecorations
+import com.ru.movieshows.app.utils.applyDecoration
 import com.ru.movieshows.app.utils.observeEvent
+import com.ru.movieshows.app.utils.viewBinding
 import com.ru.movieshows.app.utils.viewModelCreator
 import com.ru.movieshows.databinding.FailurePartBinding
 import com.ru.movieshows.databinding.FragmentTvShowDetailsBinding
-import com.ru.movieshows.databinding.ReviewItemBinding
 import com.ru.movieshows.sources.movies.entities.ReviewEntity
 import com.ru.movieshows.sources.movies.entities.VideoEntity
 import com.ru.movieshows.sources.people.entities.PersonEntity
@@ -43,13 +42,14 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class TvShowDetailsFragment : BaseFragment() {
+
     private val args by navArgs<TvShowDetailsFragmentArgs>()
 
-    private var _binding: FragmentTvShowDetailsBinding? = null
-    private val binding get() = _binding!!
+    private val binding by viewBinding<FragmentTvShowDetailsBinding>()
 
     @Inject
     lateinit var factory: TvShowDetailsViewModel.Factory
+
     override val viewModel by viewModelCreator {
         factory.create(
             tvShowId = args.id,
@@ -59,14 +59,24 @@ class TvShowDetailsFragment : BaseFragment() {
         )
     }
 
+    private val personSimpleListener = object : SimpleAdapterListener<CreatorEntity> {
+        override fun onClickItem(data: CreatorEntity) {
+            val id = data.id ?: return
+            viewModel.getPersonDetails(id)
+        }
+    }
+
+    private val seasonSimpleListener = object : SimpleAdapterListener<SeasonEntity> {
+        override fun onClickItem(data: SeasonEntity) {
+            showSeasonModalBottomSheet(data)
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentTvShowDetailsBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    ): View = inflater.inflate(R.layout.fragment_tv_show_details, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -95,31 +105,26 @@ class TvShowDetailsFragment : BaseFragment() {
         val tvShow = state.tvShow
         val reviews = state.reviews
         this.isVisible = true
-        configureBackDrop(tvShow)
-        configurePoster(tvShow)
-        configureRating(tvShow)
-        configureCountEpisodes(tvShow)
-        configureReleaseDate(tvShow)
-        configureOverview(tvShow)
-        configureGenres(tvShow)
-        configureProductionCompanies(tvShow)
-        configureCreatedBy(tvShow)
-        configureSeasons(tvShow)
-        configureVideos(state.videos)
-        configureReview(reviews)
+        configureBackDropUI(tvShow)
+        configurePosterUI(tvShow)
+        configureRatingUI(tvShow)
+        configureCountEpisodesUI(tvShow)
+        configureReleaseDateUI(tvShow)
+        configureOverviewUI(tvShow)
+        configureGenresUI(tvShow)
+        configureProductionCompaniesUI(tvShow)
+        configureCreatedByUI(tvShow)
+        configureSeasonsUI(tvShow)
+        configureVideosUI(state.videos)
+        configureReviewUI(reviews)
     }
 
-    private fun configureVideos(videos: ArrayList<VideoEntity>) {
+    private fun configureVideosUI(videos: ArrayList<VideoEntity>) {
         if (videos.isNotEmpty()) {
-            val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.HORIZONTAL).apply {
-                ContextCompat.getDrawable(requireContext(), R.drawable.divider)
-                    ?.let { this.setDrawable(it) }
-            }
-            val adapter = VideosAdapter(::navigateToVideo).also { it.updateData(videos) }
+            val videoAdapter = VideosAdapter(viewModel).also { it.updateData(videos) }
             with(binding.videosRecyclerView) {
-                clearDecorations()
-                this.adapter = adapter
-                addItemDecoration(decoration)
+                this.adapter = videoAdapter
+                applyDecoration()
             }
         } else {
             binding.videosTextView.visibility = View.GONE
@@ -127,20 +132,13 @@ class TvShowDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun configureSeasons(
-        tvShow: TvShowDetailsEntity
-    ) = with(binding) {
+    private fun configureSeasonsUI(tvShow: TvShowDetailsEntity) = with(binding) {
         val seasonsValue = tvShow.seasons
         if(!seasonsValue.isNullOrEmpty()) {
-            val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.HORIZONTAL).apply {
-                ContextCompat.getDrawable(requireContext(), R.drawable.divider)
-                    ?.let { this.setDrawable(it) }
-            }
-            val adapter = SeasonAdapter(seasonsValue, ::showSeasonModalBottomSheet)
+            val seasonAdapter = SeasonAdapter(seasonsValue, seasonSimpleListener)
             with(seasonsRecyclerView) {
-                clearDecorations()
-                this.adapter = adapter
-                addItemDecoration(decoration)
+                this.adapter = seasonAdapter
+                applyDecoration()
             }
         } else {
             seasonsHeader.isVisible = false
@@ -166,18 +164,13 @@ class TvShowDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun configureCreatedBy(tvShow: TvShowDetailsEntity) = with(binding) {
+    private fun configureCreatedByUI(tvShow: TvShowDetailsEntity) = with(binding) {
         val createdBy = tvShow.createdBy
         if(!createdBy.isNullOrEmpty()) {
-            val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.HORIZONTAL).apply {
-                ContextCompat.getDrawable(requireContext(), R.drawable.divider)
-                    ?.let { this.setDrawable(it) }
-            }
-            val adapter = CreatorAdapter(createdBy, ::showPersonModalBottomSheetCallback)
+            val creatorAdapter = CreatorAdapter(createdBy, personSimpleListener)
             with(creators) {
-                clearDecorations()
-                this.adapter = adapter
-                addItemDecoration(decoration)
+                this.adapter = creatorAdapter
+                applyDecoration()
             }
         } else {
             createdByHeader.isVisible = false
@@ -185,12 +178,7 @@ class TvShowDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun showPersonModalBottomSheetCallback(creator: CreatorEntity) {
-        val id = creator.id ?: return
-        viewModel.getPersonDetails(id)
-    }
-
-    private fun configureOverview(tvShow: TvShowDetailsEntity) = with(binding){
+    private fun configureOverviewUI(tvShow: TvShowDetailsEntity) = with(binding) {
         val overview = tvShow.overview
         val nullOrEmpty = overview.isNullOrEmpty()
         if(!nullOrEmpty) {
@@ -202,7 +190,7 @@ class TvShowDetailsFragment : BaseFragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun configureRating(tvShow: TvShowDetailsEntity) = with(binding) {
+    private fun configureRatingUI(tvShow: TvShowDetailsEntity) = with(binding) {
         binding.ratingBar.isEnabled = false
         val rating = tvShow.rating ?: return@with
         if(rating > 0) {
@@ -214,7 +202,7 @@ class TvShowDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun configurePoster(tvShow: TvShowDetailsEntity) = with(binding.tvShowsPosterImageView) {
+    private fun configurePosterUI(tvShow: TvShowDetailsEntity) = with(binding.tvShowsPosterImageView) {
         val poster = tvShow.poster
         if(!poster.isNullOrEmpty()) {
             Glide
@@ -236,7 +224,7 @@ class TvShowDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun configureBackDrop(tvShow: TvShowDetailsEntity) = with(binding.backDrop) {
+    private fun configureBackDropUI(tvShow: TvShowDetailsEntity) = with(binding.backDrop) {
         val backDrop = tvShow.backDrop
         if(!backDrop.isNullOrEmpty()) {
             Glide
@@ -255,13 +243,13 @@ class TvShowDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun configureCountEpisodes(tvShow: TvShowDetailsEntity) = with(binding.countEpisodesValue) {
+    private fun configureCountEpisodesUI(tvShow: TvShowDetailsEntity) = with(binding.countEpisodesValue) {
         val countEpisodes = tvShow.numberOfEpisodes ?: return@with
         text = countEpisodes.toString()
     }
 
     @SuppressLint("SimpleDateFormat")
-    private fun configureReleaseDate(tvShow: TvShowDetailsEntity) {
+    private fun configureReleaseDateUI(tvShow: TvShowDetailsEntity) {
         if (tvShow.firstAirDate != null) {
             val simpleDateFormatter = SimpleDateFormat("d MMMM yyyy")
             val date = simpleDateFormatter.format(tvShow.firstAirDate)
@@ -286,8 +274,8 @@ class TvShowDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun configureInPendingUI() = with(binding.progressContainer) {
-        isVisible = true
+    private fun configureInPendingUI() {
+        binding.progressContainer.isVisible = true
     }
 
     private fun handleTitleState(value: String?) {
@@ -298,7 +286,7 @@ class TvShowDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun configureGenres(tvShowDetails: TvShowDetailsEntity) {
+    private fun configureGenresUI(tvShowDetails: TvShowDetailsEntity) {
         val genres = tvShowDetails.genres
         if (!genres.isNullOrEmpty()) {
             val layoutManager = FlexboxLayoutManager(requireContext())
@@ -314,7 +302,7 @@ class TvShowDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun configureProductionCompanies(tvShowDetails: TvShowDetailsEntity) {
+    private fun configureProductionCompaniesUI(tvShowDetails: TvShowDetailsEntity) {
         val  productionCompanies = tvShowDetails.productionCompanies
         if (!productionCompanies.isNullOrEmpty()) {
             val layoutManager = FlexboxLayoutManager(requireContext())
@@ -330,31 +318,24 @@ class TvShowDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun configureReview(reviews: ArrayList<ReviewEntity>) {
-        val reviewBinding = binding.reviewItem
-
-        with(reviewBinding) {
-            if(reviews.isNotEmpty()) {
-                val review = reviews.first()
-                configureReviewAuthor(this, review)
-                configureReviewRating(this, review)
-                configureReviewContent(this, review)
-                configureReviewAvatar(review, reviewBinding)
-                this@TvShowDetailsFragment.binding.showAllReviewsButton.setOnClickListener {
-                    viewModel.navigateToTvReviews()
-                }
-            } else {
-                this@TvShowDetailsFragment.binding.reviewsHeaderTextView.isVisible = false
-                this@TvShowDetailsFragment.binding.showAllReviewsButton.isVisible = false
-                this.reviewTile.isVisible = false
+    private fun configureReviewUI(reviews: ArrayList<ReviewEntity>) {
+        if(reviews.isNotEmpty()) {
+            val review = reviews.first()
+            configureReviewAuthorUI(review)
+            configureReviewRatingUI( review)
+            configureReviewContentUI(review)
+            configureReviewAvatarUI(review)
+            this@TvShowDetailsFragment.binding.showAllReviewsButton.setOnClickListener {
+                viewModel.navigateToTvReviews()
             }
+        } else {
+            this@TvShowDetailsFragment.binding.reviewsHeaderTextView.isVisible = false
+            this@TvShowDetailsFragment.binding.showAllReviewsButton.isVisible = false
+            binding.reviewItem.reviewTile.isVisible = false
         }
     }
 
-    private fun configureReviewAvatar(
-        review: ReviewEntity,
-        reviewBinding: ReviewItemBinding,
-    ) = with(reviewBinding.avatarImageView) {
+    private fun configureReviewAvatarUI(review: ReviewEntity) = with(binding.reviewItem.avatarImageView) {
         val avatar = review.authorDetails?.avatar
         if(!avatar.isNullOrEmpty()) {
             Glide
@@ -364,7 +345,7 @@ class TvShowDetailsFragment : BaseFragment() {
                 .placeholder(R.drawable.poster_placeholder_bg)
                 .error(R.drawable.poster_placeholder_bg)
                 .transition(DrawableTransitionOptions.withCrossFade())
-                .into(reviewBinding.avatarImageView)
+                .into(this)
         } else {
             Glide
                 .with(requireContext())
@@ -372,33 +353,25 @@ class TvShowDetailsFragment : BaseFragment() {
                 .placeholder(R.drawable.poster_placeholder_bg)
                 .error(R.drawable.poster_placeholder_bg)
                 .centerCrop()
-                .into(reviewBinding.avatarImageView)
+                .into(this)
         }
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun configureReviewContent(
-        binding: ReviewItemBinding,
-        review: ReviewEntity,
-    ) = with(binding) {
+    private fun configureReviewContentUI(review: ReviewEntity) = with(binding.reviewItem.reviewTextView) {
         val content = review.content
-        with(this.reviewTextView) {
-            if (!content.isNullOrEmpty()) {
-                val value = Html.fromHtml(content, HtmlCompat.FROM_HTML_MODE_LEGACY)
-                val onTouchListener = OnTouchListener()
-                text = value
-                isVisible = true
-                setOnTouchListener(onTouchListener)
-            } else {
-                isVisible = false
-            }
+        if (!content.isNullOrEmpty()) {
+            val value = Html.fromHtml(content, HtmlCompat.FROM_HTML_MODE_LEGACY)
+            val onTouchListener = OnTouchListener()
+            text = value
+            isVisible = true
+            setOnTouchListener(onTouchListener)
+        } else {
+            isVisible = false
         }
     }
 
-    private fun configureReviewAuthor(
-        binding: ReviewItemBinding,
-        review: ReviewEntity,
-    ) = with(binding) {
+    private fun configureReviewAuthorUI(review: ReviewEntity) = with(binding.reviewItem) {
         val author = review.author
         if (!author.isNullOrEmpty()) {
             this.reviewerHeaderView.text = author
@@ -407,10 +380,7 @@ class TvShowDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun configureReviewRating(
-        binding: ReviewItemBinding,
-        review: ReviewEntity,
-    ) = with(binding) {
+    private fun configureReviewRatingUI(review: ReviewEntity) = with(binding.reviewItem) {
         val rating = review.authorDetails?.rating?.toFloat()
         if (rating != null && rating > 2) {
             val result = rating / 2
@@ -420,13 +390,6 @@ class TvShowDetailsFragment : BaseFragment() {
             this.ratingBar.isVisible = false
         }
     }
-
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
-    }
-
-    private fun navigateToVideo(video: VideoEntity) = viewModel.navigateToVideo(video)
 
     companion object {
         const val SEASON_DETAILS_MODAL_BOTTOM_SHEET_TAG = "ModalBottomSheetTag"

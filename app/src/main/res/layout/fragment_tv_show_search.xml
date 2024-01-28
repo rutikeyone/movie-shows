@@ -38,7 +38,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:visibility="gone">
 
             <TextView
                 android:id="@+id/maybeYouAreLookingForTextView"
@@ -66,8 +67,8 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/search_hint_item"
                 android:layout_marginTop="@dimen/dp_8"
+                tools:visibility="gone"
                 />
-
 
         </LinearLayout>
 
@@ -84,10 +85,10 @@
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/successContainer"
-        app:constraint_referenced_ids="tvShows, searchHintScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:visibility="visible"/>
+        app:constraint_referenced_ids="tvShowsRecyclerView, searchHintScrollView"
+        tools:visibility="visible" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/failureContainer"

@@ -23,5 +23,14 @@ data class VideoModel(
         }
     }
 
-    fun toEntity(): VideoEntity = VideoEntity(id, key, name, site, type, image)
+    fun toEntity(): VideoEntity {
+        return VideoEntity(
+            id,
+            key,
+            name,
+            site,
+            type,
+            image
+        )
+    }
 }

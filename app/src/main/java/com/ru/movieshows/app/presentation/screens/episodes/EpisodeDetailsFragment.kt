@@ -11,14 +11,12 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.R
-import com.ru.movieshows.app.presentation.adapters.ItemDecoration
 import com.ru.movieshows.app.presentation.adapters.episode.CrewAdapter
 import com.ru.movieshows.app.presentation.screens.BaseFragment
 import com.ru.movieshows.app.presentation.screens.tv_shows.PersonDetailsBottomSheetDialogFragment
-import com.ru.movieshows.app.presentation.screens.tv_shows.TvShowDetailsFragment
 import com.ru.movieshows.app.presentation.viewmodel.episode.EpisodeDetailsViewModel
 import com.ru.movieshows.app.presentation.viewmodel.episode.state.EpisodeDetailsStatus
-import com.ru.movieshows.app.utils.clearDecorations
+import com.ru.movieshows.app.utils.applyDecoration
 import com.ru.movieshows.app.utils.observeEvent
 import com.ru.movieshows.app.utils.viewBinding
 import com.ru.movieshows.app.utils.viewModelCreator
@@ -40,6 +38,7 @@ class EpisodeDetailsFragment : BaseFragment() {
 
     @Inject
     lateinit var factory: EpisodeDetailsViewModel.Factory
+
     override val viewModel by viewModelCreator {
         factory.create(
             arguments = arguments,
@@ -56,8 +55,8 @@ class EpisodeDetailsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.observe(viewLifecycleOwner) { state ->
-            configureTitle(state.title)
-            handleStatus(state.status)
+            configureTitleUI(state.title)
+            handleEpisodeStatus(state.status)
         }
         viewModel.showPeopleDetailsEvent.observeEvent(viewLifecycleOwner, ::showPeopleDetailsModalBottomSheet)
     }
@@ -67,10 +66,10 @@ class EpisodeDetailsFragment : BaseFragment() {
         fragment.show(childFragmentManager, PERSON_DETAILS_MODAL_BOTTOM_SHEET_TAG)
     }
 
-    private fun handleStatus(status: EpisodeDetailsStatus) {
+    private fun handleEpisodeStatus(status: EpisodeDetailsStatus) {
         binding.root.forEach { it.isVisible = false }
         when (status) {
-            EpisodeDetailsStatus.Pure -> {}
+            EpisodeDetailsStatus.Empty -> {}
             EpisodeDetailsStatus.InPending -> configureInPendingUI()
             is EpisodeDetailsStatus.Success -> configureSuccessUI(status)
             is EpisodeDetailsStatus.Failure -> configureFailureUI(status)
@@ -91,22 +90,20 @@ class EpisodeDetailsFragment : BaseFragment() {
     private fun configureSuccessUI(state: EpisodeDetailsStatus.Success) {
         val season = state.season
         val episode = state.episode
-        configureSeasonBackDrop(season.poster)
-        configureSeasonPoster(episode.stillPath)
-        configureEpisodeName(episode.name)
-        configureRating(episode.rating)
-        configureReleaseDate(episode.airDate)
-        configureOverview(episode.overview)
-        configureCrew(episode.crew)
         binding.successGroup.isVisible = true
+        configureSeasonBackDropUI(season.poster)
+        configureSeasonPosterUI(episode.stillPath)
+        configureEpisodeNameUI(episode.name)
+        configureRatingUI(episode.rating)
+        configureReleaseDateUI(episode.airDate)
+        configureOverviewUI(episode.overview)
+        configureCrewUI(episode.crew)
     }
 
-    private fun configureCrew(crew: ArrayList<CrewEntity>?) = with(binding) {
-        if(!crew.isNullOrEmpty()) {
+    private fun configureCrewUI(crew: ArrayList<CrewEntity>?) = with(binding) {
+        if (!crew.isNullOrEmpty()) {
             val adapter = CrewAdapter(crew, viewModel)
-            val itemDecorator = ItemDecoration(8F, resources.displayMetrics)
-            episodeCrewRecyclerView.clearDecorations()
-            episodeCrewRecyclerView.addItemDecoration(itemDecorator)
+            episodeCrewRecyclerView.applyDecoration()
             episodeCrewRecyclerView.adapter = adapter
             episodeCrewRecyclerView.isVisible = true
             crewHeaderTextView.isVisible = true
@@ -116,7 +113,7 @@ class EpisodeDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun configureRating(rating: Double?) = with(binding) {
+    private fun configureRatingUI(rating: Double?) = with(binding) {
         ratingBar.isEnabled = false
         if (rating != null && rating > 0) {
             ratingText.text = "%.2f".format(rating)
@@ -127,8 +124,8 @@ class EpisodeDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun configureEpisodeName(name: String?) = with(binding.episodeNameTextView) {
-        if(!name.isNullOrEmpty()) {
+    private fun configureEpisodeNameUI(name: String?) = with(binding.episodeNameTextView) {
+        if (!name.isNullOrEmpty()) {
             text = name
             isVisible = true
         } else {
@@ -136,8 +133,8 @@ class EpisodeDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun configureSeasonPoster(image: String?) =  with(binding.episodePosterImageView) {
-        if(!image.isNullOrEmpty()) {
+    private fun configureSeasonPosterUI(image: String?) = with(binding.episodePosterImageView) {
+        if (!image.isNullOrEmpty()) {
             Glide
                 .with(context)
                 .load(image)
@@ -158,8 +155,8 @@ class EpisodeDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun configureSeasonBackDrop(image: String?) = with(binding.seasonBackDropImageView) {
-        if(!image.isNullOrEmpty()) {
+    private fun configureSeasonBackDropUI(image: String?) = with(binding.seasonBackDropImageView) {
+        if (!image.isNullOrEmpty()) {
             Glide
                 .with(context)
                 .load(image)
@@ -184,12 +181,14 @@ class EpisodeDetailsFragment : BaseFragment() {
         binding.progressGroup.isVisible = true
     }
 
-    private fun configureTitle(title: String) = navigator().targetNavigator {
-        it.getToolbar()?.title = title
+    private fun configureTitleUI(title: String) {
+        navigator().targetNavigator {
+            it.getToolbar()?.title = title
+        }
     }
 
     @SuppressLint("SimpleDateFormat")
-    private fun configureReleaseDate(date: Date?) {
+    private fun configureReleaseDateUI(date: Date?) {
         val simpleDateFormatter = SimpleDateFormat("d MMMM yyyy")
         if (date != null) {
             val formattedDate = simpleDateFormatter.format(date)
@@ -200,7 +199,7 @@ class EpisodeDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun configureOverview(overview: String?) {
+    private fun configureOverviewUI(overview: String?) {
         if (!overview.isNullOrEmpty()) {
             binding.overviewText.text = overview
         } else {
@@ -210,7 +209,6 @@ class EpisodeDetailsFragment : BaseFragment() {
     }
 
     companion object {
-        const val SEASON_DETAILS_MODAL_BOTTOM_SHEET_TAG = "ModalBottomSheetTag"
         const val PERSON_DETAILS_MODAL_BOTTOM_SHEET_TAG = "PersonDetailsModalBottomSheetTag"
     }
 

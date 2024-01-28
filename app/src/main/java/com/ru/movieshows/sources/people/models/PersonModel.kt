@@ -26,20 +26,20 @@ data class PersonModel(
     @JsonAdapter(value = DateConverter::class)
     val deathday: Date?,
 ) {
-
-    fun toEntity(imageUrl: String) = PersonEntity(
-        id,
-        name,
-        adult,
-        alsoKnownAs,
-        biography,
-        popularity,
-        imdbId,
-        knownForDepartment,
-        placeOfBirth,
-        if(!profilePath.isNullOrEmpty()) imageUrl + profilePath else null,
-        birthday,
-        deathday,
-    )
-
+    fun toEntity(imageUrl: String): PersonEntity {
+        return PersonEntity(
+            id,
+            name,
+            adult,
+            alsoKnownAs,
+            biography,
+            popularity,
+            imdbId,
+            knownForDepartment,
+            placeOfBirth,
+            if(!profilePath.isNullOrEmpty()) imageUrl + profilePath else null,
+            birthday,
+            deathday,
+        )
+    }
 }

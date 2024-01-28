@@ -4,7 +4,7 @@ enum class UsernameValidationStatus {
     PURE, EMPTY, INVALID, VALID,
 }
 
-data class UsernameFieldEntity(
+data class UsernameField(
     val value: String = "",
     val status: UsernameValidationStatus = UsernameValidationStatus.PURE
 ) {
