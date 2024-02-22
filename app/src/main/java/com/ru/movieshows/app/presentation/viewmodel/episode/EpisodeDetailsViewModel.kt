@@ -6,7 +6,7 @@ import arrow.core.getOrElse
 import com.ru.movieshows.R
 import com.ru.movieshows.app.model.AppFailure
 import com.ru.movieshows.app.model.people.PeopleRepository
-import com.ru.movieshows.app.model.tv_shows.TvShowRepository
+import com.ru.movieshows.app.model.tvshows.TvShowRepository
 import com.ru.movieshows.app.presentation.adapters.SimpleAdapterListener
 import com.ru.movieshows.app.presentation.screens.episodes.EpisodeDetailsFragmentArgs
 import com.ru.movieshows.app.presentation.sideeffects.resources.Resources
@@ -18,9 +18,9 @@ import com.ru.movieshows.app.utils.MutableLiveEvent
 import com.ru.movieshows.app.utils.publishEvent
 import com.ru.movieshows.app.utils.share
 import com.ru.movieshows.sources.people.entities.PersonEntity
-import com.ru.movieshows.sources.tv_shows.entities.CrewEntity
-import com.ru.movieshows.sources.tv_shows.entities.EpisodeEntity
-import com.ru.movieshows.sources.tv_shows.entities.SeasonEntity
+import com.ru.movieshows.sources.tvshows.entities.CrewEntity
+import com.ru.movieshows.sources.tvshows.entities.EpisodeEntity
+import com.ru.movieshows.sources.tvshows.entities.SeasonEntity
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

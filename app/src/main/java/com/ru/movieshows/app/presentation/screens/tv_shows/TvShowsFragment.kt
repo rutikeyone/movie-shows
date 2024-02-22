@@ -43,6 +43,7 @@ class TvShowsFragment : BaseFragment() {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
             menuInflater.inflate(R.menu.search_menu, menu)
         }
+
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean = when(menuItem.itemId) {
             R.id.search -> {
                 viewModel.navigateToTvShowSearch()

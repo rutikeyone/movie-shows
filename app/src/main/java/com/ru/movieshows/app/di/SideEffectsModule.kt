@@ -19,8 +19,12 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Named
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class NavigatorWrapper
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -33,7 +37,8 @@ interface SideEffectsModule {
     fun bindResources(resourcesImpl: ResourcesImpl): Resources
 
     @Binds
-    @Named(INTERMEDIATE_NAVIGATOR_DEPENDENCY)
+    @NavigatorWrapper
+    @Singleton
     fun bindIntermediateNavigator(navigator: IntermediateNavigator): Navigator
 
     @Binds

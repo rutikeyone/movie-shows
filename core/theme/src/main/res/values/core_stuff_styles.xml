@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="MovieShows.Widget.MaterialComponents.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="android:background">@color/darkCharcoalGrey</item>
+        <item name="itemIconTint">@drawable/core_navigation_bar_item_tint</item>
+        <item name="itemTextColor">@drawable/core_navigation_bar_item_tint</item>
+    </style>
+
+    <style name="MovieShows.Widget.Toolbar" parent="Widget.Material3.Toolbar">
+        <item name="android:background">@color/darkCharcoalGrey</item>
+        <item name="titleTextColor">@color/white</item>
+    </style>
+
+    <style name="MovieShows.MaterialComponents.BottomSheetDialog" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/MovieShows.MaterialComponents.BottomSheet.BottomSheet</item>
+    </style>
+
+    <style name="MovieShows.MaterialComponents.BottomSheet.BottomSheet" parent="Widget.MaterialComponents.BottomSheet">
+        <item name="shapeAppearanceOverlay">@style/MovieShows.ShapeAppearanceOverlay</item>
+        <item name="backgroundTint">@color/darkBlueGray</item>
+    </style>
+
+    <style name="MovieShows.ShapeAppearanceOverlay" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">@dimen/dp_16</item>
+        <item name="cornerSizeTopLeft">@dimen/dp_16</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+    </style>
+
+    <style name="MovieShows.Widget.Material3.TabLayout" parent="Widget.Material3.TabLayout">
+        <item name="tabMode">scrollable</item>
+        <item name="tabTextColor">@color/lightGrey</item>
+        <item name="tabSelectedTextColor">@color/white</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="tabIndicatorColor">@color/yellow</item>
+        <item name="tabRippleColor">@color/yellow</item>
+    </style>
+
+    <style name="MovieShow.Widget.MaterialComponents.CardView" parent="@style/Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/MovieShows.ShapeAppearanceOverlay</item>
+        <item name="cardBackgroundColor">@color/white</item>
+    </style>
+
+</resources>

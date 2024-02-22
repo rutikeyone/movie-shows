@@ -60,7 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="Lorem Ipsum is simply dummy text."
-                    style="?attr/textappearance.movieshows.body1"
+                    style="?attr/textAppearanceBody1"
                     android:maxLines="3"
                     />
 
@@ -74,7 +74,8 @@
                         android:id="@+id/ratingText"
                         android:layout_marginTop="@dimen/dp_4"
                         tools:text="8.3"
-                        style="?attr/textappearance.movieshows.headline5.bold"
+                        style="?attr/textAppearanceHeadline5"
+                        android:textStyle="bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
@@ -110,7 +111,9 @@
                             android:text="@string/number_of_episodes"
                             android:layout_marginTop="@dimen/dp_8"
                             android:textAllCaps="true"
-                            style="?attr/textappearance.movieshows.body3.hint.bold"
+                            style="?attr/textAppearanceBody3"
+                            android:textColor="?attr/primaryTextColor"
+                            android:textStyle="bold"
                             tools:visibility="visible"
                             />
 
@@ -121,7 +124,9 @@
                             tools:text="3"
                             android:layout_marginTop="@dimen/dp_4"
                             app:layout_constraintVertical_bias="0"
-                            style="?attr/textappearance.movieshows.body3.bold.accent"
+                            style="?attr/textAppearanceBody3"
+                            android:textColor="?attr/accentTextColor"
+                            android:textStyle="bold"
                             />
 
                     </LinearLayout>
@@ -139,7 +144,9 @@
                             android:layout_marginTop="@dimen/dp_8"
                             android:text="@string/release_date"
                             android:textAllCaps="true"
-                            style="?attr/textappearance.movieshows.body3.hint.bold"
+                            style="?attr/textAppearanceBody3"
+                            android:textColor="?attr/primaryTextColor"
+                            android:textStyle="bold"
                             tools:visibility="visible"
                             />
 
@@ -155,7 +162,9 @@
                             app:layout_constraintBottom_toBottomOf="@id/poster"
                             android:layout_marginTop="@dimen/dp_4"
                             app:layout_constraintVertical_bias="0"
-                            style="?attr/textappearance.movieshows.body3.bold.accent"
+                            style="?attr/textAppearanceBody3"
+                            android:textColor="?attr/accentTextColor"
+                            android:textStyle="bold"
                             android:layout_marginEnd="@dimen/dp_16"
                             />
 
@@ -174,7 +183,9 @@
             android:text="@string/overview"
             android:layout_marginTop="@dimen/dp_16"
             android:textAllCaps="true"
-            style="?attr/textappearance.movieshows.body3.hint.bold"
+            style="?attr/textAppearanceBody3"
+            android:textColor="?attr/primaryTextColor"
+            android:textStyle="bold"
             tools:visibility="visible"
             />
 
@@ -187,7 +198,7 @@
                 Lorem Ipsum has been the industry's standard dummy text ever since the 1500s. Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                 Lorem Ipsum has been the industry's standard dummy text ever since the 1500s. Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                 Lorem Ipsum has been the industry's standard dummy text ever since the 1500s."
-            style="?attr/textappearance.movieshows.body3"
+            style="?attr/textAppearanceBody3"
             android:ellipsize="end"
             android:layout_marginTop="@dimen/dp_8"
             />

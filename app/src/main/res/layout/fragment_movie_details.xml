@@ -68,7 +68,8 @@
 
                 <TextView
                     android:id="@+id/ratingText"
-                    style="?attr/textappearance.movieshows.headline5.bold"
+                    style="?attr/textAppearanceHeadline5"
+                    android:textStyle="bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_16"
@@ -98,9 +99,11 @@
 
                 <TextView
                     android:id="@+id/durationHeader"
-                    style="?attr/textappearance.movieshows.body3.hint.bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    style="?attr/textAppearanceBody3"
+                    android:textColor="?attr/primaryTextColor"
+                    android:textStyle="bold"
                     android:layout_marginStart="@dimen/dp_16"
                     android:layout_marginTop="@dimen/dp_4"
                     android:text="@string/duration"
@@ -116,9 +119,11 @@
 
                 <TextView
                     android:id="@+id/durationValue"
-                    style="?attr/textappearance.movieshows.body3.bold.accent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    style="?attr/textAppearanceBody3"
+                    android:textColor="?attr/accentTextColor"
+                    android:textStyle="bold"
                     android:layout_marginTop="@dimen/dp_4"
                     app:layout_constraintBottom_toBottomOf="@id/moviePosterCardView"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -130,7 +135,9 @@
 
                 <TextView
                     android:id="@+id/releaseDateHeader"
-                    style="?attr/textappearance.movieshows.body3.hint.bold"
+                    style="?attr/textAppearanceBody3"
+                    android:textColor="?attr/primaryTextColor"
+                    android:textStyle="bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/dp_16"
@@ -145,7 +152,9 @@
 
                 <TextView
                     android:id="@+id/releaseDateValue"
-                    style="?attr/textappearance.movieshows.body3.bold.accent"
+                    style="?attr/textAppearanceBody3"
+                    android:textColor="?attr/accentTextColor"
+                    android:textStyle="bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_4"
@@ -172,7 +181,9 @@
 
                 <TextView
                     android:id="@+id/overviewHeader"
-                    style="?attr/textappearance.movieshows.body3.hint.bold"
+                    style="?attr/textAppearanceBody3"
+                    android:textColor="?attr/primaryTextColor"
+                    android:textStyle="bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_16"
@@ -184,7 +195,7 @@
 
                 <TextView
                     android:id="@+id/overviewText"
-                    style="?attr/textappearance.movieshows.body3"
+                    style="?attr/textAppearanceBody3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_16"
@@ -195,7 +206,9 @@
 
                 <TextView
                     android:id="@+id/genresHeader"
-                    style="?attr/textappearance.movieshows.body3.hint.bold"
+                    style="?attr/textAppearanceBody3"
+                    android:textColor="?attr/primaryTextColor"
+                    android:textStyle="bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_16"
@@ -219,7 +232,9 @@
 
                 <TextView
                     android:id="@+id/productionCompaniesHeader"
-                    style="?attr/textappearance.movieshows.body3.hint.bold"
+                    style="?attr/textAppearanceBody3"
+                    android:textColor="?attr/primaryTextColor"
+                    android:textStyle="bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_16"
@@ -243,7 +258,9 @@
 
                 <TextView
                     android:id="@+id/videosTextView"
-                    style="?attr/textappearance.movieshows.body3.hint.bold"
+                    style="?attr/textAppearanceBody3"
+                    android:textColor="?attr/primaryTextColor"
+                    android:textStyle="bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_16"
@@ -267,7 +284,9 @@
 
                 <TextView
                     android:id="@+id/similarMoviesHeader"
-                    style="?attr/textappearance.movieshows.body3.hint.bold"
+                    style="?attr/textAppearanceBody3"
+                    android:textColor="?attr/primaryTextColor"
+                    android:textStyle="bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_16"
@@ -294,7 +313,9 @@
 
                     <TextView
                         android:id="@+id/reviewsHeader"
-                        style="?attr/textappearance.movieshows.body3.hint.bold"
+                        style="?attr/textAppearanceBody3"
+                        android:textColor="?attr/primaryTextColor"
+                        android:textStyle="bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_16"
@@ -308,7 +329,9 @@
 
                     <Button
                         android:id="@+id/showAllReviews"
-                        style="?attr/textappearance.movieshows.body3.bold"
+                        style="?attr/textAppearanceBody3"
+                        android:textColor="?attr/primaryTextColor"
+                        android:textStyle="bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/dp_16"

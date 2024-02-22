@@ -28,7 +28,7 @@ open class BaseFragment: Fragment() {
 
     protected open val viewModel by viewModels<BaseViewModel>()
 
-    private val broadcastReceiver = object : BroadcastReceiver() {
+    private val languageChangedBroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if(intent != null && intent.action == Intent.ACTION_LOCALE_CHANGED) {
                 viewModel.updateLanguageTag()
@@ -38,12 +38,12 @@ open class BaseFragment: Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val intentFilter = IntentFilter(Intent.ACTION_LOCALE_CHANGED)
-        requireActivity().registerReceiver(broadcastReceiver, intentFilter)
+        requireActivity().registerReceiver(languageChangedBroadcastReceiver, intentFilter)
         super.onCreate(savedInstanceState)
     }
 
     override fun onDestroy() {
-        requireActivity().unregisterReceiver(broadcastReceiver)
+        requireActivity().unregisterReceiver(languageChangedBroadcastReceiver)
         super.onDestroy()
     }
 

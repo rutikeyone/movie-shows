@@ -2,10 +2,9 @@ package com.ru.movieshows.sources.movies.models
 
 import android.annotation.SuppressLint
 import com.google.gson.annotations.SerializedName
-import com.ru.movieshows.BuildConfig
 import com.ru.movieshows.sources.genres.models.GenreModel
 import com.ru.movieshows.sources.movies.entities.MovieDetailsEntity
-import com.ru.movieshows.sources.tv_shows.models.ProductionCompanyModel
+import com.ru.movieshows.sources.tvshows.models.ProductionCompanyModel
 import java.text.SimpleDateFormat
 
 data class GetMovieDetailsResponseModels(

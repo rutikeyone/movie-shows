@@ -11,8 +11,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.R
 import com.ru.movieshows.app.presentation.adapters.SimpleAdapterListener
 import com.ru.movieshows.databinding.CreatorItemBinding
-import com.ru.movieshows.databinding.CrewItemBinding
-import com.ru.movieshows.sources.tv_shows.entities.CreatorEntity
+import com.ru.movieshows.sources.tvshows.entities.CreatorEntity
 
 class CreatorAdapter(
     private val creators: ArrayList<CreatorEntity>,

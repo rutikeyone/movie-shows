@@ -3,7 +3,7 @@ package com.ru.movieshows.app.presentation.viewmodel.tv_shows.state
 import androidx.annotation.StringRes
 import com.ru.movieshows.sources.movies.entities.ReviewEntity
 import com.ru.movieshows.sources.movies.entities.VideoEntity
-import com.ru.movieshows.sources.tv_shows.entities.TvShowDetailsEntity
+import com.ru.movieshows.sources.tvshows.entities.TvShowDetailsEntity
 
 sealed class TvShowDetailsState {
 

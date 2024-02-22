@@ -27,7 +27,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        style="?attr/textappearance.movieshows.headline6"
+        style="?attr/textAppearanceHeadline6"
         />
 
     <androidx.core.widget.NestedScrollView
@@ -51,7 +51,7 @@
                 android:layout_marginStart="@dimen/dp_16"
                 android:layout_marginEnd="@dimen/dp_16"
                 android:layout_marginTop="@dimen/dp_16"
-                style="?attr/textappearance.movieshows.headline6"
+                style="?attr/textAppearanceHeadline6"
                 android:text="@string/it_may_be_useful"
                 />
 
@@ -72,11 +72,9 @@
                 android:layout_marginTop="@dimen/dp_8"
                 />
 
-
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-
 
     <include
         android:id="@+id/failurePart"
@@ -88,7 +86,7 @@
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/successContainer"
-        app:constraint_referenced_ids="movies, searchHintScrollView"
+        app:constraint_referenced_ids="moviesRecyclerView, searchHintScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />

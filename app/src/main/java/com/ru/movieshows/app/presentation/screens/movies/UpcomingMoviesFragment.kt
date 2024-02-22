@@ -69,7 +69,7 @@ class UpcomingMoviesFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        collectUIState()
+        collectState()
     }
 
     private fun initView() {
@@ -100,7 +100,7 @@ class UpcomingMoviesFragment : BaseFragment() {
         super.onDestroyView()
     }
 
-    private fun collectUIState() = viewLifecycleOwner.lifecycleScope.launch {
+    private fun collectState() = viewLifecycleOwner.lifecycleScope.launch {
         viewModel.upcomingMovies.collectLatest { movies ->
             moviesPaginationAdapter?.submitData(movies)
         }

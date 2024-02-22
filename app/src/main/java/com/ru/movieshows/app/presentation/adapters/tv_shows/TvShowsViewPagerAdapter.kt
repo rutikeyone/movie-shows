@@ -10,7 +10,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.R
 import com.ru.movieshows.app.presentation.adapters.SimpleAdapterListener
 import com.ru.movieshows.databinding.TvShowTimeViewPagerItemBinding
-import com.ru.movieshows.sources.tv_shows.entities.TvShowsEntity
+import com.ru.movieshows.sources.tvshows.entities.TvShowsEntity
 
 class TvShowsViewPagerAdapter(
     private val tvShows: ArrayList<TvShowsEntity>,

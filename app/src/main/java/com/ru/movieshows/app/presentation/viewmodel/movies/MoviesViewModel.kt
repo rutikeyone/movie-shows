@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import arrow.core.getOrElse
 import com.ru.movieshows.R
+import com.ru.movieshows.app.di.NavigatorWrapper
 import com.ru.movieshows.app.model.AppFailure
 import com.ru.movieshows.app.model.genres.GenresRepository
 import com.ru.movieshows.app.model.movies.MoviesRepository
@@ -19,11 +20,14 @@ import com.ru.movieshows.sources.movies.entities.MovieEntity
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.lang.IllegalStateException
+import javax.inject.Inject
 
-class MoviesViewModel @AssistedInject constructor(
-    @Assisted private val navigator: Navigator,
+@HiltViewModel
+class MoviesViewModel @Inject constructor(
+    @NavigatorWrapper private val navigator: Navigator,
     private val moviesRepository: MoviesRepository,
     private val genresRepository: GenresRepository,
 ): BaseViewModel(), SimpleAdapterListener<MovieEntity> {
@@ -50,10 +54,18 @@ class MoviesViewModel @AssistedInject constructor(
                 val upcomingMovies = fetchUpcomingMovies(it).second
                 val popularMovies = fetchPopularMovies(it).second
                 val topRatedMovies = fetchTopRatedMovies(it).second
-                _movieState.value  = MovieState.Success(nowPlayingMovies, genres, upcomingMovies, popularMovies, topRatedMovies)
+                val successState = MovieState.Success(
+                    nowPlayingMovies = nowPlayingMovies,
+                    genres = genres,
+                    upcomingMovies = upcomingMovies,
+                    popularMovies = popularMovies,
+                    topRatedMovies = topRatedMovies,
+                )
+                _movieState.value  = successState
                 fetchDiscoverMovies()
             } catch (e: AppFailure) {
-                _movieState.value = MovieState.Failure(e.headerResource(), e.errorResource())
+                val failureState = MovieState.Failure(e.headerResource(), e.errorResource())
+                _movieState.value = failureState
             }
         }
     }
@@ -158,11 +170,6 @@ class MoviesViewModel @AssistedInject constructor(
     fun navigateToMovieSearch() {
         val action = MoviesFragmentDirections.actionMoviesFragmentToMovieSearchFragment()
         navigator.navigate(action)
-    }
-
-    @AssistedFactory
-    interface Factory {
-        fun create(navigator: Navigator): MoviesViewModel
     }
 
 }

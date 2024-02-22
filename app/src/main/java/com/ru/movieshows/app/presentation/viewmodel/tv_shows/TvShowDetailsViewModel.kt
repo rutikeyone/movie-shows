@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import arrow.core.getOrElse
 import com.ru.movieshows.app.model.AppFailure
 import com.ru.movieshows.app.model.people.PeopleRepository
-import com.ru.movieshows.app.model.tv_shows.TvShowRepository
+import com.ru.movieshows.app.model.tvshows.TvShowRepository
 import com.ru.movieshows.app.presentation.adapters.SimpleAdapterListener
 import com.ru.movieshows.app.presentation.screens.tv_shows.TvShowDetailsFragmentDirections
 import com.ru.movieshows.app.presentation.sideeffects.navigator.Navigator
@@ -19,8 +19,7 @@ import com.ru.movieshows.app.utils.share
 import com.ru.movieshows.sources.movies.entities.ReviewEntity
 import com.ru.movieshows.sources.movies.entities.VideoEntity
 import com.ru.movieshows.sources.people.entities.PersonEntity
-import com.ru.movieshows.sources.tv_shows.entities.SeasonEntity
-import com.ru.movieshows.sources.tv_shows.entities.TvShowDetailsEntity
+import com.ru.movieshows.sources.tvshows.entities.TvShowDetailsEntity
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

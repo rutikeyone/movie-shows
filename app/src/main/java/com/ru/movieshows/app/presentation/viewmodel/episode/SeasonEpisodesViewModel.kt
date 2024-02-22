@@ -3,7 +3,7 @@ package com.ru.movieshows.app.presentation.viewmodel.episode
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ru.movieshows.app.model.AppFailure
-import com.ru.movieshows.app.model.tv_shows.TvShowRepository
+import com.ru.movieshows.app.model.tvshows.TvShowRepository
 import com.ru.movieshows.app.presentation.adapters.SimpleAdapterListener
 import com.ru.movieshows.app.presentation.screens.episodes.SeasonEpisodesFragmentArgs
 import com.ru.movieshows.app.presentation.screens.episodes.SeasonEpisodesFragmentDirections
@@ -11,8 +11,8 @@ import com.ru.movieshows.app.presentation.sideeffects.navigator.Navigator
 import com.ru.movieshows.app.presentation.viewmodel.BaseViewModel
 import com.ru.movieshows.app.presentation.viewmodel.episode.state.SeasonEpisodesState
 import com.ru.movieshows.app.utils.share
-import com.ru.movieshows.sources.tv_shows.entities.EpisodeEntity
-import com.ru.movieshows.sources.tv_shows.entities.SeasonEntity
+import com.ru.movieshows.sources.tvshows.entities.EpisodeEntity
+import com.ru.movieshows.sources.tvshows.entities.SeasonEntity
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

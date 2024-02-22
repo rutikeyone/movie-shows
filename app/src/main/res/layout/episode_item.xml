@@ -34,7 +34,7 @@
 
     <TextView
         android:id="@+id/tvShowNameTextView"
-        style="?attr/textappearance.movieshows.body3"
+        style="?attr/textAppearanceBody3"
         android:layout_width="wrap_content"
         android:maxWidth="@dimen/dp_120"
         android:layout_height="wrap_content"
@@ -77,7 +77,7 @@
 
         <TextView
             android:id="@+id/ratingValue"
-            style="?attr/textappearance.movieshows.body3"
+            style="?attr/textAppearanceBody3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_4"

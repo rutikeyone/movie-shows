@@ -27,15 +27,12 @@ class AccountsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getUserAuthenticationState(): Flow<UserAuthenticationState> {
-        return accountLazyFlowSubject.listen(Unit).flatMapLatest{ result ->
+        return accountLazyFlowSubject.listen(Unit).flatMapLatest { result ->
             val state = when(result) {
                 is Empty -> UserAuthenticationState.Empty
                 is Pending -> UserAuthenticationState.Pending(isPreviousNotAuthenticatedState())
                 is Success -> result.value
-                is Error -> UserAuthenticationState.NotAuthentication(
-                    isFirstLaunch(),
-                    isPreviousAuthenticatedState(),
-                )
+                is Error -> UserAuthenticationState.NotAuthentication(isFirstLaunch(), isPreviousAuthenticatedState())
             }
             flowOf(state)
         }
@@ -85,15 +82,9 @@ class AccountsRepositoryImpl @Inject constructor(
             val sessionId = appSettingsRepository.getCurrentSessionId()
             if (sessionId != null) {
                 val account = getAccountBySessionId(sessionId)
-                UserAuthenticationState.Authentication(
-                    isFirstLaunch(),
-                    account,
-                )
+                UserAuthenticationState.Authentication(isFirstLaunch(), account)
             } else {
-                UserAuthenticationState.NotAuthentication(
-                    isFirstLaunch(),
-                    isPreviousAuthenticatedState(),
-                )
+                UserAuthenticationState.NotAuthentication(isFirstLaunch(), isPreviousAuthenticatedState())
             }
         } catch (e: AppFailure) {
             appSettingsRepository.cleanCurrentSessionId()

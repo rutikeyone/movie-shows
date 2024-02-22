@@ -35,7 +35,9 @@
                 tools:text="valeriamaybe9753"
                 android:maxLines="1"
                 android:ellipsize="end"
-                style="?attr/textappearance.movieshows.body3.hint.bold"
+                style="?attr/textAppearanceBody3"
+                android:textColor="?attr/primaryTextColor"
+                android:textStyle="bold"
                 android:layout_marginEnd="@dimen/dp_8"/>
 
             <TextView
@@ -43,7 +45,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="11 мес. назад"
-                style="?attr/textappearance.movieshows.body3.hint.bold"
+                style="?attr/textAppearanceBody3"
+                android:textColor="?attr/primaryTextColor"
+                android:textStyle="bold"
                 android:layout_marginEnd="@dimen/dp_8"/>
 
         </com.google.android.flexbox.FlexboxLayout>
@@ -54,7 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_8"
-            style="?attr/textappearance.movieshows.body2"
+            style="?attr/textAppearanceBody2"
             android:maxLines="5"
             android:ellipsize="end"
             tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry.
@@ -63,7 +67,7 @@
             Lorem Ipsum is simply dummy text of the printing and typesetting industry.
             Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
             when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-            android:textColorLink="?attr/textColorAccent"
+            android:textColorLink="?android:attr/textColorLink"
             />
 
     </LinearLayout>

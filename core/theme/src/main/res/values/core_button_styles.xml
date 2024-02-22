@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="MovieShows.Widget.MaterialComponents.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textSize">@dimen/sp_12</item>
+        <item name="android:textColor">@color/darkGreyPurple</item>
+        <item name="rippleColor">@color/yellow</item>
+    </style>
+
+</resources>

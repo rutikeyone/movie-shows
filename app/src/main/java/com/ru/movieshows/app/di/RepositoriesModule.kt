@@ -10,8 +10,8 @@ import com.ru.movieshows.app.model.people.PeopleRepository
 import com.ru.movieshows.app.model.people.PeopleRepositoryImpl
 import com.ru.movieshows.app.model.settings.AppSettingsRepository
 import com.ru.movieshows.app.model.settings.SharedPreferencesAppSettingsRepository
-import com.ru.movieshows.app.model.tv_shows.TvShowRepository
-import com.ru.movieshows.app.model.tv_shows.TvShowRepositoryImpl
+import com.ru.movieshows.app.model.tvshows.TvShowRepository
+import com.ru.movieshows.app.model.tvshows.TvShowRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

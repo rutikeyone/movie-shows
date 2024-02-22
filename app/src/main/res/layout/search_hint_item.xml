@@ -14,7 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/nextImageView"
         tools:text="Android"
-        style="?attr/textappearance.movieshows.body1"
+        style="?attr/textAppearanceBody1"
         android:layout_marginTop="@dimen/dp_16"
         android:layout_marginStart="@dimen/dp_16"
         />

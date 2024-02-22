@@ -2,7 +2,7 @@ package com.ru.movieshows.sources.people.models
 
 import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
-import com.ru.movieshows.sources.tv_shows.converters.DateConverter
+import com.ru.movieshows.sources.tvshows.converters.DateConverter
 import com.ru.movieshows.sources.people.entities.PersonEntity
 import java.util.Date
 

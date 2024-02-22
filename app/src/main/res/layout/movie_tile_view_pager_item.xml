@@ -9,7 +9,7 @@
 
     <ImageView
         android:id="@+id/movieBackground"
-        app:tint="?attr/color.movieshows.darken"
+        app:tint="?attr/darkenColorTint"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,7 +18,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:tintMode="src_atop"
         android:src="@drawable/poster_placeholder_bg"
-        tools:background="@color/cardview_dark_background"/>
+        tools:background="@color/cardview_dark_background"
+        android:contentDescription="@string/image_description"
+        />
 
     <TextView
         android:id="@+id/movieName"
@@ -33,6 +35,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1"
-        style="?attr/textappearance.movieshows.headline6.bold"/>
+        style="?attr/textAppearanceHeadline6"
+        android:textStyle="bold"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

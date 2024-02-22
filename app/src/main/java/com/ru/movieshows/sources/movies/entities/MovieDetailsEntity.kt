@@ -1,7 +1,7 @@
 package com.ru.movieshows.sources.movies.entities
 
 import com.ru.movieshows.sources.genres.entities.GenreEntity
-import com.ru.movieshows.sources.tv_shows.entities.ProductionCompanyEntity
+import com.ru.movieshows.sources.tvshows.entities.ProductionCompanyEntity
 import java.util.Date
 
 data class MovieDetailsEntity(

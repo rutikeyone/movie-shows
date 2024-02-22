@@ -95,10 +95,10 @@ class TvReviewsFragment : BaseFragment() {
         val showReviews = !isListEmpty || loadState.source.refresh is LoadState.NotLoading
         binding.reviewsRecyclerView.isVisible = showReviews
         binding.progressBarMovies.isVisible = loadState.source.refresh is LoadState.Loading
-        configureFailurePart(loadState)
+        configureFailurePartUI(loadState)
     }
 
-    private fun configureFailurePart(loadState: CombinedLoadStates) = with(binding) {
+    private fun configureFailurePartUI(loadState: CombinedLoadStates) = with(binding) {
         failurePart.root.isVisible = loadState.source.refresh is LoadState.Error
         if(loadState.source.refresh !is LoadState.Error) return
         val errorState = loadState.refresh as LoadState.Error

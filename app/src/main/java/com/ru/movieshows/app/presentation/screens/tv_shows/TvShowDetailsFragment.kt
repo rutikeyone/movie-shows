@@ -33,9 +33,9 @@ import com.ru.movieshows.databinding.FragmentTvShowDetailsBinding
 import com.ru.movieshows.sources.movies.entities.ReviewEntity
 import com.ru.movieshows.sources.movies.entities.VideoEntity
 import com.ru.movieshows.sources.people.entities.PersonEntity
-import com.ru.movieshows.sources.tv_shows.entities.CreatorEntity
-import com.ru.movieshows.sources.tv_shows.entities.SeasonEntity
-import com.ru.movieshows.sources.tv_shows.entities.TvShowDetailsEntity
+import com.ru.movieshows.sources.tvshows.entities.CreatorEntity
+import com.ru.movieshows.sources.tvshows.entities.SeasonEntity
+import com.ru.movieshows.sources.tvshows.entities.TvShowDetailsEntity
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import javax.inject.Inject
@@ -80,7 +80,7 @@ class TvShowDetailsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.titleState.observe(viewLifecycleOwner, ::handleTitleState)
+        viewModel.titleState.observe(viewLifecycleOwner, ::configureTitleUI)
         viewModel.state.observe(viewLifecycleOwner, ::handleState)
         viewModel.showPeopleDetailsEvent.observeEvent(viewLifecycleOwner, ::showPeopleDetailsModalBottomSheet)
     }
@@ -278,7 +278,7 @@ class TvShowDetailsFragment : BaseFragment() {
         binding.progressContainer.isVisible = true
     }
 
-    private fun handleTitleState(value: String?) {
+    private fun configureTitleUI(value: String?) {
         navigator().targetNavigator {
             val title = it.getToolbar()?.title
             if(title == value) return@targetNavigator

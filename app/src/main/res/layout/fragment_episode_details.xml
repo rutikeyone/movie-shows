@@ -77,7 +77,7 @@
 
                 <TextView
                     android:id="@+id/episodeNameTextView"
-                    style="?attr/textappearance.movieshows.headline6"
+                    style="?attr/textAppearanceHeadline6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_8"
@@ -97,7 +97,8 @@
 
                     <TextView
                         android:id="@+id/ratingText"
-                        style="?attr/textappearance.movieshows.headline5.bold"
+                        style="?attr/textAppearanceHeadline5"
+                        android:textStyle="bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         tools:text="8.3"
@@ -120,18 +121,25 @@
                     android:gravity="center_vertical"
                     android:layout_marginTop="@dimen/dp_4">
 
+
+
                     <TextView
                         android:id="@+id/releaseDateHeader"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/release_date"
-                        style="?attr/textappearance.movieshows.body3.hint.bold"
+                        style="?attr/textAppearanceBody3"
+                        android:textColor="?attr/primaryTextColor"
+                        android:textStyle="bold"
                         android:textAllCaps="true"
                         android:layout_marginEnd="@dimen/dp_8"/>
 
+
                     <TextView
                         android:id="@+id/releaseDateValue"
-                        style="?attr/textappearance.movieshows.body3.bold.accent"
+                        style="?attr/textAppearanceBody3"
+                        android:textColor="?attr/accentTextColor"
+                        android:textStyle="bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         tools:text="2021-12-15" />
@@ -144,7 +152,9 @@
 
             <TextView
                 android:id="@+id/overviewHeader"
-                style="?attr/textappearance.movieshows.body3.hint.bold"
+                style="?attr/textAppearanceBody3"
+                android:textColor="?attr/primaryTextColor"
+                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_16"
@@ -156,7 +166,7 @@
 
             <TextView
                 android:id="@+id/overviewText"
-                style="?attr/textappearance.movieshows.body3"
+                style="?attr/textAppearanceBody3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_16"
@@ -167,9 +177,11 @@
 
             <TextView
                 android:id="@+id/crewHeaderTextView"
-                style="?attr/textappearance.movieshows.body3.hint.bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="?attr/textAppearanceBody3"
+                android:textColor="?attr/primaryTextColor"
+                android:textStyle="bold"
                 android:layout_marginStart="@dimen/dp_16"
                 android:layout_marginTop="@dimen/dp_12"
                 android:layout_marginEnd="@dimen/dp_16"

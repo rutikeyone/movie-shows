@@ -23,7 +23,7 @@ import com.ru.movieshows.app.utils.viewModelCreator
 import com.ru.movieshows.databinding.FailurePartBinding
 import com.ru.movieshows.databinding.FragmentEpisodeDetailsBinding
 import com.ru.movieshows.sources.people.entities.PersonEntity
-import com.ru.movieshows.sources.tv_shows.entities.CrewEntity
+import com.ru.movieshows.sources.tvshows.entities.CrewEntity
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Date

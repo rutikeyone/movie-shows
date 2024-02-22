@@ -1,6 +1,6 @@
 package com.ru.movieshows.app.presentation.viewmodel.tv_shows.state
 
-import com.ru.movieshows.sources.tv_shows.entities.TvShowsEntity
+import com.ru.movieshows.sources.tvshows.entities.TvShowsEntity
 
 data class TvShowSearchState(
     val language: String,

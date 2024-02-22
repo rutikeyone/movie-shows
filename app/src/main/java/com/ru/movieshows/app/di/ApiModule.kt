@@ -4,7 +4,7 @@ import com.ru.movieshows.sources.accounts.AccountsApi
 import com.ru.movieshows.sources.genres.GenresApi
 import com.ru.movieshows.sources.movies.MoviesApi
 import com.ru.movieshows.sources.people.PeopleApi
-import com.ru.movieshows.sources.tv_shows.TvShowsApi
+import com.ru.movieshows.sources.tvshows.TvShowsApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

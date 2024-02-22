@@ -52,7 +52,6 @@ class PopularMoviesFragment : BaseFragment() {
         }
     }
 
-
     private val loadStateLoader: LoadStateListener = { state ->
         configureUI(state)
     }
@@ -92,12 +91,6 @@ class PopularMoviesFragment : BaseFragment() {
         }
     }
 
-    override fun onDestroyView() {
-        moviesAdapter?.removeLoadStateListener(loadStateLoader)
-        moviesAdapter = null;
-        super.onDestroyView()
-    }
-
     private fun collectState() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.popularMovies.collectLatest { movies ->
@@ -125,6 +118,12 @@ class PopularMoviesFragment : BaseFragment() {
             failureTextHeader.text = resources.getString(headerError)
             failureTextMessage.text = resources.getString(messageError)
         }
+    }
+
+    override fun onDestroyView() {
+        moviesAdapter?.removeLoadStateListener(loadStateLoader)
+        moviesAdapter = null;
+        super.onDestroyView()
     }
 
 }

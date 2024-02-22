@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="Base.Theme.MovieShows">
+        <attr name="textAppearanceBody3" format="reference"/>
+        <attr name="backdropPlaceholderColor" format="color"/>
+        <attr name="posterPlaceholderColor" format="color"/>
+        <attr name="primaryTextColor" format="color"/>
+        <attr name="accentTextColor" format="color"/>
+        <attr name="defaultTextColor" format="color"/>
+        <attr name="darkenColorTint" format="color"/>
+        <attr name="defaultDotsColor" format="color"/>
+        <attr name="defaultSelectedDotColor" format="color"/>
+    </declare-styleable>
+</resources>

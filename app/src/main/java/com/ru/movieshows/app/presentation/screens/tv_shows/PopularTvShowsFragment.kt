@@ -66,7 +66,7 @@ class PopularTvShowsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initView()
-        collectUIState()
+        collectState()
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -112,7 +112,7 @@ class PopularTvShowsFragment : BaseFragment() {
         }
     }
 
-    private fun collectUIState() {
+    private fun collectState() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.popularTvShows.collectLatest { tvShows ->
                 tvShowPaginationAdapter.submitData(tvShows)

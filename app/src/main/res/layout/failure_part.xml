@@ -13,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="Header"
-        style="?attr/textappearance.movieshows.headline5.bold"
+        style="?attr/textAppearanceHeadline5"
+        android:textStyle="bold"
         android:textAlignment="center"
         />
 
@@ -22,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="message"
-        style="?attr/textappearance.movieshows.body1"
+        style="?attr/textAppearanceBody1"
         android:textAlignment="center"
         android:layout_marginTop="@dimen/dp_4"/>
 
@@ -31,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/retry"
-        style="?attr/textappearance.movieshows.body1"
+        style="?attr/textAppearanceBody1"
         android:layout_marginTop="@dimen/dp_12"/>
 
 </LinearLayout>

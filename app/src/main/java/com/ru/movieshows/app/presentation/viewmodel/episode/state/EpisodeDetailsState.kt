@@ -1,8 +1,8 @@
 package com.ru.movieshows.app.presentation.viewmodel.episode.state
 
 import androidx.annotation.StringRes
-import com.ru.movieshows.sources.tv_shows.entities.EpisodeEntity
-import com.ru.movieshows.sources.tv_shows.entities.SeasonEntity
+import com.ru.movieshows.sources.tvshows.entities.EpisodeEntity
+import com.ru.movieshows.sources.tvshows.entities.SeasonEntity
 
 data class EpisodeDetailsState(
     val seriesId: String,

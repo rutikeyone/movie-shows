@@ -1,7 +1,6 @@
 package com.ru.movieshows.app.presentation.adapters.episode
 
 import android.annotation.SuppressLint
-import android.app.ActionBar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.R
 import com.ru.movieshows.app.presentation.adapters.SimpleAdapterListener
 import com.ru.movieshows.databinding.EpisodeItemBinding
-import com.ru.movieshows.sources.tv_shows.entities.EpisodeEntity
+import com.ru.movieshows.sources.tvshows.entities.EpisodeEntity
 
 class EpisodesAdapter(
     private val episodes: ArrayList<EpisodeEntity>,

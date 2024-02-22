@@ -14,3 +14,7 @@ dependencyResolutionManagement {
 }
 rootProject.name = "movie-shows"
 include ':app'
+include ':core:common'
+include ':core:common-impl'
+include ':core:theme'
+include ':core:presentation'

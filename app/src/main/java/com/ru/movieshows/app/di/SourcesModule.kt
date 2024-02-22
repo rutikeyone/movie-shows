@@ -4,12 +4,12 @@ import com.ru.movieshows.app.model.accounts.AccountsSource
 import com.ru.movieshows.app.model.genres.GenresSource
 import com.ru.movieshows.app.model.movies.MoviesSource
 import com.ru.movieshows.app.model.people.PeopleSource
-import com.ru.movieshows.app.model.tv_shows.TvShowsSource
+import com.ru.movieshows.app.model.tvshows.TvShowsSource
 import com.ru.movieshows.sources.accounts.AccountsSourceImpl
 import com.ru.movieshows.sources.genres.GenresSourceImpl
 import com.ru.movieshows.sources.movies.MoviesSourceImpl
 import com.ru.movieshows.sources.people.PeopleSourceImpl
-import com.ru.movieshows.sources.tv_shows.TvShowsSourceImpl
+import com.ru.movieshows.sources.tvshows.TvShowsSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -2,10 +2,10 @@ package com.ru.movieshows.app.presentation.viewmodel.tv_shows
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.ru.movieshows.app.model.tv_shows.TvShowRepository
+import com.ru.movieshows.app.model.tvshows.TvShowRepository
 import com.ru.movieshows.app.presentation.viewmodel.BaseViewModel
 import com.ru.movieshows.app.utils.share
-import com.ru.movieshows.sources.tv_shows.entities.SeasonEntity
+import com.ru.movieshows.sources.tvshows.entities.SeasonEntity
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

@@ -16,7 +16,7 @@ import com.ru.movieshows.app.presentation.viewmodel.tv_shows.SeasonDetailsViewMo
 import com.ru.movieshows.app.utils.viewBinding
 import com.ru.movieshows.app.utils.viewModelCreator
 import com.ru.movieshows.databinding.SeasonModalSheetBinding
-import com.ru.movieshows.sources.tv_shows.entities.SeasonEntity
+import com.ru.movieshows.sources.tvshows.entities.SeasonEntity
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import javax.inject.Inject

@@ -1,7 +1,7 @@
 package com.ru.movieshows.app.presentation.adapters.tv_shows
 
 import androidx.recyclerview.widget.DiffUtil
-import com.ru.movieshows.sources.tv_shows.entities.TvShowsEntity
+import com.ru.movieshows.sources.tvshows.entities.TvShowsEntity
 
 class TvShowDiffItemCallback : DiffUtil.ItemCallback<TvShowsEntity>() {
 

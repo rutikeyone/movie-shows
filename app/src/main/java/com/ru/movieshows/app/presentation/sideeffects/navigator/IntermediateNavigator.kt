@@ -1,6 +1,7 @@
 package com.ru.movieshows.app.presentation.sideeffects.navigator
 
 import androidx.navigation.NavDirections
+import com.ru.movieshows.app.di.NavigatorWrapper
 import com.ru.movieshows.app.presentation.sideeffects.ResourceActions
 import javax.inject.Inject
 

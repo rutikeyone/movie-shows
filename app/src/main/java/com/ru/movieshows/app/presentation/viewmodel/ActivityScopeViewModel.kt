@@ -3,6 +3,7 @@ package com.ru.movieshows.app.presentation.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ru.movieshows.app.di.NavigatorWrapper
 import com.ru.movieshows.app.di.SideEffectsModule
 import com.ru.movieshows.app.model.accounts.AccountRepository
 import com.ru.movieshows.app.presentation.sideeffects.loader.LoaderOverlay
@@ -18,8 +19,7 @@ import javax.inject.Named
 
 @HiltViewModel
 class ActivityScopeViewModel @Inject constructor(
-    @Named(SideEffectsModule.INTERMEDIATE_NAVIGATOR_DEPENDENCY)
-    val navigator: Navigator,
+    @NavigatorWrapper val navigator: Navigator,
     val toasts: Toasts,
     val resources: Resources,
     private val accountsRepository: AccountRepository,
@@ -79,8 +79,8 @@ class ActivityScopeViewModel @Inject constructor(
     }
 
     override fun onCleared() {
-        super.onCleared()
         navigator.clean()
+        super.onCleared()
     }
 
 }

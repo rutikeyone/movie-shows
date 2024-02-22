@@ -5,14 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.ru.movieshows.app.model.tv_shows.TvShowRepository
+import com.ru.movieshows.app.model.tvshows.TvShowRepository
 import com.ru.movieshows.app.presentation.adapters.SimpleAdapterListener
 import com.ru.movieshows.app.presentation.screens.tv_shows.TvShowSearchFragmentDirections
 import com.ru.movieshows.app.presentation.sideeffects.navigator.Navigator
 import com.ru.movieshows.app.presentation.viewmodel.BaseViewModel
 import com.ru.movieshows.app.presentation.viewmodel.tv_shows.state.TvShowSearchState
 import com.ru.movieshows.app.utils.share
-import com.ru.movieshows.sources.tv_shows.entities.TvShowsEntity
+import com.ru.movieshows.sources.tvshows.entities.TvShowsEntity
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

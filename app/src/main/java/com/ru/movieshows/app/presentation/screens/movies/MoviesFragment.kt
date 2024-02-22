@@ -11,6 +11,7 @@ import androidx.annotation.StringRes
 import androidx.core.view.MenuProvider
 import androidx.core.view.children
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayout
 import com.ru.movieshows.R
 import com.ru.movieshows.app.presentation.adapters.movies.MoviesAdapter
@@ -34,14 +35,7 @@ class MoviesFragment : BaseFragment() {
 
     private val binding by viewBinding<FragmentMoviesBinding>()
 
-    @Inject
-    lateinit var factory: MoviesViewModel.Factory
-
-    override val viewModel by viewModelCreator {
-        factory.create(
-            navigator = navigator()
-        )
-    }
+    override val viewModel by viewModels<MoviesViewModel>()
 
     private val onTabSelectedListener = object : TabLayout.OnTabSelectedListener {
         override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -76,7 +70,7 @@ class MoviesFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.moviesState.observe(viewLifecycleOwner, ::handleUI)
+        viewModel.moviesState.observe(viewLifecycleOwner, ::configureUI)
         viewModel.discoverMoviesState.observe(viewLifecycleOwner, ::handleDiscoverMoviesUI)
     }
 
@@ -127,18 +121,18 @@ class MoviesFragment : BaseFragment() {
         super.onStop()
     }
 
-    private fun handleUI(movieState: MovieState) {
+    private fun configureUI(movieState: MovieState) {
         binding.root.children.forEach { it.isVisible = false }
         binding.genresTabLayout.removeOnTabSelectedListener(onTabSelectedListener)
         when (movieState) {
             MovieState.Empty -> {}
-            MovieState.Pending -> handleInPendingUI()
-            is MovieState.Success -> handleSuccessUI(movieState)
-            is MovieState.Failure -> handleFailureUI(movieState.header, movieState.error)
+            MovieState.Pending -> configurePendingUI()
+            is MovieState.Success -> configureSuccessUI(movieState)
+            is MovieState.Failure -> configureFailureUI(movieState.header, movieState.error)
         }
     }
 
-    private fun handleSuccessUI(state: MovieState.Success) {
+    private fun configureSuccessUI(state: MovieState.Success) {
         binding.successContainer.visibility = View.VISIBLE
         configureNowPlayingPagerUI(state)
         configureDotsUI()
@@ -198,7 +192,7 @@ class MoviesFragment : BaseFragment() {
         }
     }
 
-    private fun handleFailureUI(@StringRes header: Int?, @StringRes error: Int?) {
+    private fun configureFailureUI(@StringRes header: Int?, @StringRes error: Int?) {
         val failurePartBinding = FailurePartBinding.bind(binding.failurePart.root)
         binding.failureContainer.visibility = View.VISIBLE
         failurePartBinding.retryButton.setOnClickListener { viewModel.fetchMoviesData() }
@@ -206,7 +200,7 @@ class MoviesFragment : BaseFragment() {
         if(error != null) failurePartBinding.failureTextMessage.text = resources.getString(error)
     }
 
-    private fun handleInPendingUI() {
+    private fun configurePendingUI() {
         binding.inPendingContainer.visibility = View.VISIBLE
     }
 

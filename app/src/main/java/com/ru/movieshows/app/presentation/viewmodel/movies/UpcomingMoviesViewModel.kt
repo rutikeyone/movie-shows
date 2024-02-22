@@ -22,8 +22,8 @@ class UpcomingMoviesViewModel @AssistedInject constructor(
     private val moviesRepository: MoviesRepository,
 ) : BaseViewModel(), SimpleAdapterListener<MovieEntity> {
 
-    val upcomingMovies: Flow<PagingData<MovieEntity>> = languageTagFlow.flatMapLatest {
-        moviesRepository.getPagedUnComingMovies(it)
+    val upcomingMovies: Flow<PagingData<MovieEntity>> = languageTagFlow.flatMapLatest { language ->
+        moviesRepository.getPagedUnComingMovies(language)
     }.cachedIn(viewModelScope)
 
     override fun onClickItem(data: MovieEntity){

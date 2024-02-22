@@ -1,7 +1,7 @@
 package com.ru.movieshows.app.presentation.viewmodel.episode.state
 
 import androidx.annotation.StringRes
-import com.ru.movieshows.sources.tv_shows.entities.EpisodeEntity
+import com.ru.movieshows.sources.tvshows.entities.EpisodeEntity
 
 sealed class SeasonEpisodesState {
 

@@ -15,7 +15,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:text="@string/there_are_no_episodes"
-        style="?attr/textappearance.movieshows.headline6.bold"/>
+        style="?attr/textAppearanceHeadline6"
+        android:textStyle="bold"/>
 
 
     <androidx.recyclerview.widget.RecyclerView
