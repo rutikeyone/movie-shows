@@ -19,7 +19,7 @@
         app:tintMode="src_atop"
         tools:background="@color/cardview_dark_background"
         android:src="@drawable/poster_placeholder_bg"
-        android:contentDescription="@string/poster_description" />
+        android:contentDescription="@string/poster_description"/>
 
     <TextView
         android:id="@+id/tvShowName"
@@ -35,7 +35,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1"
         style="?attr/textAppearanceHeadline6"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

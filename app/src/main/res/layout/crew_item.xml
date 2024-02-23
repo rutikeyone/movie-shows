@@ -37,6 +37,7 @@
 
     <TextView
         android:id="@+id/nameTextView"
+        style="?attr/textAppearanceBody3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_4"
@@ -44,7 +45,7 @@
         app:layout_constraintTop_toBottomOf="@id/imageCard"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        style="?attr/textAppearanceBody3"
+        android:textStyle="bold"
         android:textAlignment="center"
         android:ellipsize="end"
         android:maxLines="2"

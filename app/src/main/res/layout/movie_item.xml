@@ -28,8 +28,7 @@
             android:layout_width="match_parent"
             app:layout_constraintBottom_toTopOf="@id/movieName"
             android:src="@drawable/poster_placeholder_bg"
-            android:contentDescription="@string/image_description"
-            />
+            android:contentDescription="@string/image_description"/>
 
     </androidx.cardview.widget.CardView>
 
@@ -63,15 +62,13 @@
         android:orientation="horizontal"
         android:gravity="center">
 
-
         <RatingBar
             android:id="@+id/ratingBar"
             style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:rating="1"
-            android:numStars="1"
-            />
+            android:numStars="1"/>
 
         <TextView
             android:id="@+id/ratingValue"

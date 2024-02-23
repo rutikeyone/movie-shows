@@ -15,8 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
         android:id="@+id/searchEmptyTextView"
@@ -27,8 +26,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        style="?attr/textAppearanceHeadline6"
-        />
+        style="?attr/textAppearanceHeadline6"/>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/searchHintScrollView"
@@ -52,8 +50,7 @@
                 android:layout_marginEnd="@dimen/dp_16"
                 android:layout_marginTop="@dimen/dp_16"
                 style="?attr/textAppearanceHeadline6"
-                android:text="@string/it_may_be_useful"
-                />
+                android:text="@string/it_may_be_useful"/>
 
             <ProgressBar
                 android:id="@+id/searchHintsProgressBar"
@@ -69,8 +66,7 @@
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/search_hint_item"
-                android:layout_marginTop="@dimen/dp_8"
-                />
+                android:layout_marginTop="@dimen/dp_8"/>
 
         </LinearLayout>
 
@@ -88,8 +84,7 @@
         android:id="@+id/successContainer"
         app:constraint_referenced_ids="moviesRecyclerView, searchHintScrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent"/>
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/failureContainer"
@@ -107,7 +102,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="gone" />
+        tools:visibility="gone"/>
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/successEmptyContainer"
@@ -118,6 +113,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="gone" />
+        tools:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

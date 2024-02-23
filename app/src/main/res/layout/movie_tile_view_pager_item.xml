@@ -19,8 +19,7 @@
         app:tintMode="src_atop"
         android:src="@drawable/poster_placeholder_bg"
         tools:background="@color/cardview_dark_background"
-        android:contentDescription="@string/image_description"
-        />
+        android:contentDescription="@string/image_description"/>
 
     <TextView
         android:id="@+id/movieName"

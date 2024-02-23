@@ -45,8 +45,7 @@
                     app:selectedDotColor="?attr/defaultSelectedDotColor"
                     app:progressMode="false"
                     android:layout_gravity="center|bottom"
-                    android:layout_margin="@dimen/dp_6"
-                    />
+                    android:layout_margin="@dimen/dp_6"/>
 
             </FrameLayout>
 
@@ -78,9 +77,7 @@
                     app:layout_constraintStart_toEndOf="@id/onAirTvShowTextView"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentTop="true"
-                    android:text="@string/show_all"
-                    />
-
+                    android:text="@string/show_all"/>
 
             </RelativeLayout>
 
@@ -92,8 +89,7 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/tv_shows_item"
                 android:layout_marginTop="@dimen/dp_16"
-                android:layout_marginStart="@dimen/dp_16"
-                />
+                android:layout_marginStart="@dimen/dp_16"/>
 
             <RelativeLayout
                 android:id="@+id/topRatedTvShowsHeader"
@@ -123,8 +119,7 @@
                     app:layout_constraintStart_toEndOf="@id/topRatedTextView"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentTop="true"
-                    android:text="@string/show_all"
-                    />
+                    android:text="@string/show_all"/>
 
             </RelativeLayout>
 
@@ -136,9 +131,7 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/tv_shows_item"
                 android:layout_marginTop="@dimen/dp_16"
-                android:layout_marginStart="@dimen/dp_16"
-                />
-
+                android:layout_marginStart="@dimen/dp_16"/>
 
             <RelativeLayout
                 android:id="@+id/popularTvShowHeader"
@@ -157,7 +150,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_toStartOf="@+id/popularTvShowsButton"
-                    android:text="@string/popular" />
+                    android:text="@string/popular"/>
 
                 <Button
                     android:id="@+id/popularTvShowsButton"
@@ -168,8 +161,7 @@
                     app:layout_constraintStart_toEndOf="@id/popularTvShowTextView"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentTop="true"
-                    android:text="@string/show_all"
-                    />
+                    android:text="@string/show_all"/>
 
             </RelativeLayout>
 
@@ -181,8 +173,7 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/tv_shows_item"
                 android:layout_marginTop="@dimen/dp_16"
-                android:layout_marginStart="@dimen/dp_16"
-                />
+                android:layout_marginStart="@dimen/dp_16"/>
 
         </LinearLayout>
 
@@ -191,11 +182,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="visible"
-            app:constraint_referenced_ids="successLinearLayout" />
+            app:constraint_referenced_ids="successLinearLayout"/>
 
         <include
             android:id="@+id/failurePart"
-            layout="@layout/failure_part" />
+            layout="@layout/failure_part"/>
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/failureContainer"
@@ -206,7 +197,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
         <include
             android:id="@+id/inPendingPart"

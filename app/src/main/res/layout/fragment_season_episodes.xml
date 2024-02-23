@@ -30,8 +30,7 @@
         app:spanCount="3"
         tools:listitem="@layout/episode_item"
         android:scrollbars="vertical"
-        android:layout_gravity="center"
-        />
+        android:layout_gravity="center"/>
 
     <include
         android:id="@+id/inPendingPart"
@@ -46,14 +45,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:constraint_referenced_ids="failurePart"
-        tools:visibility="gone" />
+        tools:visibility="gone"/>
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/successEmptyContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:constraint_referenced_ids="thereAreNotEpisodesTextView"
-        tools:visibility="gone" />
+        tools:visibility="gone"/>
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/progressContainer"
@@ -64,7 +63,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="gone" />
+        tools:visibility="gone"/>
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/successContainer"
@@ -75,6 +74,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible" />
+        tools:visibility="visible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -44,7 +44,7 @@
                     android:layout_height="140dp"
                     tools:background="@color/red"
                     android:src="@drawable/poster_placeholder_bg"
-                    android:contentDescription="@string/poster_description" />
+                    android:contentDescription="@string/poster_description"/>
 
             </androidx.cardview.widget.CardView>
 
@@ -61,14 +61,12 @@
                     android:layout_height="wrap_content"
                     tools:text="Lorem Ipsum is simply dummy text."
                     style="?attr/textAppearanceBody1"
-                    android:maxLines="3"
-                    />
+                    android:maxLines="3"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    >
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/ratingText"
@@ -87,8 +85,7 @@
                         android:rating="1"
                         android:numStars="5"
                         android:layout_marginStart="@dimen/dp_8"
-                        android:layout_gravity="center"
-                        />
+                        android:layout_gravity="center"/>
 
                 </LinearLayout>
 
@@ -114,8 +111,7 @@
                             style="?attr/textAppearanceBody3"
                             android:textColor="?attr/primaryTextColor"
                             android:textStyle="bold"
-                            tools:visibility="visible"
-                            />
+                            tools:visibility="visible"/>
 
                         <TextView
                             android:id="@+id/countEpisodesValue"
@@ -126,8 +122,7 @@
                             app:layout_constraintVertical_bias="0"
                             style="?attr/textAppearanceBody3"
                             android:textColor="?attr/accentTextColor"
-                            android:textStyle="bold"
-                            />
+                            android:textStyle="bold"/>
 
                     </LinearLayout>
 
@@ -147,8 +142,7 @@
                             style="?attr/textAppearanceBody3"
                             android:textColor="?attr/primaryTextColor"
                             android:textStyle="bold"
-                            tools:visibility="visible"
-                            />
+                            tools:visibility="visible"/>
 
                         <TextView
                             android:id="@+id/releaseDateValue"
@@ -165,8 +159,7 @@
                             style="?attr/textAppearanceBody3"
                             android:textColor="?attr/accentTextColor"
                             android:textStyle="bold"
-                            android:layout_marginEnd="@dimen/dp_16"
-                            />
+                            android:layout_marginEnd="@dimen/dp_16"/>
 
                     </LinearLayout>
 
@@ -186,8 +179,7 @@
             style="?attr/textAppearanceBody3"
             android:textColor="?attr/primaryTextColor"
             android:textStyle="bold"
-            tools:visibility="visible"
-            />
+            tools:visibility="visible"/>
 
         <TextView
             android:id="@+id/overviewText"
@@ -200,8 +192,7 @@
                 Lorem Ipsum has been the industry's standard dummy text ever since the 1500s."
             style="?attr/textAppearanceBody3"
             android:ellipsize="end"
-            android:layout_marginTop="@dimen/dp_8"
-            />
+            android:layout_marginTop="@dimen/dp_8"/>
 
         <Button
             android:id="@+id/episodesButton"
@@ -210,8 +201,7 @@
             android:theme="@style/Theme.MovieShows"
             android:backgroundTint="?attr/colorAccent"
             android:text="@string/episodes"
-            android:layout_marginTop="@dimen/dp_16"
-            />
+            android:layout_marginTop="@dimen/dp_16"/>
 
     </LinearLayout>
 

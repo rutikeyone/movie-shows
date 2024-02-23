@@ -29,7 +29,7 @@
             app:layout_constraintBottom_toTopOf="@id/name"
             tools:background="@color/yellow"
             android:src="@drawable/poster_placeholder_bg"
-            android:contentDescription="@string/image_description" />
+            android:contentDescription="@string/image_description"/>
 
     </androidx.cardview.widget.CardView>
 

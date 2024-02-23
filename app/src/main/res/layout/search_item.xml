@@ -23,8 +23,7 @@
             android:layout_width="match_parent"
             tools:background="@color/yellow"
             android:src="@drawable/poster_placeholder_bg"
-            android:contentDescription="@string/image_description"
-            />
+            android:contentDescription="@string/image_description"/>
 
     </androidx.cardview.widget.CardView>
 
@@ -47,8 +46,7 @@
             android:textStyle="bold"
             android:layout_marginBottom="@dimen/dp_8"
             android:maxLines="3"
-            android:ellipsize="end"
-            />
+            android:ellipsize="end"/>
 
         <LinearLayout
             android:id="@+id/ratingBarContainer"
@@ -94,8 +92,7 @@
             style="?attr/textAppearanceBody3"
             android:maxLines="5"
             android:ellipsize="end"
-            android:layout_marginBottom="@dimen/dp_8"
-            />
+            android:layout_marginBottom="@dimen/dp_8"/>
 
     </LinearLayout>
 

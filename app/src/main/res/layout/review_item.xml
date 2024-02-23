@@ -41,39 +41,9 @@
                 android:maxLines="2"
                 style="?attr/textAppearanceBody3"
                 android:textStyle="bold"
-                android:gravity="center_vertical"
-                />
+                android:gravity="center_vertical" />
 
         </LinearLayout>
-
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="horizontal">-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/avatarImageView"-->
-<!--                android:layout_width="@dimen/dp_32"-->
-<!--                android:layout_height="@dimen/dp_32"-->
-<!--                tools:background="@color/darkBlueGray"-->
-<!--                android:layout_marginBottom="@dimen/dp_12"-->
-<!--                android:layout_marginEnd="@dimen/dp_12"-->
-<!--                android:src="@drawable/poster_placeholder_bg"-->
-<!--                />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/reviewerHeaderView"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="@dimen/dp_32"-->
-<!--                tools:text="Author"-->
-<!--                android:ellipsize="end"-->
-<!--                android:maxLines="2"-->
-<!--                style="?attr/textAppearanceBody3"-->
-<!--                android:textColor="?attr/primaryTextColor"-->
-<!--                android:gravity="center_vertical"-->
-<!--                />-->
-
-<!--        </LinearLayout>-->
 
         <RatingBar
             android:id="@+id/ratingBar"
@@ -82,8 +52,7 @@
             android:layout_height="wrap_content"
             tools:rating="1"
             android:numStars="5"
-            android:layout_marginBottom="@dimen/dp_12"
-            />
+            android:layout_marginBottom="@dimen/dp_12"/>
 
         <com.webtoonscorp.android.readmore.ReadMoreTextView
             android:id="@+id/reviewTextView"
@@ -106,8 +75,7 @@
             app:readMoreToggleArea="more"
             app:readLessText="@string/hide"
             app:readMoreText="@string/read_more"
-            android:textColorLink="?android:attr/textColorLink"
-            />
+            android:textColorLink="?android:attr/textColorLink"/>
 
     </LinearLayout>
 

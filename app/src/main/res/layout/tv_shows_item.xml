@@ -28,8 +28,7 @@
             android:layout_width="match_parent"
             app:layout_constraintBottom_toTopOf="@id/tvShowNameTextView"
             android:src="@drawable/poster_placeholder_bg"
-            android:contentDescription="@string/image_description"
-            />
+            android:contentDescription="@string/image_description"/>
 
     </androidx.cardview.widget.CardView>
 
@@ -53,8 +52,7 @@
         android:layout_marginBottom="@dimen/dp_4"
         tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
         android:paddingStart="@dimen/dp_4"
-        android:paddingEnd="@dimen/dp_4"
-        />
+        android:paddingEnd="@dimen/dp_4"/>
 
     <LinearLayout
         android:id="@+id/ratingContainer"
@@ -66,7 +64,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:orientation="horizontal"
         android:gravity="center">
-
 
         <RatingBar
             android:id="@+id/ratingBar"
@@ -90,6 +87,5 @@
             android:gravity="center"/>
 
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
