@@ -14,9 +14,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/moviesRecyclerView"
@@ -30,8 +28,7 @@
         app:spanCount="3"
         android:scrollbars="vertical"
         android:layout_gravity="center"
-        tools:listitem="@layout/movie_item"
-        />
+        tools:listitem="@layout/movie_item" />
 
     <include
         android:id="@+id/failurePart"

@@ -32,7 +32,7 @@
         android:layout_gravity="center"
         android:paddingStart="@dimen/dp_8"
         android:paddingEnd="@dimen/dp_8"
-        />
+        tools:listitem="@layout/tv_shows_item"/>
 
     <include
         android:id="@+id/failurePart"
@@ -42,6 +42,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

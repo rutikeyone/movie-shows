@@ -18,7 +18,6 @@
         style="?attr/textAppearanceHeadline6"
         android:textStyle="bold"/>
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/episodesRecyclerView"
         android:layout_width="0dp"

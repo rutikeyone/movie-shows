@@ -33,7 +33,6 @@
 
     </androidx.cardview.widget.CardView>
 
-
     <TextView
         android:id="@+id/movieName"
         style="?attr/textAppearanceBody3"
@@ -88,6 +87,5 @@
             android:gravity="center"/>
 
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
