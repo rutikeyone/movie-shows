@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.forEach
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.ru.movieshows.R
@@ -20,7 +21,13 @@ import com.ru.movieshows.app.utils.viewModelCreator
 import com.ru.movieshows.databinding.FailurePartBinding
 import com.ru.movieshows.databinding.FragmentSeasonEpisodesBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.sync.Mutex
+import java.util.concurrent.locks.Lock
+import java.util.concurrent.locks.ReentrantReadWriteLock
 import javax.inject.Inject
+import kotlin.coroutines.suspendCoroutine
 
 
 @AndroidEntryPoint

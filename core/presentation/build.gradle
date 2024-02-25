@@ -29,6 +29,9 @@ android {
     kotlinOptions {
         jvmTarget = '17'
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -38,6 +41,8 @@ dependencies {
 
     implementation Libs.Google.Material
 
-    api project(Modules.Core.Common)
-    api project(Modules.Core.Theme)
+    implementation Libs.Stuff.Glide
+
+    implementation project(Modules.Core.Common)
+    implementation project(Modules.Core.Theme)
 }

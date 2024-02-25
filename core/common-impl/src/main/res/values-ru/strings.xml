@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="core_common_session_expired">Session has been expired</string>
     <string name="core_common_error_connection">No internet connection</string>

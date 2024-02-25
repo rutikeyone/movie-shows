@@ -41,6 +41,13 @@ class DefaultErrorHandler(
         }
     }
 
+    override fun getUserHeader(exception: Throwable): String {
+        return when(exception) {
+            is AuthException -> resources.getString(R.string.core_common_error_header)
+            else -> resources.getString(R.string.core_common_connect_to_the_internet)
+        }
+    }
+
     override fun getUserMessage(exception: Throwable): String {
         return when (exception) {
             is AuthException -> resources.getString(R.string.core_common_session_expired)

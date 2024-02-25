@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="core_presentation_retry">Повторить</string>
+    <string name="core_presentation_general_error_title">Ошибка</string>
+    <string name="core_presentation_general_error">Неизвестная внутренняя ошибка</string>
+    <string name="core_presentation_general_error_ok">Хорошо</string>
+    <string name="core_presentation_try_again">Повторить</string>
+    <string name="core_presentation_logout">Выйти</string>
+    <string name="core_presentation_error_header">Ошибка!</string>
+    <string name="core_presentation_connect_to_the_internet">Подключитесь к Интернету</string>
+</resources>

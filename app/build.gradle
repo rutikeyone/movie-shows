@@ -76,5 +76,5 @@ dependencies {
     implementation Libs.Stuff.ArrowCoroutines
     implementation Libs.Stuff.MaterialishProgress
 
-    implementation project(Modules.Core.Theme)
+    implementation project(Modules.Core.Presentation)
 }
