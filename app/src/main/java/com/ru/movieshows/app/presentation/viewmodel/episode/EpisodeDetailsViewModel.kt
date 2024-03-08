@@ -3,7 +3,7 @@ package com.ru.movieshows.app.presentation.viewmodel.episode
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import arrow.core.getOrElse
-import com.ru.movieshows.R
+import com.ru.movieshows.app.R
 import com.ru.movieshows.app.model.AppFailure
 import com.ru.movieshows.app.model.people.PeopleRepository
 import com.ru.movieshows.app.model.tvshows.TvShowRepository

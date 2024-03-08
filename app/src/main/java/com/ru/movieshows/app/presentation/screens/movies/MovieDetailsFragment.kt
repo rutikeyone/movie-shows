@@ -9,14 +9,13 @@ import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.core.text.HtmlCompat
 import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.ru.movieshows.R
+import com.ru.movieshows.app.R
 import com.ru.movieshows.app.presentation.adapters.InfoAdapter
 import com.ru.movieshows.app.presentation.adapters.VideosAdapter
 import com.ru.movieshows.app.presentation.adapters.movies.MoviesAdapter
@@ -27,16 +26,13 @@ import com.ru.movieshows.app.utils.OnTouchListener
 import com.ru.movieshows.app.utils.applyDecoration
 import com.ru.movieshows.app.utils.viewBinding
 import com.ru.movieshows.app.utils.viewModelCreator
-import com.ru.movieshows.databinding.FailurePartBinding
-import com.ru.movieshows.databinding.FragmentMovieDetailsBinding
+import com.ru.movieshows.app.databinding.FailurePartBinding
+import com.ru.movieshows.app.databinding.FragmentMovieDetailsBinding
 import com.ru.movieshows.sources.movies.entities.MovieDetailsEntity
 import com.ru.movieshows.sources.movies.entities.MovieEntity
 import com.ru.movieshows.sources.movies.entities.ReviewEntity
 import com.ru.movieshows.sources.movies.entities.VideoEntity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.suspendCancellableCoroutine
 import java.text.SimpleDateFormat
 import javax.inject.Inject
 

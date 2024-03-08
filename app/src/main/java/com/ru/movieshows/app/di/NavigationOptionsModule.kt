@@ -1,7 +1,7 @@
 package com.ru.movieshows.app.di
 
-import com.ru.movieshows.AppGraphDirections
-import com.ru.movieshows.R
+import com.ru.movieshows.app.AppGraphDirections
+import com.ru.movieshows.app.R
 import com.ru.movieshows.app.presentation.sideeffects.navigator.NavigationOptions
 import dagger.Module
 import dagger.Provides

@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
-import com.ru.movieshows.R
+import com.ru.movieshows.app.R
 import com.ru.movieshows.app.presentation.screens.BaseFragment
 import com.ru.movieshows.app.presentation.viewmodel.auth.ProfileViewModel
 import com.ru.movieshows.app.utils.viewBinding
 import com.ru.movieshows.app.utils.viewModelCreator
-import com.ru.movieshows.databinding.FragmentProfileBinding
+import com.ru.movieshows.app.databinding.FragmentProfileBinding
 import com.ru.movieshows.sources.accounts.entities.AccountEntity
 import com.ru.movieshows.sources.accounts.entities.UserAuthenticationState
 import dagger.hilt.android.AndroidEntryPoint

@@ -2,7 +2,6 @@ package com.ru.movieshows.sources.accounts.models
 
 import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
-import com.ru.movieshows.BuildConfig
 import com.ru.movieshows.sources.accounts.converters.AvatarConverter
 import com.ru.movieshows.sources.accounts.entities.AccountEntity
 

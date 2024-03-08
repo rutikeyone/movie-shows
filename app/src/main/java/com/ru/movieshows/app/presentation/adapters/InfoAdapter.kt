@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.ru.movieshows.databinding.InfoItemBinding
+import com.ru.movieshows.app.databinding.InfoItemBinding
 
 class InfoAdapter(
     private val data: List<String?>

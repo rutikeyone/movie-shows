@@ -9,7 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
-import com.ru.movieshows.R
+import com.ru.movieshows.app.R
 import com.ru.movieshows.app.model.AppFailure
 import com.ru.movieshows.app.presentation.adapters.ItemDecoration
 import com.ru.movieshows.app.presentation.adapters.LoadStateAdapter
@@ -20,7 +20,7 @@ import com.ru.movieshows.app.presentation.viewmodel.movies.MovieReviewsViewModel
 import com.ru.movieshows.app.utils.applyDecoration
 import com.ru.movieshows.app.utils.viewBinding
 import com.ru.movieshows.app.utils.viewModelCreator
-import com.ru.movieshows.databinding.FragmentMovieReviewsBinding
+import com.ru.movieshows.app.databinding.FragmentMovieReviewsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

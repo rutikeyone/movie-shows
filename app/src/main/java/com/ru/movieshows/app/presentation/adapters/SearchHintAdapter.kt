@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.ru.movieshows.databinding.SearchHintItemBinding
+import com.ru.movieshows.app.databinding.SearchHintItemBinding
 
 class SearchHintAdapter(
     private val searchItems: List<String?>,

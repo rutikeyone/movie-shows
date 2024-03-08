@@ -9,7 +9,7 @@ import com.ru.movieshows.app.presentation.sideeffects.navigator.Navigator
 import com.ru.movieshows.app.presentation.sideeffects.resources.Resources
 import com.ru.movieshows.app.presentation.sideeffects.toast.Toasts
 import com.ru.movieshows.app.presentation.viewmodel.ActivityScopeViewModel
-import com.ru.movieshows.databinding.ActivityMainBinding
+import com.ru.movieshows.app.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

@@ -7,6 +7,8 @@ typealias ValueLoader<T> = suspend () -> T
 
 interface LazyFlowSubject<T> {
 
+    fun getLastValue(): Container<T>
+
     fun listen(): Flow<Container<T>>
 
     suspend fun newLoad(silently: Boolean = false, valueLoader: ValueLoader<T>? = null): T

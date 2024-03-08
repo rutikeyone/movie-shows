@@ -10,7 +10,7 @@ import androidx.core.view.isVisible
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.ru.movieshows.R
+import com.ru.movieshows.app.R
 import com.ru.movieshows.app.presentation.adapters.episode.CrewAdapter
 import com.ru.movieshows.app.presentation.screens.BaseFragment
 import com.ru.movieshows.app.presentation.screens.tv_shows.PersonDetailsBottomSheetDialogFragment
@@ -20,8 +20,8 @@ import com.ru.movieshows.app.utils.applyDecoration
 import com.ru.movieshows.app.utils.observeEvent
 import com.ru.movieshows.app.utils.viewBinding
 import com.ru.movieshows.app.utils.viewModelCreator
-import com.ru.movieshows.databinding.FailurePartBinding
-import com.ru.movieshows.databinding.FragmentEpisodeDetailsBinding
+import com.ru.movieshows.app.databinding.FailurePartBinding
+import com.ru.movieshows.app.databinding.FragmentEpisodeDetailsBinding
 import com.ru.movieshows.sources.people.entities.PersonEntity
 import com.ru.movieshows.sources.tvshows.entities.CrewEntity
 import dagger.hilt.android.AndroidEntryPoint

@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace 'com.ru.movieshows'
+    namespace 'com.ru.movieshows.app'
     compileSdk targetAndroidSdk
 
     defaultConfig {
-        applicationId "com.ru.movieshows"
+        applicationId "com.ru.movieshows.app"
         minSdk minAndroidSdk
         targetSdk targetAndroidSdk
         versionCode 1
@@ -58,7 +58,7 @@ dependencies {
     implementation Libs.Android.LegacySupport
     implementation Libs.Android.RecyclerView
     implementation Libs.Android.ConstraintLayout
-    implementation Libs.Android.Pagination
+    implementation Libs.Android.PaginationRuntime
     implementation Libs.Google.Material
     implementation Libs.Google.Hilt
     implementation Libs.Google.FlexBox
@@ -76,5 +76,6 @@ dependencies {
     implementation Libs.Stuff.ArrowCoroutines
     implementation Libs.Stuff.MaterialishProgress
 
+    implementation project(Modules.Wiring)
     implementation project(Modules.Core.Presentation)
 }

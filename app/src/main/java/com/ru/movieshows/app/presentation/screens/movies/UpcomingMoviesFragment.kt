@@ -10,7 +10,7 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
-import com.ru.movieshows.R
+import com.ru.movieshows.app.R
 import com.ru.movieshows.app.model.AppFailure
 import com.ru.movieshows.app.presentation.adapters.ItemDecoration
 import com.ru.movieshows.app.presentation.adapters.LoadStateAdapter
@@ -22,7 +22,7 @@ import com.ru.movieshows.app.presentation.viewmodel.movies.UpcomingMoviesViewMod
 import com.ru.movieshows.app.utils.applyDecoration
 import com.ru.movieshows.app.utils.viewBinding
 import com.ru.movieshows.app.utils.viewModelCreator
-import com.ru.movieshows.databinding.FragmentUpcomingMoviesBinding
+import com.ru.movieshows.app.databinding.FragmentUpcomingMoviesBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest

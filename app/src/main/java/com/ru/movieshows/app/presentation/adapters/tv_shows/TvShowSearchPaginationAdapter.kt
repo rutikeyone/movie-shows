@@ -8,9 +8,9 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.ru.movieshows.R
+import com.ru.movieshows.app.R
 import com.ru.movieshows.app.presentation.adapters.SimpleAdapterListener
-import com.ru.movieshows.databinding.SearchItemBinding
+import com.ru.movieshows.app.databinding.SearchItemBinding
 import com.ru.movieshows.sources.tvshows.entities.TvShowsEntity
 
 class TvShowSearchPaginationAdapter(

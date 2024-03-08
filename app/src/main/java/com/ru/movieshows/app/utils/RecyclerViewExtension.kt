@@ -4,8 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
-import com.ru.movieshows.R
-import com.ru.movieshows.app.presentation.adapters.ItemDecoration
+import com.ru.movieshows.app.R
 
 fun RecyclerView.clearDecorations() {
     if (itemDecorationCount > 0) {

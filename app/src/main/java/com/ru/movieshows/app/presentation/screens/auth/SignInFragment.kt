@@ -5,14 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import com.ru.movieshows.R
+import com.ru.movieshows.app.R
 import com.ru.movieshows.app.presentation.screens.BaseFragment
 import com.ru.movieshows.app.presentation.viewmodel.auth.SignInViewModel
 import com.ru.movieshows.app.presentation.viewmodel.auth.state.SignInState
 import com.ru.movieshows.app.utils.TextChangedWatcher
 import com.ru.movieshows.app.utils.viewBinding
 import com.ru.movieshows.app.utils.viewModelCreator
-import com.ru.movieshows.databinding.FragmentSignInBinding
+import com.ru.movieshows.app.databinding.FragmentSignInBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

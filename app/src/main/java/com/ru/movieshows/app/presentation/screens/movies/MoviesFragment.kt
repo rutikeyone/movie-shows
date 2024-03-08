@@ -13,7 +13,7 @@ import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayout
-import com.ru.movieshows.R
+import com.ru.movieshows.app.R
 import com.ru.movieshows.app.presentation.adapters.movies.MoviesAdapter
 import com.ru.movieshows.app.presentation.adapters.movies.MoviesViewPagerAdapter
 import com.ru.movieshows.app.presentation.screens.BaseFragment
@@ -22,13 +22,11 @@ import com.ru.movieshows.app.presentation.viewmodel.movies.state.DiscoverMoviesS
 import com.ru.movieshows.app.presentation.viewmodel.movies.state.MovieState
 import com.ru.movieshows.app.utils.applyDecoration
 import com.ru.movieshows.app.utils.viewBinding
-import com.ru.movieshows.app.utils.viewModelCreator
-import com.ru.movieshows.databinding.FailurePartBinding
-import com.ru.movieshows.databinding.FragmentMoviesBinding
+import com.ru.movieshows.app.databinding.FailurePartBinding
+import com.ru.movieshows.app.databinding.FragmentMoviesBinding
 import com.ru.movieshows.sources.movies.entities.MovieEntity
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MoviesFragment : BaseFragment() {

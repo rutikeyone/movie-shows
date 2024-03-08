@@ -14,7 +14,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.Abs
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.FullscreenListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.loadOrCueVideo
-import com.ru.movieshows.databinding.ActivityVideoPlayerBinding
+import com.ru.movieshows.app.databinding.ActivityVideoPlayerBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @SuppressLint("SourceLockedOrientationActivity")

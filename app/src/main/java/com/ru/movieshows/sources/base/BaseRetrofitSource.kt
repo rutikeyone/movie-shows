@@ -1,7 +1,7 @@
 package com.ru.movieshows.sources.base
 
 import com.google.gson.annotations.SerializedName
-import com.ru.movieshows.R
+import com.ru.movieshows.app.R
 import com.ru.movieshows.app.model.AppFailure
 import retrofit2.HttpException
 import java.net.ConnectException

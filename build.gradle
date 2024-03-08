@@ -20,7 +20,8 @@ buildscript {
                LegacySupport: "androidx.legacy:legacy-support-v4:1.0.0",
                RecyclerView: "androidx.recyclerview:recyclerview:1.3.2",
                ConstraintLayout: "androidx.constraintlayout:constraintlayout:2.1.4",
-               Pagination: "androidx.paging:paging-runtime-ktx:3.2.1",
+               PaginationRuntime: "androidx.paging:paging-runtime-ktx:3.2.1",
+               PaginationCommonKtx: "androidx.paging:paging-common-ktx:3.2.1",
                EspressoCore :"androidx.test.espresso:espresso-core:3.5.1",
                JUnitExt: "androidx.test.ext:junit:1.1.5"
             ],
@@ -52,11 +53,13 @@ buildscript {
         ]
 
         Modules = [
+           Wiring: ":wiring",
            Core: [
                Common: ":core:common",
+               CommonImpl: ":core:common-impl",
                Theme: ":core:theme",
-               Presentation: ":core:presentation"
-           ]
+               Presentation: ":core:presentation",
+           ],
         ]
     }
 

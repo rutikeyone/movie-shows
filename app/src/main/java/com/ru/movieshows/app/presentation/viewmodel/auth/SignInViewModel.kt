@@ -2,7 +2,7 @@ package com.ru.movieshows.app.presentation.viewmodel.auth
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.ru.movieshows.AppGraphDirections
+import com.ru.movieshows.app.AppGraphDirections
 import com.ru.movieshows.app.model.AppFailure
 import com.ru.movieshows.app.model.accounts.AccountRepository
 import com.ru.movieshows.app.presentation.sideeffects.navigator.Navigator

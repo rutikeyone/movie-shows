@@ -11,7 +11,7 @@ import androidx.annotation.StringRes
 import androidx.core.view.MenuProvider
 import androidx.core.view.children
 import androidx.core.view.isVisible
-import com.ru.movieshows.R
+import com.ru.movieshows.app.R
 import com.ru.movieshows.app.presentation.adapters.tv_shows.TvShowsAdapter
 import com.ru.movieshows.app.presentation.adapters.tv_shows.TvShowsViewPagerAdapter
 import com.ru.movieshows.app.presentation.screens.BaseFragment
@@ -20,8 +20,8 @@ import com.ru.movieshows.app.presentation.viewmodel.tv_shows.state.TvShowsState
 import com.ru.movieshows.app.utils.applyDecoration
 import com.ru.movieshows.app.utils.viewBinding
 import com.ru.movieshows.app.utils.viewModelCreator
-import com.ru.movieshows.databinding.FailurePartBinding
-import com.ru.movieshows.databinding.FragmentTvShowsBinding
+import com.ru.movieshows.app.databinding.FailurePartBinding
+import com.ru.movieshows.app.databinding.FragmentTvShowsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

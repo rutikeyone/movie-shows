@@ -13,7 +13,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ru.movieshows.app.presentation.screens.tabs.TabsFragment
-import com.ru.movieshows.databinding.FragmentTabsBinding
+import com.ru.movieshows.app.databinding.FragmentTabsBinding
 import javax.inject.Inject
 
 data class NavigationOptions(

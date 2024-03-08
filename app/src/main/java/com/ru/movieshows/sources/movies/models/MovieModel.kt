@@ -1,7 +1,6 @@
 package com.ru.movieshows.sources.movies.models
 
 import com.google.gson.annotations.SerializedName
-import com.ru.movieshows.BuildConfig
 import com.ru.movieshows.sources.movies.entities.MovieEntity
 
 data class MovieModel(

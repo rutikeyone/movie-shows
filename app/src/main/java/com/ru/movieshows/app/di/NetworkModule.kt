@@ -2,7 +2,6 @@ package com.ru.movieshows.app.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.ru.movieshows.BuildConfig
 import com.ru.movieshows.sources.base.NetworkConfig
 import dagger.Module
 import dagger.Provides

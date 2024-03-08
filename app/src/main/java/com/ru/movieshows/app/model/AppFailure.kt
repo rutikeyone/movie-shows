@@ -1,7 +1,7 @@
 package com.ru.movieshows.app.model
 
 import androidx.annotation.StringRes
-import com.ru.movieshows.R
+import com.ru.movieshows.app.R
 import com.ru.movieshows.sources.base.ErrorResponseBody
 
 

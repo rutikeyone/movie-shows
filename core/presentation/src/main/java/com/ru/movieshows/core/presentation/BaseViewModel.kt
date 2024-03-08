@@ -4,13 +4,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ru.movieshows.core.AlertDialogConfig
 import com.ru.movieshows.core.CommonUi
+import com.ru.movieshows.core.Container
 import com.ru.movieshows.core.Core
+import com.ru.movieshows.core.ErrorHandler
 import com.ru.movieshows.core.Logger
 import com.ru.movieshows.core.Resources
+import com.ru.movieshows.core.presentation.assignable.Assignable
+import com.ru.movieshows.core.presentation.assignable.LiveValueAssignable
+import com.ru.movieshows.core.presentation.assignable.StateFlowAssignable
 import com.ru.movieshows.core.presentation.live.Event
 import com.ru.movieshows.core.presentation.live.LiveEventValue
 import com.ru.movieshows.core.presentation.live.LiveValue
 import com.ru.movieshows.core.presentation.live.MutableLiveValue
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -18,9 +24,11 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 open class BaseViewModel : ViewModel() {
 
@@ -70,6 +78,40 @@ open class BaseViewModel : ViewModel() {
 
     protected fun <T> LiveEventValue<T>.publish(event: T) {
         this.value = Event(event)
+    }
+
+    protected fun <T> loadScreenInto(
+        stateFlow: MutableStateFlow<Container<T>>,
+        errorHandler: ((Exception) -> Unit)? = null,
+        loader: suspend () -> T,
+    ) {
+        loadScreenInto(StateFlowAssignable(stateFlow), errorHandler, loader)
+    }
+
+    protected fun <T> loadScreenInto(
+        liveValue: LiveValue<Container<T>>,
+        errorHandler: ((Exception) -> Unit)? = null,
+        loader: suspend () -> T,
+    ) {
+        loadScreenInto(LiveValueAssignable(liveValue), errorHandler, loader)
+    }
+
+    private fun <T> loadScreenInto(
+        assignable: Assignable<Container<T>>,
+        errorHandler: ((Exception) -> Unit)? = null,
+        loader: suspend () -> T,
+    ) {
+        viewModelScope.launch {
+            try {
+                assignable.setValue(Container.Pending)
+                val value = loader()
+                assignable.setValue(Container.Success(value))
+            } catch (e: Exception) {
+                if(e is CancellationException) throw e
+                errorHandler?.invoke(e)
+                assignable.setValue(Container.Error(e))
+            }
+        }
     }
 
     protected fun <T> Flow<T>.toLiveValue(initialValue: T?): LiveValue<T> {

@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
-import com.ru.movieshows.R
+import com.ru.movieshows.app.R
+import com.ru.movieshows.app.databinding.PartDefaultLoadStateBinding
 import com.ru.movieshows.app.model.AppFailure
-import com.ru.movieshows.databinding.PartDefaultLoadStateBinding
 
 class DefaultLoadStateViewHolder(
     private val context: Context,

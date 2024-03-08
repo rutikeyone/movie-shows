@@ -15,11 +15,11 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationBarView
-import com.ru.movieshows.R
+import com.ru.movieshows.app.R
 import com.ru.movieshows.app.presentation.screens.BaseFragment
 import com.ru.movieshows.app.presentation.viewmodel.tabs.TabsViewModel
 import com.ru.movieshows.app.utils.viewBinding
-import com.ru.movieshows.databinding.FragmentTabsBinding
+import com.ru.movieshows.app.databinding.FragmentTabsBinding
 import com.ru.movieshows.sources.accounts.entities.UserAuthenticationState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn

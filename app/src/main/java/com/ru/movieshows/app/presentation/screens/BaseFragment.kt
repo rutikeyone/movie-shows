@@ -11,7 +11,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.annotation.DimenRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.ru.movieshows.R
+import com.ru.movieshows.app.R
 import com.ru.movieshows.app.presentation.FragmentHolder
 import com.ru.movieshows.app.presentation.sideeffects.navigator.Navigator
 import com.ru.movieshows.app.presentation.sideeffects.resources.Resources

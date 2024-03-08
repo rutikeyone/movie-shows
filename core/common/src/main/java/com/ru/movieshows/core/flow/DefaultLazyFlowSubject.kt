@@ -24,6 +24,8 @@ class DefaultLazyFlowSubject<T>(
 
     private val mutex = Mutex()
 
+    override fun getLastValue(): Container<T> = outputFlow.value
+
     override fun listen(): Flow<Container<T>> = callbackFlow {
         synchronized(this@DefaultLazyFlowSubject) {
             onStart()

@@ -10,12 +10,12 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.ru.movieshows.R
+import com.ru.movieshows.app.R
 import com.ru.movieshows.app.presentation.screens.BaseBottomSheetDialogFragment
 import com.ru.movieshows.app.presentation.viewmodel.tv_shows.SeasonDetailsViewModel
 import com.ru.movieshows.app.utils.viewBinding
 import com.ru.movieshows.app.utils.viewModelCreator
-import com.ru.movieshows.databinding.SeasonModalSheetBinding
+import com.ru.movieshows.app.databinding.SeasonModalSheetBinding
 import com.ru.movieshows.sources.tvshows.entities.SeasonEntity
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat

@@ -14,7 +14,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.ru.movieshows.R
+import com.ru.movieshows.app.R
 import com.ru.movieshows.app.presentation.adapters.InfoAdapter
 import com.ru.movieshows.app.presentation.adapters.SimpleAdapterListener
 import com.ru.movieshows.app.presentation.adapters.VideosAdapter
@@ -28,8 +28,8 @@ import com.ru.movieshows.app.utils.applyDecoration
 import com.ru.movieshows.app.utils.observeEvent
 import com.ru.movieshows.app.utils.viewBinding
 import com.ru.movieshows.app.utils.viewModelCreator
-import com.ru.movieshows.databinding.FailurePartBinding
-import com.ru.movieshows.databinding.FragmentTvShowDetailsBinding
+import com.ru.movieshows.app.databinding.FailurePartBinding
+import com.ru.movieshows.app.databinding.FragmentTvShowDetailsBinding
 import com.ru.movieshows.sources.movies.entities.ReviewEntity
 import com.ru.movieshows.sources.movies.entities.VideoEntity
 import com.ru.movieshows.sources.people.entities.PersonEntity

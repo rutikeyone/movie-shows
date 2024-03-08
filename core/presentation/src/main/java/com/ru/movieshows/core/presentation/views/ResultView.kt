@@ -89,56 +89,6 @@ class ResultView @JvmOverloads constructor(
                 it.isVisible = container is Container.Success
             }
         }
-
-//        val container = this.container
-//        binding.resultProgressBar.isVisible = container is Container.Pending
-//        binding.resultErrorContainer.isVisible = container is Container.Error
-//        binding.internalResultContainer.isVisible = container !is Container.Success
-//
-//        if (container is Container.Error) {
-//            val exception = container.exception
-//            Core.logger.err(exception)
-//            binding.resultErrorTextView.text = Core.errorHandler.getUserMessage(exception)
-//            binding.tryAgainButton.setText(if (isAuthError()) {
-//                R.string.core_presentation_logout
-//            } else {
-//                R.string.core_presentation_try_again
-//            })
-//        }
-//
-//        children.forEach {
-//            if (it != binding.root) {
-//                it.isVisible = container is Container.Success
-//            }
-//        }
-
-
-//        val container = this.container
-//        with(binding) {
-//            progressGroupView.isVisible = container is Container.Pending
-//            failureGroupView.isVisible = container is Container.Error
-//            internalResultContainer.isVisible = container !is Container.Success
-//
-//            if(container is Container.Error) {
-//                val exception = container.exception
-//                Core.logger.err(exception)
-//                failureTextHeader.text = Core.errorHandler.getUserHeader(exception)
-//                failureTextMessage.text = Core.errorHandler.getUserMessage(exception)
-//                tryAgainButton.setText(
-//                    if(isAuthError()) {
-//                        R.string.core_presentation_logout
-//                    } else {
-//                        R.string.core_presentation_try_again
-//                    }
-//                )
-//            }
-//        }
-//
-//        children.forEach {
-//            if(it != binding.root) {
-//                it.isVisible = container is Container.Success
-//            }
-//        }
     }
 
     private fun isAuthError() = container.let {
