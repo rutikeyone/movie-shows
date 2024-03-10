@@ -14,7 +14,7 @@ interface AccountSourcesModule {
 
     @Binds
     fun bindAccountSource(
-        accountsDataSource: AccountsDataSourceImpl
+        accountsDataSource: AccountsDataSourceImpl,
     ): AccountsDataSource
 
 }

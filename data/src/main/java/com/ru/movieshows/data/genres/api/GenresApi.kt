@@ -9,7 +9,7 @@ interface GenresApi {
 
     @GET("genre/movie/list")
     suspend fun getGenres(
-        @Query("language") language: String
+        @Query("language") language: String,
     ): Response<GenresModel>
 
 }

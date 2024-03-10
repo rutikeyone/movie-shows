@@ -60,6 +60,10 @@ buildscript {
                Theme: ":core:theme",
                Presentation: ":core:presentation",
            ],
+           Data: [
+               Data: ":data",
+               Core: ":data:core"
+           ]
         ]
     }
 

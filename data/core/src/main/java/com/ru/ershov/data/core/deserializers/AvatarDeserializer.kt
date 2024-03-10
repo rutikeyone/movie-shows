@@ -1,16 +1,16 @@
-package com.ru.movieshows.data.accounts.converters
+package com.ru.ershov.data.core.deserializers
 
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
-import com.ru.movieshows.data.accounts.di.BaseImageUrl
+import com.ru.ershov.data.core.di.BaseImageUrlQualifier
 import java.lang.reflect.Type
 import javax.inject.Inject
 
-class AvatarJsonDeserializer: JsonDeserializer<String?> {
+class AvatarDeserializer: JsonDeserializer<String?> {
 
     @Inject
-    @BaseImageUrl
+    @BaseImageUrlQualifier
     lateinit var imageUrl: String
 
     override fun deserialize(

@@ -8,11 +8,11 @@ import javax.inject.Singleton
 
 @Singleton
 @InstallIn(Singleton::class)
-interface GenresRepositoriesModule {
+interface GenresDataRepositoriesModule {
 
     @Binds
-    fun provideGenresRepository(
-        genresDataRepository: GenresDataRepositoryImpl
+    fun provideGenresDataRepository(
+        genresDataRepository: GenresDataRepositoryImpl,
     ): GenresDataRepository
 
 }

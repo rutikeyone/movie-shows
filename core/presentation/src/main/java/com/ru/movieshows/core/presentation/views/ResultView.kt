@@ -30,6 +30,7 @@ class ResultView @JvmOverloads constructor(
 
     private val binding: CorePresentatiionPartResultBinding
 
+
     init {
         val inflater = LayoutInflater.from(context)
         binding = CorePresentatiionPartResultBinding.inflate(inflater, this, false)

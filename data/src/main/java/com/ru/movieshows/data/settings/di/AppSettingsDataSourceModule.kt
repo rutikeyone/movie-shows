@@ -15,7 +15,7 @@ interface AppSettingsDataSourceModule {
     @Binds
     @Singleton
     fun bindAppSettingsDataSource(
-        settingsDataSource: SharedPreferencesSettingsDataSource
+        settingsDataSource: SharedPreferencesSettingsDataSource,
     ): SettingsDataSource
 
 }

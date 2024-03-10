@@ -1,8 +1,8 @@
 package com.ru.movieshows.data.movies.models
 
-import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
-import com.ru.movieshows.data.movies.converters.ImageJsonDeserializer
+import com.ru.ershov.data.core.ImagePreviewMapper
+import javax.inject.Inject
 
 data class MovieModel(
     val id: Int?,
@@ -10,10 +10,21 @@ data class MovieModel(
     val rating: Double?,
     val title: String?,
     @SerializedName("backdrop_path")
-    @JsonAdapter(value = ImageJsonDeserializer::class)
-    val backDrop: String?,
+    val backDropPath: String?,
     @SerializedName("poster_path")
-    @JsonAdapter(value = ImageJsonDeserializer::class)
-    val poster: String?,
-    val overview: String?
-)
+    val posterPath: String?,
+    val overview: String?,
+) {
+
+    @Inject
+    lateinit var imagePreviewMapper: ImagePreviewMapper
+
+    val backDrop: String? get() {
+        return imagePreviewMapper.toPreviewImage(backDropPath)
+    }
+
+    val poster: String? get() {
+        return imagePreviewMapper.toPreviewImage(posterPath)
+    }
+
+}

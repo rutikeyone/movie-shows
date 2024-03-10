@@ -39,7 +39,10 @@ class SharedPreferencesSettingsDataSource @Inject constructor(
         }
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+    override fun onSharedPreferenceChanged(
+        sharedPreferences: SharedPreferences?,
+        key: String?,
+    ) {
         currentSessionIdFlow.value = getCurrentSessionId()
         currentFirstStartingFlow.value = getFirstStarting()
     }

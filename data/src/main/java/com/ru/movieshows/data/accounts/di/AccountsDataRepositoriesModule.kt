@@ -9,12 +9,12 @@ import javax.inject.Singleton
 
 @Singleton
 @InstallIn(SingletonComponent::class)
-interface AccountsRepositoriesModule {
+interface AccountsDataRepositoriesModule {
 
     @Binds
     @Singleton
-    fun bindAccountsRepository(
-        accountsDataRepository: AccountsDataRepositoryImpl
+    fun bindAccountsDataRepository(
+        accountsDataRepository: AccountsDataRepositoryImpl,
     ): AccountsDataRepository
 
 }

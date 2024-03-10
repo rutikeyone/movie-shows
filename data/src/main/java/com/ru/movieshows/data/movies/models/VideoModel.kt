@@ -1,6 +1,7 @@
 package com.ru.movieshows.data.movies.models
 
-import com.ru.movieshows.data.movies.mappers.PreviewMapper
+import com.ru.ershov.data.core.ImagePreviewMapper
+import com.ru.ershov.data.core.di.YoutubeImagePreviewMapperQualifier
 import javax.inject.Inject
 
 data class VideoModel(
@@ -12,9 +13,11 @@ data class VideoModel(
 ) {
 
     @Inject
-    lateinit var previewMapper: PreviewMapper
+    @YoutubeImagePreviewMapperQualifier
+    lateinit var previewMapper: ImagePreviewMapper
 
     private val previewImage: String? get() {
-        return previewMapper.mapToPreviewImageUrl(key)
+        return previewMapper.toPreviewImage(key)
     }
+
 }

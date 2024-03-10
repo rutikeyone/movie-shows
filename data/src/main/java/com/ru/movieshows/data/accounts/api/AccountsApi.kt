@@ -11,7 +11,7 @@ interface AccountsApi {
 
     @GET("account")
     suspend fun getAccountBySessionId(
-        @Query("session_id") sessionId: String
+        @Query("session_id") sessionId: String,
     ): AccountDataModel
 
     @GET("authentication/token/new")

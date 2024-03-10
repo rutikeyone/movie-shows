@@ -11,9 +11,11 @@ interface AccountsDataSource {
     suspend fun createSessionByUsernameAndPassword(
         username: String,
         password: String,
-        requestToken: String
+        requestToken: String,
     ): String
 
-    suspend fun createSession(requestToken: String): String
+    suspend fun createSession(
+        requestToken: String,
+    ): String
 
 }

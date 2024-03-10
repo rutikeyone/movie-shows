@@ -2,7 +2,7 @@ package com.ru.movieshows.data.accounts.models
 
 import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
-import com.ru.movieshows.data.accounts.converters.AvatarJsonDeserializer
+import com.ru.ershov.data.core.deserializers.AvatarDeserializer
 
 data class AccountDataModel(
     val id: Int?,
@@ -11,6 +11,6 @@ data class AccountDataModel(
     val includeAdult: Boolean?,
     val username: String?,
     @SerializedName("avatar")
-    @JsonAdapter(value = AvatarJsonDeserializer::class)
+    @JsonAdapter(value = AvatarDeserializer::class)
     val avatar: String?,
 )

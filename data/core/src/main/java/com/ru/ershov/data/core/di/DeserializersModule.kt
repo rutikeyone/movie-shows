@@ -1,4 +1,4 @@
-package com.ru.movieshows.data.accounts.di
+package com.ru.ershov.data.core.di
 
 import dagger.Binds
 import dagger.Module
@@ -9,15 +9,15 @@ import javax.inject.Singleton
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class BaseImageUrl
+annotation class BaseImageUrlQualifier
 
 @Module
 @InstallIn(SingletonComponent::class)
-class JsonDeserializerModule {
+interface DeserializersModule {
 
     @Binds
     @Singleton
-    @BaseImageUrl
+    @BaseImageUrlQualifier
     fun bindBaseImageUrl(): String {
         return "https://image.tmdb.org/t/p/original"
     }

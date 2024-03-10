@@ -13,7 +13,7 @@ interface GenresSourcesModule {
 
     @Binds
     fun bindGenresSource(
-        genresSource: GenresSourceImpl
+        genresSource: GenresSourceImpl,
     ): GenresSource
 
 }

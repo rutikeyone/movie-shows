@@ -8,10 +8,10 @@ import javax.inject.Singleton
 
 @Singleton
 @InstallIn(Singleton::class)
-interface MoviesRepositoriesModule {
+interface MoviesDataRepositoriesModule {
 
     @Binds
-    fun provideMoviesRepository(
+    fun provideMoviesDataRepository(
         moviesDataRepository: MoviesDataRepositoryImpl,
     ): MoviesDataRepository
 
