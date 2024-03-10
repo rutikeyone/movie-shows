@@ -1,7 +1,14 @@
 package com.ru.movieshows.data.tvshows
 
+import android.graphics.pdf.PdfDocument.Page
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.ru.movieshows.core.pagination.PageLoader
+import com.ru.movieshows.core.pagination.PagePagingSource
 import com.ru.movieshows.data.TvShowsDataRepository
+import com.ru.movieshows.data.movies.MoviesDataRepositoryImpl
+import com.ru.movieshows.data.movies.models.MovieModel
 import com.ru.movieshows.data.movies.models.ReviewModel
 import com.ru.movieshows.data.movies.models.ReviewsPaginationModel
 import com.ru.movieshows.data.movies.models.VideoModel
@@ -22,21 +29,61 @@ class TvShowsDataRepositoryImpl @Inject constructor(
         language: String,
         query: String?,
     ): Flow<PagingData<TvShowModel>> {
-        TODO("Not yet implemented")
+
+        val loader: PageLoader<List<TvShowModel>> = { pageIndex ->
+            val response = tvShowsSource.searchTvShows(
+                language = language,
+                page = pageIndex,
+                query = query,
+            )
+            val totalPages = response.totalPages
+            val tvShows = response.result
+            Pair(tvShows, totalPages)
+        }
+
+        return Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                enablePlaceholders = false,
+            ),
+            pagingSourceFactory = { PagePagingSource(loader) }
+        ).flow
+
     }
 
     override fun getPagedTvReviews(
         language: String,
         seriesId: String,
     ): Flow<PagingData<ReviewModel>> {
-        TODO("Not yet implemented")
+
+        val loader: PageLoader<List<ReviewModel>> = { pageIndex ->
+            val response = tvShowsSource.getTvShowReviews(
+                language = language,
+                page = pageIndex,
+                seriesId = seriesId,
+            )
+            val totalPages = response.totalPages
+            val items = response.results
+            Pair(items, totalPages)
+        }
+
+        return Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                enablePlaceholders = false,
+            ),
+            pagingSourceFactory = { PagePagingSource(loader) }
+        ).flow
+
     }
 
     override suspend fun getVideosByMovieId(
         language: String,
         seriesId: String,
     ): List<VideoModel> {
-        TODO("Not yet implemented")
+        return tvShowsSource.getVideosById(
+            language, seriesId,
+        )
     }
 
     override suspend fun getSeason(
@@ -44,7 +91,11 @@ class TvShowsDataRepositoryImpl @Inject constructor(
         seriesId: String,
         seasonNumber: String,
     ): SeasonModel {
-        TODO("Not yet implemented")
+        return tvShowsSource.getSeason(
+            language = language,
+            seriesId = seriesId,
+            seasonNumber = seasonNumber,
+        )
     }
 
     override suspend fun getSimilarTvShows(
@@ -52,43 +103,134 @@ class TvShowsDataRepositoryImpl @Inject constructor(
         page: Int,
         seriesId: String,
     ): TvShowPaginationModel {
-        TODO("Not yet implemented")
+        return tvShowsSource.getSimilarTvShows(
+            seriesId = seriesId,
+            language = language,
+            page = page,
+        )
     }
 
-    override suspend fun getDiscoverTvShows(language: String, page: Int): TvShowPaginationModel {
-        TODO("Not yet implemented")
+    override suspend fun getDiscoverTvShows(
+        language: String,
+        page: Int,
+    ): TvShowPaginationModel {
+        return tvShowsSource.getDiscoverTvShows(
+            language, page
+        )
     }
 
-    override suspend fun getTvShowDetails(language: String, id: String): TvShowDetailsModel {
-        TODO("Not yet implemented")
+    override suspend fun getTvShowDetails(
+        language: String,
+        id: String,
+    ): TvShowDetailsModel {
+        return tvShowsSource.getTvShowDetails(
+            id, language
+        )
     }
 
-    override suspend fun getTopRatedTvShows(language: String, page: Int): TvShowPaginationModel {
-        TODO("Not yet implemented")
+    override suspend fun getTopRatedTvShows(
+        language: String,
+        page: Int,
+    ): TvShowPaginationModel {
+        return tvShowsSource.getTopRatedTvShows(
+            language, page
+        )
     }
 
-    override suspend fun getPopularTvShows(language: String, page: Int): TvShowPaginationModel {
-        TODO("Not yet implemented")
+    override suspend fun getPopularTvShows(
+        language: String,
+        page: Int,
+    ): TvShowPaginationModel {
+        return tvShowsSource.getPopularTvShows(
+            language, page
+        )
     }
 
-    override suspend fun getOnTheAirTvShows(language: String, page: Int): TvShowPaginationModel {
-        TODO("Not yet implemented")
+    override suspend fun getOnTheAirTvShows(
+        language: String,
+        page: Int,
+    ): TvShowPaginationModel {
+        return tvShowsSource.getOnTheAirTvShows(
+            language, page
+        )
     }
 
-    override suspend fun getPagedTheAirTvShows(language: String): Flow<PagingData<TvShowModel>> {
-        TODO("Not yet implemented")
+    override suspend fun getPagedTheAirTvShows(
+        language: String,
+    ): Flow<PagingData<TvShowModel>> {
+
+        val loader: PageLoader<List<TvShowModel>> = { pageIndex ->
+            val response = tvShowsSource.getOnTheAirTvShows(
+                language, pageIndex,
+            )
+            val totalPages = response.totalPages
+            val items = response.result
+            Pair(items, totalPages)
+        }
+
+        return Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                enablePlaceholders = false,
+            ),
+            pagingSourceFactory = { PagePagingSource(loader) }
+        ).flow
+
     }
 
-    override suspend fun getPagedTheTopRatedTvShows(language: String): Flow<PagingData<TvShowModel>> {
-        TODO("Not yet implemented")
+    override suspend fun getPagedTheTopRatedTvShows(
+        language: String,
+    ): Flow<PagingData<TvShowModel>> {
+
+        val loader: PageLoader<List<TvShowModel>> = { pageIndex ->
+            val response = tvShowsSource.getTopRatedTvShows(
+                language, pageIndex,
+            )
+            val totalPages = response.totalPages
+            val items = response.result
+            Pair(items, totalPages)
+        }
+
+        return Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                enablePlaceholders = false,
+            ),
+            pagingSourceFactory = { PagePagingSource(loader) }
+        ).flow
+
     }
 
-    override suspend fun getPagedPopularTvShows(language: String): Flow<PagingData<TvShowModel>> {
-        TODO("Not yet implemented")
+    override suspend fun getPagedPopularTvShows(
+        language: String,
+    ): Flow<PagingData<TvShowModel>> {
+
+        val loader: PageLoader<List<TvShowModel>> = { pageIndex ->
+            val response = tvShowsSource.getPopularTvShows(
+                language, pageIndex,
+            )
+            val totalPages = response.totalPages
+            val items = response.result
+            Pair(items, totalPages)
+        }
+
+        return Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                enablePlaceholders = false,
+            ),
+            pagingSourceFactory = { PagePagingSource(loader) }
+        ).flow
+
     }
 
-    override suspend fun getTrendingTvShows(language: String, page: Int): TvShowPaginationModel {
-        TODO("Not yet implemented")
+    override suspend fun getTrendingTvShows(
+        language: String,
+        page: Int,
+    ): TvShowPaginationModel {
+        return tvShowsSource.getTrendingTvShows(
+            language, page
+        )
     }
 
     override suspend fun getEpisodeByNumber(
@@ -97,7 +239,12 @@ class TvShowsDataRepositoryImpl @Inject constructor(
         seasonNumber: String,
         episodeNumber: Int,
     ): EpisodeModel {
-        TODO("Not yet implemented")
+        return tvShowsSource.getEpisodeByNumber(
+            language = language,
+            seriesId = seriesId,
+            seasonNumber = seasonNumber,
+            episodeNumber = episodeNumber,
+        )
     }
 
     override suspend fun getTvReviews(
@@ -105,7 +252,15 @@ class TvShowsDataRepositoryImpl @Inject constructor(
         seriesId: String,
         page: Int,
     ): ReviewsPaginationModel {
-        TODO("Not yet implemented")
+        return tvShowsSource.getTvShowReviews(
+            seriesId = seriesId,
+            language = language,
+            page = page,
+        )
+    }
+
+    companion object {
+        private const val PAGE_SIZE = 20
     }
 
 }
