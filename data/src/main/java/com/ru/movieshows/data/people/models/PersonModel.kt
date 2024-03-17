@@ -1,8 +1,6 @@
 package com.ru.movieshows.data.people.models
 
-import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
-import com.ru.ershov.data.core.deserializers.DateJsonDeserializer
 import java.util.Date
 
 data class PersonModel(
@@ -20,8 +18,6 @@ data class PersonModel(
     val placeOfBirth: String?,
     @SerializedName("profile_path")
     val profilePath: String?,
-    @JsonAdapter(value = DateJsonDeserializer::class)
-    val birthday: Date?,
-    @JsonAdapter(value = DateJsonDeserializer::class)
-    val deathday: Date?,
+    val birthday: String?,
+    val deathday: String?,
 )

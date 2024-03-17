@@ -7,11 +7,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import com.ru.movieshows.core.AuthException
-import com.ru.movieshows.core.ConnectionException
 import com.ru.movieshows.core.Container
 import com.ru.movieshows.core.Core
 import com.ru.movieshows.core.presentation.R
-import com.ru.movieshows.core.presentation.databinding.CorePresentatiionPartResultBinding
+import com.ru.movieshows.core.presentation.databinding.CorePresentationPartResultBinding
 
 class ResultView @JvmOverloads constructor(
     context: Context,
@@ -28,12 +27,12 @@ class ResultView @JvmOverloads constructor(
 
     private var tryAgainListener: (() -> Unit)? = null
 
-    private val binding: CorePresentatiionPartResultBinding
+    private val binding: CorePresentationPartResultBinding
 
 
     init {
         val inflater = LayoutInflater.from(context)
-        binding = CorePresentatiionPartResultBinding.inflate(inflater, this, false)
+        binding = CorePresentationPartResultBinding.inflate(inflater, this, false)
         addView(binding.root)
 
         if(isInEditMode) {

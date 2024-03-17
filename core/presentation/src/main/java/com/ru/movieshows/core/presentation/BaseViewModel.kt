@@ -1,5 +1,6 @@
 package com.ru.movieshows.core.presentation
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ru.movieshows.core.AlertDialogConfig
@@ -20,15 +21,18 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.StateFlow
+import androidx.lifecycle.asLiveData
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import java.util.Locale
 
 open class BaseViewModel : ViewModel() {
 
@@ -50,12 +54,26 @@ open class BaseViewModel : ViewModel() {
         extraBufferCapacity = 42,
     )
 
+    protected val languageTag: String
+        get() = Locale.getDefault().toLanguageTag()
+
+    protected val languageTagState: LiveData<String>
+        get() = _languageTagFlow.asLiveData()
+
+    private val _languageTagFlow = MutableStateFlow(languageTag)
+
+    protected val languageTagFlow: StateFlow<String> get() = _languageTagFlow
+
     init {
         viewModelScope.launch {
             debounceFlow.sample(Core.debouncePeriodMillis).collect {
                 it()
             }
         }
+    }
+
+    fun updateLanguageTag() {
+        _languageTagFlow.value = languageTag
     }
 
     protected fun <T> liveValue(): LiveValue<T> {

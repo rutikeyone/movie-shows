@@ -1,8 +1,6 @@
 package com.ru.movieshows.data.movies.models
 
 import com.google.gson.annotations.SerializedName
-import com.ru.ershov.data.core.ImagePreviewMapper
-import javax.inject.Inject
 
 data class MovieModel(
     val id: Int?,
@@ -14,17 +12,4 @@ data class MovieModel(
     @SerializedName("poster_path")
     val posterPath: String?,
     val overview: String?,
-) {
-
-    @Inject
-    lateinit var imagePreviewMapper: ImagePreviewMapper
-
-    val backDrop: String? get() {
-        return imagePreviewMapper.toPreviewImage(backDropPath)
-    }
-
-    val poster: String? get() {
-        return imagePreviewMapper.toPreviewImage(posterPath)
-    }
-
-}
+)

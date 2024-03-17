@@ -1,41 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
-
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
-        android:name="com.ru.movieshows.MovieShowsApplication"
         android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MovieShows"
-        tools:targetApi="31">
-
-        <activity
-            android:name=".presentation.screens.video.VideoPlayerActivity"
-            android:exported="false"
-            android:hardwareAccelerated="true"
-            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"/>
-
-        <activity
-            android:name=".presentation.MainActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustPan">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-    </application>
+        android:name=".App"
+        android:theme="@style/Base.Theme.MovieShows" />
 
 </manifest>

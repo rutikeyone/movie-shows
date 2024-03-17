@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sign_in">Войти в систему</string>
+    <string name="welcome_back">С возвращением</string>
+    <string name="you_must_have_a_tmdb_account_in_order_to_log_in">Вы должны иметь аккаунт TMDB для того чтобы авторизоваться</string>
+    <string name="username">Имя пользователя</string>
+    <string name="enter_username">Введите имя пользователя</string>
+    <string name="password">Пароль</string>
+    <string name="enter_the_password">Введите пароль</string>
+    <string name="skip">Пропустить</string>
+    <string name="invalid_username_or_password">Неверный логин или пароль</string>
+</resources>

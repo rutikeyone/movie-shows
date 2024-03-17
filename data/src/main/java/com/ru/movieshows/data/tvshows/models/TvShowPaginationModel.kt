@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 data class TvShowPaginationModel(
     val page: Int,
-    @SerializedName("results")
     val result: List<TvShowModel>,
     @SerializedName("total_pages")
     val totalPages: Int,

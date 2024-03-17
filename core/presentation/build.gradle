@@ -5,13 +5,11 @@ plugins {
 
 android {
     namespace 'com.ru.movieshows.core.presentation'
-    compileSdk 34
+    compileSdk targetAndroidSdk
 
     defaultConfig {
-        minSdk 24
-        targetSdk 34
-        versionCode 1
-        versionName "1.0"
+        minSdk minAndroidSdk
+        targetSdk targetAndroidSdk
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -42,6 +40,8 @@ dependencies {
     implementation Libs.Google.Material
 
     implementation Libs.Stuff.Glide
+
+    implementation Libs.Android.LiveDataKtx
 
     implementation project(Modules.Core.Common)
     implementation project(Modules.Core.Theme)

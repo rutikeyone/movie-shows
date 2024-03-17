@@ -8,4 +8,7 @@
     <string name="core_presentation_logout">Выйти</string>
     <string name="core_presentation_error_header">Ошибка!</string>
     <string name="core_presentation_connect_to_the_internet">Подключитесь к Интернету</string>
+    <string name="core_empty_text_field">Пустое текстовое поле</string>
+    <string name="core_invalid_user_name">Некорректное имя пользователя</string>
+    <string name="core_the_password_must_contain_more_than_second_characters">Пароль должен содержать больше двух символов</string>
 </resources>

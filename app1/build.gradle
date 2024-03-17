@@ -1,0 +1,81 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
+    id 'kotlin-parcelize'
+    id 'androidx.navigation.safeargs.kotlin'
+}
+
+android {
+    namespace 'com.ru.movieshows.app'
+    compileSdk targetAndroidSdk
+
+    defaultConfig {
+        applicationId "com.ru.movieshows.app"
+        minSdk minAndroidSdk
+        targetSdk targetAndroidSdk
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+    buildFeatures {
+        buildConfig = true
+        viewBinding true
+    }
+}
+
+kapt {
+    correctErrorTypes = true
+}
+
+hilt {
+    enableAggregatingTask = true
+}
+
+dependencies {
+    implementation Libs.Android.CoreKtx
+    implementation Libs.Android.ActivityKtx
+    implementation Libs.Android.AppCompat
+    implementation Libs.Android.NavigationFragments
+    implementation Libs.Android.NavigationUI
+    implementation Libs.Android.NavigationDynamicFeatures
+    implementation Libs.Android.LegacySupport
+    implementation Libs.Android.RecyclerView
+    implementation Libs.Android.ConstraintLayout
+    implementation Libs.Android.PaginationRuntime
+    implementation Libs.Google.Material
+    implementation Libs.Google.Hilt
+    implementation Libs.Google.FlexBox
+    kapt Libs.Google.HiltCompiler
+    testImplementation Libs.Testing.JUnit
+    androidTestImplementation Libs.Android.EspressoCore
+    androidTestImplementation Libs.Android.JUnitExt
+    implementation Libs.Network.Retrofit
+    implementation Libs.Network.RetrofitConverterGson
+    implementation Libs.Stuff.Glide
+    implementation Libs.Stuff.Dots
+    implementation Libs.Stuff.YoutubePlayerView
+    implementation Libs.Stuff.ReadMoreView
+    implementation Libs.Stuff.ArrowCore
+    implementation Libs.Stuff.ArrowCoroutines
+    implementation Libs.Stuff.MaterialishProgress
+
+    implementation project(Modules.Wiring)
+    implementation project(Modules.Core.Presentation)
+}

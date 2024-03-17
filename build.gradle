@@ -23,7 +23,8 @@ buildscript {
                PaginationRuntime: "androidx.paging:paging-runtime-ktx:3.2.1",
                PaginationCommonKtx: "androidx.paging:paging-common-ktx:3.2.1",
                EspressoCore :"androidx.test.espresso:espresso-core:3.5.1",
-               JUnitExt: "androidx.test.ext:junit:1.1.5"
+               JUnitExt: "androidx.test.ext:junit:1.1.5",
+               LiveDataKtx: "androidx.lifecycle:lifecycle-livedata-ktx:2.6.1",
             ],
             JetBrains: [
                CoroutinesCore: "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4",
@@ -63,7 +64,12 @@ buildscript {
            Data: [
                Data: ":data",
                Core: ":data:core"
-           ]
+           ],
+           Navigation: ":navigation",
+           Features: [
+               SignIn: ":features:sign-in",
+               Splash: ":features:splash",
+           ],
         ]
     }
 

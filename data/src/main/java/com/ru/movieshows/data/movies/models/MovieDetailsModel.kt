@@ -1,9 +1,7 @@
 package com.ru.movieshows.data.movies.models
 
 import com.google.gson.annotations.SerializedName
-import com.ru.ershov.data.core.ImagePreviewMapper
 import com.ru.movieshows.data.genres.models.GenreModel
-import javax.inject.Inject
 
 data class MovieDetailsModel(
     val id: Int?,
@@ -21,17 +19,4 @@ data class MovieDetailsModel(
     val runtime: String?,
     @SerializedName("production_companies")
     val productionCompanies: List<ProductionCompanyModel>?,
-) {
-
-    @Inject
-    lateinit var previewMapper: ImagePreviewMapper
-
-    val backDrop: String? get() {
-        return previewMapper.toPreviewImage(backDropPath)
-    }
-
-    val poster: String? get() {
-        return previewMapper.toPreviewImage(posterPath)
-    }
-
-}
+)

@@ -10,6 +10,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/app1" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/core/common" />
             <option value="$PROJECT_DIR$/core/common-impl" />
@@ -17,6 +18,10 @@
             <option value="$PROJECT_DIR$/core/theme" />
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/data/core" />
+            <option value="$PROJECT_DIR$/features" />
+            <option value="$PROJECT_DIR$/features/sign-in" />
+            <option value="$PROJECT_DIR$/features/splash" />
+            <option value="$PROJECT_DIR$/navigation" />
             <option value="$PROJECT_DIR$/wiring" />
           </set>
         </option>

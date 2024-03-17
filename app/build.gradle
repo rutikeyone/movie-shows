@@ -3,8 +3,6 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
-    id 'kotlin-parcelize'
-    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -34,10 +32,6 @@ android {
     kotlinOptions {
         jvmTarget = '17'
     }
-    buildFeatures {
-        buildConfig = true
-        viewBinding true
-    }
 }
 
 kapt {
@@ -50,32 +44,20 @@ hilt {
 
 dependencies {
     implementation Libs.Android.CoreKtx
-    implementation Libs.Android.ActivityKtx
     implementation Libs.Android.AppCompat
-    implementation Libs.Android.NavigationFragments
-    implementation Libs.Android.NavigationUI
-    implementation Libs.Android.NavigationDynamicFeatures
-    implementation Libs.Android.LegacySupport
-    implementation Libs.Android.RecyclerView
     implementation Libs.Android.ConstraintLayout
-    implementation Libs.Android.PaginationRuntime
+    implementation Libs.Android.NavigationFragments
+
     implementation Libs.Google.Material
+
     implementation Libs.Google.Hilt
-    implementation Libs.Google.FlexBox
     kapt Libs.Google.HiltCompiler
-    testImplementation Libs.Testing.JUnit
-    androidTestImplementation Libs.Android.EspressoCore
-    androidTestImplementation Libs.Android.JUnitExt
-    implementation Libs.Network.Retrofit
-    implementation Libs.Network.RetrofitConverterGson
-    implementation Libs.Stuff.Glide
-    implementation Libs.Stuff.Dots
-    implementation Libs.Stuff.YoutubePlayerView
-    implementation Libs.Stuff.ReadMoreView
-    implementation Libs.Stuff.ArrowCore
-    implementation Libs.Stuff.ArrowCoroutines
-    implementation Libs.Stuff.MaterialishProgress
 
     implementation project(Modules.Wiring)
+    implementation project(Modules.Core.CommonImpl)
     implementation project(Modules.Core.Presentation)
+    implementation project(Modules.Data.Data)
+    implementation project(Modules.Navigation)
+    implementation project(Modules.Features.SignIn)
+    implementation project(Modules.Features.Splash)
 }

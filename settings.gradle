@@ -13,11 +13,15 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "movie-shows"
-include ':app'
+include ':app1'
 include ':core:common'
 include ':core:common-impl'
 include ':core:theme'
 include ':core:presentation'
 include ':wiring'
 include ':data'
+include ':navigation'
+include ':features:splash'
+include ':features:sign-in'
+include ':app'
 include ':data:core'
