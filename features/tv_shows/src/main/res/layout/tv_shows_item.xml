@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_250"
+    tools:layout_width="@dimen/dp_120"
+    android:layout_gravity="center"
+    tools:layout_marginEnd="@dimen/dp_8">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/tvShowsImageCard"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_190"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardCornerRadius="@dimen/dp_8"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="@android:color/transparent">
+
+        <ImageView
+            android:id="@+id/tvShowsMovieImage"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            app:layout_constraintBottom_toTopOf="@id/tvShowNameTextView"
+            android:src="@drawable/core_presentation_poster_placeholder_bg"
+            android:contentDescription="@string/core_presentation_image_description"/>
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/tvShowNameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_4"
+        android:layout_marginEnd="@dimen/dp_4"
+        app:layout_constraintTop_toBottomOf="@id/tvShowsImageCard"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/ratingContainer"
+        style="?attr/textAppearanceBody3"
+        android:textAlignment="center"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:maxLength="35"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/dp_4"
+        android:layout_marginBottom="@dimen/dp_4"
+        tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+        android:paddingStart="@dimen/dp_4"
+        android:paddingEnd="@dimen/dp_4"/>
+
+    <LinearLayout
+        android:id="@+id/ratingContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvShowNameTextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:rating="1"
+            android:numStars="1"/>
+
+        <TextView
+            android:id="@+id/ratingValue"
+            style="?attr/textAppearanceBody3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="3.3"
+            android:layout_marginStart="@dimen/dp_4"
+            android:layout_marginEnd="@dimen/dp_4"
+            android:textAlignment="center"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

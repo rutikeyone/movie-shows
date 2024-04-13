@@ -54,10 +54,17 @@ dependencies {
     kapt Libs.Google.HiltCompiler
 
     implementation project(Modules.Wiring)
+
     implementation project(Modules.Core.CommonImpl)
     implementation project(Modules.Core.Presentation)
+
     implementation project(Modules.Data.Data)
+
     implementation project(Modules.Navigation)
+
     implementation project(Modules.Features.SignIn)
     implementation project(Modules.Features.Splash)
+    implementation project(Modules.Features.Movies)
+    implementation project(':features:tv_shows')
+    implementation project(Modules.Features.Profile)
 }

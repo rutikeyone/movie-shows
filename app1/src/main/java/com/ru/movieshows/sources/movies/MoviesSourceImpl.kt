@@ -34,7 +34,7 @@ class MoviesSourceImpl @Inject constructor(
         language: String,
     ): ArrayList<VideoEntity> = wrapRetrofitExceptions {
         val response = moviesApi.getVideosByMoviesId(movieId, language)
-        val body = response.body()!!
+        val body = response.body() ?: throw NullPointerException()
         val videoModels = body.results
         ArrayList(videoModels.map { it.toEntity() })
     }

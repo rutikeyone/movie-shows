@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -32,8 +34,12 @@ android {
 dependencies {
 
     implementation Libs.Android.CoreKtx
+    implementation Libs.Android.FragmentKtx
     implementation Libs.Android.AppCompat
     implementation Libs.Google.Material
+
+    implementation Libs.Google.Hilt
+    kapt Libs.Google.HiltCompiler
 
     implementation project(Modules.Core.Presentation)
 }

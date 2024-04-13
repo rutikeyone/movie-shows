@@ -9,6 +9,9 @@ interface DestinationsProvider {
     @IdRes
     fun provideStartDestinationId(): Int
 
+    @IdRes
+    fun provideStartAuthDestinationId(): Int
+
     @NavigationRes
     fun provideNavigationGraphId(): Int
 

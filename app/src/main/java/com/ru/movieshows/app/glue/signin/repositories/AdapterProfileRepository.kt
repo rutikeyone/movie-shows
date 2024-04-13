@@ -1,6 +1,6 @@
 package com.ru.movieshows.app.glue.signin.repositories
 
-import com.ru.movieshows.core.AuthException
+import com.ru.movieshows.core.NotAuthException
 import com.ru.movieshows.core.unwrapFirst
 import com.ru.movieshows.data.AccountsDataRepository
 import com.ru.movieshows.signin.domain.repositories.ProfileRepository
@@ -14,7 +14,7 @@ class AdapterProfileRepository @Inject constructor(
         return try {
             accountsDataRepository.getAccount().unwrapFirst()
             true
-        } catch (ignored: AuthException) {
+        } catch (ignored: NotAuthException) {
             false
         }
     }

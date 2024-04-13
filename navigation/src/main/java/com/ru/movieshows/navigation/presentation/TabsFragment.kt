@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.Menu
 import android.view.View
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupWithNavController
 import com.ru.movieshows.core.presentation.viewBinding
 import com.ru.movieshows.navigation.DestinationsProvider
 import com.ru.movieshows.navigation.R
@@ -28,19 +30,32 @@ class TabsFragment : Fragment(R.layout.fragment_tabs) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val tabsDestinations =
+            destinationsProvider.provideMainTabs().map { it.destinationId }.toSet()
+        val appConfiguration = AppBarConfiguration(tabsDestinations)
         val navigationMode = navigationModeHolder.navigationMode
+
         if (navigationMode is NavigationMode.Tabs) {
             val menu = binding.bottomNavigationView.menu
             navigationMode.tabs.forEach { tab ->
                 val menuItem = menu.add(0, tab.destinationId, Menu.NONE, tab.title)
                 menuItem.setIcon(tab.iconRes)
             }
-            val navHost = childFragmentManager.findFragmentById(R.id.tabsContainer) as NavHostFragment
+            val navHost =
+                childFragmentManager.findFragmentById(R.id.tabsContainer) as NavHostFragment
             val navController = navHost.navController
-            val graph = navController.navInflater.inflate(destinationsProvider.provideNavigationGraphId())
-            graph.setStartDestination(navigationMode.startTabsDestinationId ?: navigationMode.tabs.first().destinationId)
+            val graph =
+                navController.navInflater.inflate(destinationsProvider.provideNavigationGraphId())
+            graph.setStartDestination(
+                navigationMode.startTabsDestinationId ?: navigationMode.tabs.first().destinationId
+            )
             navController.graph = graph
             NavigationUI.setupWithNavController(binding.bottomNavigationView, navController)
+
+            with(binding.tabsToolbar) {
+                setupWithNavController(navController, appConfiguration)
+                isTitleCentered = true
+            }
         }
     }
 

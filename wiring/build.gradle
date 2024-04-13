@@ -33,8 +33,11 @@ android {
 
 dependencies {
     implementation Libs.Google.Hilt
+    implementation project(':data')
     kapt Libs.Google.HiltCompiler
 
     implementation project(Modules.Core.CommonImpl)
     implementation project(Modules.Core.Presentation)
+    implementation project(Modules.Data.Data)
+    implementation project(Modules.Navigation)
 }

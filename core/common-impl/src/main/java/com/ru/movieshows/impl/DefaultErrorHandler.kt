@@ -2,11 +2,12 @@ package com.ru.movieshows.impl
 
 import com.ru.movieshows.core.AlertDialogConfig
 import com.ru.movieshows.core.AppRestarter
-import com.ru.movieshows.core.AuthException
+import com.ru.movieshows.core.NotAuthException
 import com.ru.movieshows.core.CommonUi
 import com.ru.movieshows.core.ConnectionException
 import com.ru.movieshows.core.ErrorHandler
 import com.ru.movieshows.core.Logger
+import com.ru.movieshows.core.MessageException
 import com.ru.movieshows.core.RemoteServiceException
 import com.ru.movieshows.core.Resources
 import com.ru.movieshows.core.StorageException
@@ -30,12 +31,13 @@ class DefaultErrorHandler(
     override fun handleError(exception: Throwable) {
         logger.err(exception)
         when (exception) {
-            is AuthException -> handleAuthException(exception)
+            is NotAuthException -> handleNotAuthException(exception)
             is ConnectionException -> handleConnectionException(exception)
             is StorageException -> handleStorageException(exception)
             is RemoteServiceException -> handleRemoteServiceException(exception)
             is UserFriendlyException -> handleUserFriendlyException(exception)
             is TimeoutCancellationException -> handleTimeoutException(exception)
+            is MessageException -> handleMessageException(exception)
             is CancellationException -> return
             else -> handleUnknownException()
         }
@@ -43,14 +45,14 @@ class DefaultErrorHandler(
 
     override fun getUserHeader(exception: Throwable): String {
         return when(exception) {
-            is AuthException -> resources.getString(R.string.core_common_error_header)
-            else -> resources.getString(R.string.core_common_connect_to_the_internet)
+            is NotAuthException -> resources.getString(R.string.core_to_see_the_profile_data_need_log_in_message)
+            is ConnectionException -> resources.getString(R.string.core_common_connect_to_the_internet)
+            else -> resources.getString(R.string.core_common_error_header)
         }
     }
 
     override fun getUserMessage(exception: Throwable): String {
         return when (exception) {
-            is AuthException -> resources.getString(R.string.core_common_session_expired)
             is ConnectionException -> resources.getString(R.string.core_common_error_connection)
             is StorageException -> resources.getString(R.string.core_common_error_storage)
             is TimeoutCancellationException -> resources.getString(R.string.core_common_error_timeout)
@@ -69,13 +71,18 @@ class DefaultErrorHandler(
         }
     }
 
-    private fun handleAuthException(exception: AuthException) {
+    private fun handleNotAuthException(exception: NotAuthException) {
         val currentTimestamp = System.currentTimeMillis()
         if (currentTimestamp - lastRestartTimestamp > RESTART_TIMEOUT) {
             commonUi.toast(getUserMessage(exception))
             lastRestartTimestamp = currentTimestamp
             appRestarter.restartApp()
         }
+    }
+
+    private fun handleMessageException(exception: MessageException) {
+        val message = resources.getString(exception.messageRes)
+        commonUi.toast(message)
     }
 
     private fun handleConnectionException(exception: ConnectionException) {
@@ -99,7 +106,8 @@ class DefaultErrorHandler(
     }
 
     private fun handleUnknownException() {
-        showErrorDialog(resources.getString(R.string.core_common_error_message))
+        val message = resources.getString(R.string.core_common_error_message)
+        commonUi.toast(message)
     }
 
     private fun showErrorDialog(message: String) {

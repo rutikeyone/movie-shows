@@ -39,7 +39,6 @@ dependencies {
     implementation Libs.Android.CoreKtx
     implementation Libs.Android.FragmentKtx
     implementation Libs.Android.ConstraintLayout
-    implementation Libs.Android.RecyclerView
 
     implementation Libs.Google.Material
 

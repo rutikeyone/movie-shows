@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.children
 import androidx.core.view.isVisible
-import com.ru.movieshows.core.AuthException
+import com.ru.movieshows.core.NotAuthException
 import com.ru.movieshows.core.Container
 import com.ru.movieshows.core.Core
 import com.ru.movieshows.core.presentation.R
@@ -73,10 +73,15 @@ class ResultView @JvmOverloads constructor(
             val exception = container.exception
             Core.logger.err(exception)
             binding.failureTextHeader.text = Core.errorHandler.getUserHeader(exception)
-            binding.failureTextMessage.text = Core.errorHandler.getUserMessage(exception)
+
+            with(binding.failureTextMessage) {
+                isVisible = !isAuthError()
+                binding.failureTextMessage.text = Core.errorHandler.getUserMessage(exception)
+            }
+
             binding.tryAgainButton.setText(
                 if(isAuthError()) {
-                    R.string.core_presentation_logout
+                    R.string.core_presentation_log_in_header
                 } else {
                     R.string.core_presentation_try_again
                 }
@@ -92,7 +97,7 @@ class ResultView @JvmOverloads constructor(
     }
 
     private fun isAuthError() = container.let {
-        it is Container.Error && it.exception is AuthException
+        it is Container.Error && it.exception is NotAuthException
     }
 
 }

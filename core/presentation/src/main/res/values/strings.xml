@@ -8,7 +8,16 @@
     <string name="core_presentation_logout">Logout</string>
     <string name="core_presentation_error_header">Error!</string>
     <string name="core_presentation_connect_to_the_internet">Connect to the internet</string>
-    <string name="core_empty_text_field">Empty text field</string>
-    <string name="core_invalid_user_name">Invalid user name</string>
-    <string name="core_the_password_must_contain_more_than_second_characters">The password must contain more than second characters.</string>
+    <string name="core_presentation_empty_text_field">Empty text field</string>
+    <string name="core_presentation_invalid_user_name">Invalid user name</string>
+    <string name="core_presentation_the_password_must_contain_more_than_second_characters">The password must contain more than second characters.</string>
+    <string name="core_presentation_log_in_header">Sign in</string>
+    <string name="core_presentation_image_description">Image description</string>
+    <string name="core_presentation_upcoming">Upcoming</string>
+    <string name="core_presentation_show_all">Show All</string>
+    <string name="core_presentation_popular">Popular</string>
+    <string name="core_presentation_top_rated">Top rated</string>
+    <string name="core_presentation_search">Search</string>
+    <string name="core_presentation_on_the_air">On the air</string>
+    <string name="core_presentation_poster_description">Poster description</string>
 </resources>

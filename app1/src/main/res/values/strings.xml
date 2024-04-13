@@ -41,7 +41,7 @@
     <string name="search_title" translatable="false">Search title</string>
     <string name="search_hint" translatable="false">Search hint</string>
     <string name="the_search_yielded_no_results">The search yielded no results</string>
-    <string name="on_the_air">On the air</string>
+    <string name="core_presentation_on_the_air">On the air</string>
     <string name="top_rated_tv_show">Top rated Tv show</string>
     <string name="popular_tv_shows">Popular Tv Shows</string>
     <string name="upcoming">Upcoming</string>
@@ -60,7 +60,7 @@
     <string name="hello_there_sign_in_continue">Hello there, sign in continue</string>
     <string name="enter_your_email">Enter your email</string>
     <string name="enter_the_password">Enter the password</string>
-    <string name="core_empty_text_field">Empty text field</string>
+    <string name="core_presentation_empty_text_field">Empty text field</string>
     <string name="incorrect_email">Incorrect email</string>
     <string name="the_password_must_contain_more_than_second_characters">The password must contain more than second characters.</string>
     <string name="profile">Profile</string>
@@ -70,7 +70,7 @@
     <string name="invalid_username_or_password">Invalid username or password</string>
     <string name="enter_username">Enter username</string>
     <string name="username">Username</string>
-    <string name="core_invalid_user_name">Invalid user name</string>
+    <string name="core_presentation_invalid_user_name">Invalid user name</string>
     <string name="sign_out">Sign out</string>
     <string name="incorrect_api_key">Incorrect API key</string>
     <string name="session_creation_denied">Session creation denied</string>

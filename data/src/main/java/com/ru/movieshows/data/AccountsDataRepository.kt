@@ -6,12 +6,14 @@ import kotlinx.coroutines.flow.Flow
 
 interface AccountsDataRepository {
 
-    suspend fun getAccount(): Flow<Container<AccountDataModel>>
+    fun getAccount(): Flow<Container<AccountDataModel>>
 
     suspend fun isSignedIn(): Boolean
 
     suspend fun signIn(email: String, password: String): String
 
     suspend fun logout()
+
+    fun reload()
 
 }

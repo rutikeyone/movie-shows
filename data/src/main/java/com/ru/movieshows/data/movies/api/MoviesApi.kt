@@ -4,6 +4,7 @@ import com.ru.movieshows.data.movies.models.MovieDetailsModel
 import com.ru.movieshows.data.movies.models.MoviesPaginationModel
 import com.ru.movieshows.data.movies.models.ReviewsPaginationModel
 import com.ru.movieshows.data.movies.models.VideosModel
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -12,67 +13,67 @@ import retrofit2.http.Query
 interface MoviesApi {
 
     @GET("movie/{movie_id}/reviews")
-    suspend fun getMovieReviews(
+    fun getMovieReviews(
         @Path("movie_id") movieId: String,
         @Query("language") language: String,
         @Query("page") page: Int
-    ): Response<ReviewsPaginationModel>
+    ): Call<ReviewsPaginationModel>
 
     @GET("movie/{movie_id}/videos")
-    suspend fun getVideosByMoviesId(
+    fun getVideosByMoviesId(
         @Path("movie_id") movieId: String,
         @Query("language") language: String
-    ): Response<VideosModel>
+    ): Call<VideosModel>
 
     @GET("movie/{movie_id}/similar")
-    suspend fun getSimilarMovies(
+    fun getSimilarMovies(
         @Path("movie_id") movieId: String,
         @Query("language") language: String,
         @Query("page") page: Int
-    ): Response<MoviesPaginationModel>
+    ): Call<MoviesPaginationModel>
 
     @GET("discover/movie")
-    suspend fun getDiscoverMovies(
+    fun getDiscoverMovies(
         @Query("language") language: String,
         @Query("page") page: Int,
         @Query("with_genres") withGenresId: String
-    ): Response<MoviesPaginationModel>
+    ): Call<MoviesPaginationModel>
 
     @GET("movie/{movie_id}")
-    suspend fun getMovieDetails(
+    fun getMovieDetails(
         @Path("movie_id") movieId: Int,
         @Query("language") language: String
-    ): Response<MovieDetailsModel>
+    ): Call<MovieDetailsModel>
 
     @GET("movie/now_playing")
-    suspend fun getMoviesNowPlaying(
+    fun getMoviesNowPlaying(
         @Query("language") language: String,
         @Query("page") page: Int
-    ): Response<MoviesPaginationModel>
+    ): Call<MoviesPaginationModel>
 
     @GET("movie/upcoming")
-    suspend fun getUpcomingMovies(
+    fun getUpcomingMovies(
         @Query("language") language: String,
         @Query("page") page: Int
-    ): Response<MoviesPaginationModel>
+    ): Call<MoviesPaginationModel>
 
     @GET("movie/popular")
-    suspend fun getPopularMovies(
+    fun getPopularMovies(
         @Query("language") language: String,
         @Query("page") page: Int
-    ): Response<MoviesPaginationModel>
+    ): Call<MoviesPaginationModel>
 
     @GET("movie/top_rated")
-    suspend fun getTopRatedMovies(
+    fun getTopRatedMovies(
         @Query("language") language: String,
         @Query("page") page: Int
-    ): Response<MoviesPaginationModel>
+    ): Call<MoviesPaginationModel>
 
     @GET("search/movie")
-    suspend fun searchMovies(
+    fun searchMovies(
         @Query("language") language: String,
         @Query("page") page: Int,
         @Query("query") query: String?
-    ) : Response<MoviesPaginationModel>
+    ) : Call<MoviesPaginationModel>
 
 }

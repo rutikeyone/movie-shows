@@ -1,6 +1,7 @@
 package com.ru.movieshows.app.presentation.screens.tabs
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
@@ -61,6 +64,7 @@ class TabsFragment : BaseFragment() {
             .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
             .onEach(::handleNotAuthenticatedEvent)
             .launchIn(viewLifecycleOwner.lifecycleScope)
+
     }
 
     private fun configureNavController() = with (binding) {

@@ -17,10 +17,12 @@
             <option value="$PROJECT_DIR$/core/presentation" />
             <option value="$PROJECT_DIR$/core/theme" />
             <option value="$PROJECT_DIR$/data" />
-            <option value="$PROJECT_DIR$/data/core" />
             <option value="$PROJECT_DIR$/features" />
+            <option value="$PROJECT_DIR$/features/movies" />
+            <option value="$PROJECT_DIR$/features/profile" />
             <option value="$PROJECT_DIR$/features/sign-in" />
             <option value="$PROJECT_DIR$/features/splash" />
+            <option value="$PROJECT_DIR$/features/tv_shows" />
             <option value="$PROJECT_DIR$/navigation" />
             <option value="$PROJECT_DIR$/wiring" />
           </set>

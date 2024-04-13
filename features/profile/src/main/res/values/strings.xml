@@ -1,0 +1,5 @@
+<resources>
+    <string name="avatar_description">Avatar description</string>
+    <string name="ivanov_ivan">Ivanov Ivan</string>
+    <string name="sign_out">Sign out</string>
+</resources>

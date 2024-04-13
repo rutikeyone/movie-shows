@@ -4,7 +4,7 @@ import com.ru.movieshows.data.genres.models.GenreModel
 
 interface GenresDataRepository {
 
-    suspend fun fetchGenres(
+    suspend fun getGenres(
         language: String = "en_US",
     ): List<GenreModel>
 

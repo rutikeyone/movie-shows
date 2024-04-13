@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 class MainAppRestarter @Inject constructor(
     private val globalNavComponentRouter: GlobalNavComponentRouter,
-): AppRestarter {
+) : AppRestarter {
 
     override fun restartApp() {
         globalNavComponentRouter.restart()

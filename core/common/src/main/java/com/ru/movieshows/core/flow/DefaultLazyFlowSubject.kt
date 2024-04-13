@@ -1,8 +1,6 @@
-package ua.cn.stu.multimodule.core.flow
+package com.ru.movieshows.core.flow
 
 import com.ru.movieshows.core.Container
-import com.ru.movieshows.core.flow.LazyFlowSubject
-import com.ru.movieshows.core.flow.ValueLoader
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*

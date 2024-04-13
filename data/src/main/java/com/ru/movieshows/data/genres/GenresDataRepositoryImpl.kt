@@ -9,7 +9,7 @@ class GenresDataRepositoryImpl @Inject constructor(
     private val genresSource: GenresSource,
 ) : GenresDataRepository {
 
-    override suspend fun fetchGenres(language: String): List<GenreModel> {
+    override suspend fun getGenres(language: String): List<GenreModel> {
         return genresSource.fetchGenres(language)
     }
 

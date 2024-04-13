@@ -14,7 +14,7 @@ interface PeopleDataRepositoriesModule {
 
     @Binds
     fun providePeopleDataRepository(
-        peopleDataRepository: PeopleDataRepositoryImpl
+        peopleDataRepository: PeopleDataRepositoryImpl,
     ): PeopleDataRepository
 
 }

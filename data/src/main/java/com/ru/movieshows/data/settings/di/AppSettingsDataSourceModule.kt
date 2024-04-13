@@ -1,7 +1,7 @@
 package com.ru.movieshows.data.settings.di
 
-import com.ru.movieshows.data.settings.SettingsDataSource
-import com.ru.movieshows.data.settings.SharedPreferencesSettingsDataSource
+import com.ru.movieshows.data.settings.sources.SettingsDataSource
+import com.ru.movieshows.data.settings.sources.SharedPreferencesSettingsDataSource
 import dagger.hilt.components.SingletonComponent
 import dagger.Binds
 import dagger.Module

@@ -45,8 +45,8 @@ class CoreProviderModule {
         screenCommunication: ScreenCommunication,
     ): Set<@JvmSuppressWildcards ActivityRequired> {
         val set = hashSetOf<ActivityRequired>()
-        if(commonUi is ActivityRequired) set.add(commonUi)
-        if(screenCommunication is ActivityRequired) set.add(screenCommunication)
+        if (commonUi is ActivityRequired) set.add(commonUi)
+        if (screenCommunication is ActivityRequired) set.add(screenCommunication)
         return set
     }
 

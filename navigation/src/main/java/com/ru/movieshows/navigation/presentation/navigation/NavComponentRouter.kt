@@ -1,11 +1,11 @@
 package com.ru.movieshows.navigation.presentation.navigation
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
-import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -15,8 +15,10 @@ import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ru.movieshows.core.presentation.ARG_SCREEN
 import com.ru.movieshows.navigation.DestinationsProvider
+import com.ru.movieshows.navigation.databinding.FragmentTabsBinding
 import com.ru.movieshows.navigation.presentation.TabsFragment
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -27,52 +29,90 @@ import java.util.regex.Pattern
 class NavComponentRouter @AssistedInject constructor(
     @Assisted @IdRes private val fragmentContainerId: Int,
     private val destinationsProvider: DestinationsProvider,
-    private val navigationModeHolder: NavigationModeHolder,
     private val activity: FragmentActivity,
+    val navigationModeHolder: NavigationModeHolder,
 ) {
 
     private var currentStartDestination = 0
-    private var navController: NavController? = null
     private var fragmentDialogs: Int = 0
+
+    private var navController: NavController? = null
+
+    private val currentNavController: NavController
+        get() {
+            return when (navigationModeHolder.navigationMode) {
+                NavigationMode.Stack -> getRootNavController()
+                is NavigationMode.Tabs -> navController ?: getRootNavController()
+            }
+        }
 
     private val destinationListeners = mutableSetOf<() -> Unit>()
 
     private val fragmentListener = object : FragmentManager.FragmentLifecycleCallbacks() {
 
-        override fun onFragmentViewCreated(fm: FragmentManager, f: Fragment, v: View, savedInstanceState: Bundle?) {
-            super.onFragmentViewCreated(fm, f, v, savedInstanceState)
-            if(f is TabsFragment || f is NavHostFragment) return
+        override fun onFragmentStarted(fm: FragmentManager, f: Fragment) {
+            super.onFragmentStarted(fm, f)
+            if (f is DialogFragment) fragmentDialogs++
+            if (f is NavHostFragment || f is TabsFragment) return
             val currentNavController = f.findNavController()
+
             onNavControllerActivated(currentNavController)
             destinationListeners.forEach { it() }
         }
 
-        override fun onFragmentStarted(fm: FragmentManager, f: Fragment) {
-            super.onFragmentStarted(fm, f)
-            if(f is DialogFragment) fragmentDialogs++
-        }
-
         override fun onFragmentStopped(fm: FragmentManager, f: Fragment) {
             super.onFragmentStopped(fm, f)
-            if(f is DialogFragment) fragmentDialogs--
+            if (f is DialogFragment) fragmentDialogs--
         }
 
     }
 
-    private val destinationListener = NavController.OnDestinationChangedListener { _, destination, arguments ->
-        val appCompactActivity = activity as? AppCompatActivity ?: return@OnDestinationChangedListener
-        val title = prepareTitle(destination.label, arguments)
-        if(title.isNotBlank()) {
-            appCompactActivity.supportActionBar?.title = title
+    private val destinationListener =
+        NavController.OnDestinationChangedListener { _, destination, arguments ->
+            val appCompactActivity =
+                activity as? AppCompatActivity ?: return@OnDestinationChangedListener
+            val title = prepareTitle(destination.label, arguments)
+            if (title.isNotBlank()) {
+                appCompactActivity.supportActionBar?.title = title
+            }
+            appCompactActivity.supportActionBar?.setDisplayHomeAsUpEnabled(
+                !isStartDestination(
+                    destination
+                )
+            )
         }
-        appCompactActivity.supportActionBar?.setDisplayHomeAsUpEnabled(!isStartDestination(destination))
+
+    private val isMainTabDestination: Boolean
+        get() {
+            val destinationId = currentNavController.currentDestination?.id
+            val mainTabDestinations =
+                destinationsProvider.provideMainTabs().map { it.destinationId }
+            return mainTabDestinations.any { it == destinationId }
+        }
+
+    val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (isMainTabDestination) {
+                activity.finish()
+            } else if (!pop()) {
+                isEnabled = false
+                activity.onBackPressedDispatcher.onBackPressed()
+            }
+        }
     }
 
-    val nestedRoute: Boolean get() {
-        val destinationId = getRootNavController().currentDestination?.id
-        val topLevelDestinations = destinationsProvider.provideMainTabs().map { it.destinationId }
-        return topLevelDestinations.any { it == destinationId }
-    }
+    private val navHostFragment: NavHostFragment?
+        get() {
+            val supportFragmentManager = activity.supportFragmentManager
+            val fragment = supportFragmentManager.findFragmentById(fragmentContainerId)
+            return fragment as? NavHostFragment
+        }
+
+    private val currentFragment: Fragment?
+        get() {
+            val navHostFragment = navHostFragment
+            return navHostFragment?.childFragmentManager?.fragments?.firstOrNull()
+        }
 
     fun onCreate() {
         activity.supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentListener, true)
@@ -97,8 +137,9 @@ class NavComponentRouter @AssistedInject constructor(
     fun onRestoreInstanceState(bundle: Bundle) {
         currentStartDestination = bundle.getInt(KEY_START_DESTINATION, 0)
         @Suppress("DEPRECATION")
-        navigationModeHolder.navigationMode = bundle.getSerializable(KEY_NAV_MODE) as? NavigationMode
-            ?: throw IllegalStateException("No state to be restored")
+        navigationModeHolder.navigationMode =
+            bundle.getSerializable(KEY_NAV_MODE) as? NavigationMode
+                ?: throw IllegalStateException("No state to be restored")
         restoreRoot()
     }
 
@@ -117,11 +158,16 @@ class NavComponentRouter @AssistedInject constructor(
         currentStartDestination = destinationsProvider.provideTabsDestinationId()
     }
 
-    fun launch(@IdRes destinationId: Int, args: java.io.Serializable? = null) {
+    fun launch(
+        @IdRes destinationId: Int,
+        args: java.io.Serializable? = null,
+        root: Boolean,
+    ) {
+        val navController = if (root) getRootNavController() else currentNavController
         if (args == null) {
-            getRootNavController().navigate(resId = destinationId)
+            navController.navigate(resId = destinationId)
         } else {
-            getRootNavController().navigate(
+            navController.navigate(
                 resId = destinationId,
                 args = Bundle().apply {
                     putSerializable(ARG_SCREEN, args)
@@ -130,8 +176,18 @@ class NavComponentRouter @AssistedInject constructor(
         }
     }
 
-    fun pop() {
-        activity.onBackPressedDispatcher.onBackPressed()
+    fun pop(
+        @IdRes destinationId: Int,
+        inclusive: Boolean = true,
+        root: Boolean,
+    ) {
+        val navController = if (root) getRootNavController() else currentNavController
+        navController.popBackStack(destinationId, inclusive)
+    }
+
+
+    fun pop(): Boolean {
+        return currentNavController.popBackStack()
     }
 
     internal fun addDestinationListener(listener: () -> Unit) {
@@ -140,7 +196,7 @@ class NavComponentRouter @AssistedInject constructor(
 
     @SuppressLint("RestrictedApi")
     internal fun hasDestinationId(id: Int): Boolean {
-        return getRootNavController().findDestination(id) !=  null
+        return currentNavController.findDestination(id) != null
     }
 
     internal fun isDialog(): Boolean {
@@ -164,7 +220,8 @@ class NavComponentRouter @AssistedInject constructor(
     }
 
     private fun restoreRoot() {
-        val graph = getRootNavController().navInflater.inflate(destinationsProvider.provideNavigationGraphId())
+        val graph =
+            getRootNavController().navInflater.inflate(destinationsProvider.provideNavigationGraphId())
         graph.setStartDestination(destinationsProvider.provideStartDestinationId())
         getRootNavController().graph = graph
     }
@@ -176,7 +233,7 @@ class NavComponentRouter @AssistedInject constructor(
     }
 
     private fun onNavControllerActivated(navController: NavController) {
-        if(this.navController == navController) return
+        if (this.navController == navController) return
         this.navController?.removeOnDestinationChangedListener(destinationListener)
         navController.addOnDestinationChangedListener(destinationListener)
         this.navController = navController
@@ -191,7 +248,7 @@ class NavComponentRouter @AssistedInject constructor(
     }
 
     private fun prepareTitle(label: CharSequence?, arguments: Bundle?): String {
-        if(label == null) return ""
+        if (label == null) return ""
         val title = StringBuffer()
         val fillInPattern = Pattern.compile("\\{(.+?)\\}")
         val matcher = fillInPattern.matcher(label)
@@ -208,6 +265,20 @@ class NavComponentRouter @AssistedInject constructor(
         }
         matcher.appendTail(title)
         return title.toString()
+    }
+
+    fun getToolbar(): Toolbar? {
+        val tabsFragment = currentFragment as? TabsFragment
+        val view = tabsFragment?.view ?: return null
+        val binding = FragmentTabsBinding.bind(view)
+        return binding.tabsToolbar
+    }
+
+    fun getBottomNavigationView(): BottomNavigationView? {
+        val tabsFragment = currentFragment as? TabsFragment
+        val view = tabsFragment?.view ?: return null
+        val binding = FragmentTabsBinding.bind(view)
+        return binding.bottomNavigationView
     }
 
     @AssistedFactory

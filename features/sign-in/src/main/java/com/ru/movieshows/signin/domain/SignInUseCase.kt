@@ -1,4 +1,4 @@
-package ua.cn.stu.multimodule.signin.domain
+package com.ru.movieshows.signin.domain
 
 import com.ru.movieshows.signin.domain.exceptions.EmptyUsernameException
 import com.ru.movieshows.signin.domain.exceptions.EmptyPasswordException

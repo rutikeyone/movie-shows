@@ -4,11 +4,11 @@ import androidx.paging.PagingData
 import com.ru.movieshows.data.movies.models.ReviewModel
 import com.ru.movieshows.data.movies.models.ReviewsPaginationModel
 import com.ru.movieshows.data.movies.models.VideoModel
-import com.ru.movieshows.data.tvshows.models.EpisodeModel
-import com.ru.movieshows.data.tvshows.models.SeasonModel
-import com.ru.movieshows.data.tvshows.models.TvShowDetailsModel
-import com.ru.movieshows.data.tvshows.models.TvShowModel
-import com.ru.movieshows.data.tvshows.models.TvShowPaginationModel
+import com.ru.movieshows.data.tv_shows.models.EpisodeModel
+import com.ru.movieshows.data.tv_shows.models.SeasonModel
+import com.ru.movieshows.data.tv_shows.models.TvShowDetailsModel
+import com.ru.movieshows.data.tv_shows.models.TvShowModel
+import com.ru.movieshows.data.tv_shows.models.TvShowPaginationModel
 import kotlinx.coroutines.flow.Flow
 
 interface TvShowsDataRepository {

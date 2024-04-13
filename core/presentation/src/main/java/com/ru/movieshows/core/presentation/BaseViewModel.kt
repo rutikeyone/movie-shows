@@ -7,7 +7,6 @@ import com.ru.movieshows.core.AlertDialogConfig
 import com.ru.movieshows.core.CommonUi
 import com.ru.movieshows.core.Container
 import com.ru.movieshows.core.Core
-import com.ru.movieshows.core.ErrorHandler
 import com.ru.movieshows.core.Logger
 import com.ru.movieshows.core.Resources
 import com.ru.movieshows.core.presentation.assignable.Assignable
@@ -70,10 +69,6 @@ open class BaseViewModel : ViewModel() {
                 it()
             }
         }
-    }
-
-    fun updateLanguageTag() {
-        _languageTagFlow.value = languageTag
     }
 
     protected fun <T> liveValue(): LiveValue<T> {

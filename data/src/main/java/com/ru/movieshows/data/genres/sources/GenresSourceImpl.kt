@@ -1,16 +1,20 @@
 package com.ru.movieshows.data.genres.sources
 
+import com.google.gson.Gson
+import com.ru.movieshows.data.BaseRetrofitSource
 import com.ru.movieshows.data.genres.api.GenresApi
 import com.ru.movieshows.data.genres.models.GenreModel
 import javax.inject.Inject
 
 class GenresSourceImpl @Inject constructor(
     private val genresApi: GenresApi,
-) : GenresSource {
+    private val gson: Gson,
+) : GenresSource, BaseRetrofitSource(gson) {
 
     override suspend fun fetchGenres(language: String): List<GenreModel> {
-        val response = genresApi.getGenres(language)
-        return response.body()?.genres ?: throw NullPointerException()
+        return genresApi
+            .getGenres(language)
+            .awaitResult { it.genres }
     }
 
 }

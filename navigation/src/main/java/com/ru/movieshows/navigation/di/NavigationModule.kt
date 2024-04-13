@@ -21,7 +21,6 @@ class NavigationModule {
         return appRestarter
     }
 
-
     @Provides
     @IntoSet
     fun provideRouterAsActivityRequired(

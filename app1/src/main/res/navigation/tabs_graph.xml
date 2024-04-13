@@ -7,4 +7,5 @@
     <include app:graph="@navigation/movies_tab" />
     <include app:graph="@navigation/tvs_tab" />
     <include app:graph="@navigation/profile_tab" />
+
 </navigation>

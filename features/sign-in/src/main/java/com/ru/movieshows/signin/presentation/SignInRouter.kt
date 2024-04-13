@@ -4,6 +4,6 @@ interface SignInRouter {
 
     fun launchMain()
 
-    fun nestedRoute(): Boolean
+    fun isTabsNavigationMode(): Boolean
 
 }

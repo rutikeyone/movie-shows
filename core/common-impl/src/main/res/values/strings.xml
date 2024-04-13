@@ -9,4 +9,5 @@
     <string name="core_common_action_ok">OK</string>
     <string name="core_common_error_header">Error!</string>
     <string name="core_common_connect_to_the_internet">Connect to the internet</string>
+    <string name="core_to_see_the_profile_data_need_log_in_message">In order to see the profile data, you need to log in</string>
 </resources>

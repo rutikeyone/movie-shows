@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="your_account_is_no_longer_active_contact_tmdb_message">Your account is no longer active. Contact TMDb if this is an error</string>
+    <string name="the_email_address_has_not_been_confirmed">The email address has not been confirmed.</string>
+    <string name="invalid_username_or_password">Invalid username or password</string>
+    <string name="session_creation_denied">Session creation denied</string>
+    <string name="an_error_occurred_during_the_operation">An error occurred during the operation.</string>
+</resources>

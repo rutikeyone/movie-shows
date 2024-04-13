@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="your_account_is_no_longer_active_contact_tmdb_message">Ваша учетная запись больше не активна. Свяжитесь с TMDb, если это ошибка</string>
+    <string name="the_email_address_has_not_been_confirmed">Адрес электронной почты не подтвержден.</string>
+    <string name="invalid_username_or_password">Неверный логин или пароль</string>
+    <string name="session_creation_denied">В создании сессии отказано </string>
+    <string name="an_error_occurred_during_the_operation">В процессе выполнения операции произошла ошибка.</string>
+</resources>

@@ -49,15 +49,15 @@ open class BaseFragment: Fragment() {
 
     fun validateUsername(value: UsernameField): String? {
         val result = when (value.status) {
-            UsernameValidationStatus.EMPTY -> getString(R.string.core_empty_text_field)
-            UsernameValidationStatus.INVALID -> getString(R.string.core_invalid_user_name)
+            UsernameValidationStatus.EMPTY -> getString(R.string.core_presentation_empty_text_field)
+            UsernameValidationStatus.INVALID -> getString(R.string.core_presentation_invalid_user_name)
             else -> null
         }
         return result
     }
 
     fun validatePassword(value: PasswordField): String? = when(value.status) {
-        PasswordValidationStatus.EMPTY -> getString(R.string.core_empty_text_field)
+        PasswordValidationStatus.EMPTY -> getString(R.string.core_presentation_empty_text_field)
         PasswordValidationStatus.INVALID -> getString(R.string.the_password_must_contain_more_than_second_characters)
         else -> null
     }

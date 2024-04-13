@@ -8,11 +8,15 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class DefaultDestinationsProvider @Inject constructor(
-    @ApplicationContext context: Context,
-): DestinationsProvider {
+    @ApplicationContext private val context: Context,
+) : DestinationsProvider {
 
     override fun provideStartDestinationId(): Int {
         return R.id.splashFragment
+    }
+
+    override fun provideStartAuthDestinationId(): Int {
+        return R.id.signInFragment
     }
 
     override fun provideNavigationGraphId(): Int {
@@ -20,7 +24,23 @@ class DefaultDestinationsProvider @Inject constructor(
     }
 
     override fun provideMainTabs(): List<NavTab> {
-        return listOf()
+        return listOf(
+            NavTab(
+                destinationId = R.id.moviesFragment,
+                title = context.getString(R.string.movies),
+                iconRes = R.drawable.ic_movie,
+            ),
+            NavTab(
+                destinationId = R.id.tvShowsFragment,
+                title = context.getString(R.string.tvs),
+                iconRes = R.drawable.ic_tv,
+            ),
+            NavTab(
+                destinationId = R.id.profileFragment,
+                title = context.getString(R.string.profile),
+                iconRes = R.drawable.ic_profile,
+            ),
+        )
     }
 
     override fun provideTabsDestinationId(): Int {

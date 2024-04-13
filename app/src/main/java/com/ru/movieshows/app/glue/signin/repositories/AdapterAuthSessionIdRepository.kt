@@ -1,6 +1,6 @@
 package com.ru.movieshows.app.glue.signin.repositories
 
-import com.ru.movieshows.data.settings.SettingsDataSource
+import com.ru.movieshows.data.settings.sources.SettingsDataSource
 import com.ru.movieshows.signin.domain.repositories.AuthSessionIdRepository
 import javax.inject.Inject
 

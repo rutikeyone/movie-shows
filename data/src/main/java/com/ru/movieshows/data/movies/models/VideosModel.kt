@@ -1,6 +1,8 @@
 package com.ru.movieshows.data.movies.models
 
+import com.google.gson.annotations.SerializedName
+
 @JvmInline
 value class VideosModel(
-    val results: List<VideoModel>,
+    @SerializedName("results") val results: List<VideoModel>,
 )

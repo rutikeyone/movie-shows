@@ -1,6 +1,6 @@
 package com.ru.movieshows.signin.presentation.signin
 
-import com.ru.movieshows.core.AuthException
+import com.ru.movieshows.core.NotAuthException
 import com.ru.movieshows.core.Container
 import com.ru.movieshows.core.presentation.BaseViewModel
 import com.ru.movieshows.core.presentation.PasswordField
@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
-import ua.cn.stu.multimodule.signin.domain.SignInUseCase
+import com.ru.movieshows.signin.domain.SignInUseCase
 import javax.inject.Inject
 
 @HiltViewModel
@@ -99,7 +99,7 @@ class SignInViewModel @Inject constructor(
             } catch (e: EmptyPasswordException) {
                 val oldPassword = passwordStateFlow.value
                 passwordStateFlow.value = oldPassword.copy(status = PasswordValidationStatus.EMPTY)
-            } catch (e: AuthException) {
+            } catch (e: NotAuthException) {
                 showErrorDialog(resources.getString(R.string.invalid_username_or_password))
             } finally {
                 progressStateFlow.value = false
@@ -116,14 +116,14 @@ class SignInViewModel @Inject constructor(
         passwordField: PasswordField,
         canSignIn: Boolean,
     ): Container<State> {
-        val nestedRoute = router.nestedRoute()
+        val isTabsNavigationMode = router.isTabsNavigationMode()
         return loadContainer.map {
             State(
                 usernameField = usernameField,
                 passwordField = passwordField,
                 inProgress = inProgress,
                 canSignIn = canSignIn,
-                nestedRoute = nestedRoute,
+                isTabsNavigationMode = isTabsNavigationMode,
             )
         }
     }
@@ -141,7 +141,7 @@ class SignInViewModel @Inject constructor(
         val passwordField: PasswordField,
         val inProgress: Boolean,
         val canSignIn: Boolean,
-        val nestedRoute: Boolean,
+        val isTabsNavigationMode: Boolean,
     ) {
         val enableUI: Boolean get() = !inProgress
         val showProgressBar: Boolean get() = inProgress

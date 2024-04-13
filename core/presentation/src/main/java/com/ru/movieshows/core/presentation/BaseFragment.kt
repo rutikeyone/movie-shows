@@ -11,7 +11,6 @@ import android.view.inputmethod.InputMethodManager
 import androidx.annotation.DimenRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import kotlinx.coroutines.FlowPreview
 
 open class BaseFragment: Fragment() {
 
@@ -19,12 +18,9 @@ open class BaseFragment: Fragment() {
 
     protected open val viewModel by viewModels<BaseViewModel>()
 
-    @OptIn(FlowPreview::class)
     private val languageChangedBroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            if(intent != null && intent.action == Intent.ACTION_LOCALE_CHANGED) {
-                viewModel.updateLanguageTag()
-            }
+            if(intent != null && intent.action == Intent.ACTION_LOCALE_CHANGED) {}
         }
     }
 
@@ -41,16 +37,16 @@ open class BaseFragment: Fragment() {
 
     fun validateUsername(value: UsernameField): String? {
         val result = when (value.status) {
-            UsernameValidationStatus.EMPTY -> getString(R.string.core_empty_text_field)
-            UsernameValidationStatus.INVALID -> getString(R.string.core_invalid_user_name)
+            UsernameValidationStatus.EMPTY -> getString(R.string.core_presentation_empty_text_field)
+            UsernameValidationStatus.INVALID -> getString(R.string.core_presentation_invalid_user_name)
             else -> null
         }
         return result
     }
 
     fun validatePassword(value: PasswordField): String? = when(value.status) {
-        PasswordValidationStatus.EMPTY -> getString(R.string.core_empty_text_field)
-        PasswordValidationStatus.INVALID -> getString(R.string.core_the_password_must_contain_more_than_second_characters)
+        PasswordValidationStatus.EMPTY -> getString(R.string.core_presentation_empty_text_field)
+        PasswordValidationStatus.INVALID -> getString(R.string.core_presentation_the_password_must_contain_more_than_second_characters)
         else -> null
     }
 

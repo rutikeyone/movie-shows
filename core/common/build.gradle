@@ -11,4 +11,5 @@ java {
 dependencies {
     implementation Libs.JetBrains.CoroutinesCore
     implementation Libs.Android.PaginationCommonKtx
+    implementation Libs.Network.Retrofit
 }

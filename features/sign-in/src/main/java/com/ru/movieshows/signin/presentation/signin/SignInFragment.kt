@@ -38,7 +38,7 @@ class SignInFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View = inflater.inflate(R.layout.fragment_sign_in, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -85,7 +85,7 @@ class SignInFragment : BaseFragment() {
 
             with(skipSignInButton) {
                 isEnabled = state.enableUI
-                isVisible = !state.nestedRoute
+                isVisible = !state.isTabsNavigationMode
             }
 
             progressBar.isVisible = state.showProgressBar

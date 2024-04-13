@@ -2,10 +2,8 @@ package com.ru.movieshows.navigation.presentation
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.ru.movieshows.impl.ActivityRequired
 import com.ru.movieshows.navigation.DestinationsProvider
 import com.ru.movieshows.navigation.R
@@ -27,6 +25,8 @@ class MainActivity : AppCompatActivity(), RouterHolder {
     @Inject
     lateinit var activityRequiredSet: Set<@JvmSuppressWildcards ActivityRequired>
 
+    private val viewModel by viewModels<MainViewModel>()
+
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
         ActivityMainBinding.inflate(layoutInflater)
     }
@@ -38,24 +38,26 @@ class MainActivity : AppCompatActivity(), RouterHolder {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             navComponentRouter.onRestoreInstanceState(savedInstanceState)
         }
         navComponentRouter.onCreate()
-        if(savedInstanceState == null) {
+        if (savedInstanceState == null) {
             navComponentRouter.switchToStack(destinationsProvider.provideStartDestinationId())
         }
         activityRequiredSet.forEach {
             it.onCreated(this)
         }
+        onBackPressedDispatcher.addCallback(navComponentRouter.onBackPressedCallback)
+        lifecycle.addObserver(viewModel)
     }
 
     override fun onSupportNavigateUp(): Boolean {
         return (navComponentRouter.onNavigateUp() || super.onSupportNavigateUp())
     }
 
-    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-        super.onSaveInstanceState(outState, outPersistentState)
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
         navComponentRouter.onSaveInstanceState(outState)
     }
 
@@ -73,9 +75,11 @@ class MainActivity : AppCompatActivity(), RouterHolder {
         super.onDestroy()
         navComponentRouter.onDestroy()
         activityRequiredSet.forEach { it.onDestroyed() }
+        lifecycle.removeObserver(viewModel)
     }
 
     override fun requireRouter(): NavComponentRouter {
         return navComponentRouter
     }
+
 }

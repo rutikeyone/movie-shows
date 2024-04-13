@@ -12,8 +12,8 @@ fun ImageView.loadUrl(
     Glide
         .with(context)
         .load(url)
-        .placeholder(placeholderResource ?: R.drawable.core_poster_placeholder_bg)
-        .error(errorResource ?: R.drawable.core_poster_placeholder_bg)
+        .placeholder(placeholderResource ?: R.drawable.core_presentation_poster_placeholder_bg)
+        .error(errorResource ?: R.drawable.core_presentation_poster_placeholder_bg)
         .centerCrop()
         .into(this)
 }
@@ -26,8 +26,8 @@ fun ImageView.loadResource(
     Glide
         .with(context)
         .load(id)
-        .placeholder(placeholderResource ?: R.drawable.core_poster_placeholder_bg)
-        .error(errorResource ?: R.drawable.core_poster_placeholder_bg)
+        .placeholder(placeholderResource ?: R.drawable.core_presentation_poster_placeholder_bg)
+        .error(errorResource ?: R.drawable.core_presentation_poster_placeholder_bg)
         .centerCrop()
         .into(this)
 }

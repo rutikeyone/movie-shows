@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:gravity="bottom|center_horizontal"
     android:padding="@dimen/dp_16"
-    tools:context="com.ru.movieshows.splash.presentation.SplashFragment">
+    tools:context="com.ru.movieshows.splash.presentation.splash.SplashFragment">
 
     <ProgressBar
         android:id="@+id/loadingIndicator"

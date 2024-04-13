@@ -1,5 +1,7 @@
 package com.ru.movieshows.data.movies.sources
 
+import com.google.gson.Gson
+import com.ru.movieshows.data.BaseRetrofitSource
 import com.ru.movieshows.data.movies.api.MoviesApi
 import com.ru.movieshows.data.movies.models.MovieDetailsModel
 import com.ru.movieshows.data.movies.models.MoviesPaginationModel
@@ -9,28 +11,29 @@ import javax.inject.Inject
 
 class MoviesSourceImpl @Inject constructor(
     private val moviesApi: MoviesApi,
-): MoviesSource {
+    private val gson: Gson,
+) : MoviesSource, BaseRetrofitSource(gson) {
 
     override suspend fun getMovieReviews(
         movieId: String,
         language: String,
         pageIndex: Int,
     ): ReviewsPaginationModel {
-        val response = moviesApi.getMovieReviews(
+        return moviesApi.getMovieReviews(
             movieId = movieId,
             language = language,
             page = pageIndex,
-        )
-        return response.body() ?: throw NullPointerException()
+        ).awaitResult { it }
     }
 
     override suspend fun getVideosById(
         movieId: String,
         language: String,
     ): List<VideoModel> {
-        val response = moviesApi.getVideosByMoviesId(movieId, language)
-        val body = response.body() ?: throw NullPointerException()
-        return body.results
+        return moviesApi.getVideosByMoviesId(
+            movieId = movieId,
+            language = language,
+        ).awaitResult { it.results }
     }
 
     override suspend fun getSimilarMovies(
@@ -38,12 +41,11 @@ class MoviesSourceImpl @Inject constructor(
         language: String,
         pageIndex: Int,
     ): MoviesPaginationModel {
-        val response = moviesApi.getSimilarMovies(
+        return moviesApi.getSimilarMovies(
             movieId = movieId,
             language = language,
             page = pageIndex,
-        )
-        return response.body() ?: throw NullPointerException()
+        ).awaitResult { it }
     }
 
     override suspend fun getDiscoverMovies(
@@ -51,52 +53,61 @@ class MoviesSourceImpl @Inject constructor(
         pageIndex: Int,
         withGenresId: String,
     ): MoviesPaginationModel {
-        val response = moviesApi.getDiscoverMovies(
+        return moviesApi.getDiscoverMovies(
             language = language,
             page = pageIndex,
             withGenresId = withGenresId,
-        )
-        return response.body() ?: throw NullPointerException()
+        ).awaitResult { it }
     }
 
     override suspend fun getMovieDetails(
         movieId: Int,
         language: String,
     ): MovieDetailsModel {
-        val response = moviesApi.getMovieDetails(movieId, language)
-        return response.body() ?: throw NullPointerException()
+        return moviesApi.getMovieDetails(
+            movieId = movieId,
+            language = language,
+        ).awaitResult { it }
     }
 
     override suspend fun getNowPlayingMovies(
         language: String,
         pageIndex: Int,
     ): MoviesPaginationModel {
-        val response = moviesApi.getMoviesNowPlaying(language, pageIndex)
-        return response.body() ?: throw NullPointerException()
+        return moviesApi.getMoviesNowPlaying(
+            language = language,
+            page = pageIndex,
+        ).awaitResult { it }
     }
 
     override suspend fun getUpcomingMovies(
         language: String,
         pageIndex: Int,
     ): MoviesPaginationModel {
-        val response = moviesApi.getUpcomingMovies(language, pageIndex)
-        return response.body() ?: throw NullPointerException()
+        return moviesApi.getUpcomingMovies(
+            language = language,
+            page = pageIndex,
+        ).awaitResult { it }
     }
 
     override suspend fun getPopularMovies(
         language: String,
-        pageIndex: Int
+        pageIndex: Int,
     ): MoviesPaginationModel {
-        val response = moviesApi.getPopularMovies(language, pageIndex)
-        return response.body() ?: throw NullPointerException()
+        return moviesApi.getPopularMovies(
+            language = language,
+            page = pageIndex,
+        ).awaitResult { it }
     }
 
     override suspend fun getTopRatedMovies(
         language: String,
         pageIndex: Int,
     ): MoviesPaginationModel {
-        val response = moviesApi.getTopRatedMovies(language, pageIndex)
-        return response.body() ?: throw NullPointerException()
+        return moviesApi.getTopRatedMovies(
+            language = language,
+            page = pageIndex,
+        ).awaitResult { it }
     }
 
     override suspend fun searchMovies(
@@ -104,11 +115,10 @@ class MoviesSourceImpl @Inject constructor(
         pageIndex: Int,
         query: String?,
     ): MoviesPaginationModel {
-        val response = moviesApi.searchMovies(
+        return moviesApi.searchMovies(
             language = language,
             page = pageIndex,
             query = query,
-        )
-        return response.body() ?: throw NullPointerException()
+        ).awaitResult { it }
     }
 }

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="avatar_description">Описание изображение пользователя</string>
+    <string name="ivanov_ivan">Иванов Иван</string>
+    <string name="sign_out">Выйти</string>
+</resources>

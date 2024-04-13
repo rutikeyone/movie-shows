@@ -93,7 +93,7 @@
     <fragment
         android:id="@+id/airTvShowsFragment"
         android:name="com.ru.movieshows.app.presentation.screens.tv_shows.AirTvShowsFragment"
-        android:label="@string/on_the_air"
+        android:label="@string/core_presentation_on_the_air"
         tools:layout="@layout/fragment_air_tv_shows" >
         <action
             android:id="@+id/action_airTvShowsFragment_to_tvShowDetailsFragment"

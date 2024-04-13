@@ -6,9 +6,9 @@ interface ActivityRequired {
 
     fun onCreated(activity: FragmentActivity)
 
-    fun onStarted()
+    fun onStarted() {}
 
-    fun onStopped()
+    fun onStopped() {}
 
     fun onDestroyed()
 
