@@ -2,12 +2,12 @@ package com.ru.movieshows.data.people.sources
 
 import com.google.gson.Gson
 import com.ru.movieshows.data.BaseRetrofitSource
-import com.ru.movieshows.data.people.api.PeopleApi
+import com.ru.movieshows.data.people.service.PeopleService
 import com.ru.movieshows.data.people.models.PersonModel
 import javax.inject.Inject
 
 class PeopleSourceImpl @Inject constructor(
-    private val peopleApi: PeopleApi,
+    private val peopleService: PeopleService,
     private val gson: Gson,
 ) : PeopleSource, BaseRetrofitSource(gson) {
 
@@ -15,7 +15,7 @@ class PeopleSourceImpl @Inject constructor(
         personId: String,
         language: String,
     ): PersonModel {
-        return peopleApi.getPersonDetails(
+        return peopleService.getPersonDetails(
             personId = personId,
             language = language,
         ).awaitResult { it }

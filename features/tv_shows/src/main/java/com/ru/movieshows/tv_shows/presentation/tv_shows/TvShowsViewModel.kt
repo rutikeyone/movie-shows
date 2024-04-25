@@ -7,7 +7,7 @@ import com.ru.movieshows.tv_shows.domain.GetPopularTvShowsUseCase
 import com.ru.movieshows.tv_shows.domain.GetTopRatedTvShowsUseCase
 import com.ru.movieshows.tv_shows.domain.GetTrendingTvShowsUseCase
 import com.ru.movieshows.tv_shows.domain.entities.TvShow
-import com.ru.movieshows.tv_shows.presentation.TvShowsRouter
+import com.ru.movieshows.tv_shows.TvShowsRouter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch

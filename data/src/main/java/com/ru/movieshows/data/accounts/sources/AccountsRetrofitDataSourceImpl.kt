@@ -3,13 +3,13 @@ package com.ru.movieshows.data.accounts.sources
 import com.google.gson.Gson
 import com.ru.movieshows.core.NotAuthException
 import com.ru.movieshows.data.BaseRetrofitSource
-import com.ru.movieshows.data.accounts.api.AccountsApi
+import com.ru.movieshows.data.accounts.service.AccountsService
 import com.ru.movieshows.data.accounts.models.AccountDataModel
 import com.ru.movieshows.data.settings.sources.SettingsDataSource
 import javax.inject.Inject
 
 class AccountsRetrofitDataSourceImpl @Inject constructor(
-    private val accountsApi: AccountsApi,
+    private val accountsApi: AccountsService,
     private val settingsDataSource: SettingsDataSource,
     private val gson: Gson,
 ) : AccountsDataSource, BaseRetrofitSource(gson) {

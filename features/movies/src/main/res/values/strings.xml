@@ -1,1 +1,27 @@
-<resources></resources>
+<resources>
+    <string name="duration">Duration</string>
+    <string name="release_date">Release Date:</string>
+    <string name="overview">Overview</string>
+    <string name="lorem_ipsum" translatable="false">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+        enim ad minim veniam, quis nostrud exercitation ullamco laboris
+        nisi ut aliquip ex ea commodo consequat.
+    </string>
+    <string name="genres">Genres</string>
+    <string name="production_companies">Production companies</string>
+    <string name="videos">Videos</string>
+    <string name="similar_movies">Similar movies</string>
+    <string name="reviews">Reviews</string>
+    <string name="hide">Hide</string>
+    <string name="read_more">Read more</string>
+    <string name="backdrop_description">Backdrop description</string>
+    <string name="image_description">Image description</string>
+    <string name="show_all">Show All</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="popular">Popular</string>
+    <string name="top_rated">Top rated</string>
+    <string name="retry">Retry</string>
+    <string name="search">Search</string>
+    <string name="min">min.</string>
+</resources>

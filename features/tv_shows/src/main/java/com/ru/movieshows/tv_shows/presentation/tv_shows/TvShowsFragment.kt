@@ -15,8 +15,8 @@ import com.ru.movieshows.core.presentation.viewBinding
 import com.ru.movieshows.core.presentation.views.observe
 import com.ru.movieshows.navigation.GlobalNavComponentRouter
 import com.ru.movieshows.tv_shows.domain.entities.TvShow
-import com.ru.movieshows.tv_shows.presentation.adapter.TvShowsAdapter
-import com.ru.movieshows.tv_shows.presentation.adapter.TvShowsViewPagerAdapter
+import com.ru.movieshows.tv_shows.presentation.TvShowsAdapter
+import com.ru.movieshows.tv_shows.presentation.TvShowsViewPagerAdapter
 import com.ru.movieshows.tvshows.R
 import com.ru.movieshows.tvshows.databinding.FragmentTvShowsBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,11 +34,11 @@ class TvShowsFragment : BaseFragment() {
 
     private val menuProvider = object : MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-            menuInflater.inflate(com.ru.movieshows.core.presentation.R.menu.search_menu, menu)
+            menuInflater.inflate(R.menu.search_menu, menu)
         }
 
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean = when (menuItem.itemId) {
-            com.ru.movieshows.core.presentation.R.id.search -> {
+            R.id.search -> {
                 viewModel.launchTvShowSearch()
                 true
             }

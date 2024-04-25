@@ -22,8 +22,8 @@ import com.ru.movieshows.core.presentation.views.observe
 import com.ru.movieshows.movies.R
 import com.ru.movieshows.movies.databinding.FragmentMoviesBinding
 import com.ru.movieshows.movies.domain.entities.Movie
-import com.ru.movieshows.movies.presentation.adapters.MoviesAdapter
-import com.ru.movieshows.movies.presentation.adapters.MoviesViewPagerAdapter
+import com.ru.movieshows.movies.presentation.MoviesAdapter
+import com.ru.movieshows.movies.presentation.MoviesViewPagerAdapter
 import com.ru.movieshows.navigation.GlobalNavComponentRouter
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
@@ -48,11 +48,11 @@ class MoviesFragment : BaseFragment() {
 
     private val menuProvider = object : MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-            menuInflater.inflate(com.ru.movieshows.core.presentation.R.menu.search_menu, menu)
+            menuInflater.inflate(R.menu.search_menu, menu)
         }
 
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean = when (menuItem.itemId) {
-            com.ru.movieshows.core.presentation.R.id.search -> {
+            R.id.search -> {
                 viewModel.launchMovieSearch()
                 true
             }
@@ -71,7 +71,7 @@ class MoviesFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding.root) {
-            setOnClickListener { viewModel.tryToGetMoviesData() }
+            setTryAgainListener { viewModel.tryToGetMoviesData() }
             observe(viewLifecycleOwner, viewModel.loadScreenStateLiveValue) { state ->
                 val index = viewModel.indexStateLiveValue.getValue()
                 setupViews(state, index)

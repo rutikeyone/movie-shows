@@ -87,7 +87,7 @@
     <string name="there_are_no_episodes">Нет эпизодов</string>
     <string name="crew">Команда</string>
     <string name="poster_description">Описание постера</string>
-    <string name="backdrop_description">Описание фона</string>
+    <string name="core_presentation_backdrop_description">Описание фона</string>
     <string name="select_type">Выберите тип</string>
     <string name="icon_description">Описание иконки</string>
     <string name="watchlist_movies">Отслеживаемые фильмы</string>

@@ -41,4 +41,28 @@
         android:label="@string/profile"
         tools:layout="@layout/fragment_profile" />
 
+    <fragment
+        android:id="@+id/movieDetailsFragment"
+        android:name="com.ru.movieshows.movies.presentation.details.MovieDetailsFragment"
+        android:label="@string/empty"
+        tools:layout="@layout/fragment_movie_details" />
+
+    <fragment
+        android:id="@+id/tvShowDetailsFragment"
+        android:name="com.ru.movieshows.tv_shows.presentation.details.TvShowDetailsFragment"
+        android:label="@string/empty"
+        tools:layout="@layout/fragment_tv_show_details" />
+
+    <fragment
+        android:id="@+id/movieSearchFragment"
+        android:name="com.ru.movieshows.movies.presentation.search.MovieSearchFragment"
+        android:label="@string/search"
+        tools:layout="@layout/fragment_movie_search" />
+
+    <fragment
+        android:id="@+id/tvShowSearchFragment"
+        android:name="com.ru.movieshows.tv_shows.presentation.search.TvShowSearchFragment"
+        android:label="@string/search"
+        tools:layout="@layout/fragment_tv_show_search" />
+
 </navigation>

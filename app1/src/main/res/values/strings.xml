@@ -94,7 +94,7 @@
     <string name="there_are_no_episodes">There are no episodes</string>
     <string name="crew">Crew</string>
     <string name="poster_description">Poster description</string>
-    <string name="backdrop_description">Backdrop description</string>
+    <string name="core_presentation_backdrop_description">Backdrop description</string>
     <string name="select_type">Select type</string>
     <string name="icon_description">Icon description</string>
     <string name="watchlist_movies">Watchlist movies</string>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="duration">Длительность</string>
+    <string name="release_date">Дата выхода:</string>
+    <string name="overview">Краткий обзор</string>
+    <string name="genres">Жанры</string>
+    <string name="production_companies">Производственные компании</string>
+    <string name="videos">Видеоматериалы</string>
+    <string name="similar_movies">Похожие фильмы</string>
+    <string name="reviews">Обзоры</string>
+    <string name="hide">Скрыть</string>
+    <string name="read_more">Подробнее</string>
+    <string name="backdrop_description">Описание фона</string>
+    <string name="image_description">Описание изображения</string>
+    <string name="show_all">Показать все</string>
+    <string name="upcoming">Ожидаемые</string>
+    <string name="popular">Популярные</string>
+    <string name="top_rated">С наивысшей оценкой</string>
+    <string name="retry">Повторить</string>
+    <string name="search">Поиск</string>
+    <string name="min">мин.</string>
+</resources>

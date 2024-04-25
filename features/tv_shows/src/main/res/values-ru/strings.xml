@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="show_all">Показать все</string>
+    <string name="on_the_air">В прямом эфире</string>
+    <string name="top_rated">С наивысшей оценкой</string>
+    <string name="popular">Популярные</string>
+    <string name="poster_description">Описание постера</string>
+    <string name="image_description">Описание изображения</string>
+</resources>

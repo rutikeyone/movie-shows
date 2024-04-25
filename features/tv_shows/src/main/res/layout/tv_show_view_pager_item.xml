@@ -18,8 +18,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:tintMode="src_atop"
         tools:background="@color/cardview_dark_background"
-        android:src="@drawable/core_presentation_poster_placeholder_bg"
-        android:contentDescription="@string/core_presentation_poster_description"/>
+        android:src="@drawable/core_presentation_bg_poster_placeholder"
+        android:contentDescription="@string/poster_description"/>
 
     <TextView
         android:id="@+id/tvShowName"

@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
@@ -29,6 +30,7 @@ import java.util.regex.Pattern
 class NavComponentRouter @AssistedInject constructor(
     @Assisted @IdRes private val fragmentContainerId: Int,
     private val destinationsProvider: DestinationsProvider,
+    private val navOptions: NavOptions,
     private val activity: FragmentActivity,
     val navigationModeHolder: NavigationModeHolder,
 ) {
@@ -165,13 +167,18 @@ class NavComponentRouter @AssistedInject constructor(
     ) {
         val navController = if (root) getRootNavController() else currentNavController
         if (args == null) {
-            navController.navigate(resId = destinationId)
+            navController.navigate(
+                resId = destinationId,
+                args = null,
+                navOptions = navOptions,
+            )
         } else {
             navController.navigate(
                 resId = destinationId,
                 args = Bundle().apply {
                     putSerializable(ARG_SCREEN, args)
-                }
+                },
+                navOptions = navOptions,
             )
         }
     }

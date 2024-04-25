@@ -50,6 +50,7 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
+
     <fragment
         android:id="@+id/movieDetailsFragment"
         android:name="com.ru.movieshows.app.presentation.screens.movies.MovieDetailsFragment"

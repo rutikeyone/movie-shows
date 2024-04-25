@@ -4,7 +4,7 @@ import com.google.gson.Gson
 import com.ru.movieshows.data.BaseRetrofitSource
 import com.ru.movieshows.data.movies.models.ReviewsPaginationModel
 import com.ru.movieshows.data.movies.models.VideoModel
-import com.ru.movieshows.data.tv_shows.api.TvShowsApi
+import com.ru.movieshows.data.tv_shows.service.TvShowsService
 import com.ru.movieshows.data.tv_shows.models.EpisodeModel
 import com.ru.movieshows.data.tv_shows.models.SeasonModel
 import com.ru.movieshows.data.tv_shows.models.TvShowDetailsModel
@@ -12,7 +12,7 @@ import com.ru.movieshows.data.tv_shows.models.TvShowPaginationModel
 import javax.inject.Inject
 
 class TvShowsSourceImpl @Inject constructor(
-    private val tvShowsApi: TvShowsApi,
+    private val tvShowsService: TvShowsService,
     private val gson: Gson,
 ) : TvShowsSource, BaseRetrofitSource(gson) {
 
@@ -20,7 +20,7 @@ class TvShowsSourceImpl @Inject constructor(
         seriesId: String,
         language: String,
     ): List<VideoModel> {
-        return tvShowsApi.getVideosByTvShowId(
+        return tvShowsService.getVideosByTvShowId(
             seriesId = seriesId,
             language = language,
         ).awaitResult { it.results }
@@ -31,7 +31,7 @@ class TvShowsSourceImpl @Inject constructor(
         seasonNumber: String,
         language: String,
     ): SeasonModel {
-        return tvShowsApi.getSeason(
+        return tvShowsService.getSeason(
             seriesId = seriesId,
             seasonNumber = seasonNumber,
             language = language,
@@ -43,7 +43,7 @@ class TvShowsSourceImpl @Inject constructor(
         language: String,
         page: Int,
     ): TvShowPaginationModel {
-        return tvShowsApi.getSimilarTvShows(
+        return tvShowsService.getSimilarTvShows(
             seriesId = seriesId,
             language = language,
             page = page,
@@ -54,7 +54,7 @@ class TvShowsSourceImpl @Inject constructor(
         language: String,
         page: Int,
     ): TvShowPaginationModel {
-        return tvShowsApi.getDiscoverTvShows(
+        return tvShowsService.getDiscoverTvShows(
             language = language,
             page = page,
         ).awaitResult { it }
@@ -64,7 +64,7 @@ class TvShowsSourceImpl @Inject constructor(
         id: String,
         language: String,
     ): TvShowDetailsModel {
-        return tvShowsApi.getTvShowDetails(
+        return tvShowsService.getTvShowDetails(
             id = id,
             language = language,
         ).awaitResult { it }
@@ -74,7 +74,7 @@ class TvShowsSourceImpl @Inject constructor(
         language: String,
         page: Int,
     ): TvShowPaginationModel {
-        return tvShowsApi.getTopRatedTvShows(
+        return tvShowsService.getTopRatedTvShows(
             language = language,
             page = page,
         ).awaitResult { it }
@@ -84,7 +84,7 @@ class TvShowsSourceImpl @Inject constructor(
         language: String,
         page: Int,
     ): TvShowPaginationModel {
-        return tvShowsApi.getPopularTvShows(
+        return tvShowsService.getPopularTvShows(
             language = language,
             page = page,
         ).awaitResult { it }
@@ -94,7 +94,7 @@ class TvShowsSourceImpl @Inject constructor(
         language: String,
         page: Int,
     ): TvShowPaginationModel {
-        return tvShowsApi.getOnTheAirTvShows(
+        return tvShowsService.getOnTheAirTvShows(
             language = language,
             page = page,
         ).awaitResult { it }
@@ -104,7 +104,7 @@ class TvShowsSourceImpl @Inject constructor(
         language: String,
         page: Int,
     ): TvShowPaginationModel {
-        return tvShowsApi.getTrendingTvShows(
+        return tvShowsService.getTrendingTvShows(
             language = language,
             page = page,
         ).awaitResult { it }
@@ -115,7 +115,7 @@ class TvShowsSourceImpl @Inject constructor(
         page: Int,
         query: String?,
     ): TvShowPaginationModel {
-        return tvShowsApi.searchTvShows(
+        return tvShowsService.searchTvShows(
             language = language,
             page = page,
             query = query
@@ -128,7 +128,7 @@ class TvShowsSourceImpl @Inject constructor(
         seasonNumber: String,
         episodeNumber: Int,
     ): EpisodeModel {
-        return tvShowsApi.getEpisodeByNumber(
+        return tvShowsService.getEpisodeByNumber(
             language = language,
             seriesId = seriesId,
             seasonNumber = seasonNumber,
@@ -141,7 +141,7 @@ class TvShowsSourceImpl @Inject constructor(
         language: String,
         page: Int,
     ): ReviewsPaginationModel {
-        return tvShowsApi.getTvReviews(
+        return tvShowsService.getTvReviews(
             seriesId = seriesId,
             language = language,
             page = page,

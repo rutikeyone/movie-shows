@@ -15,9 +15,11 @@ import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Qualifier
+@Retention(AnnotationRetention.RUNTIME)
 annotation class BaseUrl
 
 @Qualifier
+@Retention(AnnotationRetention.RUNTIME)
 annotation class AuthInterceptor
 
 @Module

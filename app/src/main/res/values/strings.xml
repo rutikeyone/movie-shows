@@ -3,4 +3,6 @@
     <string name="movies">Movies</string>
     <string name="tvs">TVs</string>
     <string name="profile">Profile</string>
+    <string name="search">Search</string>
+    <string name="empty">""</string>
 </resources>

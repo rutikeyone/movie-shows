@@ -1,23 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="core_presentation_retry">Повторить</string>
-    <string name="core_presentation_general_error_title">Ошибка</string>
-    <string name="core_presentation_general_error">Неизвестная внутренняя ошибка</string>
-    <string name="core_presentation_general_error_ok">Хорошо</string>
     <string name="core_presentation_try_again">Повторить</string>
-    <string name="core_presentation_logout">Выйти</string>
-    <string name="core_presentation_error_header">Ошибка!</string>
-    <string name="core_presentation_connect_to_the_internet">Подключитесь к Интернету</string>
+    <string name="core_presentation_log_in_header">Войти</string>
     <string name="core_presentation_empty_text_field">Пустое текстовое поле</string>
     <string name="core_presentation_invalid_user_name">Некорректное имя пользователя</string>
     <string name="core_presentation_the_password_must_contain_more_than_second_characters">Пароль должен содержать больше двух символов</string>
-    <string name="core_presentation_log_in_header">Войти</string>
-    <string name="core_presentation_image_description">Описание изображения</string>
-    <string name="core_presentation_upcoming">Ожидаемые</string>
-    <string name="core_presentation_show_all">Показать все</string>
-    <string name="core_presentation_popular">Популярные</string>
-    <string name="core_presentation_top_rated">С наивысшей оценкой</string>
-    <string name="core_presentation_search">Поиск</string>
-    <string name="core_presentation_on_the_air">В прямом эфире</string>
-    <string name="core_presentation_poster_description">Описание постера</string>
+    <string name="core_presentation_general_error_title">Ошибка</string>
+    <string name="core_presentation_general_error_ok">Хорошо</string>
 </resources>

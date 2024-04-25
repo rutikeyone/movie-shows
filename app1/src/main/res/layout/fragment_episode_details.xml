@@ -34,7 +34,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:background="@color/yellow"
-                android:contentDescription="@string/backdrop_description" />
+                android:contentDescription="@string/core_presentation_backdrop_description" />
 
 
             <androidx.cardview.widget.CardView

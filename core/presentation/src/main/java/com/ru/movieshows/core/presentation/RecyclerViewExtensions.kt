@@ -15,7 +15,7 @@ fun RecyclerView.clearDecorations() {
 
 fun RecyclerView.createItemDecoration(
     itemDecoration: Int = DividerItemDecoration.HORIZONTAL,
-    @DrawableRes drawable: Int = R.drawable.core_presentation_divider,
+    @DrawableRes drawable: Int = R.drawable.core_presentation_shape_divider,
 ): RecyclerView.ItemDecoration {
     val context = this.context
     val dividerDrawable = ContextCompat.getDrawable(context, drawable)

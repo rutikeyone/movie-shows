@@ -1,7 +1,7 @@
 package com.ru.movieshows.app.glue.tv_shows.di
 
 import com.ru.movieshows.app.glue.tv_shows.AdapterTvShowsRouter
-import com.ru.movieshows.tv_shows.presentation.TvShowsRouter
+import com.ru.movieshows.tv_shows.TvShowsRouter
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -2,7 +2,7 @@ package com.ru.movieshows.data.movies.sources
 
 import com.google.gson.Gson
 import com.ru.movieshows.data.BaseRetrofitSource
-import com.ru.movieshows.data.movies.api.MoviesApi
+import com.ru.movieshows.data.movies.service.MoviesService
 import com.ru.movieshows.data.movies.models.MovieDetailsModel
 import com.ru.movieshows.data.movies.models.MoviesPaginationModel
 import com.ru.movieshows.data.movies.models.ReviewsPaginationModel
@@ -10,7 +10,7 @@ import com.ru.movieshows.data.movies.models.VideoModel
 import javax.inject.Inject
 
 class MoviesSourceImpl @Inject constructor(
-    private val moviesApi: MoviesApi,
+    private val moviesService: MoviesService,
     private val gson: Gson,
 ) : MoviesSource, BaseRetrofitSource(gson) {
 
@@ -19,7 +19,7 @@ class MoviesSourceImpl @Inject constructor(
         language: String,
         pageIndex: Int,
     ): ReviewsPaginationModel {
-        return moviesApi.getMovieReviews(
+        return moviesService.getMovieReviews(
             movieId = movieId,
             language = language,
             page = pageIndex,
@@ -30,7 +30,7 @@ class MoviesSourceImpl @Inject constructor(
         movieId: String,
         language: String,
     ): List<VideoModel> {
-        return moviesApi.getVideosByMoviesId(
+        return moviesService.getVideosByMoviesId(
             movieId = movieId,
             language = language,
         ).awaitResult { it.results }
@@ -41,7 +41,7 @@ class MoviesSourceImpl @Inject constructor(
         language: String,
         pageIndex: Int,
     ): MoviesPaginationModel {
-        return moviesApi.getSimilarMovies(
+        return moviesService.getSimilarMovies(
             movieId = movieId,
             language = language,
             page = pageIndex,
@@ -53,7 +53,7 @@ class MoviesSourceImpl @Inject constructor(
         pageIndex: Int,
         withGenresId: String,
     ): MoviesPaginationModel {
-        return moviesApi.getDiscoverMovies(
+        return moviesService.getDiscoverMovies(
             language = language,
             page = pageIndex,
             withGenresId = withGenresId,
@@ -64,7 +64,7 @@ class MoviesSourceImpl @Inject constructor(
         movieId: Int,
         language: String,
     ): MovieDetailsModel {
-        return moviesApi.getMovieDetails(
+        return moviesService.getMovieDetails(
             movieId = movieId,
             language = language,
         ).awaitResult { it }
@@ -74,7 +74,7 @@ class MoviesSourceImpl @Inject constructor(
         language: String,
         pageIndex: Int,
     ): MoviesPaginationModel {
-        return moviesApi.getMoviesNowPlaying(
+        return moviesService.getMoviesNowPlaying(
             language = language,
             page = pageIndex,
         ).awaitResult { it }
@@ -84,7 +84,7 @@ class MoviesSourceImpl @Inject constructor(
         language: String,
         pageIndex: Int,
     ): MoviesPaginationModel {
-        return moviesApi.getUpcomingMovies(
+        return moviesService.getUpcomingMovies(
             language = language,
             page = pageIndex,
         ).awaitResult { it }
@@ -94,7 +94,7 @@ class MoviesSourceImpl @Inject constructor(
         language: String,
         pageIndex: Int,
     ): MoviesPaginationModel {
-        return moviesApi.getPopularMovies(
+        return moviesService.getPopularMovies(
             language = language,
             page = pageIndex,
         ).awaitResult { it }
@@ -104,7 +104,7 @@ class MoviesSourceImpl @Inject constructor(
         language: String,
         pageIndex: Int,
     ): MoviesPaginationModel {
-        return moviesApi.getTopRatedMovies(
+        return moviesService.getTopRatedMovies(
             language = language,
             page = pageIndex,
         ).awaitResult { it }
@@ -115,7 +115,7 @@ class MoviesSourceImpl @Inject constructor(
         pageIndex: Int,
         query: String?,
     ): MoviesPaginationModel {
-        return moviesApi.searchMovies(
+        return moviesService.searchMovies(
             language = language,
             page = pageIndex,
             query = query,

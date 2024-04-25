@@ -17,9 +17,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:tintMode="src_atop"
-        android:src="@drawable/core_presentation_poster_placeholder_bg"
+        android:src="@drawable/core_presentation_bg_poster_placeholder"
         tools:background="@color/cardview_dark_background"
-        android:contentDescription="@string/core_presentation_image_description"/>
+        android:contentDescription="@string/image_description"/>
 
     <TextView
         android:id="@+id/movieName"

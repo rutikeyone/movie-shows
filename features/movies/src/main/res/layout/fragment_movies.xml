@@ -102,7 +102,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_12"
-                    android:text="@string/core_presentation_retry"
+                    android:text="@string/retry"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -151,7 +151,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_centerVertical="true"
                     android:layout_toStartOf="@+id/showAllUpcomingVideosButton"
-                    android:text="@string/core_presentation_upcoming"
+                    android:text="@string/upcoming"
                     android:textStyle="bold" />
 
                 <Button
@@ -162,7 +162,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
-                    android:text="@string/core_presentation_show_all"
+                    android:text="@string/show_all"
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@id/upcomingMoviesTextView" />
 
@@ -196,7 +196,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_centerVertical="true"
                     android:layout_toStartOf="@+id/showAllPopularVideosButton"
-                    android:text="@string/core_presentation_popular"
+                    android:text="@string/popular"
                     android:textStyle="bold" />
 
                 <Button
@@ -207,7 +207,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
-                    android:text="@string/core_presentation_show_all"
+                    android:text="@string/show_all"
                     android:textStyle="bold" />
 
             </RelativeLayout>
@@ -242,7 +242,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_centerVertical="true"
                     android:layout_toStartOf="@+id/showAllTopRatedMoviesButton"
-                    android:text="@string/core_presentation_top_rated"
+                    android:text="@string/top_rated"
                     android:textStyle="bold" />
 
                 <Button
@@ -253,7 +253,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
-                    android:text="@string/core_presentation_show_all"
+                    android:text="@string/show_all"
                     android:textStyle="bold" />
 
             </RelativeLayout>

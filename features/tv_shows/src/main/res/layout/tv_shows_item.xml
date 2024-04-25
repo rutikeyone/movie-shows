@@ -27,8 +27,8 @@
             android:scaleType="centerCrop"
             android:layout_width="match_parent"
             app:layout_constraintBottom_toTopOf="@id/tvShowNameTextView"
-            android:src="@drawable/core_presentation_poster_placeholder_bg"
-            android:contentDescription="@string/core_presentation_image_description"/>
+            android:src="@drawable/core_presentation_bg_poster_placeholder"
+            android:contentDescription="@string/image_description"/>
 
     </androidx.cardview.widget.CardView>
 
