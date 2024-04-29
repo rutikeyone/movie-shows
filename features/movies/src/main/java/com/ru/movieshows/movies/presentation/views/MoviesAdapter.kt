@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -15,7 +16,7 @@ import com.ru.movieshows.movies.domain.entities.Movie
 
 class MoviesAdapter(
     private val listener: SimpleAdapterListener<Movie>,
-) : RecyclerView.Adapter<MoviesAdapter.MoviesHolder>(), View.OnClickListener {
+) : ListAdapter<Movie, MoviesAdapter.MoviesHolder>(MovieDiffCalculator()), View.OnClickListener {
 
     private var movies = listOf<Movie>()
 
@@ -86,14 +87,11 @@ class MoviesAdapter(
 
         private fun bindMovieImage(movie: Movie) {
             with(binding.discoverMovieImageView) {
-                val backDrop = movie.backDropPath
-                val loadBackDrop =
-                    if (!backDrop.isNullOrEmpty()) backDrop
-                    else R.drawable.bg_poster_placeholder
+                val backDropPath = movie.backDropPath
 
                 Glide
                     .with(context)
-                    .load(loadBackDrop)
+                    .load(backDropPath)
                     .centerCrop()
                     .placeholder(R.drawable.bg_poster_placeholder)
                     .error(R.drawable.bg_poster_placeholder)

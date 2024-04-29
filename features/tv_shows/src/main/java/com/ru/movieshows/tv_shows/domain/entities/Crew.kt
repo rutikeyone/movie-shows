@@ -11,5 +11,4 @@ data class Crew(
     val originalName: String?,
     val popularity: Double?,
     val profilePath: String?,
-    val x: String?,
 )

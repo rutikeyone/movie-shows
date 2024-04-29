@@ -6,4 +6,14 @@
     <string name="popular">Популярные</string>
     <string name="poster_description">Описание постера</string>
     <string name="image_description">Описание изображения</string>
+    <string name="backdrop_description">Описание фона</string>
+    <string name="reviews">Обзоры</string>
+    <string name="seasons">Сезоны</string>
+    <string name="created_by">Создатели</string>
+    <string name="videos">Видеоматериалы</string>
+    <string name="number_of_episodes">Кол. эп.</string>
+    <string name="release_date">Дата выхода:</string>
+    <string name="production_companies">Производственные компании</string>
+    <string name="genres">Жанры</string>
+    <string name="overview">Краткий обзор</string>
 </resources>

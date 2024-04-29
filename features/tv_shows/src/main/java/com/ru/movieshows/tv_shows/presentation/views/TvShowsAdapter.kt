@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -17,7 +18,7 @@ import com.ru.movieshows.tvshows.databinding.TvShowsItemBinding
 class TvShowsAdapter(
     private val tvShows: List<TvShow>,
     private val listener: SimpleAdapterListener<TvShow>,
-) : RecyclerView.Adapter<TvShowsAdapter.TvShowHolder>(), View.OnClickListener {
+) : ListAdapter<TvShow, TvShowsAdapter.TvShowHolder>(TvShowDiffCalculator()), View.OnClickListener {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TvShowHolder {
         val inflater = LayoutInflater.from(parent.context)

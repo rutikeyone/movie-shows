@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ru.movieshows.core.presentation.SimpleAdapterListener
@@ -14,7 +15,8 @@ import com.ru.movieshows.tvshows.databinding.TvShowViewPagerItemBinding
 class TvShowsViewPagerAdapter(
     private val tvShows: List<TvShow>,
     private val listener: SimpleAdapterListener<TvShow>,
-) : RecyclerView.Adapter<TvShowsViewPagerAdapter.Holder>(), View.OnClickListener {
+) : ListAdapter<TvShow, TvShowsViewPagerAdapter.Holder>(TvShowDiffCalculator()),
+    View.OnClickListener {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -16,7 +17,7 @@ import com.ru.movieshows.movies.domain.entities.Video
 
 class VideosAdapter(
     private val listener: SimpleAdapterListener<Video>,
-) : RecyclerView.Adapter<VideosAdapter.Holder>(), View.OnClickListener {
+) : ListAdapter<Video, VideosAdapter.Holder>(VideoDiffCalculator()), View.OnClickListener {
 
     private var videos = listOf<Video>()
 

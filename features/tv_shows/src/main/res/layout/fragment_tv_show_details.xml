@@ -1,9 +1,398 @@
-<com.ru.movieshows.core.presentation.views.ResultView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.ru.movieshows.core.presentation.views.ResultView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.ru.movieshows.tv_shows.presentation.details.TvShowDetailsFragment">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ScrollView
+            android:id="@+id/tvShowDetailsScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/tvShowBackDropImageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_200"
+                        android:contentDescription="@string/backdrop_description"
+                        android:src="@drawable/core_presentation_bg_backdrop_placeholder"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:background="@color/yellow" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/tvShowsPosterCardView"
+                        android:layout_width="@dimen/dp_120"
+                        android:layout_height="@dimen/dp_180"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:layout_marginTop="@dimen/dp_120"
+                        android:src="@drawable/core_presentation_bg_poster_placeholder"
+                        app:cardCornerRadius="@dimen/dp_8"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintVertical_bias="0">
+
+                        <ImageView
+                            android:id="@+id/tvShowsPosterImageView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:adjustViewBounds="true"
+                            android:contentDescription="@string/image_description"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/bg_poster_placeholder"
+                            app:layout_constraintBottom_toTopOf="@id/ratingTextView" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/ratingTextView"
+                        style="?attr/textAppearanceHeadline5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:layout_marginTop="@dimen/dp_4"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toEndOf="@id/tvShowsPosterCardView"
+                        app:layout_constraintTop_toBottomOf="@id/tvShowBackDropImageView"
+                        app:layout_constraintVertical_bias="0"
+                        tools:text="8.3" />
+
+                    <RatingBar
+                        android:id="@+id/ratingBar"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_8"
+                        android:numStars="5"
+                        android:rating="1"
+                        app:layout_constraintBottom_toBottomOf="@id/ratingTextView"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toEndOf="@id/ratingTextView"
+                        app:layout_constraintTop_toTopOf="@id/ratingTextView"
+                        app:layout_constraintVertical_bias="0.5" />
+
+                    <TextView
+                        android:id="@+id/countEpisodesHeaderTextView"
+                        style="?attr/textAppearanceBody3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:layout_marginTop="@dimen/dp_4"
+                        android:text="@string/number_of_episodes"
+                        android:textAllCaps="true"
+                        android:textColor="?attr/primaryTextColor"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@id/tvShowsPosterCardView"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toEndOf="@id/tvShowsPosterCardView"
+                        app:layout_constraintTop_toBottomOf="@id/ratingTextView"
+                        app:layout_constraintVertical_bias="0"
+                        app:layout_goneMarginTop="@dimen/dp_16"
+                        tools:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/countEpisodesValueTextView"
+                        style="?attr/textAppearanceBody3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_4"
+                        android:textColor="?attr/accentTextColor"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@id/tvShowsPosterCardView"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toStartOf="@id/countEpisodesHeaderTextView"
+                        app:layout_constraintTop_toBottomOf="@id/countEpisodesHeaderTextView"
+                        app:layout_constraintVertical_bias="0"
+                        tools:text="3" />
+
+                    <TextView
+                        android:id="@+id/releaseDateHeaderTextView"
+                        style="?attr/textAppearanceBody3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/dp_16"
+                        android:text="@string/release_date"
+                        android:textAllCaps="true"
+                        android:textColor="?attr/primaryTextColor"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@id/countEpisodesHeaderTextView"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/countEpisodesHeaderTextView"
+                        app:layout_constraintTop_toTopOf="@id/countEpisodesHeaderTextView"
+                        app:layout_constraintVertical_bias="0"
+                        tools:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/releaseDateValueTextView"
+                        style="?attr/textAppearanceBody3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_4"
+                        android:layout_marginEnd="@dimen/dp_16"
+                        android:textColor="?attr/accentTextColor"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@id/tvShowsPosterCardView"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toStartOf="@id/releaseDateHeaderTextView"
+                        app:layout_constraintTop_toBottomOf="@id/releaseDateHeaderTextView"
+                        app:layout_constraintVertical_bias="0"
+                        tools:text="2021-12-15" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <LinearLayout
+                    android:id="@+id/detailsContentLinearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvShowsPosterCardView">
+
+                    <TextView
+                        android:id="@+id/overviewHeaderTextView"
+                        style="?attr/textAppearanceBody3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:layout_marginTop="@dimen/dp_12"
+                        android:layout_marginEnd="@dimen/dp_16"
+                        android:text="@string/overview"
+                        android:textAllCaps="true"
+                        android:textColor="?attr/primaryTextColor"
+                        android:textStyle="bold"
+                        tools:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/overviewTextView"
+                        style="?attr/textAppearanceBody3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:layout_marginTop="@dimen/dp_4"
+                        android:layout_marginEnd="@dimen/dp_16"
+                        android:text="@string/lorem_ipsum"
+                        tools:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/genresHeaderTextView"
+                        style="?attr/textAppearanceBody3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:layout_marginTop="@dimen/dp_12"
+                        android:layout_marginEnd="@dimen/dp_2"
+                        android:text="@string/genres"
+                        android:textAllCaps="true"
+                        android:textColor="?attr/primaryTextColor"
+                        android:textStyle="bold"
+                        tools:visibility="visible" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/genresRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:layout_marginTop="@dimen/dp_4"
+                        android:layout_marginEnd="@dimen/dp_8"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_goneMarginEnd="@dimen/dp_8"
+                        tools:layout_height="@dimen/dp_40"
+                        tools:listitem="@layout/data_item" />
+
+                    <TextView
+                        android:id="@+id/productionCompaniesHeaderTextView"
+                        style="?attr/textAppearanceBody3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:layout_marginTop="@dimen/dp_12"
+                        android:layout_marginEnd="@dimen/dp_2"
+                        android:text="@string/production_companies"
+                        android:textAllCaps="true"
+                        android:textColor="?attr/primaryTextColor"
+                        android:textStyle="bold"
+                        tools:visibility="visible" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/productionCompaniesRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:layout_marginTop="@dimen/dp_4"
+                        android:layout_marginEnd="@dimen/dp_16"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_goneMarginEnd="@dimen/dp_16"
+                        tools:layout_height="@dimen/dp_40"
+                        tools:listitem="@layout/data_item" />
+
+                    <TextView
+                        android:id="@+id/videosTextView"
+                        style="?attr/textAppearanceBody3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:layout_marginTop="@dimen/dp_12"
+                        android:layout_marginEnd="@dimen/dp_16"
+                        android:text="@string/videos"
+                        android:textAllCaps="true"
+                        android:textColor="?attr/primaryTextColor"
+                        android:textStyle="bold"
+                        tools:visibility="visible" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/videosRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_230"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:layout_marginTop="@dimen/dp_8"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:layout_height="wrap_content"
+                        tools:listitem="@layout/video_item" />
+
+                    <TextView
+                        android:id="@+id/createdByHeaderTextView"
+                        style="?attr/textAppearanceBody3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:layout_marginTop="@dimen/dp_12"
+                        android:layout_marginEnd="@dimen/dp_2"
+                        android:text="@string/created_by"
+                        android:textAllCaps="true"
+                        android:textColor="?attr/primaryTextColor"
+                        android:textStyle="bold"
+                        tools:visibility="visible" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/creatorsRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_230"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:layout_marginTop="@dimen/dp_8"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:layout_height="wrap_content"
+                        tools:listitem="@layout/creator_item" />
+
+                    <TextView
+                        android:id="@+id/seasonsHeaderTextView"
+                        style="?attr/textAppearanceBody3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:layout_marginTop="@dimen/dp_16"
+                        android:layout_marginEnd="@dimen/dp_16"
+                        android:text="@string/seasons"
+                        android:textAllCaps="true"
+                        android:textColor="?attr/primaryTextColor"
+                        android:textStyle="bold"
+                        tools:visibility="visible" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/seasonsRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_190"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:layout_marginTop="@dimen/dp_8"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/season_item" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_16">
+
+                        <TextView
+                            android:id="@+id/reviewsHeaderTextView"
+                            style="?attr/textAppearanceBody3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_16"
+                            android:layout_marginEnd="@dimen/dp_16"
+                            android:text="@string/reviews"
+                            android:textAllCaps="true"
+                            android:textColor="?attr/primaryTextColor"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="@id/showAllReviewsButton"
+                            app:layout_constraintHorizontal_bias="0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/showAllReviewsButton" />
+
+                        <Button
+                            android:id="@+id/showAllReviewsButton"
+                            style="?attr/textAppearanceBody3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/dp_16"
+                            android:text="@string/show_all"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="1"
+                            app:layout_constraintStart_toEndOf="@id/reviewsHeaderTextView"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <include
+                        android:id="@+id/reviewItem"
+                        layout="@layout/tv_show_review_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:layout_marginTop="@dimen/dp_4"
+                        android:layout_marginEnd="@dimen/dp_16"
+                        android:layout_marginBottom="@dimen/dp_16"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/showAllReviewsButton" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_16" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </com.ru.movieshows.core.presentation.views.ResultView>

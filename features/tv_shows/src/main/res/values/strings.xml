@@ -6,4 +6,15 @@
     <string name="popular">Popular</string>
     <string name="poster_description">Poster description</string>
     <string name="image_description">Image description</string>
+    <string name="backdrop_description">Backdrop description</string>
+    <string name="reviews">Reviews</string>
+    <string name="seasons">Seasons</string>
+    <string name="created_by">Created by</string>
+    <string name="videos">Videos</string>
+    <string name="number_of_episodes">Num. of ep.</string>
+    <string name="release_date">Release Date:</string>
+    <string name="production_companies">Production companies</string>
+    <string name="genres">Genres</string>
+    <string name="lorem_ipsum" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</string>
+    <string name="overview">Overview</string>
 </resources>

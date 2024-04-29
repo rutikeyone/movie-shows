@@ -3,7 +3,9 @@ package com.ru.movieshows.movies.presentation.views
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ListView
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -15,7 +17,7 @@ import com.ru.movieshows.movies.domain.entities.Movie
 class MoviesViewPagerAdapter(
     private val movies: List<Movie>,
     private val listener: SimpleAdapterListener<Movie>,
-) : RecyclerView.Adapter<MoviesViewPagerAdapter.Holder>(), View.OnClickListener {
+) : ListAdapter<Movie, MoviesViewPagerAdapter.Holder>(MovieDiffCalculator()), View.OnClickListener {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)

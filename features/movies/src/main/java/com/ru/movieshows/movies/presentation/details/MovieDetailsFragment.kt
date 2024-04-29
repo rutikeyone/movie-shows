@@ -52,6 +52,7 @@ class MovieDetailsFragment : BaseFragment() {
         factory.create(args())
     }
 
+
     private val binding by viewBinding<FragmentMovieDetailsBinding>()
 
     override fun onCreateView(

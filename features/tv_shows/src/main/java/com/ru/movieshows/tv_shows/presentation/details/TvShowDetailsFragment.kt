@@ -9,6 +9,7 @@ import com.ru.movieshows.core.presentation.BaseScreen
 import com.ru.movieshows.core.presentation.args
 import com.ru.movieshows.core.presentation.viewBinding
 import com.ru.movieshows.core.presentation.viewModelCreator
+import com.ru.movieshows.core.presentation.views.observe
 import com.ru.movieshows.tvshows.R
 import com.ru.movieshows.tvshows.databinding.FragmentTvShowDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
