@@ -1,10 +1,13 @@
 package com.ru.movieshows.app.glue.movies.mappers
 
+import com.ru.movieshows.app.formatters.ImageUrlFormatter
 import com.ru.movieshows.data.movies.models.AuthorModel
 import com.ru.movieshows.movies.domain.entities.Author
 import javax.inject.Inject
 
-class AuthorMapper @Inject constructor() {
+class AuthorMapper @Inject constructor(
+    private val imageUrlFormatter: ImageUrlFormatter,
+) {
 
     fun toAuthor(model: AuthorModel?): Author? {
         if (model == null) {
@@ -12,7 +15,7 @@ class AuthorMapper @Inject constructor() {
         }
 
         return Author(
-            avatarPath = model.avatarPath,
+            avatarPath = imageUrlFormatter.toImageUrl(model.avatarPath),
             rating = model.rating,
         );
     }

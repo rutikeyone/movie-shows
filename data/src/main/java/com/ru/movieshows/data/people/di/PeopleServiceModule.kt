@@ -1,6 +1,6 @@
 package com.ru.movieshows.data.people.di
 
-import com.ru.movieshows.data.people.service.PeopleService
+import com.ru.movieshows.data.people.services.PeopleService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

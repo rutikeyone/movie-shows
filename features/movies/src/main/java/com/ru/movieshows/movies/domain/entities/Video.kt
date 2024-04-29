@@ -6,5 +6,5 @@ data class Video(
     val name: String?,
     val site: String?,
     val type: String?,
-    val image: String?,
+    val imagePath: String?,
 )

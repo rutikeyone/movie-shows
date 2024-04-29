@@ -1,4 +1,4 @@
-package com.ru.movieshows.movies.presentation
+package com.ru.movieshows.movies.presentation.views
 
 import android.view.LayoutInflater
 import android.view.View
@@ -46,31 +46,35 @@ class MoviesViewPagerAdapter(
             bindMovieImage(movie)
         }
 
-        private fun bindTitle(movie: Movie) = with(binding.movieName) {
-            val title = movie.title
+        private fun bindTitle(movie: Movie) {
+            with(binding.movieNameTextView) {
+                val title = movie.title
 
-            if (!title.isNullOrEmpty()) {
-                text = title
-                isVisible = true
-            } else {
-                isVisible = false
+                if (!title.isNullOrEmpty()) {
+                    text = title
+                    isVisible = true
+                } else {
+                    isVisible = false
+                }
             }
         }
 
-        private fun bindMovieImage(movie: Movie) = with(binding.movieBackground) {
-            val backDrop = movie.backDrop
-            val loadBackDrop =
-                if (!backDrop.isNullOrEmpty()) backDrop
-                else R.drawable.bg_poster_placeholder
+        private fun bindMovieImage(movie: Movie) {
+            with(binding.movieBackgroundImageView) {
+                val backDrop = movie.backDropPath
+                val loadBackDrop =
+                    if (!backDrop.isNullOrEmpty()) backDrop
+                    else R.drawable.bg_poster_placeholder
 
-            Glide
-                .with(context)
-                .load(loadBackDrop)
-                .centerCrop()
-                .placeholder(R.drawable.bg_poster_placeholder)
-                .error(R.drawable.bg_poster_placeholder)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(this)
+                Glide
+                    .with(context)
+                    .load(loadBackDrop)
+                    .centerCrop()
+                    .placeholder(R.drawable.bg_poster_placeholder)
+                    .error(R.drawable.bg_poster_placeholder)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(this)
+            }
         }
 
     }

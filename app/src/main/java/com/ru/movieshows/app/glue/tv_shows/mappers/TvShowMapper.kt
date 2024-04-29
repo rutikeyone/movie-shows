@@ -14,8 +14,8 @@ class TvShowMapper @Inject constructor(
             id = model.id,
             rating = model.rating,
             name = model.name,
-            backDrop = imageUrlFormatter.toImageUrl(model.backDropPath),
-            poster = imageUrlFormatter.toImageUrl(model.posterPath),
+            backDropPath = imageUrlFormatter.toImageUrl(model.backDropPath),
+            posterPath = imageUrlFormatter.toImageUrl(model.posterPath),
             overview = model.overview,
         )
     }

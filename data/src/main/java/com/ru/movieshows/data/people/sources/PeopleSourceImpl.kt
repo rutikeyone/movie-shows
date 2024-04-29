@@ -2,7 +2,7 @@ package com.ru.movieshows.data.people.sources
 
 import com.google.gson.Gson
 import com.ru.movieshows.data.BaseRetrofitSource
-import com.ru.movieshows.data.people.service.PeopleService
+import com.ru.movieshows.data.people.services.PeopleService
 import com.ru.movieshows.data.people.models.PersonModel
 import javax.inject.Inject
 

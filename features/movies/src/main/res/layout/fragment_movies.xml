@@ -54,14 +54,14 @@
                 android:layout_height="wrap_content" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/discoverMoviesContainer"
+                android:id="@+id/discoverMoviesConstraintLayout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_260"
                 android:layout_marginStart="@dimen/dp_16"
                 android:layout_marginTop="@dimen/dp_16">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/discoverMovies"
+                    android:id="@+id/discoverMoviesRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_260"
                     android:orientation="horizontal"
@@ -84,7 +84,7 @@
 
 
                 <TextView
-                    android:id="@+id/discoverMoviesFailureTextMessage"
+                    android:id="@+id/discoverMoviesFailureTextView"
                     style="?attr/textAppearanceBody1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -106,35 +106,34 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/discoverMoviesFailureTextMessage"
+                    app:layout_constraintTop_toBottomOf="@id/discoverMoviesFailureTextView"
                     app:layout_constraintVertical_bias="0" />
 
                 <androidx.constraintlayout.widget.Group
-                    android:id="@+id/discoverMoviesSuccessContainer"
+                    android:id="@+id/discoverMoviesSuccessGroup"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:visibility="visible"
-                    app:constraint_referenced_ids="discoverMovies" />
+                    app:constraint_referenced_ids="discoverMoviesRecyclerView" />
 
                 <androidx.constraintlayout.widget.Group
-                    android:id="@+id/discoverMoviesPendingContainer"
+                    android:id="@+id/discoverMoviesPendingGroup"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:visibility="gone"
                     app:constraint_referenced_ids="discoverMoviesInPendingProgressBar" />
 
                 <androidx.constraintlayout.widget.Group
-                    android:id="@+id/discoverMoviesFailureContainer"
+                    android:id="@+id/discoverMoviesFailureGroup"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:visibility="gone"
-                    app:constraint_referenced_ids="discoverMoviesFailureTextMessage, discoverMoviesRetryButton" />
+                    app:constraint_referenced_ids="discoverMoviesFailureTextView, discoverMoviesRetryButton" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
             <RelativeLayout
-                android:id="@+id/onAirTvShowsHeader"
+                android:id="@+id/onAirTvShowsHeaderRelativeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_16"
@@ -169,7 +168,7 @@
             </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/upcomingMovies"
+                android:id="@+id/upcomingMoviesRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_260"
                 android:layout_marginStart="@dimen/dp_16"
@@ -179,7 +178,7 @@
                 tools:listitem="@layout/movie_item" />
 
             <RelativeLayout
-                android:id="@+id/popularMoviesHeader"
+                android:id="@+id/popularMoviesHeaderRelativeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_16"
@@ -213,7 +212,7 @@
             </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/popularMovies"
+                android:id="@+id/popularMoviesRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_260"
                 android:layout_marginStart="@dimen/dp_16"
@@ -223,7 +222,7 @@
                 tools:listitem="@layout/movie_item" />
 
             <RelativeLayout
-                android:id="@+id/topRatedHeader"
+                android:id="@+id/topRatedHeaderRelativeLayout"
                 style="?attr/textAppearanceHeadline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -259,7 +258,7 @@
             </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/topRatedMovies"
+                android:id="@+id/topRatedMoviesRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_260"
                 android:layout_marginStart="@dimen/dp_16"

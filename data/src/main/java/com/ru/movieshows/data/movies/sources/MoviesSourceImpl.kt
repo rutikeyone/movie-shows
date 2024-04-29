@@ -2,7 +2,7 @@ package com.ru.movieshows.data.movies.sources
 
 import com.google.gson.Gson
 import com.ru.movieshows.data.BaseRetrofitSource
-import com.ru.movieshows.data.movies.service.MoviesService
+import com.ru.movieshows.data.movies.services.MoviesService
 import com.ru.movieshows.data.movies.models.MovieDetailsModel
 import com.ru.movieshows.data.movies.models.MoviesPaginationModel
 import com.ru.movieshows.data.movies.models.ReviewsPaginationModel

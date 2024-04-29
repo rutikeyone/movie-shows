@@ -14,7 +14,7 @@ class MovieMapper @Inject constructor(
             id = model.id,
             rating = model.rating,
             title = model.title,
-            backDrop = imageUrlFormatter.toImageUrl(model.backDropPath),
+            backDropPath = imageUrlFormatter.toImageUrl(model.backDropPath),
             posterPath = imageUrlFormatter.toImageUrl(model.posterPath),
             overview = model.overview,
         )

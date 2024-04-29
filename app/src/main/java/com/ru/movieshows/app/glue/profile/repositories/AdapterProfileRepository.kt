@@ -24,7 +24,7 @@ class AdapterProfileRepository @Inject constructor(
                     name = it.name,
                     includeAdult = it.includeAdult,
                     username = it.username,
-                    avatar = if (!avatar.isNullOrEmpty()) imageUrlFormatter.toImageUrl(avatar) else null
+                    avatarPath = if (!avatar.isNullOrEmpty()) imageUrlFormatter.toImageUrl(avatar) else null
                 )
             }
         }

@@ -4,7 +4,7 @@ import com.google.gson.Gson
 import com.ru.movieshows.data.BaseRetrofitSource
 import com.ru.movieshows.data.movies.models.ReviewsPaginationModel
 import com.ru.movieshows.data.movies.models.VideoModel
-import com.ru.movieshows.data.tv_shows.service.TvShowsService
+import com.ru.movieshows.data.tv_shows.services.TvShowsService
 import com.ru.movieshows.data.tv_shows.models.EpisodeModel
 import com.ru.movieshows.data.tv_shows.models.SeasonModel
 import com.ru.movieshows.data.tv_shows.models.TvShowDetailsModel

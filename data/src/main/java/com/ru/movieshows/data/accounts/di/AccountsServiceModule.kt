@@ -1,6 +1,6 @@
 package com.ru.movieshows.data.accounts.di
 
-import com.ru.movieshows.data.accounts.service.AccountsService
+import com.ru.movieshows.data.accounts.services.AccountsService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

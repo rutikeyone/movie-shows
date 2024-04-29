@@ -1,4 +1,4 @@
-package com.ru.movieshows.movies.presentation
+package com.ru.movieshows.movies.presentation.views
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -30,10 +30,10 @@ class DataAdapter(
         fun bind(data: String?) {
             with(binding) {
                 if (!data.isNullOrEmpty()) {
-                    value.text = data
-                    value.isVisible = true
+                    valueTextView.text = data
+                    valueTextView.isVisible = true
                 } else {
-                    value.isVisible = false
+                    valueTextView.isVisible = false
                 }
             }
         }

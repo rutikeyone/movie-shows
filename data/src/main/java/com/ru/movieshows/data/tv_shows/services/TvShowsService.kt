@@ -1,4 +1,4 @@
-package com.ru.movieshows.data.tv_shows.service
+package com.ru.movieshows.data.tv_shows.services
 
 import com.ru.movieshows.data.movies.models.ReviewsPaginationModel
 import com.ru.movieshows.data.movies.models.VideosModel

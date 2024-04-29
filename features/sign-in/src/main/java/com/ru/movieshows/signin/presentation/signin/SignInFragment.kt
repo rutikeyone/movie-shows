@@ -49,15 +49,19 @@ class SignInFragment : BaseFragment() {
         }
     }
 
-    override fun onStart() = with(binding) {
-        usernameEditText.addTextChangedListener(usernameTextWatched)
-        passwordEditText.addTextChangedListener(passwordTextWatched)
+    override fun onStart() {
+        with(binding) {
+            usernameEditText.addTextChangedListener(usernameTextWatched)
+            passwordEditText.addTextChangedListener(passwordTextWatched)
+        }
         super.onStart()
     }
 
-    override fun onStop() = with(binding) {
-        usernameEditText.removeTextChangedListener(usernameTextWatched)
-        passwordEditText.removeTextChangedListener(passwordTextWatched)
+    override fun onStop() {
+        with(binding) {
+            usernameEditText.removeTextChangedListener(usernameTextWatched)
+            passwordEditText.removeTextChangedListener(passwordTextWatched)
+        }
         super.onStop()
     }
 
@@ -88,7 +92,7 @@ class SignInFragment : BaseFragment() {
                 isVisible = !state.isTabsNavigationMode
             }
 
-            progressBar.isVisible = state.showProgressBar
+            signInProgressBar.isVisible = state.showProgressBar
             signInButton.isEnabled = state.canSignIn
         }
     }

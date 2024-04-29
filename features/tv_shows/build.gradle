@@ -33,7 +33,6 @@ android {
         viewBinding true
     }
 }
-
 dependencies {
 
     implementation Libs.Android.CoreKtx
@@ -43,6 +42,8 @@ dependencies {
     implementation Libs.Google.Material
     implementation Libs.Stuff.Glide
     implementation Libs.Stuff.Dots
+    implementation Libs.Stuff.ReadMoreView
+    implementation Libs.Google.FlexBox
 
     implementation Libs.Android.NavigationFragments
 
@@ -55,4 +56,5 @@ dependencies {
 
     implementation project(Modules.Core.Presentation)
     implementation project(Modules.Core.Common)
+
 }

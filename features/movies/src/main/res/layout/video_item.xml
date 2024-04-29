@@ -24,7 +24,7 @@
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            app:layout_constraintBottom_toTopOf="@id/movieName"
+            app:layout_constraintBottom_toTopOf="@id/videoNameTextView"
             android:src="@drawable/bg_poster_placeholder"
             android:contentDescription="@string/image_description" />
 

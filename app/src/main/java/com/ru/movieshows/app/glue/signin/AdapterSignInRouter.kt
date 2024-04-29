@@ -11,7 +11,11 @@ class AdapterSignInRouter @Inject constructor(
 ) : SignInRouter {
 
     override fun launchMain() {
-        globalNavComponentRouter.startTabs()
+        val navigationMode = globalNavComponentRouter.navigationMode
+        when (navigationMode) {
+            NavigationMode.Stack -> globalNavComponentRouter.startTabs()
+            is NavigationMode.Tabs -> globalNavComponentRouter.pop(R.id.tabsFragment)
+        }
     }
 
     override fun isTabsNavigationMode(): Boolean {

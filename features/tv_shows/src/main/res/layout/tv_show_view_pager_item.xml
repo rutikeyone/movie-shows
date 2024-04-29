@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:layout_height="@dimen/dp_220"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:layout_height="@dimen/dp_220">
 
     <ImageView
-        android:id="@+id/tvShowBackground"
+        android:id="@+id/tvShowBackgroundImageView"
         app:tint="?attr/darkenColorTint"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,11 +18,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:tintMode="src_atop"
         tools:background="@color/cardview_dark_background"
-        android:src="@drawable/core_presentation_bg_poster_placeholder"
+        android:src="@drawable/bg_poster_placeholder"
         android:contentDescription="@string/poster_description"/>
 
     <TextView
-        android:id="@+id/tvShowName"
+        android:id="@+id/tvShowNameTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="Tv show name"

@@ -9,7 +9,7 @@
     tools:context="com.ru.movieshows.tv_shows.presentation.tv_shows.TvShowsFragment">
 
     <ScrollView
-        android:id="@+id/scrollView"
+        android:id="@+id/tvShowsScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
@@ -34,7 +34,7 @@
                     android:layout_height="match_parent" />
 
                 <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-                    android:id="@+id/dotsIndicator"
+                    android:id="@+id/nowPlayingDotsIndicator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|bottom"
@@ -50,7 +50,7 @@
             </FrameLayout>
 
             <RelativeLayout
-                android:id="@+id/onAirTvShowsHeader"
+                android:id="@+id/onAirTvShowsHeaderRelativeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_16"
@@ -83,7 +83,7 @@
             </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/onAirTvShows"
+                android:id="@+id/onAirTvShowsRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_260"
                 android:layout_marginStart="@dimen/dp_16"
@@ -93,7 +93,7 @@
                 tools:listitem="@layout/tv_shows_item" />
 
             <RelativeLayout
-                android:id="@+id/topRatedTvShowsHeader"
+                android:id="@+id/topRatedTvShowsHeaderRelativeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_16"
@@ -126,7 +126,7 @@
             </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/topRatedTvShows"
+                android:id="@+id/topRatedTvShowsRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_260"
                 android:layout_marginStart="@dimen/dp_16"
@@ -136,7 +136,7 @@
                 tools:listitem="@layout/tv_shows_item" />
 
             <RelativeLayout
-                android:id="@+id/popularTvShowHeader"
+                android:id="@+id/popularTvShowHeaderRelativeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_16"
@@ -169,7 +169,7 @@
             </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/popularTvShows"
+                android:id="@+id/popularTvShowsRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_260"
                 android:layout_marginStart="@dimen/dp_16"

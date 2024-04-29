@@ -1,4 +1,4 @@
-package com.ru.movieshows.tv_shows.presentation
+package com.ru.movieshows.tv_shows.presentation.views
 
 import android.view.LayoutInflater
 import android.view.View
@@ -44,30 +44,34 @@ class TvShowsViewPagerAdapter(
             bindMovieImage(tvShow)
         }
 
-        private fun bindTitle(tvShow: TvShow) = with(binding.tvShowName) {
-            val title = tvShow.name
-            if (!title.isNullOrEmpty()) {
-                text = title
-                isVisible = true
-            } else {
-                isVisible = false
+        private fun bindTitle(tvShow: TvShow) {
+            with(binding.tvShowNameTextView) {
+                val title = tvShow.name
+                if (!title.isNullOrEmpty()) {
+                    text = title
+                    isVisible = true
+                } else {
+                    isVisible = false
+                }
             }
         }
 
-        private fun bindMovieImage(tvShow: TvShow) = with(binding.tvShowBackground) {
-            val backDrop = tvShow.backDrop
-            val loadBackDrop =
-                if (!backDrop.isNullOrEmpty()) backDrop
-                else R.drawable.bg_poster_placeholder
+        private fun bindMovieImage(tvShow: TvShow) {
+            with(binding.tvShowBackgroundImageView) {
+                val backDrop = tvShow.backDropPath
+                val loadBackDrop =
+                    if (!backDrop.isNullOrEmpty()) backDrop
+                    else R.drawable.bg_poster_placeholder
 
-            Glide
-                .with(context)
-                .load(loadBackDrop)
-                .centerCrop()
-                .placeholder(R.drawable.bg_poster_placeholder)
-                .error(R.drawable.bg_poster_placeholder)
-                .transition(com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade())
-                .into(this)
+                Glide
+                    .with(context)
+                    .load(loadBackDrop)
+                    .centerCrop()
+                    .placeholder(R.drawable.bg_poster_placeholder)
+                    .error(R.drawable.bg_poster_placeholder)
+                    .transition(com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade())
+                    .into(this)
+            }
         }
 
     }

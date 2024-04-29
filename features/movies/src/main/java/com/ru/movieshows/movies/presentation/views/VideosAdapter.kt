@@ -1,4 +1,4 @@
-package com.ru.movieshows.movies.presentation
+package com.ru.movieshows.movies.presentation.views
 
 import android.annotation.SuppressLint
 import android.app.ActionBar
@@ -68,7 +68,7 @@ class VideosAdapter(
 
         private fun bindImageViewUI(video: Video) {
             with(binding.videoImageView) {
-                val image = video.image
+                val image = video.imagePath
                 val loadImage =
                     if (image.isNullOrEmpty()) R.drawable.bg_poster_placeholder else image
 

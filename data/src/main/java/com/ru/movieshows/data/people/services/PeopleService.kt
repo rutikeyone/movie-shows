@@ -1,4 +1,4 @@
-package com.ru.movieshows.data.people.service
+package com.ru.movieshows.data.people.services
 
 import com.ru.movieshows.data.people.models.PersonModel
 import retrofit2.Call

@@ -15,8 +15,8 @@ import com.ru.movieshows.core.presentation.viewBinding
 import com.ru.movieshows.core.presentation.views.observe
 import com.ru.movieshows.navigation.GlobalNavComponentRouter
 import com.ru.movieshows.tv_shows.domain.entities.TvShow
-import com.ru.movieshows.tv_shows.presentation.TvShowsAdapter
-import com.ru.movieshows.tv_shows.presentation.TvShowsViewPagerAdapter
+import com.ru.movieshows.tv_shows.presentation.views.TvShowsAdapter
+import com.ru.movieshows.tv_shows.presentation.views.TvShowsViewPagerAdapter
 import com.ru.movieshows.tvshows.R
 import com.ru.movieshows.tvshows.databinding.FragmentTvShowsBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,7 +42,6 @@ class TvShowsFragment : BaseFragment() {
                 viewModel.launchTvShowSearch()
                 true
             }
-
             else -> false
         }
     }
@@ -94,19 +93,21 @@ class TvShowsFragment : BaseFragment() {
 
     private fun setupTrendingTvShowsPagerViews(tvShows: List<TvShow>) {
         val adapter = TvShowsViewPagerAdapter(tvShows, viewModel)
+
         binding.trendingTvShowsViewPager.adapter = adapter
     }
 
     private fun setupDotsView() {
-        with(binding.dotsIndicator) {
+        with(binding.nowPlayingDotsIndicator) {
             this.attachTo(binding.trendingTvShowsViewPager)
         }
     }
 
     private fun setupOnAirTvShowsViews(tvShows: List<TvShow>) {
         val adapter = TvShowsAdapter(tvShows, viewModel)
+
         binding.showAllOnAirTvShowsButton.setOnClickListener { viewModel.launchAirTvShows() }
-        with(binding.onAirTvShows) {
+        with(binding.onAirTvShowsRecyclerView) {
             this.adapter = adapter
             this.applyDecoration()
         }
@@ -114,8 +115,9 @@ class TvShowsFragment : BaseFragment() {
 
     private fun setupTopRatedTvShowsViews(tvShows: List<TvShow>) {
         val adapter = TvShowsAdapter(tvShows, viewModel)
+
         binding.showTopRatedTvShowsButton.setOnClickListener { viewModel.launchTopRatedTvShows() }
-        with(binding.topRatedTvShows) {
+        with(binding.topRatedTvShowsRecyclerView) {
             this.adapter = adapter
             this.applyDecoration()
         }
@@ -123,8 +125,9 @@ class TvShowsFragment : BaseFragment() {
 
     private fun setupPopularTvShowsViews(tvShows: List<TvShow>) {
         val adapter = TvShowsAdapter(tvShows, viewModel)
+
         binding.popularTvShowsButton.setOnClickListener { viewModel.launchPopularTvShows() }
-        with(binding.popularTvShows) {
+        with(binding.popularTvShowsRecyclerView) {
             this.adapter = adapter
             this.applyDecoration()
         }

@@ -1,4 +1,4 @@
-package com.ru.movieshows.movies.presentation
+package com.ru.movieshows.movies.presentation.views
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -72,41 +72,45 @@ class MoviesAdapter(
             ratingBar.isEnabled = false
             if (rating != null && rating > 0) {
                 val value = rating.toFloat() / 2
-                ratingValue.text = "%.2f".format(rating)
+                ratingValueTextView.text = "%.2f".format(rating)
                 ratingBar.rating = value
-                ratingValue.isVisible = true
+                ratingValueTextView.isVisible = true
                 ratingBar.isVisible = true
-                ratingContainer.isVisible = true
+                ratingLinearLayout.isVisible = true
             } else {
-                ratingValue.isVisible = false
+                ratingValueTextView.isVisible = false
                 ratingBar.isVisible = false
-                ratingContainer.isVisible = false
+                ratingLinearLayout.isVisible = false
             }
         }
 
-        private fun bindMovieImage(movie: Movie) = with(binding.discoverMovieImage) {
-            val backDrop = movie.backDrop
-            val loadBackDrop =
-                if (!backDrop.isNullOrEmpty()) backDrop
-                else R.drawable.bg_poster_placeholder
+        private fun bindMovieImage(movie: Movie) {
+            with(binding.discoverMovieImageView) {
+                val backDrop = movie.backDropPath
+                val loadBackDrop =
+                    if (!backDrop.isNullOrEmpty()) backDrop
+                    else R.drawable.bg_poster_placeholder
 
-            Glide
-                .with(context)
-                .load(loadBackDrop)
-                .centerCrop()
-                .placeholder(R.drawable.bg_poster_placeholder)
-                .error(R.drawable.bg_poster_placeholder)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(this)
+                Glide
+                    .with(context)
+                    .load(loadBackDrop)
+                    .centerCrop()
+                    .placeholder(R.drawable.bg_poster_placeholder)
+                    .error(R.drawable.bg_poster_placeholder)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(this)
+            }
         }
 
-        private fun bindMovieName(movie: Movie) = with(binding.movieName) {
-            val title = movie.title
-            if (!title.isNullOrEmpty()) {
-                text = title
-                isVisible = true
-            } else {
-                isVisible = false
+        private fun bindMovieName(movie: Movie) {
+            with(binding.movieNameTextView) {
+                val title = movie.title
+                if (!title.isNullOrEmpty()) {
+                    text = title
+                    isVisible = true
+                } else {
+                    isVisible = false
+                }
             }
         }
     }

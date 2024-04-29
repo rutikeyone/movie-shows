@@ -27,9 +27,9 @@ import com.ru.movieshows.movies.domain.entities.Movie
 import com.ru.movieshows.movies.domain.entities.MovieDetails
 import com.ru.movieshows.movies.domain.entities.Review
 import com.ru.movieshows.movies.domain.entities.Video
-import com.ru.movieshows.movies.presentation.DataAdapter
-import com.ru.movieshows.movies.presentation.MoviesAdapter
-import com.ru.movieshows.movies.presentation.VideosAdapter
+import com.ru.movieshows.movies.presentation.views.DataAdapter
+import com.ru.movieshows.movies.presentation.views.MoviesAdapter
+import com.ru.movieshows.movies.presentation.views.VideosAdapter
 import com.ru.movieshows.navigation.GlobalNavComponentRouter
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -100,14 +100,15 @@ class MovieDetailsFragment : BaseFragment() {
     private fun setupReviewViews(reviews: List<Review>) {
         if (reviews.isNotEmpty()) {
             val review = reviews.first()
+
             setupReviewerHeaderView(review)
             setupReviewRatingView(review)
             setupReviewContentView(review)
             setupReviewAvatarView(review)
         } else {
             with(binding) {
-                reviewsHeader.isVisible = false
-                showAllReviews.isVisible = false
+                reviewsHeaderTextView.isVisible = false
+                showAllReviewsButton.isVisible = false
 
                 binding.reviewItem.root.isVisible = false
             }
@@ -163,26 +164,28 @@ class MovieDetailsFragment : BaseFragment() {
         with(binding.reviewItem) {
             val author = review.author
             if (!author.isNullOrEmpty()) {
-                this.reviewerHeaderView.text = author
+                this.reviewerHeaderTextView.text = author
             } else {
-                this.reviewerHeaderView.isVisible = false
+                this.reviewerHeaderTextView.isVisible = false
             }
         }
     }
 
     private fun setupVideosViews(videos: List<Video>) {
-        val adapter = VideosAdapter(viewModel.videoSimpleAdapterListener).also {
+        val videoSimpleAdapterListener = viewModel.videoSimpleAdapterListener
+
+        val videosAdapter = VideosAdapter(videoSimpleAdapterListener).also {
             it.updateData(videos)
         }
 
         if (videos.isNotEmpty()) {
             with(binding.videosRecyclerView) {
-                this.adapter = adapter
+                this.adapter = videosAdapter
                 applyDecoration()
             }
         } else {
             with(binding) {
-                videosTextView.visibility = View.GONE
+                videosHeaderTextView.visibility = View.GONE
                 videosRecyclerView.visibility = View.GONE
             }
         }
@@ -190,18 +193,20 @@ class MovieDetailsFragment : BaseFragment() {
     }
 
     private fun setupSimilarMoviesViews(similarMovies: List<Movie>) {
-        val adapter = MoviesAdapter(viewModel.movieSimpleAdapterListener).also {
+        val movieSimpleAdapterListener = viewModel.movieSimpleAdapterListener
+
+        val moviesAdapter = MoviesAdapter(movieSimpleAdapterListener).also {
             it.updateData(similarMovies)
         }
 
         if (similarMovies.isNotEmpty()) {
             with(binding.similarMoviesRecyclerView) {
-                this.adapter = adapter
+                this.adapter = moviesAdapter
                 applyDecoration()
             }
         } else {
             with(binding) {
-                similarMoviesHeader.isVisible = false
+                similarMoviesHeaderTextView.isVisible = false
                 similarMoviesRecyclerView.isVisible = false
             }
         }
@@ -218,16 +223,16 @@ class MovieDetailsFragment : BaseFragment() {
         }
 
         if (!names.isNullOrEmpty()) {
-            val adapter = DataAdapter(names)
+            val dataAdapter = DataAdapter(names)
 
             with(binding.productionCompaniesRecyclerView) {
                 this.layoutManager = layoutManager
-                this.adapter = adapter
+                this.adapter = dataAdapter
             }
 
         } else {
             with(binding) {
-                productionCompaniesHeader.visibility = View.GONE
+                productionCompaniesHeaderTextView.visibility = View.GONE
                 productionCompaniesRecyclerView.visibility = View.GONE
             }
         }
@@ -244,16 +249,16 @@ class MovieDetailsFragment : BaseFragment() {
                 it.justifyContent = JustifyContent.FLEX_START
             }
 
-            val adapter = DataAdapter(names)
+            val dataAdapter = DataAdapter(names)
 
-            with(binding.genresView) {
+            with(binding.genresRecyclerView) {
                 this.layoutManager = layoutManager
-                this.adapter = adapter
+                this.adapter = dataAdapter
             }
 
         } else {
-            binding.genresHeader.isVisible = false
-            binding.genresView.isVisible = false
+            binding.genresHeaderTextView.isVisible = false
+            binding.genresRecyclerView.isVisible = false
         }
 
     }
@@ -261,10 +266,10 @@ class MovieDetailsFragment : BaseFragment() {
     private fun setupOverviewViews(movieDetails: MovieDetails) {
         val overview = movieDetails.overview
         if (!overview.isNullOrEmpty()) {
-            binding.overviewText.text = overview
+            binding.overviewTextView.text = overview
         } else {
-            binding.overviewHeader.isVisible = true
-            binding.overviewText.isVisible = true
+            binding.overviewHeaderTextView.isVisible = true
+            binding.overviewTextView.isVisible = true
         }
     }
 
@@ -275,10 +280,10 @@ class MovieDetailsFragment : BaseFragment() {
 
         if (releaseDate != null) {
             val date = simpleDateFormatter.format(releaseDate)
-            binding.releaseDateValue.text = date
+            binding.releaseDateValueTextView.text = date
         } else {
-            binding.releaseDateHeader.isVisible = false
-            binding.releaseDateValue.isVisible = false
+            binding.releaseDateHeaderTextView.isVisible = false
+            binding.releaseDateValueTextView.isVisible = false
         }
     }
 
@@ -286,11 +291,11 @@ class MovieDetailsFragment : BaseFragment() {
     private fun setupDurationViews(movieDetails: MovieDetails) {
         val runtime = movieDetails.runtime
 
-        with(binding.durationHeader) {
+        with(binding.durationHeaderTextView) {
             isVisible = runtime != null
         }
 
-        with(binding.durationValue) {
+        with(binding.durationValueTextView) {
             if (runtime != null) {
                 text = "${movieDetails.runtime} ${resources.getString(R.string.min)}"
             } else {
@@ -305,14 +310,13 @@ class MovieDetailsFragment : BaseFragment() {
         val rating = movieDetails.rating
 
         with(binding) {
-
             ratingBar.isEnabled = false
             if (rating != null && rating > 0) {
                 val ratingValue = rating.toFloat() / 2
-                ratingText.text = "%.2f".format(rating)
+                ratingTextView.text = "%.2f".format(rating)
                 ratingBar.rating = ratingValue
             } else {
-                ratingText.isVisible = false
+                ratingTextView.isVisible = false
                 ratingBar.isVisible = false
             }
         }

@@ -22,8 +22,8 @@ import com.ru.movieshows.core.presentation.views.observe
 import com.ru.movieshows.movies.R
 import com.ru.movieshows.movies.databinding.FragmentMoviesBinding
 import com.ru.movieshows.movies.domain.entities.Movie
-import com.ru.movieshows.movies.presentation.MoviesAdapter
-import com.ru.movieshows.movies.presentation.MoviesViewPagerAdapter
+import com.ru.movieshows.movies.presentation.views.MoviesAdapter
+import com.ru.movieshows.movies.presentation.views.MoviesViewPagerAdapter
 import com.ru.movieshows.navigation.GlobalNavComponentRouter
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
@@ -119,7 +119,7 @@ class MoviesFragment : BaseFragment() {
     }
 
     private fun setupDiscoverMoviesViews(state: Container<List<Movie>>) {
-        binding.discoverMoviesContainer.children.forEach { it.visibility = View.GONE }
+        binding.discoverMoviesConstraintLayout.children.forEach { it.visibility = View.GONE }
         when (state) {
             Container.Pending -> setupDiscoverMoviesPendingViews()
             is Container.Success -> setupDiscoverMoviesSuccessViews(state)
@@ -128,24 +128,24 @@ class MoviesFragment : BaseFragment() {
     }
 
     private fun setupDiscoverMoviesPendingViews() {
-        binding.discoverMoviesPendingContainer.isVisible = true
+        binding.discoverMoviesPendingGroup.isVisible = true
     }
 
     private fun setupDiscoverMoviesSuccessViews(state: Container.Success<List<Movie>>) {
         val moviesAdapter = MoviesAdapter(viewModel).also { it.updateData(state.value) }
-        with(binding.discoverMovies) {
+        with(binding.discoverMoviesRecyclerView) {
             adapter = moviesAdapter
             applyDecoration()
         }
-        binding.discoverMoviesSuccessContainer.isVisible = true
+        binding.discoverMoviesSuccessGroup.isVisible = true
     }
 
     private fun setupDiscoverMoviesFailureViews(state: Container.Error) {
         with(binding) {
             val error = Core.errorHandler.getUserMessage(state.exception)
-            discoverMoviesFailureContainer.visibility = View.VISIBLE
+            discoverMoviesFailureGroup.visibility = View.VISIBLE
             discoverMoviesRetryButton.setOnClickListener { viewModel.tryGetDiscoverMovies() }
-            binding.discoverMoviesFailureTextMessage.text = error
+            binding.discoverMoviesFailureTextView.text = error
         }
     }
 
@@ -187,15 +187,15 @@ class MoviesFragment : BaseFragment() {
 
         } else {
             genresTabLayout.visibility = View.GONE
-            discoverMoviesContainer.visibility = View.GONE
+            discoverMoviesConstraintLayout.visibility = View.GONE
         }
     }
 
     private fun setupUpcomingMoviesViews(movies: List<Movie>) {
         val adapter = MoviesAdapter(viewModel).also { it.updateData(movies) }
         with(binding) {
-            upcomingMovies.adapter = adapter
-            upcomingMovies.applyDecoration()
+            upcomingMoviesRecyclerView.adapter = adapter
+            upcomingMoviesRecyclerView.applyDecoration()
             binding.showAllUpcomingVideosButton.setOnClickListener { viewModel.launchUpcomingMovies() }
         }
     }
@@ -203,8 +203,8 @@ class MoviesFragment : BaseFragment() {
     private fun setupPopularMoviesViews(movies: List<Movie>) {
         val adapter = MoviesAdapter(viewModel).also { it.updateData(movies) }
         with(binding) {
-            popularMovies.adapter = adapter
-            popularMovies.applyDecoration()
+            popularMoviesRecyclerView.adapter = adapter
+            popularMoviesRecyclerView.applyDecoration()
             binding.showAllPopularVideosButton.setOnClickListener { viewModel.launchPopularMovies() }
         }
     }
@@ -212,8 +212,8 @@ class MoviesFragment : BaseFragment() {
     private fun setupTopRatedMoviesViews(movies: List<Movie>) {
         val adapter = MoviesAdapter(viewModel).also { it.updateData(movies) }
         with(binding) {
-            topRatedMovies.adapter = adapter
-            topRatedMovies.applyDecoration()
+            topRatedMoviesRecyclerView.adapter = adapter
+            topRatedMoviesRecyclerView.applyDecoration()
             binding.showAllTopRatedMoviesButton.setOnClickListener { viewModel.launchTopRatedMovies() }
         }
     }

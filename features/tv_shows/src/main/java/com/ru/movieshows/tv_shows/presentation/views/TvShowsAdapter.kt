@@ -1,4 +1,4 @@
-package com.ru.movieshows.tv_shows.presentation
+package com.ru.movieshows.tv_shows.presentation.views
 
 import android.annotation.SuppressLint
 import android.app.ActionBar
@@ -50,10 +50,10 @@ class TvShowsAdapter(
             bindMovieRating(tvShow.rating)
         }
 
-        private fun bindTvShowImage(tvShow: TvShow) = with(binding.tvShowsMovieImage) {
+        private fun bindTvShowImage(tvShow: TvShow) = with(binding.tvShowsMovieImageView) {
             val context = this.context
 
-            val poster = tvShow.poster
+            val poster = tvShow.posterPath
             val loadBackDrop =
                 if (!poster.isNullOrEmpty()) poster
                 else R.drawable.bg_poster_placeholder
@@ -91,14 +91,14 @@ class TvShowsAdapter(
             ratingBar.isEnabled = false
             if (rating != null && rating > 0) {
                 val value = rating.toFloat()
-                ratingValue.text = "%.2f".format(value)
-                ratingValue.isVisible = true
+                ratingTextView.text = "%.2f".format(value)
+                ratingTextView.isVisible = true
                 ratingBar.isVisible = true
-                ratingContainer.isVisible = true
+                ratingLinearLayout.isVisible = true
             } else {
-                ratingValue.isVisible = false
+                ratingTextView.isVisible = false
                 ratingBar.isVisible = false
-                ratingContainer.isVisible = false
+                ratingLinearLayout.isVisible = false
             }
         }
 

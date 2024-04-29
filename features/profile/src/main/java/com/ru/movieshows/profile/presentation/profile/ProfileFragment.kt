@@ -70,7 +70,7 @@ class ProfileFragment : BaseFragment() {
 
     private fun setupProfileView(account: Account) {
         with(binding.avatarImageView) {
-            val avatar = account.avatar
+            val avatar = account.avatarPath
             val loadAvatar =
                 if (!avatar.isNullOrEmpty()) avatar
                 else R.drawable.avatar_placeholder

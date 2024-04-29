@@ -1,10 +1,8 @@
 package com.ru.movieshows.navigation.presentation
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
 import com.ru.movieshows.impl.ActivityRequired
 import com.ru.movieshows.navigation.DestinationsProvider
 import com.ru.movieshows.navigation.R

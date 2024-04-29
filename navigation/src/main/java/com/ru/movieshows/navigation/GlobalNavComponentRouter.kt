@@ -70,7 +70,7 @@ class GlobalNavComponentRouter @Inject constructor(
         }
     }
 
-    fun pop() = invoke {
+    fun pop(tabsFragment: Int) = invoke {
         requireRealRouter().pop()
     }
 

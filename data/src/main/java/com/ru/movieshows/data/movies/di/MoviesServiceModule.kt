@@ -1,6 +1,6 @@
 package com.ru.movieshows.data.movies.di
 
-import com.ru.movieshows.data.movies.service.MoviesService
+import com.ru.movieshows.data.movies.services.MoviesService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

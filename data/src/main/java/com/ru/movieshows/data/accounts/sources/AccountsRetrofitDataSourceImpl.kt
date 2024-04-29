@@ -3,7 +3,7 @@ package com.ru.movieshows.data.accounts.sources
 import com.google.gson.Gson
 import com.ru.movieshows.core.NotAuthException
 import com.ru.movieshows.data.BaseRetrofitSource
-import com.ru.movieshows.data.accounts.service.AccountsService
+import com.ru.movieshows.data.accounts.services.AccountsService
 import com.ru.movieshows.data.accounts.models.AccountDataModel
 import com.ru.movieshows.data.settings.sources.SettingsDataSource
 import javax.inject.Inject

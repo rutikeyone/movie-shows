@@ -8,7 +8,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
-        android:id="@+id/movieBackground"
+        android:id="@+id/movieBackgroundImageView"
         app:tint="?attr/darkenColorTint"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,7 +22,7 @@
         android:contentDescription="@string/image_description"/>
 
     <TextView
-        android:id="@+id/movieName"
+        android:id="@+id/movieNameTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="Movie name"

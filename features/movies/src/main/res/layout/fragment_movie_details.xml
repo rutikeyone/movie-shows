@@ -7,7 +7,7 @@
     tools:context="com.ru.movieshows.movies.presentation.details.MovieDetailsFragment">
 
     <ScrollView
-        android:id="@+id/successPart"
+        android:id="@+id/moviesScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
@@ -58,14 +58,14 @@
                         android:layout_height="match_parent"
                         android:adjustViewBounds="true"
                         android:scaleType="centerCrop"
-                        app:layout_constraintBottom_toTopOf="@id/movieName"
+                        app:layout_constraintBottom_toTopOf="@id/ratingTextView"
                         android:src="@drawable/core_presentation_bg_poster_placeholder"
                         android:contentDescription="@string/image_description"/>
 
                 </androidx.cardview.widget.CardView>
 
                 <TextView
-                    android:id="@+id/ratingText"
+                    android:id="@+id/ratingTextView"
                     style="?attr/textAppearanceHeadline5"
                     android:textStyle="bold"
                     android:layout_width="wrap_content"
@@ -88,15 +88,15 @@
                     android:layout_marginStart="@dimen/dp_8"
                     android:numStars="5"
                     android:rating="1"
-                    app:layout_constraintBottom_toBottomOf="@id/ratingText"
+                    app:layout_constraintBottom_toBottomOf="@id/ratingTextView"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintStart_toEndOf="@id/ratingText"
-                    app:layout_constraintTop_toTopOf="@id/ratingText"
+                    app:layout_constraintStart_toEndOf="@id/ratingTextView"
+                    app:layout_constraintTop_toTopOf="@id/ratingTextView"
                     app:layout_constraintVertical_bias="0.5" />
 
                 <TextView
-                    android:id="@+id/durationHeader"
+                    android:id="@+id/durationHeaderTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="?attr/textAppearanceBody3"
@@ -110,13 +110,13 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintStart_toEndOf="@id/moviePosterCardView"
-                    app:layout_constraintTop_toBottomOf="@id/ratingText"
+                    app:layout_constraintTop_toBottomOf="@id/ratingTextView"
                     app:layout_constraintVertical_bias="0"
                     app:layout_goneMarginTop="@dimen/dp_16"
                     tools:visibility="visible" />
 
                 <TextView
-                    android:id="@+id/durationValue"
+                    android:id="@+id/durationValueTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="?attr/textAppearanceBody3"
@@ -126,13 +126,13 @@
                     app:layout_constraintBottom_toBottomOf="@id/moviePosterCardView"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintStart_toStartOf="@id/durationHeader"
-                    app:layout_constraintTop_toBottomOf="@id/durationHeader"
+                    app:layout_constraintStart_toStartOf="@id/durationHeaderTextView"
+                    app:layout_constraintTop_toBottomOf="@id/durationHeaderTextView"
                     app:layout_constraintVertical_bias="0"
                     tools:text="148 min." />
 
                 <TextView
-                    android:id="@+id/releaseDateHeader"
+                    android:id="@+id/releaseDateHeaderTextView"
                     style="?attr/textAppearanceBody3"
                     android:textColor="?attr/primaryTextColor"
                     android:textStyle="bold"
@@ -141,15 +141,15 @@
                     android:layout_marginEnd="@dimen/dp_16"
                     android:text="@string/release_date"
                     android:textAllCaps="true"
-                    app:layout_constraintBottom_toBottomOf="@id/durationHeader"
+                    app:layout_constraintBottom_toBottomOf="@id/durationHeaderTextView"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/durationHeader"
-                    app:layout_constraintTop_toTopOf="@id/durationHeader"
+                    app:layout_constraintStart_toEndOf="@id/durationHeaderTextView"
+                    app:layout_constraintTop_toTopOf="@id/durationHeaderTextView"
                     app:layout_constraintVertical_bias="0"
                     tools:visibility="visible" />
 
                 <TextView
-                    android:id="@+id/releaseDateValue"
+                    android:id="@+id/releaseDateValueTextView"
                     style="?attr/textAppearanceBody3"
                     android:textColor="?attr/accentTextColor"
                     android:textStyle="bold"
@@ -160,15 +160,15 @@
                     app:layout_constraintBottom_toBottomOf="@id/moviePosterCardView"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintStart_toStartOf="@id/releaseDateHeader"
-                    app:layout_constraintTop_toBottomOf="@id/releaseDateHeader"
+                    app:layout_constraintStart_toStartOf="@id/releaseDateHeaderTextView"
+                    app:layout_constraintTop_toBottomOf="@id/releaseDateHeaderTextView"
                     app:layout_constraintVertical_bias="0"
                     tools:text="2021-12-15" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
-                android:id="@+id/detailsContent"
+                android:id="@+id/detailsContentLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -178,7 +178,7 @@
                 app:layout_constraintTop_toBottomOf="@id/moviePosterCardView">
 
                 <TextView
-                    android:id="@+id/overviewHeader"
+                    android:id="@+id/overviewHeaderTextView"
                     style="?attr/textAppearanceBody3"
                     android:textColor="?attr/primaryTextColor"
                     android:textStyle="bold"
@@ -192,7 +192,7 @@
                     tools:visibility="visible" />
 
                 <TextView
-                    android:id="@+id/overviewText"
+                    android:id="@+id/overviewTextView"
                     style="?attr/textAppearanceBody3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -203,7 +203,7 @@
                     tools:visibility="visible" />
 
                 <TextView
-                    android:id="@+id/genresHeader"
+                    android:id="@+id/genresHeaderTextView"
                     style="?attr/textAppearanceBody3"
                     android:textColor="?attr/primaryTextColor"
                     android:textStyle="bold"
@@ -217,7 +217,7 @@
                     tools:visibility="visible" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/genresView"
+                    android:id="@+id/genresRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_4"
@@ -230,7 +230,7 @@
                     tools:listitem="@layout/data_item" />
 
                 <TextView
-                    android:id="@+id/productionCompaniesHeader"
+                    android:id="@+id/productionCompaniesHeaderTextView"
                     style="?attr/textAppearanceBody3"
                     android:textColor="?attr/primaryTextColor"
                     android:textStyle="bold"
@@ -257,7 +257,7 @@
                     tools:listitem="@layout/data_item" />
 
                 <TextView
-                    android:id="@+id/videosTextView"
+                    android:id="@+id/videosHeaderTextView"
                     style="?attr/textAppearanceBody3"
                     android:textColor="?attr/primaryTextColor"
                     android:textStyle="bold"
@@ -283,7 +283,7 @@
                     tools:visibility="visible" />
 
                 <TextView
-                    android:id="@+id/similarMoviesHeader"
+                    android:id="@+id/similarMoviesHeaderTextView"
                     style="?attr/textAppearanceBody3"
                     android:textColor="?attr/primaryTextColor"
                     android:textStyle="bold"
@@ -312,7 +312,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/reviewsHeader"
+                        android:id="@+id/reviewsHeaderTextView"
                         style="?attr/textAppearanceBody3"
                         android:textColor="?attr/primaryTextColor"
                         android:textStyle="bold"
@@ -322,13 +322,13 @@
                         android:layout_marginEnd="@dimen/dp_16"
                         android:text="@string/reviews"
                         android:textAllCaps="true"
-                        app:layout_constraintBottom_toBottomOf="@id/showAllReviews"
+                        app:layout_constraintBottom_toBottomOf="@id/showAllReviewsButton"
                         app:layout_constraintHorizontal_bias="0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/showAllReviews" />
+                        app:layout_constraintTop_toTopOf="@id/showAllReviewsButton" />
 
                     <Button
-                        android:id="@+id/showAllReviews"
+                        android:id="@+id/showAllReviewsButton"
                         style="?attr/textAppearanceBody3"
                         android:textStyle="bold"
                         android:layout_width="wrap_content"
@@ -338,14 +338,14 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1"
-                        app:layout_constraintStart_toEndOf="@id/reviewsHeader"
+                        app:layout_constraintStart_toEndOf="@id/reviewsHeaderTextView"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <include
                     android:id="@+id/reviewItem"
-                    layout="@layout/review_item_1"
+                    layout="@layout/movie_review_item"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_16"
@@ -355,7 +355,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/showAllReviews" />
+                    app:layout_constraintTop_toBottomOf="@id/showAllReviewsButton" />
 
                 <View
                     android:layout_width="match_parent"

@@ -1,6 +1,6 @@
 package com.ru.movieshows.data.genres.di
 
-import com.ru.movieshows.data.genres.service.GenresService
+import com.ru.movieshows.data.genres.services.GenresService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,4 +1,4 @@
-package com.ru.movieshows.data.genres.service
+package com.ru.movieshows.data.genres.services
 
 import com.ru.movieshows.data.genres.models.GenresModel
 import retrofit2.Call

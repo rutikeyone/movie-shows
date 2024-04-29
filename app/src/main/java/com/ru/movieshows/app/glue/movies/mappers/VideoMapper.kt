@@ -21,7 +21,7 @@ class VideoMapper @Inject constructor() {
             name = model.name,
             site = model.site,
             type = model.type,
-            image = image,
+            imagePath = image,
         )
     }
 

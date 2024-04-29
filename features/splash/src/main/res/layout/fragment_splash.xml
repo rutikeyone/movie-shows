@@ -9,7 +9,7 @@
     tools:context="com.ru.movieshows.splash.presentation.splash.SplashFragment">
 
     <ProgressBar
-        android:id="@+id/loadingIndicator"
+        android:id="@+id/loadingProgressIndicator"
         android:layout_width="@dimen/dp_48"
         android:layout_height="@dimen/dp_48"/>
 

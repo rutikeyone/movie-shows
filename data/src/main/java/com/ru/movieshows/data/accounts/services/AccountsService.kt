@@ -1,4 +1,4 @@
-package com.ru.movieshows.data.accounts.service
+package com.ru.movieshows.data.accounts.services
 
 import com.ru.movieshows.data.accounts.models.AccountDataModel
 import com.ru.movieshows.data.accounts.models.AuthenticationModel
