@@ -1,6 +1,6 @@
 package com.ru.movieshows.core.presentation
 
-interface SimpleAdapterListener<T> {
+fun interface SimpleAdapterListener<T> {
 
     fun onClickItem(data: T)
 

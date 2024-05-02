@@ -23,7 +23,7 @@ interface TvShowsDataRepository {
          seriesId: String,
      ): Flow<PagingData<ReviewModel>>
 
-     suspend fun getVideosByMovieId(
+     suspend fun getVideosById(
          language: String = "en_US",
          seriesId: String,
      ): List<VideoModel>

@@ -1,10 +1,10 @@
-package com.ru.movieshows.app.glue.movies.mappers
+package com.ru.movieshows.app.glue.tv_shows.mappers
 
 import com.ru.movieshows.data.movies.models.VideoModel
-import com.ru.movieshows.movies.domain.entities.Video
+import com.ru.movieshows.tv_shows.domain.entities.Video
 import javax.inject.Inject
 
-class VideoMapper @Inject constructor() {
+class TvShowVideoMapper @Inject constructor() {
 
     fun toVideo(model: VideoModel): Video {
         val key = model.key

@@ -37,4 +37,15 @@ class TvShowDetailsFragment : BaseFragment() {
         savedInstanceState: Bundle?,
     ): View = inflater.inflate(R.layout.fragment_tv_show_details, container, false)
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        with(binding.root) {
+            setTryAgainListener { viewModel.tryGetMovieDetails() }
+            observe(viewLifecycleOwner, viewModel.loadScreenStateLiveValue) { state ->
+            }
+        }
+
+    }
+
 }

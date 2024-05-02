@@ -4,7 +4,7 @@ import com.ru.movieshows.app.glue.movies.mappers.MovieDetailsMapper
 import com.ru.movieshows.app.glue.movies.mappers.MovieMapper
 import com.ru.movieshows.app.glue.movies.mappers.MoviePaginationMapper
 import com.ru.movieshows.app.glue.movies.mappers.ReviewsPaginationMapper
-import com.ru.movieshows.app.glue.movies.mappers.VideoMapper
+import com.ru.movieshows.app.glue.movies.mappers.MoviesVideoMapper
 import com.ru.movieshows.data.MoviesDataRepository
 import com.ru.movieshows.movies.domain.entities.Movie
 import com.ru.movieshows.movies.domain.entities.MovieDetails
@@ -20,7 +20,7 @@ class AdapterMoviesRepository @Inject constructor(
     private val movieDetailsMapper: MovieDetailsMapper,
     private val moviePaginationMapper: MoviePaginationMapper,
     private val reviewsPaginationMapper: ReviewsPaginationMapper,
-    private val videoMapper: VideoMapper,
+    private val moviesVideoMapper: MoviesVideoMapper,
 ) : MoviesRepository {
     override suspend fun getNowPlayingMovies(language: String, page: Int): List<Movie> {
         val moviesPaginationModel = moviesDataRepository.getNowPlayingMovies(language, page)
@@ -98,7 +98,7 @@ class AdapterMoviesRepository @Inject constructor(
             language,
             movieId.toString()
         )
-        return result.map { videoMapper.toVideo(it) }
+        return result.map { moviesVideoMapper.toVideo(it) }
     }
 
 }

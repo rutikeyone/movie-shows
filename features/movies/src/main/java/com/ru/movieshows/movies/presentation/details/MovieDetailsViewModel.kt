@@ -37,16 +37,12 @@ class MovieDetailsViewModel @AssistedInject constructor(
     val titleStateLiveValue = titleStateFlow
         .toLiveValue("")
 
-    val movieSimpleAdapterListener = object : SimpleAdapterListener<Movie> {
-        override fun onClickItem(data: Movie) {
-            launchMovieDetails(data)
-        }
+    val movieSimpleAdapterListener = SimpleAdapterListener<Movie> {
+        data -> launchMovieDetails(data)
     }
 
-    val videoSimpleAdapterListener = object : SimpleAdapterListener<Video> {
-        override fun onClickItem(data: Video) {
-            launchVideo(data)
-        }
+    val videoSimpleAdapterListener = SimpleAdapterListener<Video> { data ->
+        launchVideo(data)
     }
 
     init {
@@ -55,7 +51,7 @@ class MovieDetailsViewModel @AssistedInject constructor(
 
             launch {
                 languageTagFlow.collect {
-                    getMovieDetails(it)
+                    getData(it)
                 }
             }
 
@@ -63,7 +59,7 @@ class MovieDetailsViewModel @AssistedInject constructor(
 
     }
 
-    private suspend fun getMovieDetails(language: String) {
+    private suspend fun getData(language: String) {
         val firstPageIndex = 1
 
         loadScreenStateFlow.value = Container.Pending
@@ -97,7 +93,7 @@ class MovieDetailsViewModel @AssistedInject constructor(
 
     fun tryGetMovieDetails() {
         viewModelScope.launch {
-            getMovieDetails(languageTag)
+            getData(languageTag)
         }
     }
 

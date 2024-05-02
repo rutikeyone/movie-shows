@@ -4,7 +4,7 @@ import java.util.Date
 
 data class TvShowDetails(
     val id: Int?,
-    val genres: List<Genre>,
+    val genres: List<Genre>?,
     val firstAirDate: Date?,
     val overview: String?,
     val backDropPath: String?,

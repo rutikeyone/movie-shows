@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class MovieDetailsMapper @Inject constructor(
     private val imageUrlFormatter: ImageUrlFormatter,
-    private val genreMapper: GenreMapper,
+    private val movieGenreMapper: MovieGenreMapper,
     private val productionCompanyMapper: ProductionCompanyMapper,
 ) {
 
@@ -26,7 +26,7 @@ class MovieDetailsMapper @Inject constructor(
 
         return MovieDetails(
             id = model.id,
-            genres = model.genres.map { genreMapper.toGenre(it) },
+            genres = model.genres.map { movieGenreMapper.toGenre(it) },
             releaseDate = releaseDate,
             overview = model.overview,
             backDropPath = imageUrlFormatter.toImageUrl(model.backDropPath),

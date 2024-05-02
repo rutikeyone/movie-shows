@@ -74,7 +74,7 @@ class TvShowsDataRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun getVideosByMovieId(
+    override suspend fun getVideosById(
         language: String,
         seriesId: String,
     ): List<VideoModel> {
