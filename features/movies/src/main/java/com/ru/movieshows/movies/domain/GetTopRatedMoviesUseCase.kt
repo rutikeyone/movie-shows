@@ -13,7 +13,8 @@ class GetTopRatedMoviesUseCase @Inject constructor(
         page: Int = 1,
     ): List<Movie> {
         return moviesRepository.getTopRatedMovies(
-            language, page
+            language = language,
+            page = page,
         )
     }
 

@@ -79,7 +79,7 @@ class TvShowsDataRepositoryImpl @Inject constructor(
         seriesId: String,
     ): List<VideoModel> {
         return tvShowsSource.getVideosById(
-            language, seriesId,
+            seriesId, language,
         )
     }
 

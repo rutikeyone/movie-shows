@@ -50,12 +50,12 @@ class AccountsRetrofitSourceImpl @Inject constructor(
         return lastValue is Container.Success<AccountDataModel>
     }
 
-    override suspend fun signIn(email: String, password: String): String {
+    override suspend fun signIn(username: String, password: String): String {
         val requestToken = accountsDataSource.createRequestToken()
         val sessionRequestToken = accountsDataSource.createSessionByUsernameAndPassword(
-            email,
-            password,
-            requestToken,
+            username = username,
+            password = password,
+            requestToken = requestToken,
         )
         return accountsDataSource.createSession(sessionRequestToken)
     }

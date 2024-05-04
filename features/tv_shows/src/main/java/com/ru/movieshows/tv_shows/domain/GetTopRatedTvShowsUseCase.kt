@@ -13,7 +13,8 @@ class GetTopRatedTvShowsUseCase @Inject constructor(
         page: Int = 1,
     ): TvShowPagination {
         return tvShowsRepository.getTopRatedTvShows(
-            language, page
+            language = language,
+            page = page,
         )
     }
 

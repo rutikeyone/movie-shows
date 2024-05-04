@@ -13,7 +13,8 @@ class GetUpcomingMoviesUseCase @Inject constructor(
         page: Int = 1,
     ): List<Movie> {
         return moviesRepository.getUpcomingMovies(
-            language, page
+            language = language,
+            page = page,
         )
     }
 

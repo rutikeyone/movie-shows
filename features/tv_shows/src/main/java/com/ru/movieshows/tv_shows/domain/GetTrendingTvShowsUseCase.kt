@@ -13,7 +13,8 @@ class GetTrendingTvShowsUseCase @Inject constructor(
         page: Int = 1,
     ): TvShowPagination {
         return tvShowsRepository.getTrendingTvShows(
-            language, page
+            language = language,
+            page = page,
         )
     }
 

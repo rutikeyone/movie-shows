@@ -23,28 +23,40 @@ class AdapterMoviesRepository @Inject constructor(
     private val moviesVideoMapper: MoviesVideoMapper,
 ) : MoviesRepository {
     override suspend fun getNowPlayingMovies(language: String, page: Int): List<Movie> {
-        val moviesPaginationModel = moviesDataRepository.getNowPlayingMovies(language, page)
+        val moviesPaginationModel = moviesDataRepository.getNowPlayingMovies(
+            language = language,
+            page = page,
+        )
         return moviesPaginationModel.results.map {
             movieMapper.toMovie(it)
         }
     }
 
     override suspend fun getTopRatedMovies(language: String, page: Int): List<Movie> {
-        val moviesPaginationModel = moviesDataRepository.getTopRatedMovies(language, page)
+        val moviesPaginationModel = moviesDataRepository.getTopRatedMovies(
+            language = language,
+            page = page,
+        )
         return moviesPaginationModel.results.map {
             movieMapper.toMovie(it)
         }
     }
 
     override suspend fun getPopularMovies(language: String, page: Int): List<Movie> {
-        val moviesPaginationModel = moviesDataRepository.getPopularMovies(language, page)
+        val moviesPaginationModel = moviesDataRepository.getPopularMovies(
+            language = language,
+            page = page,
+        )
         return moviesPaginationModel.results.map {
             movieMapper.toMovie(it)
         }
     }
 
     override suspend fun getUpcomingMovies(language: String, page: Int): List<Movie> {
-        val moviesPaginationModel = moviesDataRepository.getUpcomingMovies(language, page)
+        val moviesPaginationModel = moviesDataRepository.getUpcomingMovies(
+            language = language,
+            page = page,
+        )
         return moviesPaginationModel.results.map {
             movieMapper.toMovie(it)
         }
@@ -55,15 +67,21 @@ class AdapterMoviesRepository @Inject constructor(
         page: Int,
         withGenresId: String,
     ): List<Movie> {
-        val moviesPaginationModel =
-            moviesDataRepository.getDiscoverMovies(language, page, withGenresId)
+        val moviesPaginationModel = moviesDataRepository.getDiscoverMovies(
+            language = language,
+            page = page,
+            withGenresId = withGenresId,
+        )
         return moviesPaginationModel.results.map {
             movieMapper.toMovie(it)
         }
     }
 
     override suspend fun getMovieDetails(language: String, movieId: Int): MovieDetails {
-        val result = moviesDataRepository.getMovieDetails(movieId, language)
+        val result = moviesDataRepository.getMovieDetails(
+            movieId = movieId,
+            language = language,
+        )
         return movieDetailsMapper.toMovieDetails(result)
     }
 
@@ -95,8 +113,8 @@ class AdapterMoviesRepository @Inject constructor(
 
     override suspend fun getVideosById(language: String, movieId: Int): List<Video> {
         val result = moviesDataRepository.getVideosById(
-            language,
-            movieId.toString()
+            language = language,
+            movieId = movieId.toString()
         )
         return result.map { moviesVideoMapper.toVideo(it) }
     }

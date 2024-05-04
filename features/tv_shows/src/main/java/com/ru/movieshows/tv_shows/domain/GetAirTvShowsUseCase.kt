@@ -14,7 +14,8 @@ class GetAirTvShowsUseCase @Inject constructor(
     ): TvShowPagination {
 
         return tvShowsRepository.getOnTheAirTvShows(
-            language, page
+            language = language,
+            page = page,
         )
     }
 

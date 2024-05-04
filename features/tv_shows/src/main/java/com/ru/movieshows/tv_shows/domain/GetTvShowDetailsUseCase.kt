@@ -1,6 +1,5 @@
 package com.ru.movieshows.tv_shows.domain
 
-import com.ru.movieshows.tv_shows.domain.entities.Review
 import com.ru.movieshows.tv_shows.domain.entities.TvShowDetails
 import com.ru.movieshows.tv_shows.domain.repositories.TvShowsRepository
 import javax.inject.Inject
@@ -14,7 +13,8 @@ class GetTvShowDetailsUseCase @Inject constructor(
         id: String,
     ): TvShowDetails {
         return tvShowsRepository.getTvShowDetails(
-            language, id
+            language = language,
+            id = id,
         )
     }
 

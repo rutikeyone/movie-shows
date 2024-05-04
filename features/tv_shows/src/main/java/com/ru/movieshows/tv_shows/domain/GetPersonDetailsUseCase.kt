@@ -13,7 +13,8 @@ class GetPersonDetailsUseCase @Inject constructor(
         language: String = "en_US",
     ): Person {
         return personRepository.getPersonDetails(
-            personId, language
+            personId = personId,
+            language = language,
         )
     }
 

@@ -13,7 +13,8 @@ class GetNowPlayingMoviesUseCase @Inject constructor(
         page: Int = 1,
     ): List<Movie> {
         return moviesRepository.getNowPlayingMovies(
-            language, page
+            language = language,
+            page = page,
         )
     }
 

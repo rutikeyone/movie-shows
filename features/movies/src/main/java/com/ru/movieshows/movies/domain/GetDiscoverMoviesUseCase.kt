@@ -19,9 +19,9 @@ class GetDiscoverMoviesUseCase @Inject constructor(
         }
 
         return moviesRepository.getDiscoverMovies(
-            language,
-            page,
-            withGenresId,
+            language = language,
+            page = page,
+            withGenresId = withGenresId,
         )
     }
 }

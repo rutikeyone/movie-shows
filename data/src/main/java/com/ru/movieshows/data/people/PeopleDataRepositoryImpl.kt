@@ -14,7 +14,8 @@ class PeopleDataRepositoryImpl @Inject constructor(
         language: String,
     ): PersonModel {
         return peopleSource.getPersonDetails(
-            personId, language,
+            personId = personId,
+            language = language,
         )
     }
 

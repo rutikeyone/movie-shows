@@ -155,8 +155,8 @@ class MoviesDataRepositoryImpl @Inject constructor(
         movieId: String,
     ): List<VideoModel> {
         return moviesSource.getVideosById(
-            movieId,
-            language,
+            movieId = movieId,
+            language = language,
         )
     }
 
@@ -189,8 +189,8 @@ class MoviesDataRepositoryImpl @Inject constructor(
         language: String,
     ): MovieDetailsModel {
         return moviesSource.getMovieDetails(
-            movieId,
-            language,
+            movieId = movieId,
+            language = language,
         )
     }
 
@@ -199,8 +199,8 @@ class MoviesDataRepositoryImpl @Inject constructor(
         page: Int,
     ): MoviesPaginationModel {
         return moviesSource.getNowPlayingMovies(
-            language,
-            page,
+            language = language,
+            pageIndex = page,
         )
     }
 
@@ -209,8 +209,8 @@ class MoviesDataRepositoryImpl @Inject constructor(
         page: Int,
     ): MoviesPaginationModel {
         return moviesSource.getUpcomingMovies(
-            language,
-            page,
+            language = language,
+            pageIndex = page,
         )
     }
 
@@ -219,8 +219,8 @@ class MoviesDataRepositoryImpl @Inject constructor(
         page: Int,
     ): MoviesPaginationModel {
         return moviesSource.getPopularMovies(
-            language,
-            page,
+            language = language,
+            pageIndex = page,
         )
     }
 
@@ -229,8 +229,8 @@ class MoviesDataRepositoryImpl @Inject constructor(
         page: Int,
     ): MoviesPaginationModel {
         return moviesSource.getTopRatedMovies(
-            language,
-            page,
+            language = language,
+            pageIndex = page,
         )
     }
 

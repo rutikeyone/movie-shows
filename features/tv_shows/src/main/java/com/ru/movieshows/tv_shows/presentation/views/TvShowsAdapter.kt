@@ -31,7 +31,7 @@ class TvShowsAdapter(
 
     override fun onBindViewHolder(holder: TvShowHolder, position: Int) {
         val tvShow = tvShows[position]
-        holder.bind(tvShow)
+        holder.bindViews(tvShow)
     }
 
     override fun onClick(view: View) {
@@ -43,15 +43,15 @@ class TvShowsAdapter(
         private val binding: TvShowsItemBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(tvShow: TvShow) {
+        fun bindViews(tvShow: TvShow) {
             binding.root.tag = tvShow
-            bindLayoutParams()
-            bindTvShowName(tvShow)
-            bindTvShowImage(tvShow)
-            bindMovieRating(tvShow.rating)
+            bindLayoutParamsView()
+            bindTvShowNameView(tvShow)
+            bindTvShowImageView(tvShow)
+            bindMovieRatingView(tvShow.rating)
         }
 
-        private fun bindTvShowImage(tvShow: TvShow) = with(binding.tvShowsMovieImageView) {
+        private fun bindTvShowImageView(tvShow: TvShow) = with(binding.tvShowsMovieImageView) {
             val context = this.context
 
             val poster = tvShow.posterPath
@@ -69,7 +69,7 @@ class TvShowsAdapter(
                 .into(this)
         }
 
-        private fun bindTvShowName(tvShow: TvShow) = with(binding.tvShowNameTextView) {
+        private fun bindTvShowNameView(tvShow: TvShow) = with(binding.tvShowNameTextView) {
             val title = tvShow.name
             if (!title.isNullOrEmpty()) {
                 text = title
@@ -79,7 +79,7 @@ class TvShowsAdapter(
             }
         }
 
-        private fun bindLayoutParams() = with(binding.root) {
+        private fun bindLayoutParamsView() = with(binding.root) {
             val layoutParams = ActionBar.LayoutParams(
                 resources.getDimensionPixelOffset(R.dimen.dp_120),
                 resources.getDimensionPixelOffset(R.dimen.dp_250),
@@ -88,7 +88,7 @@ class TvShowsAdapter(
         }
 
         @SuppressLint("SetTextI18n")
-        private fun bindMovieRating(rating: Double?) = with(binding) {
+        private fun bindMovieRatingView(rating: Double?) = with(binding) {
             ratingBar.isEnabled = false
             if (rating != null && rating > 0) {
                 val value = rating.toFloat()

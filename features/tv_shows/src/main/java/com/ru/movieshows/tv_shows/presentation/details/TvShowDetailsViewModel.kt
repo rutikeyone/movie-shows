@@ -4,14 +4,15 @@ import com.ru.movieshows.core.Container
 import com.ru.movieshows.core.presentation.BaseViewModel
 import com.ru.movieshows.core.presentation.SimpleAdapterListener
 import com.ru.movieshows.core.presentation.live.LiveEventValue
-import com.ru.movieshows.core.presentation.live.MutableLiveValue
 import com.ru.movieshows.tv_shows.TvShowsRouter
 import com.ru.movieshows.tv_shows.domain.GetPersonDetailsUseCase
 import com.ru.movieshows.tv_shows.domain.GetTvShowDetailsUseCase
 import com.ru.movieshows.tv_shows.domain.GetTvShowReviewsUseCase
 import com.ru.movieshows.tv_shows.domain.GetVideosByIdUseCase
+import com.ru.movieshows.tv_shows.domain.entities.Creator
 import com.ru.movieshows.tv_shows.domain.entities.Person
 import com.ru.movieshows.tv_shows.domain.entities.Review
+import com.ru.movieshows.tv_shows.domain.entities.Season
 import com.ru.movieshows.tv_shows.domain.entities.TvShowDetails
 import com.ru.movieshows.tv_shows.domain.entities.Video
 import dagger.assisted.Assisted
@@ -45,6 +46,12 @@ class TvShowDetailsViewModel @AssistedInject constructor(
 
     val videoSimpleAdapterListener = SimpleAdapterListener<Video> {
         launchVideo(it)
+    }
+
+    val personSimpleAdapterListener = SimpleAdapterListener<Creator> {
+    }
+
+    val seasonSimpleListener = SimpleAdapterListener<Season> {
     }
 
     init {

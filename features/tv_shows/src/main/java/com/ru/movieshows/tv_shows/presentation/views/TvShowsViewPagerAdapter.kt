@@ -29,7 +29,7 @@ class TvShowsViewPagerAdapter(
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val item = tvShows[position]
-        holder.bind(item)
+        holder.bindViews(item)
     }
 
     override fun onClick(view: View) {
@@ -40,13 +40,13 @@ class TvShowsViewPagerAdapter(
     inner class Holder(private val binding: TvShowViewPagerItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(tvShow: TvShow) {
+        fun bindViews(tvShow: TvShow) {
             binding.root.tag = tvShow
-            bindTitle(tvShow)
-            bindMovieImage(tvShow)
+            bindTitleView(tvShow)
+            bindMovieImageView(tvShow)
         }
 
-        private fun bindTitle(tvShow: TvShow) {
+        private fun bindTitleView(tvShow: TvShow) {
             with(binding.tvShowNameTextView) {
                 val title = tvShow.name
                 if (!title.isNullOrEmpty()) {
@@ -58,12 +58,9 @@ class TvShowsViewPagerAdapter(
             }
         }
 
-        private fun bindMovieImage(tvShow: TvShow) {
+        private fun bindMovieImageView(tvShow: TvShow) {
             with(binding.tvShowBackgroundImageView) {
-                val backDrop = tvShow.backDropPath
-                val loadBackDrop =
-                    if (!backDrop.isNullOrEmpty()) backDrop
-                    else R.drawable.bg_poster_placeholder
+                val loadBackDrop = tvShow.backDropPath
 
                 Glide
                     .with(context)

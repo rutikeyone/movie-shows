@@ -13,7 +13,8 @@ class GetVideosByIdUseCase @Inject constructor(
         seriesId: String,
     ): List<Video> {
         return tvShowsRepository.getVideosById(
-            language, seriesId
+            language = language,
+            seriesId = seriesId,
         )
     }
 

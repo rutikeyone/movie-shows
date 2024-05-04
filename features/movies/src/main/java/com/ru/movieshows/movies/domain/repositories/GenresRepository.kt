@@ -6,5 +6,4 @@ interface GenresRepository {
 
     suspend fun getGenres(language: String): List<Genre>
 
-
 }
