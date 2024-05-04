@@ -17,4 +17,10 @@
     <string name="genres">Genres</string>
     <string name="lorem_ipsum" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</string>
     <string name="overview">Overview</string>
+    <string name="date_of_birth">Date of birth</string>
+    <string name="date_of_death">Date of death</string>
+    <string name="place_of_birth">Place of birth</string>
+    <string name="biography">Biography</string>
+    <string name="hide">Hide</string>
+    <string name="read_more">Read more</string>
 </resources>

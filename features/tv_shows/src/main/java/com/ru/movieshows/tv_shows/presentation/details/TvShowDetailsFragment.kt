@@ -18,6 +18,7 @@ import com.ru.movieshows.core.presentation.BaseScreen
 import com.ru.movieshows.core.presentation.OnTouchListener
 import com.ru.movieshows.core.presentation.applyDecoration
 import com.ru.movieshows.core.presentation.args
+import com.ru.movieshows.core.presentation.live.observeEvent
 import com.ru.movieshows.core.presentation.viewBinding
 import com.ru.movieshows.core.presentation.viewModelCreator
 import com.ru.movieshows.core.presentation.views.observe
@@ -74,6 +75,11 @@ class TvShowDetailsFragment : BaseFragment() {
             globalNavComponentRouter.getToolbar()?.let { toolbar ->
                 toolbar.title = title
             }
+        }
+
+        viewModel.showPeopleDetailsEvent.observeEvent(viewLifecycleOwner) {
+            val personDetailsFragment = PersonDetailsBottomSheetDialogFragment.newInstance(it)
+            personDetailsFragment.show(childFragmentManager, PERSON_DETAILS_MODAL_BOTTOM_SHEET_TAG)
         }
 
     }
@@ -356,6 +362,11 @@ class TvShowDetailsFragment : BaseFragment() {
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(this)
         }
+    }
+
+    companion object {
+        const val SEASON_DETAILS_MODAL_BOTTOM_SHEET_TAG = "ModalBottomSheetTag"
+        const val PERSON_DETAILS_MODAL_BOTTOM_SHEET_TAG = "PersonDetailsModalBottomSheetTag"
     }
 
 }

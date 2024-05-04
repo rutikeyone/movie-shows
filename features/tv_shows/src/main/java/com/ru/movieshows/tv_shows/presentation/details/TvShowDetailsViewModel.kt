@@ -49,6 +49,10 @@ class TvShowDetailsViewModel @AssistedInject constructor(
     }
 
     val personSimpleAdapterListener = SimpleAdapterListener<Creator> {
+        val id = it.id
+        id?.let {
+            getPersonDetails(it)
+        }
     }
 
     val seasonSimpleListener = SimpleAdapterListener<Season> {
@@ -95,14 +99,13 @@ class TvShowDetailsViewModel @AssistedInject constructor(
         }
     }
 
-    fun getPersonDetails(personId: String) {
+    private fun getPersonDetails(personId: String) {
         viewModelScope.launch {
-            try {
-                val personDetails = getPersonDetailsUseCase.execute(personId, languageTag)
-                _showPeopleDetailsEvent.publish(personDetails)
-            } catch (e: Exception) {
-
-            }
+            val personDetails = getPersonDetailsUseCase.execute(
+                personId = personId,
+                language = languageTag,
+            )
+            _showPeopleDetailsEvent.publish(personDetails)
         }
     }
 

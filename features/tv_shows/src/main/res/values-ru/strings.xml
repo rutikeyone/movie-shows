@@ -16,4 +16,10 @@
     <string name="production_companies">Производственные компании</string>
     <string name="genres">Жанры</string>
     <string name="overview">Краткий обзор</string>
+    <string name="date_of_birth">Дата рождения</string>
+    <string name="date_of_death">Дата смерти</string>
+    <string name="place_of_birth">Место рождения</string>
+    <string name="biography">Биография</string>
+    <string name="hide">Скрыть</string>
+    <string name="read_more">Подробнее</string>
 </resources>
