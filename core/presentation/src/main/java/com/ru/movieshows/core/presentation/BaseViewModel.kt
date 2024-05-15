@@ -157,6 +157,10 @@ open class BaseViewModel : ViewModel() {
         }
     }
 
+    fun updateLocale(locale: Locale) {
+        _languageTagFlow.value = locale.toLanguageTag()
+    }
+
     override fun onCleared() {
         super.onCleared()
         viewModelScope.cancel()

@@ -47,6 +47,7 @@ dependencies {
     implementation Libs.Android.AppCompat
     implementation Libs.Android.ConstraintLayout
     implementation Libs.Android.NavigationFragments
+    implementation Libs.Android.PaginationRuntime
 
     implementation Libs.Google.Material
 

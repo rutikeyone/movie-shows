@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 class TvShowsDataRepositoryImpl @Inject constructor(
     private val tvShowsSource: TvShowsSource,
-): TvShowsDataRepository {
+) : TvShowsDataRepository {
 
     override fun searchPagedMovies(
         language: String,
@@ -198,7 +198,7 @@ class TvShowsDataRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun getPagedPopularTvShows(
+    override fun getPagedPopularTvShows(
         language: String,
     ): Flow<PagingData<TvShowModel>> {
 

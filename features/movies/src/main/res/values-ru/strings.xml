@@ -19,4 +19,5 @@
     <string name="retry">Повторить</string>
     <string name="search">Поиск</string>
     <string name="min">мин.</string>
+    <string name="the_list_of_films_is_empty">Список фильмов пуст</string>
 </resources>

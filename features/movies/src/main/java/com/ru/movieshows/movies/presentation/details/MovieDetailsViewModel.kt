@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 
 class MovieDetailsViewModel @AssistedInject constructor(
     @Assisted private val args: MovieDetailsFragment.Screen,
-    private val moviesRouter: MoviesRouter,
+    private val router: MoviesRouter,
     private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
     private val getSimilarMoviesUseCase: GetSimilarMoviesUseCase,
     private val getMovieReviewsUseCase: GetMovieReviewsUseCase,
@@ -37,8 +37,8 @@ class MovieDetailsViewModel @AssistedInject constructor(
     val titleStateLiveValue = titleStateFlow
         .toLiveValue("")
 
-    val movieSimpleAdapterListener = SimpleAdapterListener<Movie> {
-        data -> launchMovieDetails(data)
+    val movieSimpleAdapterListener = SimpleAdapterListener<Movie> { data ->
+        launchMovieDetails(data)
     }
 
     val videoSimpleAdapterListener = SimpleAdapterListener<Video> { data ->
@@ -97,14 +97,19 @@ class MovieDetailsViewModel @AssistedInject constructor(
         }
     }
 
-    fun launchReviews() {
+    fun launchToReviews() {
         val state = loadScreenStateFlow.value.getOrNull() ?: return
         val id = state.movieDetails.id ?: return
+        router.launchToReviews()
     }
 
-    private fun launchMovieDetails(movie: Movie) {}
+    private fun launchMovieDetails(movie: Movie) {
+        router.launchMovieDetails(movie)
+    }
 
-    private fun launchVideo(video: Video) {}
+    private fun launchVideo(video: Video) {
+        router.launchVideo(video)
+    }
 
     @AssistedFactory
     interface Factory {

@@ -5,6 +5,7 @@ import com.ru.movieshows.core.AppRestarter
 import com.ru.movieshows.core.NotAuthException
 import com.ru.movieshows.core.CommonUi
 import com.ru.movieshows.core.ConnectionException
+import com.ru.movieshows.core.EmptyException
 import com.ru.movieshows.core.ErrorHandler
 import com.ru.movieshows.core.Logger
 import com.ru.movieshows.core.MessageException
@@ -47,6 +48,7 @@ class DefaultErrorHandler(
         return when(exception) {
             is NotAuthException -> resources.getString(R.string.core_to_see_the_profile_data_need_log_in_message)
             is ConnectionException -> resources.getString(R.string.core_common_connect_to_the_internet)
+            is EmptyException -> resources.getString(exception.messageRes)
             else -> resources.getString(R.string.core_common_error_header)
         }
     }

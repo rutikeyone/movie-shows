@@ -1,15 +1,21 @@
 package com.ru.movieshows.app.glue.tv_shows.repositories
 
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.ru.movieshows.app.glue.tv_shows.mappers.ReviewPaginationMapper
 import com.ru.movieshows.app.glue.tv_shows.mappers.TvShowDetailsMapper
+import com.ru.movieshows.app.glue.tv_shows.mappers.TvShowMapper
 import com.ru.movieshows.app.glue.tv_shows.mappers.TvShowPaginationMapper
 import com.ru.movieshows.app.glue.tv_shows.mappers.TvShowVideoMapper
 import com.ru.movieshows.data.TvShowsDataRepository
 import com.ru.movieshows.tv_shows.domain.entities.ReviewPagination
+import com.ru.movieshows.tv_shows.domain.entities.TvShow
 import com.ru.movieshows.tv_shows.domain.entities.TvShowDetails
 import com.ru.movieshows.tv_shows.domain.entities.TvShowPagination
 import com.ru.movieshows.tv_shows.domain.entities.Video
 import com.ru.movieshows.tv_shows.domain.repositories.TvShowsRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class AdapterTvShowsRepository @Inject constructor(
@@ -18,6 +24,7 @@ class AdapterTvShowsRepository @Inject constructor(
     private val tvShowDetailsMapper: TvShowDetailsMapper,
     private val reviewPaginationMapper: ReviewPaginationMapper,
     private val tvShowVideoMapper: TvShowVideoMapper,
+    private val tvShowMapper: TvShowMapper,
 ) : TvShowsRepository {
 
     override suspend fun getTrendingTvShows(language: String, page: Int): TvShowPagination {
@@ -79,6 +86,12 @@ class AdapterTvShowsRepository @Inject constructor(
             page = page,
         )
         return reviewPaginationMapper.toReviewPagination(result);
+    }
+
+    override fun getPagedPopularTvShows(language: String): Flow<PagingData<TvShow>> {
+        return tvShowsDataRepository.getPagedPopularTvShows(language).map { pagingData ->
+            pagingData.map { tvShowModel -> tvShowMapper.toTvShow(tvShowModel) }
+        }
     }
 
 }

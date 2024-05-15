@@ -27,17 +27,17 @@ class DefaultDestinationsProvider @Inject constructor(
         return listOf(
             NavTab(
                 destinationId = R.id.moviesFragment,
-                title = context.getString(R.string.movies),
+                title = R.string.movies,
                 iconRes = R.drawable.ic_movie,
             ),
             NavTab(
                 destinationId = R.id.tvShowsFragment,
-                title = context.getString(R.string.tvs),
+                title = R.string.tvs,
                 iconRes = R.drawable.ic_tv,
             ),
             NavTab(
                 destinationId = R.id.profileFragment,
-                title = context.getString(R.string.profile),
+                title = R.string.profile,
                 iconRes = R.drawable.ic_profile,
             ),
         )

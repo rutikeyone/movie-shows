@@ -1,6 +1,7 @@
 package com.ru.movieshows.movies
 
 import com.ru.movieshows.movies.domain.entities.Movie
+import com.ru.movieshows.movies.domain.entities.Video
 
 interface MoviesRouter {
 
@@ -13,5 +14,9 @@ interface MoviesRouter {
     fun launchTopRatedMovies()
 
     fun launchMovieSearch()
+
+    fun launchVideo(video: Video)
+
+    fun launchToReviews()
 
 }

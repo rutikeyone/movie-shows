@@ -14,6 +14,8 @@ import com.ru.movieshows.movies.domain.entities.Genre
 import com.ru.movieshows.movies.domain.entities.Movie
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,7 +31,7 @@ class MoviesViewModel @Inject constructor(
 ) : BaseViewModel(), SimpleAdapterListener<Movie> {
 
     private val loadScreenStateFlow = MutableStateFlow<Container<State>>(Container.Pending)
-    private val indexState = MutableStateFlow<Int?>(null)
+    private val indexState = MutableStateFlow<Int>(0)
     private val loadDiscoverMoviesStateFlow =
         MutableStateFlow<Container<List<Movie>>>(Container.Pending)
 
@@ -40,20 +42,26 @@ class MoviesViewModel @Inject constructor(
         .toLiveValue(Container.Pending)
 
     val indexStateLiveValue = indexState
-        .toLiveValue(null)
+        .toLiveValue(0)
+
+    private val indexStateStateFlow = combine(
+        indexState,
+        languageTagFlow,
+        ::mergeIndexState
+    )
 
     init {
 
         viewModelScope.launch {
 
             launch {
-                languageTagFlow.collect {
-                    getMoviesData(it)
+                languageTagFlow.collect { languageTag ->
+                    getMoviesData(languageTag)
                 }
             }
 
             launch {
-                indexState
+                indexStateStateFlow
                     .collect { state ->
                         getDiscoverMovies(state)
                     }
@@ -83,7 +91,12 @@ class MoviesViewModel @Inject constructor(
             )
 
             loadScreenStateFlow.value = Container.Success(state)
-            indexState.value = 0
+
+            val defaultIndexState = IndexState(
+                indexState.value,
+                language
+            )
+            getDiscoverMovies(defaultIndexState)
 
         } catch (e: Exception) {
             loadScreenStateFlow.value = Container.Error(e)
@@ -91,9 +104,9 @@ class MoviesViewModel @Inject constructor(
     }
 
     fun tryGetDiscoverMovies() {
-        val currentIndex = indexState.value
         viewModelScope.launch {
-            getDiscoverMovies(currentIndex)
+            val lastIndexState = indexStateStateFlow.last()
+            getDiscoverMovies(lastIndexState)
         }
     }
 
@@ -103,19 +116,19 @@ class MoviesViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getDiscoverMovies(index: Int?) {
+    private suspend fun getDiscoverMovies(state: IndexState) {
         try {
-            val index = index ?: return
+            val indexValue = state.index
             val successState = loadScreenStateFlow.value.getOrNull() ?: return
             val genres = successState.genres
-            val currentGenre = genres.getOrNull(index)
+            val currentGenre = genres.getOrNull(indexValue)
             val id = currentGenre?.id
             val firstPageIndex = 1
 
             loadDiscoverMoviesStateFlow.value = Container.Pending
 
             val discoverMovies = getDiscoverMoviesUseCase.execute(
-                language = languageTag,
+                language = state.language,
                 page = firstPageIndex,
                 withGenresId = id,
             )
@@ -131,12 +144,19 @@ class MoviesViewModel @Inject constructor(
         indexState.value = value
     }
 
-    override fun onClickItem(movie: Movie) {
-        launchMoviesDetails(movie)
+    override fun onClickItem(data: Movie) {
+        launchMoviesDetails(data)
     }
 
     private fun launchMoviesDetails(movie: Movie) = debounce {
         router.launchMovieDetails(movie)
+    }
+
+    private fun mergeIndexState(
+        index: Int,
+        language: String,
+    ): IndexState {
+        return IndexState(index, language)
     }
 
     fun launchUpcomingMovies() = debounce {
@@ -161,6 +181,11 @@ class MoviesViewModel @Inject constructor(
         val upcomingMovies: List<Movie>,
         val popularMovies: List<Movie>,
         val topRatedMovies: List<Movie>,
+    )
+
+    data class IndexState(
+        val index: Int,
+        val language: String,
     )
 
 }

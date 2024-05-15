@@ -48,7 +48,7 @@ class TvShowDetailsViewModel @AssistedInject constructor(
         launchVideo(it)
     }
 
-    val personSimpleAdapterListener = SimpleAdapterListener<Creator> {
+    val personSimpleAdapterListener = SimpleAdapterListener<Creator> { it ->
         val id = it.id
         id?.let {
             getPersonDetails(it)
@@ -93,13 +93,13 @@ class TvShowDetailsViewModel @AssistedInject constructor(
 
     }
 
-    fun tryGetMovieDetails() {
+    fun tryGetMovieDetails() = debounce {
         viewModelScope.launch {
             getData(languageTag)
         }
     }
 
-    private fun getPersonDetails(personId: String) {
+    private fun getPersonDetails(personId: String) = debounce {
         viewModelScope.launch {
             val personDetails = getPersonDetailsUseCase.execute(
                 personId = personId,
@@ -109,11 +109,20 @@ class TvShowDetailsViewModel @AssistedInject constructor(
         }
     }
 
-    private fun launchVideo(video: Video) {}
+    private fun launchVideo(video: Video) = debounce {
+        router.launchVideo(video)
+    }
 
-    fun launchToTvShowReviews() {}
+    fun launchToTvShowReviews() = debounce {
+        router.launchToTvShowReviews()
+    }
 
-    fun launchToEpisodes(seriesId: String, seasonNumber: String) {}
+    fun launchToEpisodes(seriesId: String, seasonNumber: String) = debounce {
+        router.launchToEpisodes(
+            seriesId = seriesId,
+            seasonNumber = seasonNumber,
+        )
+    }
 
     @AssistedFactory
     interface Factory {

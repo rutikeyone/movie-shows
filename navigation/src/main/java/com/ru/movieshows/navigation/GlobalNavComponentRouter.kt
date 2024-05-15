@@ -5,8 +5,8 @@ import androidx.annotation.IdRes
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.ru.movieshows.core.ActivityNotCreatedException
 import com.ru.movieshows.impl.ActivityRequired
-import com.ru.movieshows.navigation.domain.exceptions.ActivityNotCreatedException
 import com.ru.movieshows.navigation.presentation.navigation.NavComponentRouter
 import com.ru.movieshows.navigation.presentation.navigation.NavigationMode
 import com.ru.movieshows.navigation.presentation.navigation.RouterHolder

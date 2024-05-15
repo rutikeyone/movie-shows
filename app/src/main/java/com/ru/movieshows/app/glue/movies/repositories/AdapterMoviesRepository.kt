@@ -1,10 +1,12 @@
 package com.ru.movieshows.app.glue.movies.repositories
 
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.ru.movieshows.app.glue.movies.mappers.MovieDetailsMapper
 import com.ru.movieshows.app.glue.movies.mappers.MovieMapper
 import com.ru.movieshows.app.glue.movies.mappers.MoviePaginationMapper
-import com.ru.movieshows.app.glue.movies.mappers.ReviewsPaginationMapper
 import com.ru.movieshows.app.glue.movies.mappers.MoviesVideoMapper
+import com.ru.movieshows.app.glue.movies.mappers.ReviewsPaginationMapper
 import com.ru.movieshows.data.MoviesDataRepository
 import com.ru.movieshows.movies.domain.entities.Movie
 import com.ru.movieshows.movies.domain.entities.MovieDetails
@@ -12,6 +14,8 @@ import com.ru.movieshows.movies.domain.entities.MoviesPagination
 import com.ru.movieshows.movies.domain.entities.ReviewsPagination
 import com.ru.movieshows.movies.domain.entities.Video
 import com.ru.movieshows.movies.domain.repositories.MoviesRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class AdapterMoviesRepository @Inject constructor(
@@ -117,6 +121,24 @@ class AdapterMoviesRepository @Inject constructor(
             movieId = movieId.toString()
         )
         return result.map { moviesVideoMapper.toVideo(it) }
+    }
+
+    override fun getPagedUnComingMovies(language: String): Flow<PagingData<Movie>> {
+        return moviesDataRepository.getPagedUnComingMovies(language).map { pagingData ->
+            pagingData.map { movieModel -> movieMapper.toMovie(movieModel) }
+        }
+    }
+
+    override fun getPagedTopRatedMovies(language: String): Flow<PagingData<Movie>> {
+        return moviesDataRepository.getPagedTopRatedMovies(language).map { pagingData ->
+            pagingData.map { movieModel -> movieMapper.toMovie(movieModel) }
+        }
+    }
+
+    override fun getPagedPopularMovies(language: String): Flow<PagingData<Movie>> {
+        return moviesDataRepository.getPagedPopularMovies(language).map { pagingData ->
+            pagingData.map { movieModel -> movieMapper.toMovie(movieModel) }
+        }
     }
 
 }

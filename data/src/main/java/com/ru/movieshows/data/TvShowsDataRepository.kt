@@ -73,7 +73,7 @@ interface TvShowsDataRepository {
          language: String = "en_US",
      ): Flow<PagingData<TvShowModel>>
 
-     suspend fun getPagedPopularTvShows(
+     fun getPagedPopularTvShows(
          language: String = "en_US",
      ): Flow<PagingData<TvShowModel>>
 

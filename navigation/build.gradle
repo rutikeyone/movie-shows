@@ -42,5 +42,6 @@ dependencies {
     kapt Libs.Google.HiltCompiler
 
     implementation project(Modules.Core.Presentation)
+    implementation project(Modules.Core.Common)
     implementation project(Modules.Core.CommonImpl)
 }

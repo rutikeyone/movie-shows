@@ -26,4 +26,12 @@ class UserFriendlyException(
 class MessageException(
     @IdRes val messageRes: Int,
     cause: Exception,
-): AppException(cause = cause)
+) : AppException(cause = cause)
+
+class ActivityNotCreatedException(
+    cause: Exception? = null,
+) : AppException(cause = cause)
+
+class EmptyException(
+    @IdRes val messageRes: Int,
+): Exception()

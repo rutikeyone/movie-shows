@@ -5,4 +5,10 @@
     <string name="profile">Profile</string>
     <string name="search">Search</string>
     <string name="empty">""</string>
+    <string name="upcoming_movies">Upcoming movies</string>
+    <string name="popular_movies">Popular movies</string>
+    <string name="top_rated_movies">Top rated movies</string>
+    <string name="popular_tv_shows">Popular Tv Shows</string>
+    <string name="top_rated_tv_shows">Top rated Tv shows</string>
+    <string name="on_the_air">On the air</string>
 </resources>

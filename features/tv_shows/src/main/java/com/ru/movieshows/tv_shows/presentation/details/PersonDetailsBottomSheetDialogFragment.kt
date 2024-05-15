@@ -11,14 +11,19 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ru.movieshows.core.presentation.viewBinding
+import com.ru.movieshows.core.presentation.viewModelCreator
 import com.ru.movieshows.tv_shows.domain.entities.Person
 import com.ru.movieshows.tvshows.R
 import com.ru.movieshows.tvshows.databinding.FragmentPersonDetailsBottomSheetDialogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class PersonDetailsBottomSheetDialogFragment : BottomSheetDialogFragment() {
+
+    @Inject
+    lateinit var factory: PersonDetailsViewModel.Factory
 
     private val binding by viewBinding<FragmentPersonDetailsBottomSheetDialogBinding>()
 
@@ -30,6 +35,10 @@ class PersonDetailsBottomSheetDialogFragment : BottomSheetDialogFragment() {
         } ?: throw IllegalStateException("The season argument must be passed")
     }
 
+    private val viewModel by viewModelCreator {
+        factory.create(person)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,7 +48,12 @@ class PersonDetailsBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupViews(person)
+
+        with(viewModel) {
+            loadScreenStateLiveValue.observe(viewLifecycleOwner, ::setupViews)
+            getOrUpdatePerson()
+        }
+
     }
 
     private fun setupViews(person: Person?) {
@@ -68,14 +82,10 @@ class PersonDetailsBottomSheetDialogFragment : BottomSheetDialogFragment() {
         with(binding.personImageView) {
             val loadProfilePath = person?.profilePath
 
-            Glide
-                .with(this)
-                .load(loadProfilePath)
-                .centerCrop()
+            Glide.with(this).load(loadProfilePath).centerCrop()
                 .placeholder(R.drawable.bg_poster_placeholder)
                 .error(R.drawable.bg_poster_placeholder)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(this)
+                .transition(DrawableTransitionOptions.withCrossFade()).into(this)
         }
     }
 
@@ -84,7 +94,7 @@ class PersonDetailsBottomSheetDialogFragment : BottomSheetDialogFragment() {
         val personBirthday = person?.birthday
         val dateFormatter = SimpleDateFormat("dd MMMM yyyy")
 
-        if(personBirthday != null) {
+        if (personBirthday != null) {
             val value = dateFormatter.format(personBirthday)
             binding.dateBirthdayTextView.text = value
         } else {
@@ -98,7 +108,7 @@ class PersonDetailsBottomSheetDialogFragment : BottomSheetDialogFragment() {
         val personDeathday = person?.deathday
         val dateFormatter = SimpleDateFormat("dd MMMM yyyy")
 
-        if(personDeathday != null) {
+        if (personDeathday != null) {
             val value = dateFormatter.format(personDeathday)
             binding.dateDeathTextView.text = value
         } else {
@@ -110,7 +120,7 @@ class PersonDetailsBottomSheetDialogFragment : BottomSheetDialogFragment() {
     private fun setupBiographyView(person: Person?) {
         val personBiography = person?.biography
 
-        if(!personBiography.isNullOrEmpty()) {
+        if (!personBiography.isNullOrEmpty()) {
             binding.biographyTextView.text = personBiography
             binding.biographyHeaderTextView.isVisible = true
             binding.biographyTextView.isVisible = true
@@ -123,7 +133,7 @@ class PersonDetailsBottomSheetDialogFragment : BottomSheetDialogFragment() {
     private fun setupPlaceOfBirthView(person: Person?) {
         val placeOfBirth = person?.placeOfBirth
 
-        if(!placeOfBirth.isNullOrEmpty()) {
+        if (!placeOfBirth.isNullOrEmpty()) {
             binding.placeOfBirthTextView.text = placeOfBirth
             binding.placeOfBirthTextView.isVisible = true
             binding.placeOfBirthHeaderTextView.isVisible = true

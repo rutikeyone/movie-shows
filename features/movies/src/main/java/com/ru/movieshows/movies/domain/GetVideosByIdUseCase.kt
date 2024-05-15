@@ -8,7 +8,10 @@ class GetVideosByIdUseCase @Inject constructor(
     private val moviesRepository: MoviesRepository,
 ) {
 
-    suspend fun execute(language: String = "en_US", movieId: Int): List<Video> {
+    suspend fun execute(
+        language: String = "en_US",
+        movieId: Int,
+    ): List<Video> {
         return moviesRepository.getVideosById(
             language = language,
             movieId = movieId,

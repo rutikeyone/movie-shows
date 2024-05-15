@@ -36,6 +36,7 @@ dependencies {
     implementation Libs.Android.CoreKtx
     implementation Libs.Android.AppCompat
     implementation Libs.Android.FragmentKtx
+    implementation Libs.Android.PaginationRuntime
 
     implementation Libs.Google.Material
 

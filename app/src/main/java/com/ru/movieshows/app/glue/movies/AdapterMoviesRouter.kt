@@ -1,9 +1,9 @@
 package com.ru.movieshows.app.glue.movies
 
-import android.util.Log
 import com.ru.movieshows.app.R
 import com.ru.movieshows.movies.MoviesRouter
 import com.ru.movieshows.movies.domain.entities.Movie
+import com.ru.movieshows.movies.domain.entities.Video
 import com.ru.movieshows.movies.presentation.details.MovieDetailsFragment
 import com.ru.movieshows.navigation.GlobalNavComponentRouter
 import javax.inject.Inject
@@ -19,15 +19,24 @@ class AdapterMoviesRouter @Inject constructor(
     }
 
     override fun launchUpcomingMovies() {
+        globalNavComponentRouter.launch(R.id.upcomingMoviesFragment)
     }
 
     override fun launchPopularMovies() {
+        globalNavComponentRouter.launch(R.id.popularMoviesFragment)
     }
 
     override fun launchTopRatedMovies() {
+        globalNavComponentRouter.launch(R.id.topRatedMoviesFragment)
     }
 
     override fun launchMovieSearch() {
         globalNavComponentRouter.launch(R.id.movieSearchFragment)
+    }
+
+    override fun launchVideo(video: Video) {
+    }
+
+    override fun launchToReviews() {
     }
 }

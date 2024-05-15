@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.children
 import androidx.core.view.isVisible
-import com.ru.movieshows.core.NotAuthException
 import com.ru.movieshows.core.Container
 import com.ru.movieshows.core.Core
+import com.ru.movieshows.core.EmptyException
+import com.ru.movieshows.core.NotAuthException
 import com.ru.movieshows.core.presentation.R
 import com.ru.movieshows.core.presentation.databinding.CorePresentationPartResultBinding
+
 
 class ResultView @JvmOverloads constructor(
     context: Context,
@@ -25,17 +27,17 @@ class ResultView @JvmOverloads constructor(
             notifyUpdates()
         }
 
+
     private var tryAgainListener: (() -> Unit)? = null
 
     private val binding: CorePresentationPartResultBinding
-
 
     init {
         val inflater = LayoutInflater.from(context)
         binding = CorePresentationPartResultBinding.inflate(inflater, this, false)
         addView(binding.root)
 
-        if(isInEditMode) {
+        if (isInEditMode) {
             container = Container.Pending
         } else {
             with(binding) {
@@ -50,7 +52,7 @@ class ResultView @JvmOverloads constructor(
         }
 
         binding.tryAgainButton.setOnClickListener {
-            if(isAuthError()) {
+            if (isAuthError()) {
                 Core.appRestarter.restartApp()
             } else {
                 tryAgainListener?.invoke()
@@ -69,23 +71,26 @@ class ResultView @JvmOverloads constructor(
         binding.failureGroupView.isVisible = container is Container.Error
         binding.internalResultContainer.isVisible = container !is Container.Success
 
-        if(container is Container.Error) {
+        if (container is Container.Error) {
             val exception = container.exception
+
             Core.logger.err(exception)
             binding.failureTextHeader.text = Core.errorHandler.getUserHeader(exception)
 
             with(binding.failureTextMessage) {
-                isVisible = !isAuthError()
+                isVisible = !isAuthError() && !isEmptyException()
                 binding.failureTextMessage.text = Core.errorHandler.getUserMessage(exception)
             }
 
-            binding.tryAgainButton.setText(
-                if(isAuthError()) {
-                    R.string.core_presentation_log_in_header
-                } else {
-                    R.string.core_presentation_try_again
-                }
-            )
+            with(binding.tryAgainButton) {
+                setText(
+                    if (isAuthError()) {
+                        R.string.core_presentation_log_in_header
+                    } else {
+                        R.string.core_presentation_try_again
+                    }
+                )
+            }
 
         }
 
@@ -98,6 +103,10 @@ class ResultView @JvmOverloads constructor(
 
     private fun isAuthError() = container.let {
         it is Container.Error && it.exception is NotAuthException
+    }
+
+    private fun isEmptyException() = container.let {
+        it is Container.Error && it.exception is EmptyException
     }
 
 }

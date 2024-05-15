@@ -12,6 +12,7 @@ import com.ru.movieshows.core.ScreenCommunication
 import com.ru.movieshows.core.flow.DefaultLazyFlowSubjectFactory
 import com.ru.movieshows.core.flow.LazyFlowSubjectFactory
 import com.ru.movieshows.impl.ActivityRequired
+import com.ru.movieshows.impl.AndroidResources
 import com.ru.movieshows.impl.DefaultCoreProvider
 import dagger.Module
 import dagger.Provides
@@ -43,10 +44,12 @@ class CoreProviderModule {
     fun provideActivityRequiredSet(
         commonUi: CommonUi,
         screenCommunication: ScreenCommunication,
+        resources: Resources,
     ): Set<@JvmSuppressWildcards ActivityRequired> {
         val set = hashSetOf<ActivityRequired>()
         if (commonUi is ActivityRequired) set.add(commonUi)
         if (screenCommunication is ActivityRequired) set.add(screenCommunication)
+        if(resources is AndroidResources) set.add(resources)
         return set
     }
 

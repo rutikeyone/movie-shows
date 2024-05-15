@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.annotation.DimenRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import java.util.Locale
 
 open class BaseFragment: Fragment() {
 
@@ -20,7 +21,10 @@ open class BaseFragment: Fragment() {
 
     private val languageChangedBroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            if(intent != null && intent.action == Intent.ACTION_LOCALE_CHANGED) {}
+            if(intent != null && intent.action == Intent.ACTION_LOCALE_CHANGED) {
+                val locale = Locale.getDefault()
+                viewModel.updateLocale(locale)
+            }
         }
     }
 

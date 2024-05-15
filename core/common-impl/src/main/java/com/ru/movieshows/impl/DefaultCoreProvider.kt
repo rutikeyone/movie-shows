@@ -16,7 +16,7 @@ class DefaultCoreProvider(
     override val appRestarter: AppRestarter,
     override val commonUi: CommonUi = AndroidCommonUi(applicationContext),
     override val logger: Logger = AndroidLogger(),
-    override val resources: Resources = AndroidResources(applicationContext),
+    override val resources: Resources = AndroidResources(),
     override val globalScope: CoroutineScope = createDefaultGlobalScope(),
     override val screenCommunication: ScreenCommunication = DefaultScreenCommunication(),
     override val errorHandler: ErrorHandler = DefaultErrorHandler(logger, commonUi, resources, appRestarter, globalScope),

@@ -8,7 +8,9 @@ class GetGenresUseCase @Inject constructor(
     private val genresRepository: GenresRepository,
 ) {
 
-    suspend fun execute(language: String = "en_US"): List<Genre> {
+    suspend fun execute(
+        language: String = "en_US",
+    ): List<Genre> {
         return genresRepository.getGenres(language)
     }
 

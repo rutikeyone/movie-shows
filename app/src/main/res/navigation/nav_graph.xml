@@ -65,4 +65,41 @@
         android:label="@string/search"
         tools:layout="@layout/fragment_tv_show_search" />
 
+    <fragment
+        android:id="@+id/upcomingMoviesFragment"
+        android:name="com.ru.movieshows.movies.presentation.upcoming.UpcomingMoviesFragment"
+        android:label="@string/upcoming_movies"
+        tools:layout="@layout/fragment_upcoming_movies" />
+
+    <fragment
+        android:id="@+id/popularMoviesFragment"
+        android:name="com.ru.movieshows.movies.presentation.popular.PopularMoviesFragment"
+        android:label="@string/popular_movies"
+        tools:layout="@layout/fragment_popular_movies" />
+
+    <fragment
+        android:id="@+id/topRatedMoviesFragment"
+        android:name="com.ru.movieshows.movies.presentation.top_rated.TopRatedMoviesFragment"
+        android:label="@string/top_rated_movies"
+        tools:layout="@layout/fragment_top_rated_movies" />
+
+    <fragment
+        android:id="@+id/popularTvShowsFragment"
+        android:name="com.ru.movieshows.tv_shows.presentation.popular.PopularTvShowsFragment"
+        android:label="@string/popular_tv_shows"
+        tools:layout="@layout/fragment_popular_tv_shows" />
+
+    <fragment
+        android:id="@+id/topRatedTvShowsFragment"
+        android:name="com.ru.movieshows.tv_shows.presentation.top_rated.TopRatedTvShowsFragment"
+        android:label="@string/top_rated_tv_shows"
+        tools:layout="@layout/fragment_top_rated_tv_shows" />
+
+    <fragment
+        android:id="@+id/onTheAirTvShowsFragment"
+        android:name="com.ru.movieshows.tv_shows.presentation.on_the_air_tv_shows.OnTheAirTvShowsFragment"
+        android:label="@string/on_the_air"
+        tools:layout="@layout/fragment_on_the_air_tv_shows" />
+
+
 </navigation>

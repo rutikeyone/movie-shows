@@ -45,6 +45,7 @@ dependencies {
     implementation Libs.Stuff.Dots
     implementation Libs.Stuff.ReadMoreView
     implementation Libs.Google.FlexBox
+    implementation Libs.Android.PaginationRuntime
 
     implementation Libs.Android.NavigationFragments
 

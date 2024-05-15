@@ -24,4 +24,7 @@
     <string name="retry">Retry</string>
     <string name="search">Search</string>
     <string name="min">min.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="the_list_of_films_is_empty">The list of films is empty</string>
 </resources>

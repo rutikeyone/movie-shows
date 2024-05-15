@@ -85,12 +85,12 @@ class TvShowsViewModel @Inject constructor(
         launchTvShowDetails(data)
     }
 
-    fun launchTvShowDetails(tvShow: TvShow) {
+    private fun launchTvShowDetails(tvShow: TvShow) {
         router.launchTvShowsDetails(tvShow)
     }
 
     fun launchAirTvShows() {
-        router.launchAirTvShows()
+        router.launchOnTheAirTvShows()
     }
 
     fun launchTopRatedTvShows() {

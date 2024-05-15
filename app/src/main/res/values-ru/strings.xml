@@ -6,4 +6,10 @@
     <string name="profile">Профиль</string>
     <string name="search">Поиск</string>
     <string name="empty">""</string>
+    <string name="upcoming_movies">Ожидаемые фильмы</string>
+    <string name="popular_movies">Популярные фильмы</string>
+    <string name="top_rated_movies">Фильмы с наивысшей оценкой</string>
+    <string name="popular_tv_shows">Популярные телешоу</string>
+    <string name="top_rated_tv_shows">Телешоу с наивысшей оценкой</string>
+    <string name="on_the_air">В прямом эфире</string>
 </resources>
