@@ -92,12 +92,12 @@ class TvShowsAdapter(
             ratingBar.isEnabled = false
             if (rating != null && rating > 0) {
                 val value = rating.toFloat()
-                ratingTextView.text = "%.2f".format(value)
-                ratingTextView.isVisible = true
+                ratingValueTextView.text = "%.2f".format(value)
+                ratingValueTextView.isVisible = true
                 ratingBar.isVisible = true
                 ratingLinearLayout.isVisible = true
             } else {
-                ratingTextView.isVisible = false
+                ratingValueTextView.isVisible = false
                 ratingBar.isVisible = false
                 ratingLinearLayout.isVisible = false
             }

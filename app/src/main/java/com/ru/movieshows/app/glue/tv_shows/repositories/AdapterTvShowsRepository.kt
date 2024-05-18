@@ -94,4 +94,16 @@ class AdapterTvShowsRepository @Inject constructor(
         }
     }
 
+    override fun getPagedTopRatedTvShows(language: String): Flow<PagingData<TvShow>> {
+        return tvShowsDataRepository.getPagedTopRatedTvShows(language).map { pagingData ->
+            pagingData.map { tvShowModel -> tvShowMapper.toTvShow(tvShowModel) }
+        }
+    }
+
+    override fun getPagedTheAirTvShows(language: String): Flow<PagingData<TvShow>> {
+        return tvShowsDataRepository.getPagedTheAirTvShows(language).map { pagingData ->
+            pagingData.map { tvShowModel -> tvShowMapper.toTvShow(tvShowModel) }
+        }
+    }
+
 }

@@ -22,4 +22,5 @@
     <string name="biography">Биография</string>
     <string name="hide">Скрыть</string>
     <string name="read_more">Подробнее</string>
+    <string name="the_list_of_tv_shows_is_empty">Список телешоу пуст</string>
 </resources>

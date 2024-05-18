@@ -27,4 +27,8 @@ interface TvShowsRepository {
 
     fun getPagedPopularTvShows(language: String): Flow<PagingData<TvShow>>
 
+    fun getPagedTopRatedTvShows(language: String): Flow<PagingData<TvShow>>
+
+    fun getPagedTheAirTvShows(language: String): Flow<PagingData<TvShow>>
+
 }

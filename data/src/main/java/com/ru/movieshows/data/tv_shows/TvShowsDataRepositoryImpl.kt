@@ -152,7 +152,7 @@ class TvShowsDataRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun getPagedTheAirTvShows(
+    override fun getPagedTheAirTvShows(
         language: String,
     ): Flow<PagingData<TvShowModel>> {
 
@@ -175,7 +175,7 @@ class TvShowsDataRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun getPagedTheTopRatedTvShows(
+    override fun getPagedTopRatedTvShows(
         language: String,
     ): Flow<PagingData<TvShowModel>> {
 

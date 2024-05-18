@@ -9,6 +9,7 @@ import com.ru.movieshows.data.tv_shows.models.EpisodeModel
 import com.ru.movieshows.data.tv_shows.models.SeasonModel
 import com.ru.movieshows.data.tv_shows.models.TvShowDetailsModel
 import com.ru.movieshows.data.tv_shows.models.TvShowPaginationModel
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class TvShowsSourceImpl @Inject constructor(

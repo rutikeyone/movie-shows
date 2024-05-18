@@ -65,11 +65,11 @@ interface TvShowsDataRepository {
          page: Int = 1,
      ): TvShowPaginationModel
 
-     suspend fun getPagedTheAirTvShows(
+     fun getPagedTheAirTvShows(
          language: String = "en_US",
      ): Flow<PagingData<TvShowModel>>
 
-     suspend fun getPagedTheTopRatedTvShows(
+     fun getPagedTopRatedTvShows(
          language: String = "en_US",
      ): Flow<PagingData<TvShowModel>>
 
