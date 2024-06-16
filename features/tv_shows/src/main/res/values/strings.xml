@@ -24,4 +24,9 @@
     <string name="hide">Hide</string>
     <string name="read_more">Read more</string>
     <string name="the_list_of_tv_shows_is_empty">The list of TV shows is empty</string>
+    <string name="the_list_of_reviews_is_empty">The list of reviews is empty</string>
+    <string name="episodes">Episodes</string>
+    <string name="the_list_of_episodes_is_empty">The list of episodes is empty</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

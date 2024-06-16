@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.core.presentation.SimpleAdapterListener
 import com.ru.movieshows.tv_shows.domain.entities.TvShow
-import com.ru.movieshows.tvshows.R
+import com.ru.movieshows.core.presentation.R
 import com.ru.movieshows.tvshows.databinding.TvShowsItemBinding
 
 class TvShowsAdapter(
@@ -57,14 +57,14 @@ class TvShowsAdapter(
             val poster = tvShow.posterPath
             val loadBackDrop =
                 if (!poster.isNullOrEmpty()) poster
-                else R.drawable.bg_poster_placeholder
+                else R.drawable.core_presentation_bg_poster_placeholder
 
             Glide
                 .with(context)
                 .load(loadBackDrop)
                 .centerCrop()
-                .placeholder(R.drawable.bg_poster_placeholder)
-                .error(R.drawable.bg_poster_placeholder)
+                .placeholder(R.drawable.core_presentation_bg_poster_placeholder)
+                .error(R.drawable.core_presentation_bg_poster_placeholder)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(this)
         }
@@ -82,7 +82,7 @@ class TvShowsAdapter(
         private fun bindLayoutParamsView() = with(binding.root) {
             val layoutParams = ActionBar.LayoutParams(
                 resources.getDimensionPixelOffset(R.dimen.dp_120),
-                resources.getDimensionPixelOffset(R.dimen.dp_250),
+                resources.getDimensionPixelOffset(com.ru.movieshows.tvshows.R.dimen.dp_250),
             )
             this.layoutParams = layoutParams
         }

@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.core.presentation.SimpleAdapterListener
 import com.ru.movieshows.tv_shows.domain.entities.TvShow
-import com.ru.movieshows.tvshows.R
+import com.ru.movieshows.core.presentation.R
 import com.ru.movieshows.tvshows.databinding.TvShowsItemBinding
 
 class TvShowPaginationAdapter(
@@ -59,8 +59,8 @@ class TvShowPaginationAdapter(
                     .with(context)
                     .load(posterPath)
                     .centerCrop()
-                    .placeholder(R.drawable.bg_poster_placeholder)
-                    .error(R.drawable.bg_poster_placeholder)
+                    .placeholder(R.drawable.core_presentation_bg_poster_placeholder)
+                    .error(R.drawable.core_presentation_bg_poster_placeholder)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(this)
             }

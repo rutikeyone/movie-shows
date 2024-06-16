@@ -17,6 +17,6 @@ interface MoviesRouter {
 
     fun launchVideo(video: Video)
 
-    fun launchToReviews()
+    fun launchMovieReviews(id: String?)
 
 }

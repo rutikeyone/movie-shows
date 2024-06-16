@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ru.movieshows.core.presentation.SimpleAdapterListener
 import com.ru.movieshows.tv_shows.domain.entities.TvShow
-import com.ru.movieshows.tvshows.R
+import com.ru.movieshows.core.presentation.R
 import com.ru.movieshows.tvshows.databinding.TvShowViewPagerItemBinding
 
 class TvShowsViewPagerAdapter(
@@ -66,8 +66,8 @@ class TvShowsViewPagerAdapter(
                     .with(context)
                     .load(loadBackDrop)
                     .centerCrop()
-                    .placeholder(R.drawable.bg_poster_placeholder)
-                    .error(R.drawable.bg_poster_placeholder)
+                    .placeholder(R.drawable.core_presentation_bg_poster_placeholder)
+                    .error(R.drawable.core_presentation_bg_poster_placeholder)
                     .transition(com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade())
                     .into(this)
             }

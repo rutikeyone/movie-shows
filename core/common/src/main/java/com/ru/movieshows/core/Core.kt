@@ -26,6 +26,8 @@ object Core {
 
     val debouncePeriodMillis: Long get() = coreProvider.debouncePeriodMillis
 
+    val loaderOverlay: LoaderOverlay get() = coreProvider.loaderOverlay
+
     fun init(coreProvider: CoreProvider) {
         this.coreProvider = coreProvider
     }

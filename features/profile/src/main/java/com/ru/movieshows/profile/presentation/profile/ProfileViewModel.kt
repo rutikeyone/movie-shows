@@ -15,7 +15,6 @@ class ProfileViewModel @Inject constructor(
     private val getProfileUseCase: GetProfileUseCase,
     private val isSignedInUseCase: IsSignedInUseCase,
     private val logoutUseCase: LogoutUseCase,
-    private val profileRouter: ProfileRouter,
 ) : BaseViewModel() {
 
     val profileLiveValue = getProfileUseCase.getAccount()
@@ -30,7 +29,6 @@ class ProfileViewModel @Inject constructor(
             val isSigned = isSignedInUseCase.isSignedIn()
             if(!isSigned) return@launch
             logoutUseCase.logout()
-            profileRouter.launchMain()
         }
     }
 

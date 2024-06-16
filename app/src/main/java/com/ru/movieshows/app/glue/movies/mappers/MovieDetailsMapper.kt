@@ -3,13 +3,13 @@ package com.ru.movieshows.app.glue.movies.mappers
 import android.annotation.SuppressLint
 import com.ru.movieshows.app.formatters.ImageUrlFormatter
 import com.ru.movieshows.data.movies.models.MovieDetailsModel
+import com.ru.movieshows.movies.domain.entities.Genre
 import com.ru.movieshows.movies.domain.entities.MovieDetails
 import java.text.SimpleDateFormat
 import javax.inject.Inject
 
 class MovieDetailsMapper @Inject constructor(
     private val imageUrlFormatter: ImageUrlFormatter,
-    private val movieGenreMapper: MovieGenreMapper,
     private val productionCompanyMapper: ProductionCompanyMapper,
 ) {
 
@@ -18,7 +18,7 @@ class MovieDetailsMapper @Inject constructor(
         val simpleDateFormatter = SimpleDateFormat("yyyy-MM-dd")
 
         val modelReleaseDate = model.releaseDate
-        val releaseDate = if(modelReleaseDate != null) {
+        val releaseDate = if (modelReleaseDate != null) {
             simpleDateFormatter.parse(modelReleaseDate)
         } else {
             null
@@ -26,7 +26,6 @@ class MovieDetailsMapper @Inject constructor(
 
         return MovieDetails(
             id = model.id,
-            genres = model.genres.map { movieGenreMapper.toGenre(it) },
             releaseDate = releaseDate,
             overview = model.overview,
             backDropPath = imageUrlFormatter.toImageUrl(model.backDropPath),
@@ -36,7 +35,13 @@ class MovieDetailsMapper @Inject constructor(
             runtime = model.runtime,
             productionCompanies = model.productionCompanies?.map {
                 productionCompanyMapper.toProductionCompany(it)
-            }
+            },
+            genres = model.genres.map {
+                Genre(
+                    id = it.id,
+                    name = it.name,
+                )
+            },
         );
     }
 

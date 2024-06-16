@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.core.presentation.SimpleAdapterListener
 import com.ru.movieshows.tv_shows.domain.entities.Creator
-import com.ru.movieshows.tvshows.R
+import com.ru.movieshows.core.presentation.R
 import com.ru.movieshows.tvshows.databinding.CreatorItemBinding
 
 class CreatorAdapter(
@@ -64,7 +64,7 @@ class CreatorAdapter(
         private fun bindLayoutParamsView() {
             val layoutParams = ActionBar.LayoutParams(
                 binding.root.resources.getDimensionPixelOffset(R.dimen.dp_120),
-                binding.root.resources.getDimensionPixelOffset(R.dimen.dp_230),
+                binding.root.resources.getDimensionPixelOffset(com.ru.movieshows.tvshows.R.dimen.dp_230),
             )
             binding.root.layoutParams = layoutParams
         }
@@ -78,8 +78,8 @@ class CreatorAdapter(
                     .with(context)
                     .load(loadBackDrop)
                     .centerCrop()
-                    .placeholder(R.drawable.bg_poster_placeholder)
-                    .error(R.drawable.bg_poster_placeholder)
+                    .placeholder(R.drawable.core_presentation_bg_poster_placeholder)
+                    .error(R.drawable.core_presentation_bg_poster_placeholder)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(this)
             }

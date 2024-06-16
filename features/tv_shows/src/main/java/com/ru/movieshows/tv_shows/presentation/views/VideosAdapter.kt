@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.core.presentation.SimpleAdapterListener
 import com.ru.movieshows.tv_shows.domain.entities.Video
-import com.ru.movieshows.tvshows.R
+import com.ru.movieshows.core.presentation.R
 import com.ru.movieshows.tvshows.databinding.VideoItemBinding
 
 class VideosAdapter(
@@ -35,7 +35,7 @@ class VideosAdapter(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateData(videos: List<Video>) {
+    fun submitData(videos: List<Video>) {
         this.videos = videos
         notifyDataSetChanged()
     }
@@ -74,8 +74,8 @@ class VideosAdapter(
                     .with(context)
                     .load(loadImagePath)
                     .centerCrop()
-                    .placeholder(R.drawable.bg_poster_placeholder)
-                    .error(R.drawable.bg_poster_placeholder)
+                    .placeholder(R.drawable.core_presentation_bg_poster_placeholder)
+                    .error(R.drawable.core_presentation_bg_poster_placeholder)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(this)
             }
@@ -85,7 +85,7 @@ class VideosAdapter(
             with(binding.root) {
                 val layoutParams = ActionBar.LayoutParams(
                     resources.getDimensionPixelOffset(R.dimen.dp_120),
-                    resources.getDimensionPixelOffset(R.dimen.dp_230),
+                    resources.getDimensionPixelOffset(com.ru.movieshows.tvshows.R.dimen.dp_230),
                 )
                 this.layoutParams = layoutParams
             }

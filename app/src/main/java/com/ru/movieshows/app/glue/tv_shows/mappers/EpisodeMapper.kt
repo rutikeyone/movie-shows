@@ -30,7 +30,7 @@ class EpisodeMapper @Inject constructor(
             episodeNumber = model.episodeNumber,
             name = model.name,
             showId = model.showId,
-            stillPath = imageUrlFormatter.toImageUrl(model.still),
+            stillPath = imageUrlFormatter.toImageUrl(model.stillPath),
             rating = model.rating,
             overview = model.overview,
             crew = model.crew?.map { crewMapper.toCrew(it) }

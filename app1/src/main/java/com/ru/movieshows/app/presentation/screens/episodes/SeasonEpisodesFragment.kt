@@ -9,6 +9,8 @@ import androidx.core.view.isVisible
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.ru.movieshows.app.R
+import com.ru.movieshows.app.databinding.FailurePartBinding
+import com.ru.movieshows.app.databinding.FragmentSeasonEpisodesBinding
 import com.ru.movieshows.app.presentation.adapters.ItemDecoration
 import com.ru.movieshows.app.presentation.adapters.episode.EpisodesAdapter
 import com.ru.movieshows.app.presentation.screens.BaseFragment
@@ -17,8 +19,6 @@ import com.ru.movieshows.app.presentation.viewmodel.episode.state.SeasonEpisodes
 import com.ru.movieshows.app.utils.applyDecoration
 import com.ru.movieshows.app.utils.viewBinding
 import com.ru.movieshows.app.utils.viewModelCreator
-import com.ru.movieshows.app.databinding.FailurePartBinding
-import com.ru.movieshows.app.databinding.FragmentSeasonEpisodesBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -61,19 +61,21 @@ class SeasonEpisodesFragment : BaseFragment() {
         }
     }
 
-    private fun configureSuccessUI(state: SeasonEpisodesState.Success) = with(binding) {
-        val context = requireContext()
-        val spanCount = getSpanCount()
-        val itemDecoration = ItemDecoration(spanCount = spanCount)
-        val gridLayoutManager = GridLayoutManager(context, spanCount)
-        val episodesAdapter = EpisodesAdapter(state.episodes, viewModel)
+    private fun configureSuccessUI(state: SeasonEpisodesState.Success) {
+        with(binding) {
+            val context = requireContext()
+            val spanCount = getSpanCount()
+            val itemDecoration = ItemDecoration(spanCount = spanCount)
+            val gridLayoutManager = GridLayoutManager(context, spanCount)
+            val episodesAdapter = EpisodesAdapter(state.episodes, viewModel)
 
-        with(episodesRecyclerView) {
-            this.adapter = episodesAdapter
-            layoutManager = gridLayoutManager
-            applyDecoration(itemDecoration)
+            with(episodesRecyclerView) {
+                this.adapter = episodesAdapter
+                layoutManager = gridLayoutManager
+                applyDecoration(itemDecoration)
+            }
+            successContainer.isVisible = true
         }
-        successContainer.isVisible = true
     }
 
     private fun configureSuccessEmptyUI() {

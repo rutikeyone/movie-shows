@@ -1,14 +1,17 @@
 package com.ru.movieshows.signin.presentation.signin
 
-import com.ru.movieshows.core.NotAuthException
 import com.ru.movieshows.core.Container
+import com.ru.movieshows.core.LoaderOverlay
+import com.ru.movieshows.core.NotAuthException
 import com.ru.movieshows.core.presentation.BaseViewModel
 import com.ru.movieshows.core.presentation.PasswordField
 import com.ru.movieshows.core.presentation.PasswordValidationStatus
 import com.ru.movieshows.core.presentation.UsernameField
 import com.ru.movieshows.core.presentation.UsernameValidationStatus
 import com.ru.movieshows.signin.R
+import com.ru.movieshows.signin.domain.GetAccountFlowUseCase
 import com.ru.movieshows.signin.domain.IsSignedInUseCase
+import com.ru.movieshows.signin.domain.SignInUseCase
 import com.ru.movieshows.signin.domain.exceptions.EmptyPasswordException
 import com.ru.movieshows.signin.domain.exceptions.EmptyUsernameException
 import com.ru.movieshows.signin.presentation.SignInRouter
@@ -17,15 +20,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
-import com.ru.movieshows.signin.domain.SignInUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     private val isSignedInUseCase: IsSignedInUseCase,
     private val signInUseCase: SignInUseCase,
+    private val getAccountFlowUseCase: GetAccountFlowUseCase,
+    private val loaderOverlay: LoaderOverlay,
     private val router: SignInRouter,
-): BaseViewModel() {
+) : BaseViewModel() {
 
     private val loadScreenStateFlow = MutableStateFlow<Container<Unit>>(Container.Pending)
     private val progressStateFlow = MutableStateFlow(false)
@@ -56,20 +60,38 @@ class SignInViewModel @Inject constructor(
         viewModelScope.launch {
             loadScreenStateFlow.value = Container.Pending
             try {
-                 if(isSignedInUseCase.isSignedIn()) {
-                     router.launchMain()
-                 } else {
-                     loadScreenStateFlow.value = Container.Success(Unit)
-                 }
+                if (isSignedInUseCase.isSignedIn()) {
+                    router.launchMain()
+                } else {
+                    loadScreenStateFlow.value = Container.Success(Unit)
+                    collectGetAccountFlow()
+                }
             } catch (e: Exception) {
                 loadScreenStateFlow.value = Container.Error(e)
             }
         }
     }
 
+    private suspend fun collectGetAccountFlow() {
+        getAccountFlowUseCase.getAccountFlow().collect { state ->
+            val isProgress = state is Container.Pending
+            val isSuccess = state is Container.Success
+
+            if (isProgress) {
+                loaderOverlay.showLoader()
+            } else {
+                loaderOverlay.hideLoader()
+            }
+
+            if (isSuccess) {
+                router.launchMain()
+            }
+        }
+    }
+
     fun changeUsernameText(value: String) {
         val oldUsername = usernameStateFlow.value
-        if(oldUsername.isPure && value.isEmpty()) return
+        if (oldUsername.isPure && value.isEmpty()) return
         val status = UsernameField.validate(value)
         val newUsername = UsernameField(value, status)
         usernameStateFlow.value = newUsername
@@ -77,7 +99,7 @@ class SignInViewModel @Inject constructor(
 
     fun changePasswordText(value: String) {
         val oldPassword = passwordStateFlow.value
-        if(oldPassword.isPure && value.isEmpty()) return
+        if (oldPassword.isPure && value.isEmpty()) return
         val newStatus = PasswordField.validate(value)
         val newPassword = PasswordField(value, newStatus)
         passwordStateFlow.value = newPassword
@@ -89,10 +111,9 @@ class SignInViewModel @Inject constructor(
                 val username = usernameStateFlow.value.value
                 val password = passwordStateFlow.value.value
                 val canSignIn = canSignIn.firstOrNull() ?: false
-                if(!canSignIn) return@launch
+                if (!canSignIn) return@launch
                 progressStateFlow.value = true
                 signInUseCase.signIn(username, password)
-                router.launchMain()
             } catch (e: EmptyUsernameException) {
                 val oldUsername = usernameStateFlow.value
                 usernameStateFlow.value = oldUsername.copy(status = UsernameValidationStatus.EMPTY)
@@ -107,7 +128,9 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    fun launchMain() = router.launchMain()
+    fun launchMain() = debounce {
+        router.launchMain()
+    }
 
     private fun mergeState(
         loadContainer: Container<Unit>,

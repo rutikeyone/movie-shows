@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_genre"
+    android:background="@drawable/core_presentation_bg_genre_placeholder"
     android:layout_marginEnd="@dimen/dp_8"
     android:layout_marginTop="@dimen/dp_8">
 

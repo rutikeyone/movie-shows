@@ -4,6 +4,7 @@ import androidx.paging.PagingData
 import com.ru.movieshows.movies.domain.entities.Movie
 import com.ru.movieshows.movies.domain.entities.MovieDetails
 import com.ru.movieshows.movies.domain.entities.MoviesPagination
+import com.ru.movieshows.movies.domain.entities.Review
 import com.ru.movieshows.movies.domain.entities.ReviewsPagination
 import com.ru.movieshows.movies.domain.entities.Video
 import kotlinx.coroutines.flow.Flow
@@ -36,10 +37,15 @@ interface MoviesRepository {
 
     suspend fun getVideosById(language: String, movieId: Int): List<Video>
 
-    fun getPagedUnComingMovies(language: String) : Flow<PagingData<Movie>>
+    fun getPagedUnComingMovies(language: String): Flow<PagingData<Movie>>
 
     fun getPagedTopRatedMovies(language: String): Flow<PagingData<Movie>>
 
     fun getPagedPopularMovies(language: String): Flow<PagingData<Movie>>
+
+    fun getPagedMovieReviews(
+        language: String,
+        id: String,
+    ): Flow<PagingData<Review>>
 
 }

@@ -5,6 +5,7 @@ import com.ru.movieshows.movies.MoviesRouter
 import com.ru.movieshows.movies.domain.entities.Movie
 import com.ru.movieshows.movies.domain.entities.Video
 import com.ru.movieshows.movies.presentation.details.MovieDetailsFragment
+import com.ru.movieshows.movies.presentation.reviews.MovieReviewsFragment
 import com.ru.movieshows.navigation.GlobalNavComponentRouter
 import javax.inject.Inject
 
@@ -37,6 +38,11 @@ class AdapterMoviesRouter @Inject constructor(
     override fun launchVideo(video: Video) {
     }
 
-    override fun launchToReviews() {
+    override fun launchMovieReviews(id: String?) {
+        val id = id ?: return
+        val args = MovieReviewsFragment.Screen(id)
+
+        globalNavComponentRouter.launch(R.id.movieReviewsFragment, args)
     }
+
 }

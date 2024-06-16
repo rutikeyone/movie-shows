@@ -3,6 +3,9 @@ package com.ru.movieshows.navigation.presentation
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import com.ru.movieshows.core.LoaderOverlay
+import com.ru.movieshows.core.presentation.observeStateOn
 import com.ru.movieshows.impl.ActivityRequired
 import com.ru.movieshows.navigation.DestinationsProvider
 import com.ru.movieshows.navigation.R
@@ -13,7 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), RouterHolder {
+class MainActivity : AppCompatActivity(), RouterHolder, LoaderOverlay {
 
     @Inject
     lateinit var navComponentRouterFactory: NavComponentRouter.Factory
@@ -49,6 +52,7 @@ class MainActivity : AppCompatActivity(), RouterHolder {
         }
         onBackPressedDispatcher.addCallback(navComponentRouter.onBackPressedCallback)
         lifecycle.addObserver(viewModel)
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -79,6 +83,18 @@ class MainActivity : AppCompatActivity(), RouterHolder {
 
     override fun requireRouter(): NavComponentRouter {
         return navComponentRouter
+    }
+
+    override fun showLoader() {
+        with(binding) {
+            loaderOverlay.progressOverlay.isVisible = true
+        }
+    }
+
+    override fun hideLoader() {
+        with(binding) {
+            loaderOverlay.progressOverlay.isVisible = false
+        }
     }
 
 }

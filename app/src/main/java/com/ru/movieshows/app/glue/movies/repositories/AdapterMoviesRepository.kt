@@ -5,12 +5,14 @@ import androidx.paging.map
 import com.ru.movieshows.app.glue.movies.mappers.MovieDetailsMapper
 import com.ru.movieshows.app.glue.movies.mappers.MovieMapper
 import com.ru.movieshows.app.glue.movies.mappers.MoviePaginationMapper
-import com.ru.movieshows.app.glue.movies.mappers.MoviesVideoMapper
+import com.ru.movieshows.app.glue.movies.mappers.VideoMapper
+import com.ru.movieshows.app.glue.movies.mappers.ReviewMapper
 import com.ru.movieshows.app.glue.movies.mappers.ReviewsPaginationMapper
 import com.ru.movieshows.data.MoviesDataRepository
 import com.ru.movieshows.movies.domain.entities.Movie
 import com.ru.movieshows.movies.domain.entities.MovieDetails
 import com.ru.movieshows.movies.domain.entities.MoviesPagination
+import com.ru.movieshows.movies.domain.entities.Review
 import com.ru.movieshows.movies.domain.entities.ReviewsPagination
 import com.ru.movieshows.movies.domain.entities.Video
 import com.ru.movieshows.movies.domain.repositories.MoviesRepository
@@ -24,7 +26,8 @@ class AdapterMoviesRepository @Inject constructor(
     private val movieDetailsMapper: MovieDetailsMapper,
     private val moviePaginationMapper: MoviePaginationMapper,
     private val reviewsPaginationMapper: ReviewsPaginationMapper,
-    private val moviesVideoMapper: MoviesVideoMapper,
+    private val videoMapper: VideoMapper,
+    private val reviewMapper: ReviewMapper,
 ) : MoviesRepository {
     override suspend fun getNowPlayingMovies(language: String, page: Int): List<Movie> {
         val moviesPaginationModel = moviesDataRepository.getNowPlayingMovies(
@@ -120,7 +123,7 @@ class AdapterMoviesRepository @Inject constructor(
             language = language,
             movieId = movieId.toString()
         )
-        return result.map { moviesVideoMapper.toVideo(it) }
+        return result.map { videoMapper.toVideo(it) }
     }
 
     override fun getPagedUnComingMovies(language: String): Flow<PagingData<Movie>> {
@@ -138,6 +141,17 @@ class AdapterMoviesRepository @Inject constructor(
     override fun getPagedPopularMovies(language: String): Flow<PagingData<Movie>> {
         return moviesDataRepository.getPagedPopularMovies(language).map { pagingData ->
             pagingData.map { movieModel -> movieMapper.toMovie(movieModel) }
+        }
+    }
+
+    override fun getPagedMovieReviews(language: String, id: String): Flow<PagingData<Review>> {
+        return moviesDataRepository.getPagedMovieReview(
+            language = language,
+            movieId = id,
+        ).map { pagingData ->
+            pagingData.map { reviewModel ->
+                reviewMapper.toReview(reviewModel)
+            }
         }
     }
 

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="poster_description">Описание постера</string>
+    <string name="date_of_birth">Дата рождения</string>
+    <string name="date_of_death">Дата смерти</string>
+    <string name="place_of_birth">Место рождения</string>
+    <string name="biography">Биография</string>
+</resources>

@@ -21,7 +21,7 @@ class CrewMapper @Inject constructor(
             originalName = model.originalName,
             popularity = model.popularity,
             profilePath = imageUrlFormatter.toImageUrl(model.profilePath),
-        );
+        )
     }
 
 }

@@ -71,7 +71,7 @@ class MoviesFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding.root) {
-            setTryAgainListener { viewModel.tryToGetMoviesData() }
+            setTryAgainListener { viewModel.toTryToGetMoviesData() }
             observe(viewLifecycleOwner, viewModel.loadScreenStateLiveValue) { state ->
                 val index = viewModel.indexStateLiveValue.getValue()
                 setupViews(state, index)
@@ -144,7 +144,7 @@ class MoviesFragment : BaseFragment() {
         with(binding) {
             val error = Core.errorHandler.getUserMessage(state.exception)
             discoverMoviesFailureGroup.visibility = View.VISIBLE
-            discoverMoviesRetryButton.setOnClickListener { viewModel.tryGetDiscoverMovies() }
+            discoverMoviesRetryButton.setOnClickListener { viewModel.toTryGetDiscoverMovies() }
             binding.discoverMoviesFailureTextView.text = error
         }
     }

@@ -6,12 +6,14 @@ import com.ru.movieshows.core.CommonUi
 import com.ru.movieshows.core.Core
 import com.ru.movieshows.core.CoreProvider
 import com.ru.movieshows.core.ErrorHandler
+import com.ru.movieshows.core.LoaderOverlay
 import com.ru.movieshows.core.Logger
 import com.ru.movieshows.core.Resources
 import com.ru.movieshows.core.ScreenCommunication
 import com.ru.movieshows.core.flow.DefaultLazyFlowSubjectFactory
 import com.ru.movieshows.core.flow.LazyFlowSubjectFactory
 import com.ru.movieshows.impl.ActivityRequired
+import com.ru.movieshows.impl.AndroidLoaderOverlay
 import com.ru.movieshows.impl.AndroidResources
 import com.ru.movieshows.impl.DefaultCoreProvider
 import dagger.Module
@@ -45,11 +47,13 @@ class CoreProviderModule {
         commonUi: CommonUi,
         screenCommunication: ScreenCommunication,
         resources: Resources,
+        loaderOverlay: LoaderOverlay,
     ): Set<@JvmSuppressWildcards ActivityRequired> {
         val set = hashSetOf<ActivityRequired>()
         if (commonUi is ActivityRequired) set.add(commonUi)
         if (screenCommunication is ActivityRequired) set.add(screenCommunication)
-        if(resources is AndroidResources) set.add(resources)
+        if (resources is AndroidResources) set.add(resources)
+        if (loaderOverlay is AndroidLoaderOverlay) set.add(loaderOverlay)
         return set
     }
 
@@ -76,6 +80,11 @@ class CoreProviderModule {
     @Provides
     fun provideResources(): Resources {
         return Core.resources
+    }
+
+    @Provides
+    fun provideLoaderOverlay(): LoaderOverlay {
+        return Core.loaderOverlay
     }
 
 

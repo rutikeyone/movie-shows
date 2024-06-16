@@ -10,6 +10,7 @@ import com.ru.movieshows.data.settings.sources.SettingsDataSource
 import com.ru.movieshows.data.settings.sources.SharedContainer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -32,7 +33,7 @@ class AccountsRetrofitSourceImpl @Inject constructor(
                 .collect { container ->
                     if (container is SharedContainer.Value) {
                         if (container.value != null) {
-                            accountLazyFlowSubject.newAsyncLoad(silently = true)
+                            accountLazyFlowSubject.newAsyncLoad()
                         } else {
                             accountLazyFlowSubject.updateWith(Container.Error(NotAuthException()))
                         }

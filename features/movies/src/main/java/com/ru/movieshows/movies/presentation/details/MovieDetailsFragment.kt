@@ -15,13 +15,12 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.ru.movieshows.core.presentation.BaseFragment
 import com.ru.movieshows.core.presentation.BaseScreen
-import com.ru.movieshows.core.presentation.OnTouchListener
+import com.ru.movieshows.core.presentation.R
 import com.ru.movieshows.core.presentation.applyDecoration
 import com.ru.movieshows.core.presentation.args
 import com.ru.movieshows.core.presentation.viewBinding
 import com.ru.movieshows.core.presentation.viewModelCreator
 import com.ru.movieshows.core.presentation.views.observe
-import com.ru.movieshows.movies.R
 import com.ru.movieshows.movies.databinding.FragmentMovieDetailsBinding
 import com.ru.movieshows.movies.domain.entities.Movie
 import com.ru.movieshows.movies.domain.entities.MovieDetails
@@ -34,6 +33,7 @@ import com.ru.movieshows.navigation.GlobalNavComponentRouter
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class MovieDetailsFragment : BaseFragment() {
@@ -59,13 +59,14 @@ class MovieDetailsFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View = inflater.inflate(R.layout.fragment_movie_details, container, false)
+    ): View =
+        inflater.inflate(com.ru.movieshows.movies.R.layout.fragment_movie_details, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding.root) {
-            setTryAgainListener { viewModel.tryGetMovieDetails() }
+            setTryAgainListener { viewModel.toTryGetMovieDetails() }
             observe(viewLifecycleOwner, viewModel.loadScreenStateLiveValue) { state ->
                 setupViews(state)
             }
@@ -99,6 +100,10 @@ class MovieDetailsFragment : BaseFragment() {
     }
 
     private fun setupReviewViews(reviews: List<Review>) {
+        binding.showAllReviewsButton.setOnClickListener {
+            viewModel.launchToReviews()
+        }
+
         if (reviews.isNotEmpty()) {
             val review = reviews.first()
 
@@ -124,8 +129,8 @@ class MovieDetailsFragment : BaseFragment() {
             Glide
                 .with(binding.root)
                 .load(avatarPath)
-                .placeholder(R.drawable.bg_poster_placeholder)
-                .error(R.drawable.bg_poster_placeholder)
+                .placeholder(R.drawable.core_presentation_bg_poster_placeholder)
+                .error(R.drawable.core_presentation_bg_poster_placeholder)
                 .centerCrop()
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(reviewItem.avatarImageView)
@@ -138,10 +143,11 @@ class MovieDetailsFragment : BaseFragment() {
         with(binding.reviewItem.reviewTextView) {
             if (!content.isNullOrEmpty()) {
                 val value = Html.fromHtml(content, HtmlCompat.FROM_HTML_MODE_LEGACY)
-                val onTouchListener = OnTouchListener()
                 text = value
                 isVisible = true
-                setOnTouchListener(onTouchListener)
+                setOnClickListener {
+                    this.toggle()
+                }
             } else {
                 isVisible = false
             }
@@ -298,7 +304,8 @@ class MovieDetailsFragment : BaseFragment() {
 
         with(binding.durationValueTextView) {
             if (runtime != null) {
-                text = "${movieDetails.runtime} ${resources.getString(R.string.min)}"
+                text =
+                    "${movieDetails.runtime} ${resources.getString(com.ru.movieshows.movies.R.string.min)}"
             } else {
                 isVisible = false
             }
@@ -324,30 +331,32 @@ class MovieDetailsFragment : BaseFragment() {
     }
 
     private fun setupPosterImageView(movieDetails: MovieDetails) {
-        val loadPoster = movieDetails.posterPath ?: R.drawable.bg_poster_placeholder
+        val loadPoster =
+            movieDetails.posterPath ?: R.drawable.core_presentation_bg_poster_placeholder
 
         with(binding.moviePosterImageView) {
             Glide
                 .with(this)
                 .load(loadPoster)
                 .centerCrop()
-                .placeholder(R.drawable.bg_poster_placeholder)
-                .error(R.drawable.bg_poster_placeholder)
+                .placeholder(R.drawable.core_presentation_bg_poster_placeholder)
+                .error(R.drawable.core_presentation_bg_poster_placeholder)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(this)
         }
     }
 
     private fun setupBackdropImageView(movieDetails: MovieDetails) {
-        val loadBackDrop = movieDetails.backDropPath ?: R.drawable.bg_backdrop_placeholder
+        val loadBackDrop =
+            movieDetails.backDropPath ?: R.drawable.core_presentation_bg_backdrop_placeholder
 
         with(binding.movieBackDropImageView) {
             Glide
                 .with(this)
                 .load(loadBackDrop)
                 .centerCrop()
-                .placeholder(R.drawable.bg_backdrop_placeholder)
-                .error(R.drawable.bg_backdrop_placeholder)
+                .placeholder(R.drawable.core_presentation_bg_backdrop_placeholder)
+                .error(R.drawable.core_presentation_bg_backdrop_placeholder)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(this)
         }

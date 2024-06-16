@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.core.presentation.SimpleAdapterListener
-import com.ru.movieshows.movies.R
+import com.ru.movieshows.core.presentation.R
 import com.ru.movieshows.movies.databinding.VideoItemBinding
 import com.ru.movieshows.movies.domain.entities.Video
 
@@ -52,12 +52,12 @@ class VideosAdapter(
 
         fun bind(video: Video) {
             binding.root.tag = video
-            bindLayoutParamsUI()
-            bindImageViewUI(video)
-            bindNameUI(video)
+            bindLayoutParams()
+            bindImageView(video)
+            bindName(video)
         }
 
-        private fun bindNameUI(video: Video) = with(binding.videoNameTextView) {
+        private fun bindName(video: Video) = with(binding.videoNameTextView) {
             val name = video.name
             if (!name.isNullOrEmpty()) {
                 text = name
@@ -67,28 +67,26 @@ class VideosAdapter(
             }
         }
 
-        private fun bindImageViewUI(video: Video) {
+        private fun bindImageView(video: Video) {
             with(binding.videoImageView) {
-                val image = video.imagePath
-                val loadImage =
-                    if (image.isNullOrEmpty()) R.drawable.bg_poster_placeholder else image
+                val loadImage = video.imagePath
 
                 Glide
                     .with(context)
                     .load(loadImage)
                     .centerCrop()
-                    .placeholder(R.drawable.bg_poster_placeholder)
-                    .error(R.drawable.bg_poster_placeholder)
+                    .placeholder(R.drawable.core_presentation_bg_poster_placeholder)
+                    .error(R.drawable.core_presentation_bg_poster_placeholder)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(this)
             }
         }
 
-        private fun bindLayoutParamsUI() {
+        private fun bindLayoutParams() {
             with(binding.root) {
                 val layoutParams = ActionBar.LayoutParams(
                     resources.getDimensionPixelOffset(R.dimen.dp_120),
-                    resources.getDimensionPixelOffset(R.dimen.dp_230),
+                    resources.getDimensionPixelOffset(com.ru.movieshows.movies.R.dimen.dp_230),
                 )
                 this.layoutParams = layoutParams
             }

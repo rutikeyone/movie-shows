@@ -24,7 +24,7 @@ class TopRatedTvShowsViewModel @Inject constructor(
         getPagedTopRatedTvShowsUseCase.execute(language)
     }.cachedIn(viewModelScope)
 
-    override fun onClickItem(data: TvShow) {
+    override fun onClickItem(data: TvShow) = debounce {
         router.launchTvShowsDetails(data)
     }
 

@@ -20,4 +20,5 @@
     <string name="search">Поиск</string>
     <string name="min">мин.</string>
     <string name="the_list_of_films_is_empty">Список фильмов пуст</string>
+    <string name="the_list_of_reviews_is_empty">Список отзывов пуст</string>
 </resources>

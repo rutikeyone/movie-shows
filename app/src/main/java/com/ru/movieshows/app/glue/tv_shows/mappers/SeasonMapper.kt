@@ -17,7 +17,7 @@ class SeasonMapper @Inject constructor(
         val simpleDateFormatter = SimpleDateFormat("yyyy-MM-dd")
 
         val modelAirDate = model.airDate
-        val airDate = if(modelAirDate != null) {
+        val airDate = if (modelAirDate != null) {
             simpleDateFormatter.parse(modelAirDate)
         } else {
             null
@@ -33,10 +33,10 @@ class SeasonMapper @Inject constructor(
             rating = model.rating,
             airDate = airDate,
             posterPath = imageUrlFormatter.toImageUrl(model.posterPath),
-            episodes = model.episodes?.map { episodeMapper.toEpisode(it) },
             episodeCount = model.episodeCount,
             episodeCountValue = episodes?.size ?: model.episodeCount,
-        );
+            episodes = episodes,
+        )
     }
 
 }

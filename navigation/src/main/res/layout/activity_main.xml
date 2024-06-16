@@ -23,4 +23,14 @@
         tools:context=".presentation.MainActivity"
         tools:layout="@layout/fragment_tabs" />
 
+    <include
+        android:id="@+id/loaderOverlay"
+        layout="@layout/loader_overlay"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

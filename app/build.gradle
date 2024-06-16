@@ -68,4 +68,5 @@ dependencies {
     implementation project(Modules.Features.Movies)
     implementation project(':features:tv_shows')
     implementation project(Modules.Features.Profile)
+    implementation project(Modules.Features.Persons)
 }

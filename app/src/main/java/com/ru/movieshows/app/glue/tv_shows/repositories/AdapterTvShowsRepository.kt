@@ -2,13 +2,17 @@ package com.ru.movieshows.app.glue.tv_shows.repositories
 
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.ru.movieshows.app.glue.tv_shows.mappers.ReviewMapper
 import com.ru.movieshows.app.glue.tv_shows.mappers.ReviewPaginationMapper
 import com.ru.movieshows.app.glue.tv_shows.mappers.TvShowDetailsMapper
 import com.ru.movieshows.app.glue.tv_shows.mappers.TvShowMapper
 import com.ru.movieshows.app.glue.tv_shows.mappers.TvShowPaginationMapper
-import com.ru.movieshows.app.glue.tv_shows.mappers.TvShowVideoMapper
+import com.ru.movieshows.app.glue.tv_shows.mappers.SeasonMapper
+import com.ru.movieshows.app.glue.tv_shows.mappers.VideoMapper
 import com.ru.movieshows.data.TvShowsDataRepository
+import com.ru.movieshows.tv_shows.domain.entities.Review
 import com.ru.movieshows.tv_shows.domain.entities.ReviewPagination
+import com.ru.movieshows.tv_shows.domain.entities.Season
 import com.ru.movieshows.tv_shows.domain.entities.TvShow
 import com.ru.movieshows.tv_shows.domain.entities.TvShowDetails
 import com.ru.movieshows.tv_shows.domain.entities.TvShowPagination
@@ -23,8 +27,10 @@ class AdapterTvShowsRepository @Inject constructor(
     private val tvShowPaginationMapper: TvShowPaginationMapper,
     private val tvShowDetailsMapper: TvShowDetailsMapper,
     private val reviewPaginationMapper: ReviewPaginationMapper,
-    private val tvShowVideoMapper: TvShowVideoMapper,
+    private val videoMapper: VideoMapper,
     private val tvShowMapper: TvShowMapper,
+    private val reviewMapper: ReviewMapper,
+    private val seasonMapper: SeasonMapper,
 ) : TvShowsRepository {
 
     override suspend fun getTrendingTvShows(language: String, page: Int): TvShowPagination {
@@ -72,7 +78,7 @@ class AdapterTvShowsRepository @Inject constructor(
             language = language,
             seriesId = seriesId,
         )
-        return results.map { tvShowVideoMapper.toVideo(it) }
+        return results.map { videoMapper.toVideo(it) }
     }
 
     override suspend fun getTvShowReviews(
@@ -104,6 +110,31 @@ class AdapterTvShowsRepository @Inject constructor(
         return tvShowsDataRepository.getPagedTheAirTvShows(language).map { pagingData ->
             pagingData.map { tvShowModel -> tvShowMapper.toTvShow(tvShowModel) }
         }
+    }
+
+    override fun getPagedTvShowReviews(language: String, id: String): Flow<PagingData<Review>> {
+        return tvShowsDataRepository.getPagedTvShowReviews(
+            language = language,
+            seriesId = id,
+        ).map { pagingData ->
+            pagingData.map { reviewModel ->
+                reviewMapper.toReview(reviewModel)
+            }
+        }
+    }
+
+    override suspend fun getSeason(
+        language: String,
+        seriesId: String,
+        seasonNumber: String,
+    ): Season {
+        val result = tvShowsDataRepository.getSeason(
+            language = language,
+            seriesId = seriesId,
+            seasonNumber = seasonNumber
+        )
+
+        return seasonMapper.toSeason(result)
     }
 
 }

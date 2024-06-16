@@ -48,7 +48,7 @@ class TvShowsDataRepositoryImpl @Inject constructor(
 
     }
 
-    override fun getPagedTvReviews(
+    override fun getPagedTvShowReviews(
         language: String,
         seriesId: String,
     ): Flow<PagingData<ReviewModel>> {

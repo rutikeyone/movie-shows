@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.ru.movieshows.core.presentation.R
 import com.ru.movieshows.core.presentation.SimpleAdapterListener
-import com.ru.movieshows.movies.R
 import com.ru.movieshows.movies.databinding.MovieItemBinding
 import com.ru.movieshows.movies.domain.entities.Movie
 
@@ -63,7 +63,7 @@ class MoviesAdapter(
         private fun bindLayoutParams(binding: MovieItemBinding) = with(binding.root) {
             val layoutParams = android.app.ActionBar.LayoutParams(
                 resources.getDimensionPixelOffset(R.dimen.dp_120),
-                resources.getDimensionPixelOffset(R.dimen.dp_255),
+                resources.getDimensionPixelOffset(com.ru.movieshows.movies.R.dimen.dp_255),
             )
             this.layoutParams = layoutParams
         }
@@ -93,8 +93,8 @@ class MoviesAdapter(
                     .with(context)
                     .load(backDropPath)
                     .centerCrop()
-                    .placeholder(R.drawable.bg_poster_placeholder)
-                    .error(R.drawable.bg_poster_placeholder)
+                    .placeholder(R.drawable.core_presentation_bg_poster_placeholder)
+                    .error(R.drawable.core_presentation_bg_poster_placeholder)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(this)
             }

@@ -13,6 +13,7 @@ import com.ru.movieshows.data.movies.models.ReviewModel
 import com.ru.movieshows.data.movies.models.ReviewsPaginationModel
 import com.ru.movieshows.data.movies.models.VideoModel
 import com.ru.movieshows.data.movies.sources.MoviesSource
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -52,6 +53,7 @@ class MoviesDataRepositoryImpl @Inject constructor(
     ): Flow<PagingData<ReviewModel>> {
 
         val loader: PageLoader<List<ReviewModel>> = { pageIndex ->
+
             val result = moviesSource.getMovieReviews(
                 movieId = movieId,
                 language = language,

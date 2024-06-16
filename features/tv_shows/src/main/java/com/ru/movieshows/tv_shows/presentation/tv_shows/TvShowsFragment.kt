@@ -56,7 +56,7 @@ class TvShowsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding.root) {
-            setTryAgainListener { viewModel.tryToGetTvShowsData() }
+            setTryAgainListener { viewModel.toTryToGetTvShowsData() }
             observe(viewLifecycleOwner, viewModel.loadScreenStateLiveValue) {
                 setupViews(it)
             }

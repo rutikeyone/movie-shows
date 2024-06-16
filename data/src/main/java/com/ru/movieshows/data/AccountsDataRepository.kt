@@ -10,7 +10,7 @@ interface AccountsDataRepository {
 
     suspend fun isSignedIn(): Boolean
 
-    suspend fun signIn(email: String, password: String): String
+    suspend fun signIn(username: String, password: String): String
 
     suspend fun logout()
 

@@ -18,7 +18,7 @@ interface TvShowsDataRepository {
          query: String? = null,
      ): Flow<PagingData<TvShowModel>>
 
-     fun getPagedTvReviews(
+     fun getPagedTvShowReviews(
          language: String = "en_US",
          seriesId: String,
      ): Flow<PagingData<ReviewModel>>

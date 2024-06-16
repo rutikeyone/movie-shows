@@ -6,6 +6,8 @@ interface CoreProvider {
 
     val commonUi: CommonUi
 
+    val loaderOverlay: LoaderOverlay
+
     val logger: Logger
 
     val resources: Resources

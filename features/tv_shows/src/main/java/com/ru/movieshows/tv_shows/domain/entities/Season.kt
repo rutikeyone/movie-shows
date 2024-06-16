@@ -11,6 +11,6 @@ data class Season(
     val rating: Double?,
     val airDate: Date?,
     val posterPath: String?,
-    val episodes: List<Episode>?,
     val episodeCount: Int?,
+    val episodes: List<Episode>?,
 )

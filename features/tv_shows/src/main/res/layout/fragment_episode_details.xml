@@ -1,0 +1,8 @@
+<com.ru.movieshows.core.presentation.views.ResultView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ru.movieshows.tv_shows.presentation.episode_details.EpisodeDetailsFragment">
+
+
+</com.ru.movieshows.core.presentation.views.ResultView>

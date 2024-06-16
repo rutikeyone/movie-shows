@@ -25,4 +25,5 @@
     <string name="search">Search</string>
     <string name="min">min.</string>
     <string name="the_list_of_films_is_empty">The list of films is empty</string>
+    <string name="the_list_of_reviews_is_empty">The list of reviews is empty</string>
 </resources>

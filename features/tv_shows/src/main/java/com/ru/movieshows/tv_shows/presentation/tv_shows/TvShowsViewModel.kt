@@ -3,11 +3,11 @@ package com.ru.movieshows.tv_shows.presentation.tv_shows
 import com.ru.movieshows.core.Container
 import com.ru.movieshows.core.presentation.BaseViewModel
 import com.ru.movieshows.core.presentation.SimpleAdapterListener
+import com.ru.movieshows.tv_shows.TvShowsRouter
 import com.ru.movieshows.tv_shows.domain.GetPopularTvShowsUseCase
 import com.ru.movieshows.tv_shows.domain.GetTopRatedTvShowsUseCase
 import com.ru.movieshows.tv_shows.domain.GetTrendingTvShowsUseCase
 import com.ru.movieshows.tv_shows.domain.entities.TvShow
-import com.ru.movieshows.tv_shows.TvShowsRouter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -30,18 +30,14 @@ class TvShowsViewModel @Inject constructor(
     init {
 
         viewModelScope.launch {
-
-            launch {
-                languageTagFlow.collect {
-                    getTvShowsData(it)
-                }
+            languageTagFlow.collect {
+                getTvShowsData(it)
             }
-
         }
 
     }
 
-    fun tryToGetTvShowsData() {
+    fun toTryToGetTvShowsData() = debounce {
         viewModelScope.launch {
             getTvShowsData(languageTag)
         }
@@ -53,10 +49,13 @@ class TvShowsViewModel @Inject constructor(
         loadScreenStateFlow.value = Container.Pending
 
         try {
-            val trendingTvShowsPagination = getTrendingTvShowsUseCase.execute(language, firstPageIndex)
+            val trendingTvShowsPagination =
+                getTrendingTvShowsUseCase.execute(language, firstPageIndex)
             val airTvShowsPagination = getAirTvShowsUseCase.execute(language, firstPageIndex)
-            val topRatedTvShowsPagination = getTopRatedTvShowsUseCase.execute(language, firstPageIndex)
-            val popularTvShowsPagination = getPopularTvShowsUseCase.execute(language, firstPageIndex)
+            val topRatedTvShowsPagination =
+                getTopRatedTvShowsUseCase.execute(language, firstPageIndex)
+            val popularTvShowsPagination =
+                getPopularTvShowsUseCase.execute(language, firstPageIndex)
 
             val trendingTvShows = trendingTvShowsPagination.results
             val airTvShows = airTvShowsPagination.results
@@ -77,27 +76,27 @@ class TvShowsViewModel @Inject constructor(
 
     }
 
-    fun launchTvShowSearch() {
+    fun launchTvShowSearch() = debounce {
         router.launchTvShowSearch()
     }
 
-    override fun onClickItem(data: TvShow) {
+    override fun onClickItem(data: TvShow) = debounce {
         launchTvShowDetails(data)
     }
 
-    private fun launchTvShowDetails(tvShow: TvShow) {
+    private fun launchTvShowDetails(tvShow: TvShow) = debounce {
         router.launchTvShowsDetails(tvShow)
     }
 
-    fun launchAirTvShows() {
+    fun launchAirTvShows() = debounce {
         router.launchOnTheAirTvShows()
     }
 
-    fun launchTopRatedTvShows() {
+    fun launchTopRatedTvShows() = debounce {
         router.launchTopRatedTvShows()
     }
 
-    fun launchPopularTvShows() {
+    fun launchPopularTvShows() = debounce {
         router.launchPopularTvShows()
     }
 

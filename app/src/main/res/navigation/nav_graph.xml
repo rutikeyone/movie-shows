@@ -49,7 +49,7 @@
 
     <fragment
         android:id="@+id/tvShowDetailsFragment"
-        android:name="com.ru.movieshows.tv_shows.presentation.details.TvShowDetailsFragment"
+        android:name="com.ru.movieshows.tv_shows.presentation.tv_show_details.TvShowDetailsFragment"
         android:label="@string/empty"
         tools:layout="@layout/fragment_tv_show_details" />
 
@@ -100,6 +100,28 @@
         android:name="com.ru.movieshows.tv_shows.presentation.on_the_air_tv_shows.OnTheAirTvShowsFragment"
         android:label="@string/on_the_air"
         tools:layout="@layout/fragment_on_the_air_tv_shows" />
+    <fragment
+        android:id="@+id/movieReviewsFragment"
+        android:name="com.ru.movieshows.movies.presentation.reviews.MovieReviewsFragment"
+        android:label="@string/reviews"
+        tools:layout="@layout/fragment_movie_reviews" />
 
+    <fragment
+        android:id="@+id/tvShowReviewsFragment"
+        android:name="com.ru.movieshows.tv_shows.presentation.reviews.TvShowReviewsFragment"
+        android:label="@string/reviews"
+        tools:layout="@layout/fragment_tv_show_reviews" />
+
+    <fragment
+        android:id="@+id/seasonEpisodesFragment"
+        android:name="com.ru.movieshows.tv_shows.presentation.episodes.SeasonEpisodesFragment"
+        android:label="@string/episodes"
+        tools:layout="@layout/fragment_season_episodes" />
+
+    <fragment
+        android:id="@+id/episodeDetailsFragment"
+        android:name="com.ru.movieshows.tv_shows.presentation.episode_details.EpisodeDetailsFragment"
+        android:label="@string/empty"
+        tools:layout="@layout/fragment_episode_details" />
 
 </navigation>

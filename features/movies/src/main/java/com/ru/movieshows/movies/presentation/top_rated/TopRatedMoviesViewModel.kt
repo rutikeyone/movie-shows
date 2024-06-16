@@ -24,7 +24,7 @@ class TopRatedMoviesViewModel @Inject constructor(
         getPagedTopRatedMoviesUseCase.execute(language)
     }.cachedIn(viewModelScope)
 
-    override fun onClickItem(data: Movie) {
+    override fun onClickItem(data: Movie) = debounce {
         router.launchMovieDetails(data)
     }
 

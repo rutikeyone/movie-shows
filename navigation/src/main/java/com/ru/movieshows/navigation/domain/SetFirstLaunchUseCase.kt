@@ -7,7 +7,7 @@ class SetFirstLaunchUseCase @Inject constructor(
     private val mainFirstLaunchRepository: MainFirstLaunchRepository,
 ){
 
-    fun configureLaunch() {
+    fun setupLaunch() {
         val firstLaunch = mainFirstLaunchRepository.getFirstLaunch()
         if(firstLaunch) {
             mainFirstLaunchRepository.setFirstLaunch(false)

@@ -14,6 +14,6 @@ data class TvShowDetails(
     val numberOfEpisodes: Int?,
     val numberOfSeasons: Int?,
     val createdBy: List<Creator>?,
-    val seasons: List<Season>?,
+    val tvShowSeasons: List<Season>?,
     val productionCompanies: List<ProductionCompany>?,
 )

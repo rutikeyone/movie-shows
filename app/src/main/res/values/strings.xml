@@ -11,4 +11,6 @@
     <string name="popular_tv_shows">Popular Tv Shows</string>
     <string name="top_rated_tv_shows">Top rated Tv shows</string>
     <string name="on_the_air">On the air</string>
+    <string name="reviews">Reviews</string>
+    <string name="episodes">Episodes</string>
 </resources>

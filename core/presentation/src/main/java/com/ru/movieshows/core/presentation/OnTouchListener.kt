@@ -27,6 +27,8 @@ class OnTouchListener : View.OnTouchListener {
                 if (isOnClickLink) {
                     link[0].onClick(widget)
                     return true
+                } else {
+                    return v.onTouchEvent(event)
                 }
             }
         }

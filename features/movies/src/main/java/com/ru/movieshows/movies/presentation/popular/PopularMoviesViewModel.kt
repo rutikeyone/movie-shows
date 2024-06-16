@@ -6,7 +6,6 @@ import com.ru.movieshows.core.presentation.BaseViewModel
 import com.ru.movieshows.core.presentation.SimpleAdapterListener
 import com.ru.movieshows.movies.MoviesRouter
 import com.ru.movieshows.movies.domain.GetPagedPopularMoviesUseCase
-import com.ru.movieshows.movies.domain.GetPagedTopRatedMoviesUseCase
 import com.ru.movieshows.movies.domain.entities.Movie
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -25,7 +24,7 @@ class PopularMoviesViewModel @Inject constructor(
         getPagedPopularMoviesUseCase.execute(language)
     }.cachedIn(viewModelScope)
 
-    override fun onClickItem(data: Movie) {
+    override fun onClickItem(data: Movie) = debounce {
         router.launchMovieDetails(data)
     }
 

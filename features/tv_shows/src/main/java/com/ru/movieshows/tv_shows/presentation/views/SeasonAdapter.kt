@@ -9,11 +9,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.core.presentation.SimpleAdapterListener
 import com.ru.movieshows.tv_shows.domain.entities.Season
-import com.ru.movieshows.tvshows.R
+import com.ru.movieshows.core.presentation.R
 import com.ru.movieshows.tvshows.databinding.SeasonItemBinding
 
 class SeasonAdapter(
-    private val seasons: List<Season>,
+    private val tvShowSeasons: List<Season>,
     private val listener: SimpleAdapterListener<Season>,
 ) : RecyclerView.Adapter<SeasonAdapter.Holder>(), View.OnClickListener {
 
@@ -24,10 +24,10 @@ class SeasonAdapter(
         return Holder(binding)
     }
 
-    override fun getItemCount(): Int = seasons.size
+    override fun getItemCount(): Int = tvShowSeasons.size
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        val season = seasons[position]
+        val season = tvShowSeasons[position]
         holder.bindViews(season)
     }
 
@@ -54,8 +54,8 @@ class SeasonAdapter(
                     .with(context)
                     .load(posterPath)
                     .centerCrop()
-                    .placeholder(R.drawable.bg_poster_placeholder)
-                    .error(R.drawable.bg_poster_placeholder)
+                    .placeholder(R.drawable.core_presentation_bg_poster_placeholder)
+                    .error(R.drawable.core_presentation_bg_poster_placeholder)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(this)
             }
@@ -64,7 +64,7 @@ class SeasonAdapter(
         private fun bindLayoutParamsView() = with(binding.root) {
             val layoutParams = ActionBar.LayoutParams(
                 resources.getDimensionPixelOffset(R.dimen.dp_120),
-                resources.getDimensionPixelOffset(R.dimen.dp_190),
+                resources.getDimensionPixelOffset(com.ru.movieshows.tvshows.R.dimen.dp_190),
             )
             this.layoutParams = layoutParams
         }

@@ -31,7 +31,9 @@ class MoviesViewModel @Inject constructor(
 ) : BaseViewModel(), SimpleAdapterListener<Movie> {
 
     private val loadScreenStateFlow = MutableStateFlow<Container<State>>(Container.Pending)
-    private val indexState = MutableStateFlow<Int>(0)
+
+    private val indexState = MutableStateFlow(0)
+
     private val loadDiscoverMoviesStateFlow =
         MutableStateFlow<Container<List<Movie>>>(Container.Pending)
 
@@ -96,6 +98,7 @@ class MoviesViewModel @Inject constructor(
                 indexState.value,
                 language
             )
+
             getDiscoverMovies(defaultIndexState)
 
         } catch (e: Exception) {
@@ -103,14 +106,14 @@ class MoviesViewModel @Inject constructor(
         }
     }
 
-    fun tryGetDiscoverMovies() {
+    fun toTryGetDiscoverMovies() = debounce {
         viewModelScope.launch {
             val lastIndexState = indexStateStateFlow.last()
             getDiscoverMovies(lastIndexState)
         }
     }
 
-    fun tryToGetMoviesData() {
+    fun toTryToGetMoviesData() = debounce {
         viewModelScope.launch {
             getMoviesData(languageTag)
         }
@@ -144,7 +147,7 @@ class MoviesViewModel @Inject constructor(
         indexState.value = value
     }
 
-    override fun onClickItem(data: Movie) {
+    override fun onClickItem(data: Movie) = debounce {
         launchMoviesDetails(data)
     }
 

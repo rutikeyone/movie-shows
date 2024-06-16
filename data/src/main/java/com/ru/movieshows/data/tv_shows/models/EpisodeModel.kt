@@ -9,7 +9,7 @@ data class EpisodeModel(
     @SerializedName("episode_number") val episodeNumber: Int?,
     @SerializedName("name") val name: String?,
     @SerializedName("show_id") val showId: String?,
-    @SerializedName("still_path") val still: String?,
+    @SerializedName("still_path") val stillPath: String?,
     @SerializedName("vote_average") val rating: Double?,
     @SerializedName("overview") val overview: String?,
     @SerializedName("crew") val crew: List<CrewModel>?,

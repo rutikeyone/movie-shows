@@ -5,6 +5,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.ru.movieshows.core.presentation.BaseViewModel
 import com.ru.movieshows.navigation.domain.SetFirstLaunchUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,7 +19,7 @@ class MainViewModel @Inject constructor(
     }
 
     private fun setupFirstLaunch() {
-        setFirstLaunchUseCase.configureLaunch()
+        setFirstLaunchUseCase.setupLaunch()
     }
 
 }

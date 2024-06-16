@@ -3,14 +3,13 @@ package com.ru.movieshows.movies.presentation.views
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ListView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.ru.movieshows.core.presentation.SimpleAdapterListener
-import com.ru.movieshows.movies.R
+import com.ru.movieshows.core.presentation.R
 import com.ru.movieshows.movies.databinding.MovieViewPagerItemBinding
 import com.ru.movieshows.movies.domain.entities.Movie
 
@@ -66,14 +65,14 @@ class MoviesViewPagerAdapter(
                 val backDrop = movie.backDropPath
                 val loadBackDrop =
                     if (!backDrop.isNullOrEmpty()) backDrop
-                    else R.drawable.bg_poster_placeholder
+                    else R.drawable.core_presentation_bg_poster_placeholder
 
                 Glide
                     .with(context)
                     .load(loadBackDrop)
                     .centerCrop()
-                    .placeholder(R.drawable.bg_poster_placeholder)
-                    .error(R.drawable.bg_poster_placeholder)
+                    .placeholder(R.drawable.core_presentation_bg_poster_placeholder)
+                    .error(R.drawable.core_presentation_bg_poster_placeholder)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(this)
             }

@@ -71,7 +71,8 @@ buildscript {
                         Splash : ":features:splash",
                         Movies : ":features:movies",
                         TvShows: ":features:tvshows",
-                        Profile: ":features:profile"
+                        Profile: ":features:profile",
+                        Persons: ":features:persons"
                 ],
         ]
     }

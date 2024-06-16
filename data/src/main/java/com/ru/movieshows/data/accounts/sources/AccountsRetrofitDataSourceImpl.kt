@@ -6,6 +6,7 @@ import com.ru.movieshows.data.BaseRetrofitSource
 import com.ru.movieshows.data.accounts.services.AccountsService
 import com.ru.movieshows.data.accounts.models.AccountDataModel
 import com.ru.movieshows.data.settings.sources.SettingsDataSource
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class AccountsRetrofitDataSourceImpl @Inject constructor(
@@ -16,6 +17,9 @@ class AccountsRetrofitDataSourceImpl @Inject constructor(
 
     override suspend fun getAccount(): AccountDataModel {
         val sessionId = settingsDataSource.getCurrentSessionId() ?: throw NotAuthException()
+
+        delay(1000)
+
         return accountsApi
             .getAccountBySessionId(sessionId)
             .awaitResult { it }

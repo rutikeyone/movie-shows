@@ -29,7 +29,7 @@ class MovieDetailsViewModel @AssistedInject constructor(
 
     private val loadScreenStateFlow = MutableStateFlow<Container<State>>(Container.Pending)
 
-    private val titleStateFlow = MutableStateFlow<String>("")
+    private val titleStateFlow = MutableStateFlow("")
 
     val loadScreenStateLiveValue = loadScreenStateFlow
         .toLiveValue(Container.Pending)
@@ -48,13 +48,9 @@ class MovieDetailsViewModel @AssistedInject constructor(
     init {
 
         viewModelScope.launch {
-
-            launch {
-                languageTagFlow.collect {
-                    getData(it)
-                }
+            languageTagFlow.collect {
+                getData(it)
             }
-
         }
 
     }
@@ -91,23 +87,22 @@ class MovieDetailsViewModel @AssistedInject constructor(
 
     }
 
-    fun tryGetMovieDetails() {
+    fun toTryGetMovieDetails() = debounce {
         viewModelScope.launch {
             getData(languageTag)
         }
     }
 
-    fun launchToReviews() {
-        val state = loadScreenStateFlow.value.getOrNull() ?: return
-        val id = state.movieDetails.id ?: return
-        router.launchToReviews()
+    fun launchToReviews() = debounce {
+        val id = args.id.toString()
+        router.launchMovieReviews(id)
     }
 
-    private fun launchMovieDetails(movie: Movie) {
+    private fun launchMovieDetails(movie: Movie) = debounce {
         router.launchMovieDetails(movie)
     }
 
-    private fun launchVideo(video: Video) {
+    private fun launchVideo(video: Video) = debounce {
         router.launchVideo(video)
     }
 

@@ -3,6 +3,7 @@ package com.ru.movieshows.tv_shows.domain.repositories
 import androidx.paging.PagingData
 import com.ru.movieshows.tv_shows.domain.entities.Review
 import com.ru.movieshows.tv_shows.domain.entities.ReviewPagination
+import com.ru.movieshows.tv_shows.domain.entities.Season
 import com.ru.movieshows.tv_shows.domain.entities.TvShow
 import com.ru.movieshows.tv_shows.domain.entities.TvShowDetails
 import com.ru.movieshows.tv_shows.domain.entities.TvShowPagination
@@ -30,5 +31,16 @@ interface TvShowsRepository {
     fun getPagedTopRatedTvShows(language: String): Flow<PagingData<TvShow>>
 
     fun getPagedTheAirTvShows(language: String): Flow<PagingData<TvShow>>
+
+    fun getPagedTvShowReviews(
+        language: String,
+        id: String,
+    ): Flow<PagingData<Review>>
+
+    suspend fun getSeason(
+        language: String,
+        seriesId: String,
+        seasonNumber: String,
+    ): Season
 
 }
