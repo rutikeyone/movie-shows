@@ -15,6 +15,7 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.ru.movieshows.core.presentation.BaseFragment
 import com.ru.movieshows.core.presentation.BaseScreen
+import com.ru.movieshows.core.presentation.R
 import com.ru.movieshows.core.presentation.SimpleAdapterListener
 import com.ru.movieshows.core.presentation.applyDecoration
 import com.ru.movieshows.core.presentation.args
@@ -22,7 +23,6 @@ import com.ru.movieshows.core.presentation.viewBinding
 import com.ru.movieshows.core.presentation.viewModelCreator
 import com.ru.movieshows.core.presentation.views.observe
 import com.ru.movieshows.navigation.GlobalNavComponentRouter
-import com.ru.movieshows.season.presentation.PersonDetailsBottomSheetDialogFragment
 import com.ru.movieshows.tv_shows.TvShowsRouter
 import com.ru.movieshows.tv_shows.domain.entities.Review
 import com.ru.movieshows.tv_shows.domain.entities.Season
@@ -32,7 +32,6 @@ import com.ru.movieshows.tv_shows.presentation.views.CreatorAdapter
 import com.ru.movieshows.tv_shows.presentation.views.DataAdapter
 import com.ru.movieshows.tv_shows.presentation.views.SeasonAdapter
 import com.ru.movieshows.tv_shows.presentation.views.VideosAdapter
-import com.ru.movieshows.core.presentation.R
 import com.ru.movieshows.tvshows.databinding.FragmentTvShowDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -75,7 +74,11 @@ class TvShowDetailsFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View = inflater.inflate(com.ru.movieshows.tvshows.R.layout.fragment_tv_show_details, container, false)
+    ): View = inflater.inflate(
+        com.ru.movieshows.tvshows.R.layout.fragment_tv_show_details,
+        container,
+        false
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -115,7 +118,8 @@ class TvShowDetailsFragment : BaseFragment() {
     }
 
     private fun setupBackdropImageView(tvShowDetails: TvShowDetails) {
-        val loadBackDrop = tvShowDetails.backDropPath ?: R.drawable.core_presentation_bg_backdrop_placeholder
+        val loadBackDrop =
+            tvShowDetails.backDropPath ?: R.drawable.core_presentation_bg_backdrop_placeholder
 
         with(binding.tvShowBackDropImageView) {
             Glide
@@ -130,7 +134,8 @@ class TvShowDetailsFragment : BaseFragment() {
     }
 
     private fun setupPosterImageView(tvShowDetails: TvShowDetails) {
-        val loadPoster = tvShowDetails.posterPath ?: R.drawable.core_presentation_bg_poster_placeholder
+        val loadPoster =
+            tvShowDetails.posterPath ?: R.drawable.core_presentation_bg_poster_placeholder
 
         with(binding.tvShowsPosterImageView) {
             Glide
@@ -243,14 +248,10 @@ class TvShowDetailsFragment : BaseFragment() {
             val createdBy = tvShowDetails.createdBy
 
             if (!createdBy.isNullOrEmpty()) {
-                val creatorAdapter = CreatorAdapter(createdBy) {
-                    val id = it.id ?: return@CreatorAdapter
-                    val personDetailsFragment =
-                        PersonDetailsBottomSheetDialogFragment.newInstance(id)
-                    personDetailsFragment.show(
-                        childFragmentManager,
-                        PERSON_DETAILS_MODAL_BOTTOM_SHEET_TAG
-                    )
+                val creatorAdapter = CreatorAdapter(createdBy) { creator ->
+                    val id = creator.id
+
+                    router.launchPersonDetailsDialog(id, childFragmentManager)
                 }
 
                 with(creatorsRecyclerView) {
@@ -380,10 +381,6 @@ class TvShowDetailsFragment : BaseFragment() {
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(this)
         }
-    }
-
-    companion object {
-        const val PERSON_DETAILS_MODAL_BOTTOM_SHEET_TAG = "PersonDetailsModalBottomSheetTag"
     }
 
 }

@@ -26,4 +26,5 @@
     <string name="the_list_of_reviews_is_empty">Список отзывов пуст</string>
     <string name="episodes">Эпизоды</string>
     <string name="the_list_of_episodes_is_empty">Список эпизодов пуст</string>
+    <string name="crew">Команда</string>
 </resources>

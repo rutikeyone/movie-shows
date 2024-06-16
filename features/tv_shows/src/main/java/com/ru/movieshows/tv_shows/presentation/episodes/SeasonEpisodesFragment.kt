@@ -13,6 +13,7 @@ import com.ru.movieshows.core.presentation.viewBinding
 import com.ru.movieshows.core.presentation.viewModelCreator
 import com.ru.movieshows.core.presentation.views.ItemDecoration
 import com.ru.movieshows.core.presentation.views.observe
+import com.ru.movieshows.tv_shows.TvShowsRouter
 import com.ru.movieshows.tv_shows.domain.entities.Episode
 import com.ru.movieshows.tv_shows.presentation.views.EpisodesAdapter
 import com.ru.movieshows.tvshows.R

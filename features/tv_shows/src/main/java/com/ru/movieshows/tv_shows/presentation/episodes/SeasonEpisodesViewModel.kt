@@ -73,7 +73,15 @@ class SeasonEpisodesViewModel @AssistedInject constructor(
     }
 
     override fun onClickItem(data: Episode) {
-        router.launchEpisodeDetails()
+        val seriesId = args.seriesId
+        val seasonNumber = args.seasonNumber
+        val episodeNumber = data.episodeNumber ?: return
+
+        router.launchEpisodeDetails(
+            seriesId = seriesId,
+            seasonNumber = seasonNumber,
+            episodeNumber = episodeNumber,
+        )
     }
 
     @AssistedFactory

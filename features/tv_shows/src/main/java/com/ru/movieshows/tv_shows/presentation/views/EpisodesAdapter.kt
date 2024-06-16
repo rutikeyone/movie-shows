@@ -50,12 +50,12 @@ class EpisodesAdapter(
 
         fun bind(episode: Episode) {
             binding.root.tag = episode
-            bindEpisodeNameUI(episode)
-            bindEpisodeImageUI(episode)
-            bindRatingUI(episode.rating)
+            bindEpisodeNameView(episode)
+            bindEpisodeImageView(episode)
+            bindRatingView(episode.rating)
         }
 
-        private fun bindEpisodeImageUI(episode: Episode) {
+        private fun bindEpisodeImageView(episode: Episode) {
             with(binding.episodeImageView) {
                 val loadStillPath = episode.stillPath
 
@@ -70,7 +70,7 @@ class EpisodesAdapter(
             }
         }
 
-        private fun bindEpisodeNameUI(episode: Episode) {
+        private fun bindEpisodeNameView(episode: Episode) {
             with(binding.tvShowNameTextView) {
                 val title = episode.name
                 if (!title.isNullOrEmpty()) {
@@ -83,7 +83,7 @@ class EpisodesAdapter(
         }
 
         @SuppressLint("SetTextI18n")
-        private fun bindRatingUI(rating: Double?) {
+        private fun bindRatingView(rating: Double?) {
             with(binding) {
                 ratingBar.isEnabled = false
                 if (rating != null && rating > 0) {

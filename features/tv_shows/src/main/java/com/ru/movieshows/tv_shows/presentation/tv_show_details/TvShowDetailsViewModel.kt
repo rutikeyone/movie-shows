@@ -7,6 +7,7 @@ import com.ru.movieshows.tv_shows.TvShowsRouter
 import com.ru.movieshows.tv_shows.domain.GetTvShowDetailsUseCase
 import com.ru.movieshows.tv_shows.domain.GetTvShowReviewsUseCase
 import com.ru.movieshows.tv_shows.domain.GetVideosByIdUseCase
+import com.ru.movieshows.tv_shows.domain.entities.Creator
 import com.ru.movieshows.tv_shows.domain.entities.Review
 import com.ru.movieshows.tv_shows.domain.entities.TvShowDetails
 import com.ru.movieshows.tv_shows.domain.entities.Video
@@ -85,13 +86,6 @@ class TvShowDetailsViewModel @AssistedInject constructor(
 
     fun launchToTvShowReviews() = debounce {
         router.launchToTvShowReviews(args.id)
-    }
-
-    fun launchToEpisodes(seriesId: String, seasonNumber: String) = debounce {
-        router.launchToEpisodes(
-            seriesId = seriesId,
-            seasonNumber = seasonNumber,
-        )
     }
 
     @AssistedFactory

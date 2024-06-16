@@ -1,6 +1,7 @@
 package com.ru.movieshows.tv_shows.domain.repositories
 
 import androidx.paging.PagingData
+import com.ru.movieshows.tv_shows.domain.entities.Episode
 import com.ru.movieshows.tv_shows.domain.entities.Review
 import com.ru.movieshows.tv_shows.domain.entities.ReviewPagination
 import com.ru.movieshows.tv_shows.domain.entities.Season
@@ -42,5 +43,12 @@ interface TvShowsRepository {
         seriesId: String,
         seasonNumber: String,
     ): Season
+
+    suspend fun getEpisodeByNumber(
+        language: String,
+        seriesId: String,
+        seasonNumber: String,
+        episodeNumber: Int,
+    ): Episode
 
 }

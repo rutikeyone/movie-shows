@@ -16,5 +16,6 @@
     <dimen name="dp_230">230dp</dimen>
     <dimen name="dp_240">240dp</dimen>
     <dimen name="dp_250">250dp</dimen>
+    <dimen name="dp_255">255dp</dimen>
     <dimen name="dp_260">260dp</dimen>
 </resources>

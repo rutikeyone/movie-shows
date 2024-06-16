@@ -2,14 +2,16 @@ package com.ru.movieshows.app.glue.tv_shows.repositories
 
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.ru.movieshows.app.glue.tv_shows.mappers.EpisodeMapper
 import com.ru.movieshows.app.glue.tv_shows.mappers.ReviewMapper
 import com.ru.movieshows.app.glue.tv_shows.mappers.ReviewPaginationMapper
+import com.ru.movieshows.app.glue.tv_shows.mappers.SeasonMapper
 import com.ru.movieshows.app.glue.tv_shows.mappers.TvShowDetailsMapper
 import com.ru.movieshows.app.glue.tv_shows.mappers.TvShowMapper
 import com.ru.movieshows.app.glue.tv_shows.mappers.TvShowPaginationMapper
-import com.ru.movieshows.app.glue.tv_shows.mappers.SeasonMapper
 import com.ru.movieshows.app.glue.tv_shows.mappers.VideoMapper
 import com.ru.movieshows.data.TvShowsDataRepository
+import com.ru.movieshows.tv_shows.domain.entities.Episode
 import com.ru.movieshows.tv_shows.domain.entities.Review
 import com.ru.movieshows.tv_shows.domain.entities.ReviewPagination
 import com.ru.movieshows.tv_shows.domain.entities.Season
@@ -31,6 +33,7 @@ class AdapterTvShowsRepository @Inject constructor(
     private val tvShowMapper: TvShowMapper,
     private val reviewMapper: ReviewMapper,
     private val seasonMapper: SeasonMapper,
+    private val episodeMapper: EpisodeMapper,
 ) : TvShowsRepository {
 
     override suspend fun getTrendingTvShows(language: String, page: Int): TvShowPagination {
@@ -135,6 +138,24 @@ class AdapterTvShowsRepository @Inject constructor(
         )
 
         return seasonMapper.toSeason(result)
+    }
+
+    override suspend fun getEpisodeByNumber(
+        language: String,
+        seriesId: String,
+        seasonNumber: String,
+        episodeNumber: Int,
+    ): Episode {
+
+        val result = tvShowsDataRepository.getEpisodeByNumber(
+            language = language,
+            seriesId = seriesId,
+            seasonNumber = seasonNumber,
+            episodeNumber = episodeNumber,
+        )
+
+        return episodeMapper.toEpisode(result)
+
     }
 
 }

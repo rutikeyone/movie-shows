@@ -33,6 +33,15 @@ interface TvShowsRouter {
         seasonNumber: String,
     )
 
-    fun launchEpisodeDetails()
+    fun launchEpisodeDetails(
+        seriesId: String,
+        seasonNumber: String,
+        episodeNumber: Int,
+    )
+
+    fun launchPersonDetailsDialog(
+        id: String?,
+        childFragmentManager: FragmentManager,
+    )
 
 }

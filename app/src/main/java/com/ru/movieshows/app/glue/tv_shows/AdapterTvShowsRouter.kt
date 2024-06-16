@@ -3,9 +3,11 @@ package com.ru.movieshows.app.glue.tv_shows
 import androidx.fragment.app.FragmentManager
 import com.ru.movieshows.app.R
 import com.ru.movieshows.navigation.GlobalNavComponentRouter
+import com.ru.movieshows.season.presentation.PersonDetailsBottomSheetDialogFragment
 import com.ru.movieshows.tv_shows.TvShowsRouter
 import com.ru.movieshows.tv_shows.domain.entities.TvShow
 import com.ru.movieshows.tv_shows.domain.entities.Video
+import com.ru.movieshows.tv_shows.presentation.episode_details.EpisodeDetailsFragment
 import com.ru.movieshows.tv_shows.presentation.episodes.SeasonEpisodesFragment
 import com.ru.movieshows.tv_shows.presentation.reviews.TvShowReviewsFragment
 import com.ru.movieshows.tv_shows.presentation.season_details.SeasonDetailsBottomSheetDialogFragment
@@ -61,8 +63,7 @@ class AdapterTvShowsRouter @Inject constructor(
         )
 
         fragment.show(
-            childFragmentManager,
-            SEASON_DETAILS_MODAL_BOTTOM_SHEET_TAG
+            childFragmentManager, SEASON_DETAILS_MODAL_BOTTOM_SHEET_TAG
         )
 
     }
@@ -76,12 +77,32 @@ class AdapterTvShowsRouter @Inject constructor(
         globalNavComponentRouter.launch(R.id.seasonEpisodesFragment, args)
     }
 
-    override fun launchEpisodeDetails() {
-        globalNavComponentRouter.launch(R.id.episodeDetailsFragment)
+    override fun launchEpisodeDetails(
+        seriesId: String,
+        seasonNumber: String,
+        episodeNumber: Int,
+    ) {
+        val args = EpisodeDetailsFragment.Screen(
+            seriesId = seriesId,
+            seasonNumber = seasonNumber,
+            episodeNumber = episodeNumber,
+        )
+
+        globalNavComponentRouter.launch(R.id.episodeDetailsFragment, args)
+    }
+
+    override fun launchPersonDetailsDialog(id: String?, childFragmentManager: FragmentManager) {
+        id?.let {
+            val personDetailsFragment = PersonDetailsBottomSheetDialogFragment.newInstance(id)
+            personDetailsFragment.show(
+                childFragmentManager, PERSON_DETAILS_MODAL_BOTTOM_SHEET_TAG
+            )
+        }
     }
 
     companion object {
         const val SEASON_DETAILS_MODAL_BOTTOM_SHEET_TAG = "ModalBottomSheetTag"
+        const val PERSON_DETAILS_MODAL_BOTTOM_SHEET_TAG = "PersonDetailsModalBottomSheetTag"
     }
 
 }
