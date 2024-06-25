@@ -152,7 +152,7 @@ class MoviesViewModel @Inject constructor(
     }
 
     private fun launchMoviesDetails(movie: Movie) = debounce {
-        router.launchMovieDetails(movie)
+        router.launchMovieDetails(movie.id)
     }
 
     private fun mergeIndexState(

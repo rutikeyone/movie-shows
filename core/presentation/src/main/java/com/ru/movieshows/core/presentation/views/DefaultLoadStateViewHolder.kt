@@ -34,8 +34,8 @@ class DefaultLoadStateViewHolder(
             val headerHeaderText = Core.errorHandler.getUserHeader(exception)
             val messageText = Core.errorHandler.getUserMessage(exception)
 
-            binding.failurePart.failureTextHeader.text = headerHeaderText
-            binding.failurePart.failureTextMessage.text = messageText
+            binding.failurePart.failureHeaderTextView.text = headerHeaderText
+            binding.failurePart.failureMessageTextView.text = messageText
         }
     }
 

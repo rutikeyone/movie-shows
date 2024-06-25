@@ -28,10 +28,10 @@ import com.ru.movieshows.tv_shows.domain.entities.Review
 import com.ru.movieshows.tv_shows.domain.entities.Season
 import com.ru.movieshows.tv_shows.domain.entities.TvShowDetails
 import com.ru.movieshows.tv_shows.domain.entities.Video
-import com.ru.movieshows.tv_shows.presentation.views.CreatorAdapter
-import com.ru.movieshows.tv_shows.presentation.views.DataAdapter
-import com.ru.movieshows.tv_shows.presentation.views.SeasonAdapter
-import com.ru.movieshows.tv_shows.presentation.views.VideosAdapter
+import com.ru.movieshows.tv_shows.presentation.adapters.CreatorAdapter
+import com.ru.movieshows.tv_shows.presentation.adapters.DataAdapter
+import com.ru.movieshows.tv_shows.presentation.adapters.SeasonAdapter
+import com.ru.movieshows.tv_shows.presentation.adapters.VideosAdapter
 import com.ru.movieshows.tvshows.databinding.FragmentTvShowDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat

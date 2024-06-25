@@ -4,6 +4,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.annotation.IdRes
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentActivity
+import androidx.navigation.NavOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ru.movieshows.core.ActivityNotCreatedException
 import com.ru.movieshows.impl.ActivityRequired
@@ -96,8 +97,9 @@ class GlobalNavComponentRouter @Inject constructor(
         @IdRes destinationId: Int,
         args: java.io.Serializable? = null,
         root: Boolean = false,
+        options: NavOptions? = null,
     ) = invoke {
-        requireRealRouter().launch(destinationId, args, root)
+        requireRealRouter().launch(destinationId, args, root, options)
     }
 
     fun pop(

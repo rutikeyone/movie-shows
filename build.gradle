@@ -7,6 +7,7 @@ buildscript {
         navVersion = "2.6.0"
         hiltVersion = "2.44"
         googleServicesVersion = "4.4.0"
+        roomVersion = "2.6.1"
 
         Libs = [
                 Android  : [
@@ -17,6 +18,7 @@ buildscript {
                         NavigationFragments      : "androidx.navigation:navigation-fragment-ktx:$navVersion",
                         NavigationUI             : "androidx.navigation:navigation-ui-ktx:$navVersion",
                         NavigationDynamicFeatures: "androidx.navigation:navigation-dynamic-features-fragment:$navVersion",
+                        NavigationRuntimeKtx     : "androidx.navigation:navigation-runtime-ktx:$navVersion",
                         LegacySupport            : "androidx.legacy:legacy-support-v4:1.0.0",
                         RecyclerView             : "androidx.recyclerview:recyclerview:1.3.2",
                         ConstraintLayout         : "androidx.constraintlayout:constraintlayout:2.1.4",
@@ -25,6 +27,9 @@ buildscript {
                         EspressoCore             : "androidx.test.espresso:espresso-core:3.5.1",
                         JUnitExt                 : "androidx.test.ext:junit:1.1.5",
                         LiveDataKtx              : "androidx.lifecycle:lifecycle-livedata-ktx:2.6.1",
+                        RoomRuntime              : "androidx.room:room-runtime:$roomVersion",
+                        RoomCompiler             : "androidx.room:room-compiler:$roomVersion",
+                        "RoomKtx"                : "androidx.room:room-ktx:$roomVersion"
                 ],
                 JetBrains: [
                         CoroutinesCore: "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4",
@@ -72,7 +77,8 @@ buildscript {
                         Movies : ":features:movies",
                         TvShows: ":features:tvshows",
                         Profile: ":features:profile",
-                        Persons: ":features:persons"
+                        Persons: ":features:persons",
+                        Video  : ":features:video"
                 ],
         ]
     }

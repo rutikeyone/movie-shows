@@ -7,15 +7,16 @@ import com.ru.movieshows.movies.domain.entities.Video
 import com.ru.movieshows.movies.presentation.details.MovieDetailsFragment
 import com.ru.movieshows.movies.presentation.reviews.MovieReviewsFragment
 import com.ru.movieshows.navigation.GlobalNavComponentRouter
+import com.ru.movieshows.video.presentation.VideoPlayerActivity
 import javax.inject.Inject
 
 class AdapterMoviesRouter @Inject constructor(
     private val globalNavComponentRouter: GlobalNavComponentRouter,
 ) : MoviesRouter {
 
-    override fun launchMovieDetails(movie: Movie) {
-        val id = movie.id ?: return
-        val args = MovieDetailsFragment.Screen(id)
+    override fun launchMovieDetails(id: Int?) {
+        val movieId = id ?: return
+        val args = MovieDetailsFragment.Screen(movieId)
         globalNavComponentRouter.launch(R.id.movieDetailsFragment, args)
     }
 
@@ -35,12 +36,16 @@ class AdapterMoviesRouter @Inject constructor(
         globalNavComponentRouter.launch(R.id.movieSearchFragment)
     }
 
-    override fun launchVideo(video: Video) {
+    override fun launchVideo(key: String) {
+        val args = VideoPlayerActivity.Screen(key)
+        val useRootNavController = true
+
+        globalNavComponentRouter.launch(R.id.videoPlayerActivity, args, useRootNavController)
     }
 
     override fun launchMovieReviews(id: String?) {
-        val id = id ?: return
-        val args = MovieReviewsFragment.Screen(id)
+        val movieId = id ?: return
+        val args = MovieReviewsFragment.Screen(movieId)
 
         globalNavComponentRouter.launch(R.id.movieReviewsFragment, args)
     }

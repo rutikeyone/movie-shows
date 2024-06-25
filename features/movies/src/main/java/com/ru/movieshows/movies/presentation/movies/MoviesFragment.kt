@@ -22,8 +22,8 @@ import com.ru.movieshows.core.presentation.views.observe
 import com.ru.movieshows.movies.R
 import com.ru.movieshows.movies.databinding.FragmentMoviesBinding
 import com.ru.movieshows.movies.domain.entities.Movie
-import com.ru.movieshows.movies.presentation.views.MoviesAdapter
-import com.ru.movieshows.movies.presentation.views.MoviesViewPagerAdapter
+import com.ru.movieshows.movies.presentation.adapters.MoviesAdapter
+import com.ru.movieshows.movies.presentation.adapters.MoviesViewPagerAdapter
 import com.ru.movieshows.navigation.GlobalNavComponentRouter
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale

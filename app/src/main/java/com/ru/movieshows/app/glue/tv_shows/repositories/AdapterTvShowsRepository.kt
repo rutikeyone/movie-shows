@@ -9,6 +9,7 @@ import com.ru.movieshows.app.glue.tv_shows.mappers.SeasonMapper
 import com.ru.movieshows.app.glue.tv_shows.mappers.TvShowDetailsMapper
 import com.ru.movieshows.app.glue.tv_shows.mappers.TvShowMapper
 import com.ru.movieshows.app.glue.tv_shows.mappers.TvShowPaginationMapper
+import com.ru.movieshows.app.glue.tv_shows.mappers.TvShowSearchMapper
 import com.ru.movieshows.app.glue.tv_shows.mappers.VideoMapper
 import com.ru.movieshows.data.TvShowsDataRepository
 import com.ru.movieshows.tv_shows.domain.entities.Episode
@@ -18,6 +19,7 @@ import com.ru.movieshows.tv_shows.domain.entities.Season
 import com.ru.movieshows.tv_shows.domain.entities.TvShow
 import com.ru.movieshows.tv_shows.domain.entities.TvShowDetails
 import com.ru.movieshows.tv_shows.domain.entities.TvShowPagination
+import com.ru.movieshows.tv_shows.domain.entities.TvShowSearch
 import com.ru.movieshows.tv_shows.domain.entities.Video
 import com.ru.movieshows.tv_shows.domain.repositories.TvShowsRepository
 import kotlinx.coroutines.flow.Flow
@@ -34,7 +36,19 @@ class AdapterTvShowsRepository @Inject constructor(
     private val reviewMapper: ReviewMapper,
     private val seasonMapper: SeasonMapper,
     private val episodeMapper: EpisodeMapper,
+    private val tvShowSearchMapper: TvShowSearchMapper,
 ) : TvShowsRepository {
+
+    override fun searchPagedMovies(language: String, query: String?): Flow<PagingData<TvShow>> {
+        return tvShowsDataRepository.searchPagedMovies(
+            language = language,
+            query = query,
+        ).map { pagingData ->
+            pagingData.map {
+                tvShowMapper.toTvShow(it)
+            }
+        }
+    }
 
     override suspend fun getTrendingTvShows(language: String, page: Int): TvShowPagination {
         val result = tvShowsDataRepository.getTrendingTvShows(
@@ -156,6 +170,21 @@ class AdapterTvShowsRepository @Inject constructor(
 
         return episodeMapper.toEpisode(result)
 
+    }
+
+    override suspend fun insertTvShowSearch(tvShow: TvShow, locale: String) {
+        val tvShowModel = tvShowMapper.toTvShowModel(tvShow)
+        tvShowsDataRepository.insertTvShowSearch(tvShowModel, locale)
+    }
+
+    override suspend fun deleteTvShowSearch(id: Long) {
+        tvShowsDataRepository.deleteTvShowSearch(id)
+    }
+
+    override fun getAllTvShowsSearch(locale: String): Flow<List<TvShowSearch>> {
+        return tvShowsDataRepository.getAllTvShowsSearch(locale).map { list ->
+            list.map { tvShowSearchMapper.toTvShowSearch(it) }
+        }
     }
 
 }

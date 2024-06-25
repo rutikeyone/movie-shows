@@ -7,7 +7,6 @@ import com.ru.movieshows.tv_shows.TvShowsRouter
 import com.ru.movieshows.tv_shows.domain.GetTvShowDetailsUseCase
 import com.ru.movieshows.tv_shows.domain.GetTvShowReviewsUseCase
 import com.ru.movieshows.tv_shows.domain.GetVideosByIdUseCase
-import com.ru.movieshows.tv_shows.domain.entities.Creator
 import com.ru.movieshows.tv_shows.domain.entities.Review
 import com.ru.movieshows.tv_shows.domain.entities.TvShowDetails
 import com.ru.movieshows.tv_shows.domain.entities.Video
@@ -81,7 +80,11 @@ class TvShowDetailsViewModel @AssistedInject constructor(
     }
 
     private fun launchVideo(video: Video) = debounce {
-        router.launchVideo(video)
+        val key = video.key
+
+        key?.let {
+            router.launchVideo(it)
+        }
     }
 
     fun launchToTvShowReviews() = debounce {

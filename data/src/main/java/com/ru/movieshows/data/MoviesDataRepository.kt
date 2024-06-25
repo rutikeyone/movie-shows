@@ -7,31 +7,32 @@ import com.ru.movieshows.data.movies.models.MoviesPaginationModel
 import com.ru.movieshows.data.movies.models.ReviewModel
 import com.ru.movieshows.data.movies.models.ReviewsPaginationModel
 import com.ru.movieshows.data.movies.models.VideoModel
+import com.ru.movieshows.data.movies.room.MovieSearchRoomEntity
 import kotlinx.coroutines.flow.Flow
 
 interface MoviesDataRepository {
 
     fun searchPagedMovies(
         language: String = "en_US",
-        query: String? = null
-    ) : Flow<PagingData<MovieModel>>
+        query: String? = null,
+    ): Flow<PagingData<MovieModel>>
 
     fun getPagedMovieReview(
         language: String = "en_US",
-        movieId: String
+        movieId: String,
     ): Flow<PagingData<ReviewModel>>
 
     fun getPagedTopRatedMovies(
         language: String = "en_US",
-    ) : Flow<PagingData<MovieModel>>
+    ): Flow<PagingData<MovieModel>>
 
     fun getPagedPopularMovies(
         language: String = "en_US",
-    ) : Flow<PagingData<MovieModel>>
+    ): Flow<PagingData<MovieModel>>
 
     fun getPagedUnComingMovies(
         language: String = "en_US",
-    ) : Flow<PagingData<MovieModel>>
+    ): Flow<PagingData<MovieModel>>
 
     suspend fun getMovieReviews(
         language: String = "en_US",
@@ -85,6 +86,12 @@ interface MoviesDataRepository {
         language: String = "en_US",
         page: Int = 1,
         query: String? = null,
-    ) : MoviesPaginationModel
+    ): MoviesPaginationModel
+
+    suspend fun insertMovieSearch(movieModel: MovieModel, locale: String)
+
+    suspend fun deleteMovieSearch(id: Long)
+
+    fun getAllMoviesSearch(locale: String): Flow<List<MovieSearchRoomEntity>>
 
 }

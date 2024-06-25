@@ -18,13 +18,10 @@ import com.ru.movieshows.core.presentation.applyDecoration
 import com.ru.movieshows.core.presentation.viewBinding
 import com.ru.movieshows.core.presentation.views.ItemDecoration
 import com.ru.movieshows.core.presentation.views.LoadStateAdapter
-import com.ru.movieshows.tv_shows.presentation.popular.PopularTvShowsViewModel
-import com.ru.movieshows.tv_shows.presentation.views.TvShowPaginationAdapter
+import com.ru.movieshows.tv_shows.presentation.adapters.TvShowPaginationAdapter
 import com.ru.movieshows.tvshows.R
-import com.ru.movieshows.tvshows.databinding.FragmentPopularTvShowsBinding
 import com.ru.movieshows.tvshows.databinding.FragmentTopRatedTvShowsBinding
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -43,10 +40,13 @@ class TopRatedTvShowsFragment : BaseFragment() {
 
     private val tvShowSpanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
         override fun getSpanSize(position: Int): Int {
+            val oneItemSpan = 1
+            val spanCount = getSpanCount()
+
             val itemViewType = tvShowPaginationAdapter.getItemViewType(position)
             val loadingItem = TvShowPaginationAdapter.LOADING_ITEM
             val isLoadingItem = itemViewType === loadingItem
-            return if (isLoadingItem) 1 else 3
+            return if (isLoadingItem) oneItemSpan else spanCount
         }
     }
 

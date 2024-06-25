@@ -20,4 +20,15 @@ class MovieMapper @Inject constructor(
         )
     }
 
+    fun toMovieModel(movie: Movie): MovieModel {
+        return MovieModel(
+            id = movie.id,
+            rating = movie.rating,
+            title = movie.title,
+            backDropPath = movie.backDropPath,
+            posterPath = movie.posterPath,
+            overview = movie.overview,
+        )
+    }
+
 }

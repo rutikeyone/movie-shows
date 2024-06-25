@@ -5,12 +5,14 @@ import androidx.paging.map
 import com.ru.movieshows.app.glue.movies.mappers.MovieDetailsMapper
 import com.ru.movieshows.app.glue.movies.mappers.MovieMapper
 import com.ru.movieshows.app.glue.movies.mappers.MoviePaginationMapper
-import com.ru.movieshows.app.glue.movies.mappers.VideoMapper
+import com.ru.movieshows.app.glue.movies.mappers.MovieSearchMapper
 import com.ru.movieshows.app.glue.movies.mappers.ReviewMapper
 import com.ru.movieshows.app.glue.movies.mappers.ReviewsPaginationMapper
+import com.ru.movieshows.app.glue.movies.mappers.VideoMapper
 import com.ru.movieshows.data.MoviesDataRepository
 import com.ru.movieshows.movies.domain.entities.Movie
 import com.ru.movieshows.movies.domain.entities.MovieDetails
+import com.ru.movieshows.movies.domain.entities.MovieSearch
 import com.ru.movieshows.movies.domain.entities.MoviesPagination
 import com.ru.movieshows.movies.domain.entities.Review
 import com.ru.movieshows.movies.domain.entities.ReviewsPagination
@@ -28,7 +30,23 @@ class AdapterMoviesRepository @Inject constructor(
     private val reviewsPaginationMapper: ReviewsPaginationMapper,
     private val videoMapper: VideoMapper,
     private val reviewMapper: ReviewMapper,
+    private val movieSearchMapper: MovieSearchMapper,
 ) : MoviesRepository {
+
+    override suspend fun searchPagedMovies(
+        language: String,
+        query: String?,
+    ): Flow<PagingData<Movie>> {
+        return moviesDataRepository.searchPagedMovies(
+            language = language,
+            query = query,
+        ).map { pagingData ->
+            pagingData.map {
+                movieMapper.toMovie(it)
+            }
+        }
+    }
+
     override suspend fun getNowPlayingMovies(language: String, page: Int): List<Movie> {
         val moviesPaginationModel = moviesDataRepository.getNowPlayingMovies(
             language = language,
@@ -152,6 +170,21 @@ class AdapterMoviesRepository @Inject constructor(
             pagingData.map { reviewModel ->
                 reviewMapper.toReview(reviewModel)
             }
+        }
+    }
+
+    override suspend fun insertMovieSearch(movie: Movie, locale: String) {
+        val movieModel = movieMapper.toMovieModel(movie)
+        moviesDataRepository.insertMovieSearch(movieModel, locale)
+    }
+
+    override suspend fun deleteMovieSearch(id: Long) {
+        moviesDataRepository.deleteMovieSearch(id)
+    }
+
+    override fun getAllMoviesSearch(locale: String): Flow<List<MovieSearch>> {
+        return moviesDataRepository.getAllMoviesSearch(locale).map { list ->
+            list.map { movieSearchMapper.toMovieSearch(it) }
         }
     }
 

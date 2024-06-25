@@ -14,12 +14,15 @@ import com.ru.movieshows.data.tv_shows.models.SeasonModel
 import com.ru.movieshows.data.tv_shows.models.TvShowDetailsModel
 import com.ru.movieshows.data.tv_shows.models.TvShowModel
 import com.ru.movieshows.data.tv_shows.models.TvShowPaginationModel
+import com.ru.movieshows.data.tv_shows.room.TvShowSearchDao
+import com.ru.movieshows.data.tv_shows.room.TvShowSearchRoomEntity
 import com.ru.movieshows.data.tv_shows.sources.TvShowsSource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class TvShowsDataRepositoryImpl @Inject constructor(
     private val tvShowsSource: TvShowsSource,
+    private val tvShowSearchDao: TvShowSearchDao,
 ) : TvShowsDataRepository {
 
     override fun searchPagedMovies(
@@ -254,6 +257,19 @@ class TvShowsDataRepositoryImpl @Inject constructor(
             language = language,
             page = page,
         )
+    }
+
+    override suspend fun insertTvShowSearch(tvShowModel: TvShowModel, locale: String) {
+        val tvShowSearch = TvShowSearchRoomEntity(tvShowModel, locale)
+        return tvShowSearchDao.insertTvShowsSearch(tvShowSearch)
+    }
+
+    override suspend fun deleteTvShowSearch(id: Long) {
+        return tvShowSearchDao.deleteTvShowSearch(id)
+    }
+
+    override fun getAllTvShowsSearch(locale: String): Flow<List<TvShowSearchRoomEntity>> {
+        return tvShowSearchDao.getAllTvShowsSearch(locale)
     }
 
     companion object {

@@ -25,7 +25,7 @@ class PopularTvShowsViewModel @Inject constructor(
     }.cachedIn(viewModelScope)
 
     override fun onClickItem(data: TvShow) = debounce {
-        router.launchTvShowsDetails(data)
+        router.launchTvShowsDetails(data.id)
     }
 
 }

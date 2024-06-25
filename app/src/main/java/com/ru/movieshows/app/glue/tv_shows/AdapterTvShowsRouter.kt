@@ -6,12 +6,12 @@ import com.ru.movieshows.navigation.GlobalNavComponentRouter
 import com.ru.movieshows.season.presentation.PersonDetailsBottomSheetDialogFragment
 import com.ru.movieshows.tv_shows.TvShowsRouter
 import com.ru.movieshows.tv_shows.domain.entities.TvShow
-import com.ru.movieshows.tv_shows.domain.entities.Video
 import com.ru.movieshows.tv_shows.presentation.episode_details.EpisodeDetailsFragment
 import com.ru.movieshows.tv_shows.presentation.episodes.SeasonEpisodesFragment
 import com.ru.movieshows.tv_shows.presentation.reviews.TvShowReviewsFragment
 import com.ru.movieshows.tv_shows.presentation.season_details.SeasonDetailsBottomSheetDialogFragment
 import com.ru.movieshows.tv_shows.presentation.tv_show_details.TvShowDetailsFragment
+import com.ru.movieshows.video.presentation.VideoPlayerActivity
 import javax.inject.Inject
 
 class AdapterTvShowsRouter @Inject constructor(
@@ -22,9 +22,9 @@ class AdapterTvShowsRouter @Inject constructor(
         globalNavComponentRouter.launch(R.id.tvShowSearchFragment)
     }
 
-    override fun launchTvShowsDetails(tvShow: TvShow) {
-        val id = tvShow.id ?: return
-        val args = TvShowDetailsFragment.Screen(id)
+    override fun launchTvShowsDetails(id: String?) {
+        val tvShowId = id ?: return
+        val args = TvShowDetailsFragment.Screen(tvShowId)
         globalNavComponentRouter.launch(R.id.tvShowDetailsFragment, args)
     }
 
@@ -49,7 +49,13 @@ class AdapterTvShowsRouter @Inject constructor(
         globalNavComponentRouter.launch(R.id.tvShowReviewsFragment, args)
     }
 
-    override fun launchVideo(video: Video) {}
+    override fun launchVideo(key: String) {
+        val args = VideoPlayerActivity.Screen(key)
+        val useRootNavController = true
+
+        globalNavComponentRouter.launch(R.id.videoPlayerActivity, args, useRootNavController)
+
+    }
 
     override fun launchSeasonDetailsBottomSheetDialog(
         childFragmentManager: FragmentManager,

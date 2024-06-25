@@ -28,4 +28,8 @@
     <string name="episodes">Episodes</string>
     <string name="the_list_of_episodes_is_empty">The list of episodes is empty</string>
     <string name="crew">Crew</string>
+    <string name="search">Search</string>
+    <string name="the_search_yielded_no_results">The search yielded no results</string>
+    <string name="icon_description">Icon description</string>
+    <string name="history">History</string>
 </resources>

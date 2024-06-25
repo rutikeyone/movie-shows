@@ -8,7 +8,7 @@ interface TvShowsRouter {
 
     fun launchTvShowSearch()
 
-    fun launchTvShowsDetails(tvShow: TvShow)
+    fun launchTvShowsDetails(id: String?)
 
     fun launchOnTheAirTvShows()
 
@@ -19,8 +19,6 @@ interface TvShowsRouter {
     fun launchToEpisodes(seriesId: String, seasonNumber: String)
 
     fun launchToTvShowReviews(tvShowId: String?)
-
-    fun launchVideo(video: Video)
 
     fun launchSeasonDetailsBottomSheetDialog(
         childFragmentManager: FragmentManager,
@@ -42,6 +40,10 @@ interface TvShowsRouter {
     fun launchPersonDetailsDialog(
         id: String?,
         childFragmentManager: FragmentManager,
+    )
+
+    fun launchVideo(
+        key: String,
     )
 
 }

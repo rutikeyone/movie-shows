@@ -20,7 +20,7 @@ import com.ru.movieshows.navigation.GlobalNavComponentRouter
 import com.ru.movieshows.tv_shows.TvShowsRouter
 import com.ru.movieshows.tv_shows.domain.entities.Episode
 import com.ru.movieshows.tv_shows.domain.entities.Season
-import com.ru.movieshows.tv_shows.presentation.views.CrewAdapter
+import com.ru.movieshows.tv_shows.presentation.adapters.CrewAdapter
 import com.ru.movieshows.tvshows.databinding.FragmentEpisodeDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -117,8 +117,8 @@ class EpisodeDetailsFragment : BaseFragment() {
             binding.crewHeaderTextView.isVisible = true
 
         } else {
-            binding.crewHeaderTextView.isVisible = true
-            binding.episodeCrewRecyclerView.isVisible = true
+            binding.crewHeaderTextView.isVisible = false
+            binding.episodeCrewRecyclerView.isVisible = false
         }
     }
 
@@ -130,7 +130,7 @@ class EpisodeDetailsFragment : BaseFragment() {
             if (!overview.isNullOrEmpty()) {
                 overviewTextView.text = overview
             } else {
-                overviewHeaderTextView.isVisible = true
+                overviewHeaderTextView.isVisible = false
                 overviewTextView.isVisible = false
             }
         }

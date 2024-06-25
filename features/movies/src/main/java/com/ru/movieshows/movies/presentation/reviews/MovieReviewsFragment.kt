@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
@@ -22,7 +21,7 @@ import com.ru.movieshows.core.presentation.views.ItemDecoration
 import com.ru.movieshows.core.presentation.views.LoadStateAdapter
 import com.ru.movieshows.movies.R
 import com.ru.movieshows.movies.databinding.FragmentMovieReviewsBinding
-import com.ru.movieshows.movies.presentation.views.ReviewsPaginationAdapter
+import com.ru.movieshows.movies.presentation.adapters.ReviewsPaginationAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

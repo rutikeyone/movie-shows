@@ -8,10 +8,16 @@ import com.ru.movieshows.tv_shows.domain.entities.Season
 import com.ru.movieshows.tv_shows.domain.entities.TvShow
 import com.ru.movieshows.tv_shows.domain.entities.TvShowDetails
 import com.ru.movieshows.tv_shows.domain.entities.TvShowPagination
+import com.ru.movieshows.tv_shows.domain.entities.TvShowSearch
 import com.ru.movieshows.tv_shows.domain.entities.Video
 import kotlinx.coroutines.flow.Flow
 
 interface TvShowsRepository {
+
+    fun searchPagedMovies(
+        language: String,
+        query: String? = null,
+    ): Flow<PagingData<TvShow>>
 
     suspend fun getTrendingTvShows(language: String, page: Int): TvShowPagination
 
@@ -50,5 +56,11 @@ interface TvShowsRepository {
         seasonNumber: String,
         episodeNumber: Int,
     ): Episode
+
+    suspend fun insertTvShowSearch(tvShow: TvShow, locale: String)
+
+    suspend fun deleteTvShowSearch(id: Long)
+
+    fun getAllTvShowsSearch(locale: String): Flow<List<TvShowSearch>>
 
 }

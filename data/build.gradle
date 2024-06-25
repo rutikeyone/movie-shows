@@ -44,4 +44,11 @@ dependencies {
 
     implementation project(Modules.Core.Common)
     implementation project(Modules.Core.CommonImpl)
+
+    implementation Libs.Android.RoomRuntime
+    implementation Libs.Android.RoomKtx
+    annotationProcessor Libs.Android.RoomCompiler
+
+    kapt Libs.Android.RoomCompiler
+
 }

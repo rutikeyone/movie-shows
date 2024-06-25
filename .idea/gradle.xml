@@ -24,6 +24,7 @@
             <option value="$PROJECT_DIR$/features/sign-in" />
             <option value="$PROJECT_DIR$/features/splash" />
             <option value="$PROJECT_DIR$/features/tv_shows" />
+            <option value="$PROJECT_DIR$/features/video" />
             <option value="$PROJECT_DIR$/navigation" />
             <option value="$PROJECT_DIR$/wiring" />
           </set>

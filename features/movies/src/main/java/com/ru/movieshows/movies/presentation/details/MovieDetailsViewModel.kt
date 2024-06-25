@@ -99,11 +99,15 @@ class MovieDetailsViewModel @AssistedInject constructor(
     }
 
     private fun launchMovieDetails(movie: Movie) = debounce {
-        router.launchMovieDetails(movie)
+        router.launchMovieDetails(movie.id)
     }
 
     private fun launchVideo(video: Video) = debounce {
-        router.launchVideo(video)
+        val key = video.key
+
+        key?.let {
+            router.launchVideo(it)
+        }
     }
 
     @AssistedFactory

@@ -26,4 +26,8 @@
     <string name="min">min.</string>
     <string name="the_list_of_films_is_empty">The list of films is empty</string>
     <string name="the_list_of_reviews_is_empty">The list of reviews is empty</string>
+    <string name="the_search_yielded_no_results">The search yielded no results</string>
+    <string name="icon_description">Icon description</string>
+    <string name="search_history">Search history</string>
+    <string name="history">History</string>
 </resources>

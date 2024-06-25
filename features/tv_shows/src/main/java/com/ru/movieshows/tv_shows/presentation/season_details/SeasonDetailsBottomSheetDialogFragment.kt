@@ -1,24 +1,29 @@
 package com.ru.movieshows.tv_shows.presentation.season_details
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ru.movieshows.core.presentation.BaseScreen
+import com.ru.movieshows.core.presentation.R
 import com.ru.movieshows.core.presentation.viewBinding
 import com.ru.movieshows.core.presentation.viewModelCreator
 import com.ru.movieshows.core.presentation.views.observe
 import com.ru.movieshows.tv_shows.TvShowsRouter
 import com.ru.movieshows.tv_shows.domain.entities.Season
-import com.ru.movieshows.core.presentation.R
 import com.ru.movieshows.tvshows.databinding.FragmentSeasonBottomSheetDialogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -32,6 +37,7 @@ class SeasonDetailsBottomSheetDialogFragment : BottomSheetDialogFragment() {
         val seriesId: String,
     ) : BaseScreen
 
+    private var expandedHeight: Int? = null
 
     @Inject
     lateinit var factory: SeasonDetailsViewModel.Factory
@@ -63,7 +69,11 @@ class SeasonDetailsBottomSheetDialogFragment : BottomSheetDialogFragment() {
             com.ru.movieshows.core.theme.R.style.Base_Theme_MovieShows
         )
         return inflater.cloneInContext(contextThemeWrapper)
-            .inflate(com.ru.movieshows.tvshows.R.layout.fragment_season_bottom_sheet_dialog, container, false)
+            .inflate(
+                com.ru.movieshows.tvshows.R.layout.fragment_season_bottom_sheet_dialog,
+                container,
+                false
+            )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -205,6 +215,25 @@ class SeasonDetailsBottomSheetDialogFragment : BottomSheetDialogFragment() {
                 releaseDateValue.isVisible = false
             }
         }
+    }
+
+    private fun getBottomSheetDialogDefaultHeight(): Int {
+        return getWindowsHeight() * 90 / 100
+    }
+
+    @Suppress("DEPRECATION")
+    private fun getWindowsHeight(): Int {
+        val displayMetrics = DisplayMetrics()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val display = activity?.display
+            display?.getRealMetrics(displayMetrics)
+        } else {
+            val display = activity?.windowManager?.defaultDisplay
+            display?.getMetrics(displayMetrics)
+        }
+
+        return displayMetrics.heightPixels
     }
 
     companion object {

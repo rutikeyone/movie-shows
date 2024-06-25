@@ -21,4 +21,8 @@
     <string name="min">мин.</string>
     <string name="the_list_of_films_is_empty">Список фильмов пуст</string>
     <string name="the_list_of_reviews_is_empty">Список отзывов пуст</string>
+    <string name="the_search_yielded_no_results">Поиск не дал результатов</string>
+    <string name="icon_description">Описание иконки</string>
+    <string name="search_history">История поиска</string>
+    <string name="history">История</string>
 </resources>

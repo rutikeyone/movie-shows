@@ -27,4 +27,8 @@
     <string name="episodes">Эпизоды</string>
     <string name="the_list_of_episodes_is_empty">Список эпизодов пуст</string>
     <string name="crew">Команда</string>
+    <string name="search">Поиск</string>
+    <string name="the_search_yielded_no_results">Поиск не дал результатов</string>
+    <string name="icon_description">Описание иконки</string>
+    <string name="history">История</string>
 </resources>

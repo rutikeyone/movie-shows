@@ -5,7 +5,7 @@ import com.ru.movieshows.movies.domain.entities.Video
 
 interface MoviesRouter {
 
-    fun launchMovieDetails(movie: Movie)
+    fun launchMovieDetails(id: Int?)
 
     fun launchUpcomingMovies()
 
@@ -15,7 +15,7 @@ interface MoviesRouter {
 
     fun launchMovieSearch()
 
-    fun launchVideo(video: Video)
+    fun launchVideo(key: String)
 
     fun launchMovieReviews(id: String?)
 

@@ -1,32 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    tools:layout_width="120dp"
-    android:layout_gravity="center"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
     android:orientation="vertical"
-    tools:layout_marginEnd="@dimen/dp_16">
+    tools:layout_marginEnd="@dimen/dp_16"
+    tools:layout_width="120dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/imageCardView"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_190"
+        app:cardBackgroundColor="@android:color/transparent"
         app:cardCornerRadius="@dimen/dp_8"
-        app:cardElevation="0dp"
-        app:cardBackgroundColor="@android:color/transparent">
+        app:cardElevation="0dp">
 
         <ImageView
             android:id="@+id/videoImageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
+            android:contentDescription="@string/image_description"
             android:scaleType="centerCrop"
-            app:layout_constraintBottom_toTopOf="@id/videoNameTextView"
             android:src="@drawable/core_presentation_bg_poster_placeholder"
-            android:contentDescription="@string/image_description" />
+            app:layout_constraintBottom_toTopOf="@id/videoNameTextView" />
 
     </androidx.cardview.widget.CardView>
 
@@ -36,11 +35,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_4"
-        android:gravity="center_horizontal"
-        android:textAlignment="center"
         android:ellipsize="end"
-        android:maxLines="2"
+        android:gravity="center_horizontal"
         android:maxLength="45"
+        android:maxLines="2"
+        android:textAlignment="center"
         tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s." />
 
 </LinearLayout>

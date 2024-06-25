@@ -24,7 +24,6 @@ import com.ru.movieshows.navigation.presentation.TabsFragment
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import java.lang.IllegalStateException
 import java.util.regex.Pattern
 
 class NavComponentRouter @AssistedInject constructor(
@@ -154,7 +153,7 @@ class NavComponentRouter @AssistedInject constructor(
     fun switchToTabs(rootDestinations: List<NavTab>, startTabDestinationId: Int?) {
         navigationModeHolder.navigationMode = NavigationMode.Tabs(
             ArrayList(rootDestinations),
-            startTabDestinationId
+            startTabDestinationId,
         )
         switchRoot(destinationsProvider.provideTabsDestinationId())
         currentStartDestination = destinationsProvider.provideTabsDestinationId()
@@ -164,13 +163,14 @@ class NavComponentRouter @AssistedInject constructor(
         @IdRes destinationId: Int,
         args: java.io.Serializable? = null,
         root: Boolean,
-    ) {
+        options: NavOptions?,
+        ) {
         val navController = if (root) getRootNavController() else currentNavController
         if (args == null) {
             navController.navigate(
                 resId = destinationId,
                 args = null,
-                navOptions = navOptions,
+                navOptions = options ?: navOptions,
             )
         } else {
             navController.navigate(
@@ -178,7 +178,7 @@ class NavComponentRouter @AssistedInject constructor(
                 args = Bundle().apply {
                     putSerializable(ARG_SCREEN, args)
                 },
-                navOptions = navOptions,
+                navOptions = options ?: navOptions,
             )
         }
     }

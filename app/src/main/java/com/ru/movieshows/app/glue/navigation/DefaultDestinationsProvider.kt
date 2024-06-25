@@ -20,23 +20,27 @@ class DefaultDestinationsProvider @Inject constructor(
     }
 
     override fun provideNavigationGraphId(): Int {
-        return R.navigation.nav_graph
+        return R.navigation.app_graph
+    }
+
+    override fun provideTabNavigationGraphId(): Int {
+        return R.navigation.tabs_graph
     }
 
     override fun provideMainTabs(): List<NavTab> {
         return listOf(
             NavTab(
-                destinationId = R.id.moviesFragment,
+                destinationId = R.id.movies_tab,
                 title = R.string.movies,
                 iconRes = R.drawable.ic_movie,
             ),
             NavTab(
-                destinationId = R.id.tvShowsFragment,
+                destinationId = R.id.tv_show_tab,
                 title = R.string.tvs,
                 iconRes = R.drawable.ic_tv,
             ),
             NavTab(
-                destinationId = R.id.profileFragment,
+                destinationId = R.id.profile_tab,
                 title = R.string.profile,
                 iconRes = R.drawable.ic_profile,
             ),

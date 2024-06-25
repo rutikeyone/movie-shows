@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tabs_graph"
+    app:startDestination="@id/movies_tab">
+
+    <include app:graph="@navigation/movies_tab" />
+
+    <include app:graph="@navigation/tv_shows_tab" />
+
+    <include app:graph="@navigation/profile_tab" />
+
+</navigation>

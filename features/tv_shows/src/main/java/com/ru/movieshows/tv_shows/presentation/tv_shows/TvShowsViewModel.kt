@@ -85,7 +85,7 @@ class TvShowsViewModel @Inject constructor(
     }
 
     private fun launchTvShowDetails(tvShow: TvShow) = debounce {
-        router.launchTvShowsDetails(tvShow)
+        router.launchTvShowsDetails(tvShow.id)
     }
 
     fun launchAirTvShows() = debounce {

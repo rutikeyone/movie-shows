@@ -12,13 +12,15 @@ import com.ru.movieshows.data.movies.models.MoviesPaginationModel
 import com.ru.movieshows.data.movies.models.ReviewModel
 import com.ru.movieshows.data.movies.models.ReviewsPaginationModel
 import com.ru.movieshows.data.movies.models.VideoModel
+import com.ru.movieshows.data.movies.room.MovieSearchDao
+import com.ru.movieshows.data.movies.room.MovieSearchRoomEntity
 import com.ru.movieshows.data.movies.sources.MoviesSource
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class MoviesDataRepositoryImpl @Inject constructor(
     private val moviesSource: MoviesSource,
+    private val movieSearchDao: MovieSearchDao,
 ) : MoviesDataRepository {
 
     override fun searchPagedMovies(
@@ -246,6 +248,19 @@ class MoviesDataRepositoryImpl @Inject constructor(
             pageIndex = page,
             query = query,
         )
+    }
+
+    override suspend fun insertMovieSearch(movieModel: MovieModel, locale: String) {
+        val movieSearch = MovieSearchRoomEntity(movieModel, locale)
+        return movieSearchDao.insertMovieSearch(movieSearch)
+    }
+
+    override suspend fun deleteMovieSearch(id: Long) {
+        return movieSearchDao.deleteMovieSearch(id)
+    }
+
+    override fun getAllMoviesSearch(locale: String): Flow<List<MovieSearchRoomEntity>> {
+        return movieSearchDao.getAllMoviesSearch(locale)
     }
 
     private companion object {

@@ -15,6 +15,9 @@ interface DestinationsProvider {
     @NavigationRes
     fun provideNavigationGraphId(): Int
 
+    @NavigationRes
+    fun provideTabNavigationGraphId(): Int
+
     fun provideMainTabs(): List<NavTab>
 
     @IdRes

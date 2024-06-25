@@ -15,8 +15,8 @@ import com.ru.movieshows.core.presentation.viewBinding
 import com.ru.movieshows.core.presentation.views.observe
 import com.ru.movieshows.navigation.GlobalNavComponentRouter
 import com.ru.movieshows.tv_shows.domain.entities.TvShow
-import com.ru.movieshows.tv_shows.presentation.views.TvShowsAdapter
-import com.ru.movieshows.tv_shows.presentation.views.TvShowsViewPagerAdapter
+import com.ru.movieshows.tv_shows.presentation.adapters.TvShowsAdapter
+import com.ru.movieshows.tv_shows.presentation.adapters.TvShowsViewPagerAdapter
 import com.ru.movieshows.tvshows.R
 import com.ru.movieshows.tvshows.databinding.FragmentTvShowsBinding
 import dagger.hilt.android.AndroidEntryPoint

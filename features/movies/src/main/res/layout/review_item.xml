@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -25,23 +24,23 @@
                 android:id="@+id/avatarImageView"
                 android:layout_width="@dimen/dp_32"
                 android:layout_height="@dimen/dp_32"
-                tools:background="@color/darkBlueGray"
-                android:layout_marginBottom="@dimen/dp_12"
                 android:layout_marginEnd="@dimen/dp_12"
+                android:layout_marginBottom="@dimen/dp_12"
+                android:contentDescription="@string/image_description"
                 android:src="@drawable/core_presentation_bg_poster_placeholder"
                 app:shapeAppearanceOverlay="@style/MovieShows.ImageView.Rounded"
-                android:contentDescription="@string/image_description" />
+                tools:background="@color/darkBlueGray" />
 
             <TextView
                 android:id="@+id/reviewerHeaderTextView"
+                style="?attr/textAppearanceBody3"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/dp_32"
-                tools:text="Author"
                 android:ellipsize="end"
+                android:gravity="center_vertical"
                 android:maxLines="2"
-                style="?attr/textAppearanceBody3"
                 android:textStyle="bold"
-                android:gravity="center_vertical" />
+                tools:text="Author" />
 
         </LinearLayout>
 
@@ -50,28 +49,28 @@
             style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:rating="1"
+            android:layout_marginBottom="@dimen/dp_12"
             android:numStars="5"
-            android:layout_marginBottom="@dimen/dp_12"/>
+            tools:rating="1" />
 
         <com.webtoonscorp.android.readmore.ReadMoreTextView
             android:id="@+id/reviewTextView"
+            style="?attr/textAppearanceBody3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="@string/lorem_ipsum"
-            style="?attr/textAppearanceBody3"
-            app:readMoreMaxLines="5"
-            app:readMoreOverflow="ellipsis"
-            app:readMoreTextAppearance="?attr/textAppearanceBody3"
-            app:readMoreTextColor="?attr/accentTextColor"
-            app:readMoreTextStyle="bold"
+            android:textColorLink="?android:attr/textColorLink"
+            app:readLessText="@string/hide"
             app:readLessTextAppearance="?attr/textAppearanceBody3"
             app:readLessTextColor="?attr/accentTextColor"
             app:readLessTextStyle="bold"
-            app:readMoreToggleArea="none"
-            app:readLessText="@string/hide"
+            app:readMoreMaxLines="5"
+            app:readMoreOverflow="ellipsis"
             app:readMoreText="@string/read_more"
-            android:textColorLink="?android:attr/textColorLink"/>
+            app:readMoreTextAppearance="?attr/textAppearanceBody3"
+            app:readMoreTextColor="?attr/accentTextColor"
+            app:readMoreTextStyle="bold"
+            app:readMoreToggleArea="none"
+            tools:text="@string/lorem_ipsum" />
 
     </LinearLayout>
 

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.ru.movieshows.core.presentation.views.ResultView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.ru.movieshows.core.presentation.views.ResultView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -156,11 +155,11 @@
                 <Button
                     android:id="@+id/showAllUpcomingVideosButton"
                     style="?attr/textAppearanceBody3"
-                    android:layout_marginStart="@dimen/dp_8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
+                    android:layout_marginStart="@dimen/dp_8"
                     android:text="@string/show_all"
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@id/upcomingMoviesTextView" />
@@ -201,11 +200,11 @@
                 <Button
                     android:id="@+id/showAllPopularVideosButton"
                     style="?attr/textAppearanceBody3"
-                    android:layout_marginStart="@dimen/dp_8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
+                    android:layout_marginStart="@dimen/dp_8"
                     android:text="@string/show_all"
                     android:textStyle="bold" />
 
@@ -247,11 +246,11 @@
                 <Button
                     android:id="@+id/showAllTopRatedMoviesButton"
                     style="?attr/textAppearanceBody3"
-                    android:layout_marginStart="@dimen/dp_8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
+                    android:layout_marginStart="@dimen/dp_8"
                     android:text="@string/show_all"
                     android:textStyle="bold" />
 

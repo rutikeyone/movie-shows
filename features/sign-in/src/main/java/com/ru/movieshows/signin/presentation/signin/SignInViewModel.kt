@@ -64,7 +64,7 @@ class SignInViewModel @Inject constructor(
                     router.launchMain()
                 } else {
                     loadScreenStateFlow.value = Container.Success(Unit)
-                    collectGetAccountFlow()
+                    startToCollectGetAccountFlow()
                 }
             } catch (e: Exception) {
                 loadScreenStateFlow.value = Container.Error(e)
@@ -72,7 +72,7 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    private suspend fun collectGetAccountFlow() {
+    private suspend fun startToCollectGetAccountFlow() {
         getAccountFlowUseCase.getAccountFlow().collect { state ->
             val isProgress = state is Container.Pending
             val isSuccess = state is Container.Success

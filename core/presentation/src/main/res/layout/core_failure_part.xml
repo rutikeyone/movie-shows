@@ -9,7 +9,7 @@
     android:gravity="center">
 
     <TextView
-        android:id="@+id/failureTextHeader"
+        android:id="@+id/failureHeaderTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="Header"
@@ -20,7 +20,7 @@
         />
 
     <TextView
-        android:id="@+id/failureTextMessage"
+        android:id="@+id/failureMessageTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="message"

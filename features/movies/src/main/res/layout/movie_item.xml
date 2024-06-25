@@ -1,34 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_255"
     android:layout_gravity="center"
-    tools:layout_width="@dimen/dp_120"
-    tools:layout_marginEnd="@dimen/dp_16">
+    tools:layout_marginEnd="@dimen/dp_16"
+    tools:layout_width="@dimen/dp_120">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/discoverMovieImageCardView"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_190"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:cardBackgroundColor="@android:color/transparent"
         app:cardCornerRadius="@dimen/dp_8"
         app:cardElevation="0dp"
-        app:cardBackgroundColor="@android:color/transparent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/discoverMovieImageView"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
+            android:contentDescription="@string/image_description"
             android:scaleType="centerCrop"
-            android:layout_width="match_parent"
-            app:layout_constraintBottom_toTopOf="@id/movieNameTextView"
             android:src="@drawable/core_presentation_bg_poster_placeholder"
-            android:contentDescription="@string/image_description"/>
+            app:layout_constraintBottom_toTopOf="@id/movieNameTextView" />
 
     </androidx.cardview.widget.CardView>
 
@@ -43,8 +42,8 @@
         android:layout_marginBottom="@dimen/dp_4"
         android:ellipsize="end"
         android:gravity="center"
-        android:maxLines="2"
         android:maxLength="35"
+        android:maxLines="2"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,32 +55,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/movieNameTextView"
+        android:gravity="center"
         android:orientation="horizontal"
-        android:gravity="center">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/movieNameTextView">
 
         <RatingBar
             android:id="@+id/ratingBar"
             style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:rating="1"
-            android:numStars="1"/>
+            android:numStars="1"
+            android:rating="1" />
 
         <TextView
             android:id="@+id/ratingValueTextView"
             style="?attr/textAppearanceBody3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="3.3"
             android:layout_marginStart="@dimen/dp_4"
             android:layout_marginEnd="@dimen/dp_4"
-            android:textAlignment="center"
             android:ellipsize="end"
+            android:gravity="center"
             android:maxLines="1"
-            android:gravity="center"/>
+            android:textAlignment="center"
+            tools:text="3.3" />
 
     </LinearLayout>
 

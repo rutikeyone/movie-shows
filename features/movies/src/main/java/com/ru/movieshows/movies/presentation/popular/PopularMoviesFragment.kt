@@ -20,7 +20,7 @@ import com.ru.movieshows.core.presentation.views.ItemDecoration
 import com.ru.movieshows.core.presentation.views.LoadStateAdapter
 import com.ru.movieshows.movies.R
 import com.ru.movieshows.movies.databinding.FragmentPopularMoviesBinding
-import com.ru.movieshows.movies.presentation.views.MoviesPaginationAdapter
+import com.ru.movieshows.movies.presentation.adapters.MoviesPaginationAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -39,10 +39,13 @@ class PopularMoviesFragment : BaseFragment() {
 
     private val moviesSpanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
         override fun getSpanSize(position: Int): Int {
+            val oneItemSpan = 1
+            val spanCount = getSpanCount()
+
             val itemViewType = moviesPaginationAdapter.getItemViewType(position)
             val loadingItem = MoviesPaginationAdapter.LOADING_ITEM
             val isLoadingItem = itemViewType === loadingItem
-            return if (isLoadingItem) 1 else 3
+            return if (isLoadingItem) oneItemSpan else spanCount
         }
     }
 

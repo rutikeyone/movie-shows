@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
@@ -14,17 +13,15 @@ import com.ru.movieshows.core.Container
 import com.ru.movieshows.core.EmptyException
 import com.ru.movieshows.core.presentation.BaseFragment
 import com.ru.movieshows.core.presentation.BaseScreen
-import com.ru.movieshows.core.presentation.BaseViewModel
 import com.ru.movieshows.core.presentation.applyDecoration
 import com.ru.movieshows.core.presentation.args
 import com.ru.movieshows.core.presentation.viewBinding
 import com.ru.movieshows.core.presentation.viewModelCreator
 import com.ru.movieshows.core.presentation.views.ItemDecoration
 import com.ru.movieshows.core.presentation.views.LoadStateAdapter
-import com.ru.movieshows.tv_shows.presentation.views.ReviewsPaginationAdapter
+import com.ru.movieshows.tv_shows.presentation.adapters.ReviewsPaginationAdapter
 import com.ru.movieshows.tvshows.R
 import com.ru.movieshows.tvshows.databinding.FragmentTvShowReviewsBinding
-import dagger.Component.Factory
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

@@ -20,4 +20,15 @@ class TvShowMapper @Inject constructor(
         )
     }
 
+    fun toTvShowModel(tvShow: TvShow): TvShowModel {
+        return TvShowModel(
+            id = tvShow.id,
+            rating = tvShow.rating,
+            name = tvShow.name,
+            backDropPath = tvShow.backDropPath,
+            posterPath = tvShow.posterPath,
+            overview = tvShow.overview,
+        )
+    }
+
 }

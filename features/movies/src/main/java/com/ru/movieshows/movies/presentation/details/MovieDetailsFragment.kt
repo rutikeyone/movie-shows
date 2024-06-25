@@ -26,9 +26,9 @@ import com.ru.movieshows.movies.domain.entities.Movie
 import com.ru.movieshows.movies.domain.entities.MovieDetails
 import com.ru.movieshows.movies.domain.entities.Review
 import com.ru.movieshows.movies.domain.entities.Video
-import com.ru.movieshows.movies.presentation.views.DataAdapter
-import com.ru.movieshows.movies.presentation.views.MoviesAdapter
-import com.ru.movieshows.movies.presentation.views.VideosAdapter
+import com.ru.movieshows.movies.presentation.adapters.DataAdapter
+import com.ru.movieshows.movies.presentation.adapters.MoviesAdapter
+import com.ru.movieshows.movies.presentation.adapters.VideosAdapter
 import com.ru.movieshows.navigation.GlobalNavComponentRouter
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -272,11 +272,11 @@ class MovieDetailsFragment : BaseFragment() {
 
     private fun setupOverviewViews(movieDetails: MovieDetails) {
         val overview = movieDetails.overview
-        if (!overview.isNullOrEmpty()) {
+        if (!overview.isNullOrBlank()) {
             binding.overviewTextView.text = overview
         } else {
-            binding.overviewHeaderTextView.isVisible = true
-            binding.overviewTextView.isVisible = true
+            binding.overviewHeaderTextView.isVisible = false
+            binding.overviewTextView.isVisible = false
         }
     }
 
@@ -332,7 +332,7 @@ class MovieDetailsFragment : BaseFragment() {
 
     private fun setupPosterImageView(movieDetails: MovieDetails) {
         val loadPoster =
-            movieDetails.posterPath ?: R.drawable.core_presentation_bg_poster_placeholder
+            movieDetails.posterPath
 
         with(binding.moviePosterImageView) {
             Glide
@@ -348,7 +348,7 @@ class MovieDetailsFragment : BaseFragment() {
 
     private fun setupBackdropImageView(movieDetails: MovieDetails) {
         val loadBackDrop =
-            movieDetails.backDropPath ?: R.drawable.core_presentation_bg_backdrop_placeholder
+            movieDetails.backDropPath
 
         with(binding.movieBackDropImageView) {
             Glide
