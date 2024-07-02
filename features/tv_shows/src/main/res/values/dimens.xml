@@ -7,6 +7,7 @@
     <dimen name="dp_8">8dp</dimen>
     <dimen name="dp_32">32dp</dimen>
     <dimen name="dp_40">40dp</dimen>
+    <dimen name="dp_48">48dp</dimen>
     <dimen name="dp_100">100dp</dimen>
     <dimen name="dp_120">120dp</dimen>
     <dimen name="dp_140">140dp</dimen>

@@ -63,7 +63,7 @@ class MoviesAdapter(
         private fun bindLayoutParams(binding: MovieItemBinding) = with(binding.root) {
             val layoutParams = android.app.ActionBar.LayoutParams(
                 resources.getDimensionPixelOffset(R.dimen.dp_120),
-                resources.getDimensionPixelOffset(com.ru.movieshows.movies.R.dimen.dp_255),
+                resources.getDimensionPixelOffset(R.dimen.dp_255),
             )
             this.layoutParams = layoutParams
         }

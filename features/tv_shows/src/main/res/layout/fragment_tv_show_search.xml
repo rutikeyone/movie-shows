@@ -28,7 +28,7 @@
             android:layout_marginTop="@dimen/dp_8"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/tv_show_search_item" />
+            tools:listitem="@layout/search_history_item" />
 
     </LinearLayout>
 

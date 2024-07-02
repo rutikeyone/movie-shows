@@ -1,12 +1,17 @@
 package com.ru.movieshows.data.movies.room
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.ru.movieshows.data.movies.models.MovieModel
 
 
-@Entity(tableName = "movies_search")
+@Entity(
+    tableName = "movies_search",
+    indices = [
+        Index(value = ["movieId", "name", "locale"])
+    ],
+)
 data class MovieSearchRoomEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val movieId: Int?,

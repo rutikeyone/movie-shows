@@ -20,8 +20,9 @@
 
     <ImageView
         android:id="@+id/deleteImageView"
-        android:layout_width="@dimen/dp_32"
-        android:layout_height="@dimen/dp_32"
+        android:layout_width="@dimen/dp_48"
+        android:layout_height="@dimen/dp_48"
+        android:background="?android:attr/selectableItemBackground"
         android:scaleType="centerInside"
         android:src="@drawable/ic_delete"
         app:layout_constraintTop_toTopOf="@id/nameTextView"

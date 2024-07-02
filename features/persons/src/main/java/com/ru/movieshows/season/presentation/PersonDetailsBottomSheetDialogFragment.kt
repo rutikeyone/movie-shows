@@ -58,7 +58,8 @@ class PersonDetailsBottomSheetDialogFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val minHeight = resources.getDimensionPixelOffset(R.dimen.dp_240)
+        val minHeight =
+            resources.getDimensionPixelOffset(com.ru.movieshows.core.presentation.R.dimen.dp_240)
 
         with(binding.root) {
             setTryAgainListener { viewModel.toTryAgain() }

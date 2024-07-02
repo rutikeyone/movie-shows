@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ru.movieshows.movies.R
-import com.ru.movieshows.movies.databinding.MovieSearchItemBinding
+import com.ru.movieshows.movies.databinding.SearchHistoryItemBinding
 import com.ru.movieshows.movies.domain.entities.MovieSearch
 
 class MovieSearchListAdapter(
@@ -17,7 +17,7 @@ class MovieSearchListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieSearchHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = MovieSearchItemBinding.inflate(inflater, parent, false)
+        val binding = SearchHistoryItemBinding.inflate(inflater, parent, false)
         binding.root.setOnClickListener(this)
         binding.deleteImageView.setOnClickListener(this)
         return MovieSearchHolder(binding)
@@ -40,7 +40,7 @@ class MovieSearchListAdapter(
 
 
     class MovieSearchHolder(
-        private val binding: MovieSearchItemBinding,
+        private val binding: SearchHistoryItemBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bindView(movieSearch: MovieSearch) {

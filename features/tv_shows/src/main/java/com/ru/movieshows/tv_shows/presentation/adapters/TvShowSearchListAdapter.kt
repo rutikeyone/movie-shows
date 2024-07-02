@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ru.movieshows.tv_shows.domain.entities.TvShowSearch
 import com.ru.movieshows.tvshows.R
-import com.ru.movieshows.tvshows.databinding.TvShowSearchItemBinding
+import com.ru.movieshows.tvshows.databinding.SearchHistoryItemBinding
 
 class TvShowSearchListAdapter(
     private val listener: TvShowSearchListener,
@@ -16,7 +16,7 @@ class TvShowSearchListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TvShowSearchHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = TvShowSearchItemBinding.inflate(inflater, parent, false)
+        val binding = SearchHistoryItemBinding.inflate(inflater, parent, false)
         binding.root.setOnClickListener(this)
         binding.deleteImageView.setOnClickListener(this)
         return TvShowSearchHolder(binding)
@@ -38,7 +38,7 @@ class TvShowSearchListAdapter(
     }
 
     class TvShowSearchHolder(
-        private val binding: TvShowSearchItemBinding,
+        private val binding: SearchHistoryItemBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bindView(tvShowSearch: TvShowSearch) {

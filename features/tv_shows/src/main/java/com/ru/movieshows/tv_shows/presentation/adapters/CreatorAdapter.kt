@@ -8,9 +8,9 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.ru.movieshows.core.presentation.R
 import com.ru.movieshows.core.presentation.SimpleAdapterListener
 import com.ru.movieshows.tv_shows.domain.entities.Creator
-import com.ru.movieshows.core.presentation.R
 import com.ru.movieshows.tvshows.databinding.CreatorItemBinding
 
 class CreatorAdapter(
@@ -20,6 +20,7 @@ class CreatorAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
+
         val binding = CreatorItemBinding.inflate(inflater, parent, false)
         binding.root.setOnClickListener(this)
         return Holder(binding)
