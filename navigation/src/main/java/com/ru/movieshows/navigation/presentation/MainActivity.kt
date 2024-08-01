@@ -1,5 +1,8 @@
 package com.ru.movieshows.navigation.presentation
 
+import android.content.Intent
+import android.content.ServiceConnection
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +16,7 @@ import com.ru.movieshows.navigation.databinding.ActivityMainBinding
 import com.ru.movieshows.navigation.presentation.navigation.NavComponentRouter
 import com.ru.movieshows.navigation.presentation.navigation.RouterHolder
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.concurrent.Executor
 import javax.inject.Inject
 
 @AndroidEntryPoint
