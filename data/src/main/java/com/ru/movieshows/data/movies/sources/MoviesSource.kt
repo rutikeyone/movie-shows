@@ -1,7 +1,6 @@
 package com.ru.movieshows.data.movies.sources
 
 import com.ru.movieshows.data.movies.models.MovieDetailsModel
-import com.ru.movieshows.data.movies.models.MovieModel
 import com.ru.movieshows.data.movies.models.MoviesPaginationModel
 import com.ru.movieshows.data.movies.models.ReviewsPaginationModel
 import com.ru.movieshows.data.movies.models.VideoModel

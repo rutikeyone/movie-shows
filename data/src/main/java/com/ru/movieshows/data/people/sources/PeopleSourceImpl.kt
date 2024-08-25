@@ -22,4 +22,18 @@ class PeopleSourceImpl @Inject constructor(
         ).awaitResult { it }
     }
 
+    override suspend fun getPersonImages(
+        personId: String,
+    ): List<String>? {
+        return peopleService.getPersonImages(
+            personId = personId,
+        ).awaitResult { result ->
+            val stills = result.stills
+            val filePaths = stills?.map { item -> item.filePath }
+            val images = filePaths?.mapNotNull { it }
+
+            images
+        }
+    }
+
 }

@@ -3,6 +3,7 @@ package com.ru.movieshows.data.tv_shows.services
 import com.ru.movieshows.data.movies.models.ReviewsPaginationModel
 import com.ru.movieshows.data.movies.models.VideosModel
 import com.ru.movieshows.data.tv_shows.models.EpisodeModel
+import com.ru.movieshows.data.tv_shows.models.ImagesModel
 import com.ru.movieshows.data.tv_shows.models.SeasonModel
 import com.ru.movieshows.data.tv_shows.models.TvShowDetailsModel
 import com.ru.movieshows.data.tv_shows.models.TvShowPaginationModel
@@ -13,9 +14,14 @@ import retrofit2.http.Query
 
 interface TvShowsService {
 
+    @GET("tv/{series_id}/images")
+    fun getImagesByTvShowId(
+        @Path("series_id") id: String,
+    ): Call<ImagesModel>
+
     @GET("tv/{series_id}/videos")
     fun getVideosByTvShowId(
-        @Path("series_id") seriesId: String,
+        @Path("series_id") id: String,
         @Query("language") language: String,
     ): Call<VideosModel>
 
@@ -26,9 +32,30 @@ interface TvShowsService {
         @Query("language") language: String,
     ): Call<SeasonModel>
 
+    @GET("tv/{series_id}/season/{season_number}/videos")
+    fun getVideosBySeasonNumber(
+        @Path("series_id") seriesId: String,
+        @Query("language") language: String,
+        @Path("season_number") seasonNumber: String,
+    ): Call<VideosModel>
+
+    @GET("tv/{series_id}/season/{season_number}/images")
+    fun getImagesBySeasonNumber(
+        @Path("series_id") seriesId: String,
+        @Path("season_number") seasonNumber: String,
+        @Query("language") language: String,
+    ): Call<ImagesModel>
+
     @GET("tv/{series_id}/similar")
     fun getSimilarTvShows(
-        @Path("series_id") seriesId: String,
+        @Path("series_id") id: String,
+        @Query("language") language: String,
+        @Query("page") page: Int,
+    ): Call<TvShowPaginationModel>
+
+    @GET("tv/{series_id}/recommendations")
+    fun getRecommendationsByTvShows(
+        @Path("series_id") id: String,
         @Query("language") language: String,
         @Query("page") page: Int,
     ): Call<TvShowPaginationModel>
@@ -91,5 +118,19 @@ interface TvShowsService {
         @Query("page") page: Int,
     ): Call<ReviewsPaginationModel>
 
+    @GET("tv/{series_id}/season/{season_number}/episode/{episode_number}/videos")
+    fun getVideosByEpisodeId(
+        @Path("series_id") seriesId: String,
+        @Path("season_number") seasonNumber: String,
+        @Path("episode_number") episodeNumber: String,
+        @Query("language") language: String,
+    ): Call<VideosModel>
+
+    @GET("tv/{series_id}/season/{season_number}/episode/{episode_number}/images")
+    fun getImagesByEpisodeId(
+        @Path("series_id") seriesId: String,
+        @Path("season_number") seasonNumber: String,
+        @Path("episode_number") episodeNumber: String,
+    ): Call<ImagesModel>
 
 }

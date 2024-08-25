@@ -24,9 +24,13 @@ interface TvShowsDataRepository {
         seriesId: String,
     ): Flow<PagingData<ReviewModel>>
 
-    suspend fun getVideosById(
+    suspend fun getImagesByTvShowId(
+        id: String,
+    ): List<String>?
+
+    suspend fun getVideosByTvShowId(
         language: String = "en_US",
-        seriesId: String,
+        id: String,
     ): List<VideoModel>
 
     suspend fun getSeason(
@@ -35,10 +39,28 @@ interface TvShowsDataRepository {
         seasonNumber: String,
     ): SeasonModel
 
+    suspend fun getVideosBySeasonNumber(
+        language: String = "en_US",
+        seriesId: String,
+        seasonNumber: String,
+    ): List<VideoModel>
+
+    suspend fun getImagesBySeasonNumber(
+        language: String = "en_US",
+        seriesId: String,
+        seasonNumber: String,
+    ): List<String>?
+
     suspend fun getSimilarTvShows(
         language: String = "en_US",
         page: Int = 1,
-        seriesId: String,
+        id: String,
+    ): TvShowPaginationModel
+
+    suspend fun getRecommendationsTvShows(
+        language: String = "en_US",
+        page: Int = 1,
+        id: String,
     ): TvShowPaginationModel
 
     suspend fun getDiscoverTvShows(
@@ -80,7 +102,7 @@ interface TvShowsDataRepository {
 
     suspend fun getTrendingTvShows(
         language: String = "en_US",
-        page: Int = 1,
+        pageIndex: Int = 1,
     ): TvShowPaginationModel
 
     suspend fun getEpisodeByNumber(
@@ -93,13 +115,33 @@ interface TvShowsDataRepository {
     suspend fun getTvReviews(
         language: String = "en_US",
         seriesId: String,
-        page: Int,
+        pageIndex: Int,
     ): ReviewsPaginationModel
 
-    suspend fun insertTvShowSearch(tvShowModel: TvShowModel, locale: String)
+    suspend fun insertTvShowSearch(
+        tvShowModel: TvShowModel,
+        locale: String,
+    )
 
-    suspend fun deleteTvShowSearch(id: Long)
+    suspend fun deleteTvShowSearch(
+        id: Long,
+    )
 
-    fun getAllTvShowsSearch(locale: String): Flow<List<TvShowSearchRoomEntity>>
+    fun getAllTvShowsSearch(
+        locale: String,
+    ): Flow<List<TvShowSearchRoomEntity>>
+
+    suspend fun getVideosByEpisodeId(
+        language: String = "en_US",
+        seriesId: String,
+        seasonNumber: String,
+        episodeNumber: Int,
+    ): List<VideoModel>
+
+    suspend fun getImagesByEpisodeId(
+        seriesId: String,
+        seasonNumber: String,
+        episodeNumber: Int,
+    ): List<String>?
 
 }

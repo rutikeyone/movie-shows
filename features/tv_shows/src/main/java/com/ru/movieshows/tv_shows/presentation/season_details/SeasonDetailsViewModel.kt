@@ -2,8 +2,13 @@ package com.ru.movieshows.tv_shows.presentation.season_details
 
 import com.ru.movieshows.core.Container
 import com.ru.movieshows.core.presentation.BaseViewModel
+import com.ru.movieshows.core.presentation.SimpleAdapterListener
+import com.ru.movieshows.tv_shows.TvShowsRouter
+import com.ru.movieshows.tv_shows.domain.GetImagesBySeasonNumberUseCase
 import com.ru.movieshows.tv_shows.domain.GetSeasonUseCase
+import com.ru.movieshows.tv_shows.domain.GetVideosBySeasonNumberUseCase
 import com.ru.movieshows.tv_shows.domain.entities.Season
+import com.ru.movieshows.tv_shows.domain.entities.Video
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -13,17 +18,24 @@ import kotlinx.coroutines.launch
 class SeasonDetailsViewModel @AssistedInject constructor(
     @Assisted private val args: SeasonDetailsBottomSheetDialogFragment.Screen,
     private val getSeasonUseCase: GetSeasonUseCase,
+    private val getVideosBySeasonNumberUseCase: GetVideosBySeasonNumberUseCase,
+    private val getImagesBySeasonNumberUseCase: GetImagesBySeasonNumberUseCase,
+    private val router: TvShowsRouter,
 ) : BaseViewModel() {
 
-    private val loadScreenStateFlow = MutableStateFlow<Container<Season>>(Container.Pending)
+    private val loadScreenStateFlow = MutableStateFlow<Container<State>>(Container.Pending)
 
     val loadScreenStateLiveValue = loadScreenStateFlow
         .toLiveValue(Container.Pending)
 
+    val videoSimpleAdapterListener = SimpleAdapterListener<Video> {
+        launchVideo(it)
+    }
+
     init {
         viewModelScope.launch {
             languageTagFlow.collect { language ->
-                getSeasonData(language)
+                getData(language)
             }
         }
     }
@@ -31,12 +43,12 @@ class SeasonDetailsViewModel @AssistedInject constructor(
     fun toTryAgain() {
         debounce {
             viewModelScope.launch {
-                getSeasonData(languageTag)
+                getData(languageTag)
             }
         }
     }
 
-    private suspend fun getSeasonData(
+    private suspend fun getData(
         language: String,
         silentMode: Boolean = false,
     ) {
@@ -45,13 +57,31 @@ class SeasonDetailsViewModel @AssistedInject constructor(
         }
 
         try {
-            val result = getSeasonUseCase.execute(
+            val season = getSeasonUseCase.execute(
                 language = language,
                 seriesId = args.seriesId,
                 seasonNumber = args.seasonNumber,
             )
 
-            loadScreenStateFlow.value = Container.Success(result)
+            val videos = getVideosBySeasonNumberUseCase.execute(
+                language = language,
+                seriesId = args.seriesId,
+                seasonNumber = args.seasonNumber,
+            )
+
+            val images = getImagesBySeasonNumberUseCase.execute(
+                language = language,
+                seriesId = args.seriesId,
+                seasonNumber = args.seasonNumber,
+            )
+
+            val state = State(
+                season = season,
+                videos = videos,
+                images = images,
+            )
+
+            loadScreenStateFlow.value = Container.Success(state)
 
         } catch (e: Exception) {
             loadScreenStateFlow.value = Container.Error(e)
@@ -63,7 +93,7 @@ class SeasonDetailsViewModel @AssistedInject constructor(
 
         if (loadState is Container.Success) {
             viewModelScope.launch {
-                getSeasonData(
+                getData(
                     language = languageTag,
                     silentMode = true,
                 )
@@ -71,6 +101,20 @@ class SeasonDetailsViewModel @AssistedInject constructor(
         }
 
     }
+
+    private fun launchVideo(video: Video) {
+        val key = video.key
+
+        key?.let {
+            router.launchVideo(it)
+        }
+    }
+
+    data class State(
+        val season: Season,
+        val videos: List<Video>,
+        val images: List<String>?,
+    )
 
     @AssistedFactory
     interface Factory {

@@ -4,6 +4,13 @@ import com.ru.movieshows.season.domain.entities.Person
 
 interface PeopleRepository {
 
-    suspend fun getPersonDetails(personId: String, language: String): Person
+    suspend fun getPersonDetails(
+        personId: String,
+        language: String,
+    ): Person
+
+    suspend fun getPersonImages(
+        personId: String,
+    ): List<String>?
 
 }

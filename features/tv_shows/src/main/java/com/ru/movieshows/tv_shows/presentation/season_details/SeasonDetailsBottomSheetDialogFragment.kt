@@ -19,11 +19,14 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ru.movieshows.core.presentation.BaseScreen
 import com.ru.movieshows.core.presentation.R
+import com.ru.movieshows.core.presentation.applyDecoration
 import com.ru.movieshows.core.presentation.viewBinding
 import com.ru.movieshows.core.presentation.viewModelCreator
 import com.ru.movieshows.core.presentation.views.observe
 import com.ru.movieshows.tv_shows.TvShowsRouter
 import com.ru.movieshows.tv_shows.domain.entities.Season
+import com.ru.movieshows.tv_shows.domain.entities.Video
+import com.ru.movieshows.tv_shows.presentation.adapters.VideosAdapter
 import com.ru.movieshows.tvshows.databinding.FragmentSeasonBottomSheetDialogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -36,8 +39,6 @@ class SeasonDetailsBottomSheetDialogFragment : BottomSheetDialogFragment() {
         val seasonNumber: String,
         val seriesId: String,
     ) : BaseScreen
-
-    private var expandedHeight: Int? = null
 
     @Inject
     lateinit var factory: SeasonDetailsViewModel.Factory
@@ -94,7 +95,10 @@ class SeasonDetailsBottomSheetDialogFragment : BottomSheetDialogFragment() {
         viewModel.updateSeason()
     }
 
-    private fun setupViews(season: Season) {
+    private fun setupViews(state: SeasonDetailsViewModel.State) {
+
+        val season = state.season
+        val videos = state.videos
 
         with(binding.root) {
             this.minHeight = ConstraintLayout.LayoutParams.WRAP_CONTENT
@@ -108,7 +112,9 @@ class SeasonDetailsBottomSheetDialogFragment : BottomSheetDialogFragment() {
         setupCountEpisodesView(season)
         setupRatingBarView(season)
         setupEpisodeButtonView(season)
+        setupVideosView(videos)
     }
+
 
     private fun setupEpisodeButtonView(season: Season) {
         with(binding) {
@@ -123,6 +129,26 @@ class SeasonDetailsBottomSheetDialogFragment : BottomSheetDialogFragment() {
                 episodesButton.isVisible = false
             }
 
+        }
+    }
+
+    private fun setupVideosView(videos: List<Video>) {
+        if (videos.isNotEmpty()) {
+            val videoSimpleAdapterListener = viewModel.videoSimpleAdapterListener
+            val videoAdapter = VideosAdapter(videoSimpleAdapterListener).also {
+                it.submitData(videos)
+            }
+
+            with(binding.videosRecyclerView) {
+                this.adapter = videoAdapter
+                applyDecoration()
+            }
+
+        } else {
+            with(binding) {
+                videosTextView.visibility = View.GONE
+                videosRecyclerView.visibility = View.GONE
+            }
         }
     }
 

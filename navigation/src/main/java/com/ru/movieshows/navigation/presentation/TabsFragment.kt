@@ -6,10 +6,13 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.navigation.NavigationBarView
 import com.ru.movieshows.core.presentation.viewBinding
 import com.ru.movieshows.navigation.DestinationsProvider
 import com.ru.movieshows.navigation.R
@@ -40,6 +43,18 @@ class TabsFragment : Fragment(R.layout.fragment_tabs) {
 
     private val viewModel by viewModels<TabsViewModel>()
 
+    private val itemReselectedListener = NavigationBarView.OnItemReselectedListener { item ->
+        val navTab = destinationsProvider.provideMainTabs().firstOrNull { tab ->
+            item.itemId == tab.destinationId
+        }
+
+        val fragmentId = navTab?.fragmentId
+
+        fragmentId?.let {
+            navController.popBackStack(it, inclusive = false)
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -68,6 +83,7 @@ class TabsFragment : Fragment(R.layout.fragment_tabs) {
 
             with(binding.bottomNavigationView) {
                 setupWithNavController(navController)
+                setOnItemReselectedListener(itemReselectedListener)
 
                 viewModel.selectedItemId?.let {
                     selectedItemId = it
@@ -95,8 +111,7 @@ class TabsFragment : Fragment(R.layout.fragment_tabs) {
                 viewModel.selectedItemId = item.itemId
 
                 onNavDestinationSelected(
-                    item,
-                    navController
+                    item, navController
                 )
             }
         }
@@ -115,6 +130,11 @@ class TabsFragment : Fragment(R.layout.fragment_tabs) {
 
     override fun onDestroyView() {
         viewModel.navState = navController.saveState()
+
+        with(binding.bottomNavigationView) {
+            setOnItemReselectedListener(null)
+        }
+
         super.onDestroyView()
     }
 

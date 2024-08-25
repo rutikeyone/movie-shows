@@ -4,17 +4,21 @@ import com.ru.movieshows.tv_shows.domain.entities.Video
 import com.ru.movieshows.tv_shows.domain.repositories.TvShowsRepository
 import javax.inject.Inject
 
-class GetVideosByIdUseCase @Inject constructor(
+class GetVideosByEpisodeIdUseCase @Inject constructor(
     private val tvShowsRepository: TvShowsRepository,
 ) {
 
     suspend fun execute(
         language: String = "en_US",
-        id: String,
+        seriesId: String,
+        seasonNumber: String,
+        episodeNumber: Int,
     ): List<Video> {
-        return tvShowsRepository.getVideosByTvShowId(
+        return tvShowsRepository.getVideoByEpisodeId(
             language = language,
-            id = id,
+            seriesId = seriesId,
+            seasonNumber = seasonNumber,
+            episodeNumber = episodeNumber,
         )
     }
 

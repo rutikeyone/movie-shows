@@ -4,10 +4,14 @@ import com.ru.movieshows.core.Container
 import com.ru.movieshows.core.presentation.BaseViewModel
 import com.ru.movieshows.core.presentation.SimpleAdapterListener
 import com.ru.movieshows.tv_shows.TvShowsRouter
+import com.ru.movieshows.tv_shows.domain.GetImagesByTvShowIdUseCase
+import com.ru.movieshows.tv_shows.domain.GetRecommendationsTvShowsUseCase
+import com.ru.movieshows.tv_shows.domain.GetSimilarTvShowsUseCase
 import com.ru.movieshows.tv_shows.domain.GetTvShowDetailsUseCase
 import com.ru.movieshows.tv_shows.domain.GetTvShowReviewsUseCase
 import com.ru.movieshows.tv_shows.domain.GetVideosByIdUseCase
 import com.ru.movieshows.tv_shows.domain.entities.Review
+import com.ru.movieshows.tv_shows.domain.entities.TvShow
 import com.ru.movieshows.tv_shows.domain.entities.TvShowDetails
 import com.ru.movieshows.tv_shows.domain.entities.Video
 import dagger.assisted.Assisted
@@ -22,6 +26,9 @@ class TvShowDetailsViewModel @AssistedInject constructor(
     private val getTvShowReviewsUseCase: GetTvShowReviewsUseCase,
     private val getVideosByIdUseCase: GetVideosByIdUseCase,
     private val getTvShowDetailsUseCase: GetTvShowDetailsUseCase,
+    private val getImagesByTvShowIdUseCase: GetImagesByTvShowIdUseCase,
+    private val getSimilarTvShowsUseCase: GetSimilarTvShowsUseCase,
+    private val getRecommendationsTvShowsUseCase: GetRecommendationsTvShowsUseCase,
 ) : BaseViewModel() {
 
     private val loadScreenStateFlow = MutableStateFlow<Container<State>>(Container.Pending)
@@ -52,15 +59,36 @@ class TvShowDetailsViewModel @AssistedInject constructor(
         loadScreenStateFlow.value = Container.Pending
 
         try {
+            val firstPage = 1;
+
             val tvShowDetails = getTvShowDetailsUseCase.execute(language, args.id)
             val videos = getVideosByIdUseCase.execute(language, args.id)
             val reviewPagination = getTvShowReviewsUseCase.execute(language, args.id)
+            val images = getImagesByTvShowIdUseCase.execute(args.id)
+
+            val similarTvShowPagination = getSimilarTvShowsUseCase.execute(
+                language = language,
+                id = args.id,
+                page = firstPage,
+            )
+
+            val recommendationsTvShowsPagination = getRecommendationsTvShowsUseCase.execute(
+                language = language,
+                id = args.id,
+                page = firstPage,
+            )
+
             val reviews = reviewPagination.results
+            val similarTvShows = similarTvShowPagination.results
+            val recommendationsTvShows = recommendationsTvShowsPagination.results
 
             val state = State(
                 tvShowDetails = tvShowDetails,
                 videos = videos,
                 reviews = reviews,
+                images = images,
+                similarTvShows = similarTvShows,
+                recommendationsTvShows = recommendationsTvShows,
             )
 
             titleStateFlow.value = tvShowDetails.name ?: ""
@@ -100,6 +128,9 @@ class TvShowDetailsViewModel @AssistedInject constructor(
         val tvShowDetails: TvShowDetails,
         val videos: List<Video>,
         val reviews: List<Review>,
+        val images: List<String>?,
+        val similarTvShows: List<TvShow>,
+        val recommendationsTvShows: List<TvShow>,
     )
 
 }

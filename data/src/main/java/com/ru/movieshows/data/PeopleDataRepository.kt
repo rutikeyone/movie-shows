@@ -9,4 +9,8 @@ interface PeopleDataRepository {
         language: String = "en_US",
     ): PersonModel
 
+    suspend fun getPersonImages(
+        personId: String,
+    ): List<String>?
+
 }

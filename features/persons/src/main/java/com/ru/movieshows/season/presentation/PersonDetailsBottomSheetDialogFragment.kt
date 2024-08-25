@@ -75,7 +75,10 @@ class PersonDetailsBottomSheetDialogFragment : BottomSheetDialogFragment() {
         viewModel.updatePerson()
     }
 
-    private fun setupViews(person: Person?) {
+    private fun setupViews(state: PersonDetailsViewModel.State) {
+
+        val person = state.person
+        val images = state.images
 
         with(binding.root) {
             this.minHeight = ConstraintLayout.LayoutParams.WRAP_CONTENT

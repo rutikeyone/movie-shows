@@ -7,7 +7,6 @@ import com.ru.movieshows.data.movies.models.MovieDetailsModel
 import com.ru.movieshows.data.movies.models.MoviesPaginationModel
 import com.ru.movieshows.data.movies.models.ReviewsPaginationModel
 import com.ru.movieshows.data.movies.models.VideoModel
-import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class MoviesSourceImpl @Inject constructor(

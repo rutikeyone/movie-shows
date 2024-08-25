@@ -19,25 +19,69 @@ interface TvShowsRepository {
         query: String? = null,
     ): Flow<PagingData<TvShow>>
 
-    suspend fun getTrendingTvShows(language: String, page: Int): TvShowPagination
+    suspend fun getTrendingTvShows(
+        language: String,
+        page: Int,
+    ): TvShowPagination
 
-    suspend fun getOnTheAirTvShows(language: String, page: Int): TvShowPagination
+    suspend fun getOnTheAirTvShows(
+        language: String,
+        page: Int,
+    ): TvShowPagination
 
-    suspend fun getTopRatedTvShows(language: String, page: Int): TvShowPagination
+    suspend fun getTopRatedTvShows(
+        language: String,
+        page: Int,
+    ): TvShowPagination
 
-    suspend fun getPopularTvShows(language: String, page: Int): TvShowPagination
+    suspend fun getPopularTvShows(
+        language: String,
+        page: Int,
+    ): TvShowPagination
 
-    suspend fun getTvShowDetails(language: String, id: String): TvShowDetails
+    suspend fun getTvShowDetails(
+        language: String,
+        id: String,
+    ): TvShowDetails
 
-    suspend fun getVideosById(language: String, seriesId: String): List<Video>
+    suspend fun getImagesByTvShowId(
+        id: String,
+    ): List<String>?
 
-    suspend fun getTvShowReviews(language: String, seriesId: String, page: Int): ReviewPagination
+    suspend fun getVideosByTvShowId(
+        language: String,
+        id: String,
+    ): List<Video>
 
-    fun getPagedPopularTvShows(language: String): Flow<PagingData<TvShow>>
+    suspend fun getSimilarTvShows(
+        language: String,
+        id: String,
+        page: Int,
+    ): TvShowPagination
 
-    fun getPagedTopRatedTvShows(language: String): Flow<PagingData<TvShow>>
+    suspend fun getRecommendationsTvShows(
+        language: String,
+        id: String,
+        page: Int,
+    ): TvShowPagination
 
-    fun getPagedTheAirTvShows(language: String): Flow<PagingData<TvShow>>
+    suspend fun getTvShowReviews(
+        language: String,
+        seriesId: String,
+        page: Int,
+    ): ReviewPagination
+
+    fun getPagedPopularTvShows(
+        language: String,
+    ): Flow<PagingData<TvShow>>
+
+    fun getPagedTopRatedTvShows(
+        language: String,
+    ): Flow<PagingData<TvShow>>
+
+    fun getPagedTheAirTvShows(
+        language: String,
+    ): Flow<PagingData<TvShow>>
 
     fun getPagedTvShowReviews(
         language: String,
@@ -50,6 +94,18 @@ interface TvShowsRepository {
         seasonNumber: String,
     ): Season
 
+    suspend fun getVideosBySeasonNumber(
+        language: String,
+        seriesId: String,
+        seasonNumber: String,
+    ): List<Video>
+
+    suspend fun getImagesBySeasonNumber(
+        language: String,
+        seriesId: String,
+        seasonNumber: String,
+    ): List<String>?
+
     suspend fun getEpisodeByNumber(
         language: String,
         seriesId: String,
@@ -57,10 +113,30 @@ interface TvShowsRepository {
         episodeNumber: Int,
     ): Episode
 
-    suspend fun insertTvShowSearch(tvShow: TvShow, locale: String)
+    suspend fun getVideoByEpisodeId(
+        language: String,
+        seriesId: String,
+        seasonNumber: String,
+        episodeNumber: Int,
+    ): List<Video>
 
-    suspend fun deleteTvShowSearch(id: Long)
+    suspend fun insertTvShowSearch(
+        tvShow: TvShow,
+        locale: String,
+    )
 
-    fun getAllTvShowsSearch(locale: String): Flow<List<TvShowSearch>>
+    suspend fun deleteTvShowSearch(
+        id: Long,
+    )
+
+    fun getAllTvShowsSearch(
+        locale: String,
+    ): Flow<List<TvShowSearch>>
+
+    suspend fun getImagesByEpisodeId(
+        seriesId: String,
+        seasonNumber: String,
+        episodeNumber: Int,
+    ): List<String>?
 
 }

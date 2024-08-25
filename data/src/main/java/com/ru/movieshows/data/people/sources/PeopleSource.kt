@@ -9,4 +9,8 @@ interface PeopleSource {
         language: String,
     ): PersonModel
 
+    suspend fun getPersonImages(
+        personId: String,
+    ): List<String>?
+
 }

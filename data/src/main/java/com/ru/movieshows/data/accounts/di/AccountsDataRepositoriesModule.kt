@@ -1,7 +1,7 @@
 package com.ru.movieshows.data.accounts.di
 
 import com.ru.movieshows.data.AccountsDataRepository
-import com.ru.movieshows.data.accounts.AccountsRetrofitSourceImpl
+import com.ru.movieshows.data.accounts.AccountsDataRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,7 +15,7 @@ interface AccountsDataRepositoriesModule {
     @Binds
     @Singleton
     fun bindAccountsDataRepository(
-        accountsDataRepository: AccountsRetrofitSourceImpl,
+        accountsDataRepository: AccountsDataRepositoryImpl,
     ): AccountsDataRepository
 
 }

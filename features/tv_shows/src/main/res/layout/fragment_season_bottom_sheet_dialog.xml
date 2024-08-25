@@ -193,6 +193,28 @@
                 Lorem Ipsum has been the industry's standard dummy text ever since the 1500s. Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                 Lorem Ipsum has been the industry's standard dummy text ever since the 1500s." />
 
+            <TextView
+                android:id="@+id/videosTextView"
+                style="?attr/textAppearanceBody3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_12"
+                android:text="@string/videos"
+                android:textAllCaps="true"
+                android:textColor="?attr/primaryTextColor"
+                android:textStyle="bold"
+                android:visibility="visible"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/videosRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_230"
+                android:layout_marginTop="@dimen/dp_8"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:layout_height="wrap_content"
+                tools:listitem="@layout/video_item"/>
+
             <Button
                 android:id="@+id/episodesButton"
                 android:layout_width="match_parent"

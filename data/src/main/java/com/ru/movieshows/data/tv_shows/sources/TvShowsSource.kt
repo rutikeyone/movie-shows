@@ -9,8 +9,12 @@ import com.ru.movieshows.data.tv_shows.models.TvShowPaginationModel
 
 interface TvShowsSource {
 
-    suspend fun getVideosById(
-        seriesId: String,
+    suspend fun getImagesByTvShowId(
+        id: String,
+    ): List<String>?
+
+    suspend fun getVideosByTvShowId(
+        id: String,
         language: String,
     ): List<VideoModel>
 
@@ -20,11 +24,29 @@ interface TvShowsSource {
         language: String,
     ): SeasonModel
 
-    suspend fun getSimilarTvShows(
+    suspend fun getVideosBySeasonNumber(
         seriesId: String,
+        seasonNumber: String,
+        language: String,
+    ): List<VideoModel>
+
+    suspend fun getImagesBySeasonNumber(
+        seriesId: String,
+        seasonNumber: String,
+        language: String,
+    ): List<String>?
+
+    suspend fun getSimilarTvShows(
+        id: String,
         language: String,
         page: Int,
-    ) : TvShowPaginationModel
+    ): TvShowPaginationModel
+
+    suspend fun getRecommendationsTvShows(
+        id: String,
+        language: String,
+        page: Int,
+    ): TvShowPaginationModel
 
     suspend fun getDiscoverTvShows(
         language: String,
@@ -74,5 +96,18 @@ interface TvShowsSource {
         language: String,
         page: Int,
     ): ReviewsPaginationModel
+
+    suspend fun getVideosByEpisodeId(
+        language: String,
+        seriesId: String,
+        seasonNumber: String,
+        episodeNumber: Int,
+    ): List<VideoModel>
+
+    suspend fun getImagesByEpisodeId(
+        seriesId: String,
+        seasonNumber: String,
+        episodeNumber: Int,
+    ): List<String>?
 
 }

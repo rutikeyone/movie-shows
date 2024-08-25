@@ -20,7 +20,9 @@ import com.ru.movieshows.navigation.GlobalNavComponentRouter
 import com.ru.movieshows.tv_shows.TvShowsRouter
 import com.ru.movieshows.tv_shows.domain.entities.Episode
 import com.ru.movieshows.tv_shows.domain.entities.Season
+import com.ru.movieshows.tv_shows.domain.entities.Video
 import com.ru.movieshows.tv_shows.presentation.adapters.CrewAdapter
+import com.ru.movieshows.tv_shows.presentation.adapters.VideosAdapter
 import com.ru.movieshows.tvshows.databinding.FragmentEpisodeDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -40,10 +42,10 @@ class EpisodeDetailsFragment : BaseFragment() {
     lateinit var globalNavComponentRouter: GlobalNavComponentRouter
 
     @Inject
-    lateinit var factory: EpisodeDetailsViewModel.Factory
+    lateinit var router: TvShowsRouter
 
     @Inject
-    lateinit var router: TvShowsRouter
+    lateinit var factory: EpisodeDetailsViewModel.Factory
 
     private val binding by viewBinding<FragmentEpisodeDetailsBinding>()
 
@@ -52,13 +54,13 @@ class EpisodeDetailsFragment : BaseFragment() {
     }
 
     private val crewAdapter by lazy {
-        CrewAdapter() { crew ->
+        CrewAdapter { crew ->
             val id = crew.id?.toString()
 
             router.launchPersonDetailsDialog(id, childFragmentManager)
 
         }
-     }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -92,6 +94,7 @@ class EpisodeDetailsFragment : BaseFragment() {
 
         val season = state.season
         val episode = state.episode
+        val videos = state.videos
 
         setupBackdropImageView(season)
         setupPosterImageView(episode)
@@ -100,6 +103,27 @@ class EpisodeDetailsFragment : BaseFragment() {
         setupReleaseDateView(episode)
         setupOverviewView(episode)
         setupCrewView(episode)
+        setupVideosView(videos)
+    }
+
+    private fun setupVideosView(videos: List<Video>) {
+        if (videos.isNotEmpty()) {
+            val videoSimpleAdapterListener = viewModel.videoSimpleAdapterListener
+            val videoAdapter = VideosAdapter(videoSimpleAdapterListener).also {
+                it.submitData(videos)
+            }
+
+            with(binding.videosRecyclerView) {
+                this.adapter = videoAdapter
+                applyDecoration()
+            }
+
+        } else {
+            with(binding) {
+                videosTextView.visibility = View.GONE
+                videosRecyclerView.visibility = View.GONE
+            }
+        }
     }
 
     private fun setupCrewView(episode: Episode) {

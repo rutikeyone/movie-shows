@@ -9,20 +9,32 @@ import com.ru.movieshows.data.tv_shows.models.EpisodeModel
 import com.ru.movieshows.data.tv_shows.models.SeasonModel
 import com.ru.movieshows.data.tv_shows.models.TvShowDetailsModel
 import com.ru.movieshows.data.tv_shows.models.TvShowPaginationModel
-import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class TvShowsSourceImpl @Inject constructor(
     private val tvShowsService: TvShowsService,
-    private val gson: Gson,
+    gson: Gson,
 ) : TvShowsSource, BaseRetrofitSource(gson) {
 
-    override suspend fun getVideosById(
-        seriesId: String,
+    override suspend fun getImagesByTvShowId(
+        id: String,
+    ): List<String>? {
+        return tvShowsService.getImagesByTvShowId(id)
+            .awaitResult { result ->
+                val stills = result.stills
+                val filePaths = stills?.map { item -> item.filePath }
+                val images = filePaths?.mapNotNull { it }
+
+                images
+            }
+    }
+
+    override suspend fun getVideosByTvShowId(
+        id: String,
         language: String,
     ): List<VideoModel> {
         return tvShowsService.getVideosByTvShowId(
-            seriesId = seriesId,
+            id = id,
             language = language,
         ).awaitResult { it.results }
     }
@@ -39,13 +51,55 @@ class TvShowsSourceImpl @Inject constructor(
         ).awaitResult { it }
     }
 
-    override suspend fun getSimilarTvShows(
+    override suspend fun getVideosBySeasonNumber(
         seriesId: String,
+        seasonNumber: String,
+        language: String
+    ): List<VideoModel> {
+        return tvShowsService.getVideosBySeasonNumber(
+            seriesId = seriesId,
+            seasonNumber = seasonNumber,
+            language = language,
+        ).awaitResult { it.results }
+    }
+
+    override suspend fun getImagesBySeasonNumber(
+        seriesId: String,
+        seasonNumber: String,
+        language: String
+    ): List<String>? {
+        return tvShowsService.getImagesBySeasonNumber(
+            seriesId = seriesId,
+            seasonNumber = seasonNumber,
+            language = language,
+        ).awaitResult { result ->
+            val stills = result.stills
+            val filePaths = stills?.map { item -> item.filePath }
+            val images = filePaths?.mapNotNull { it }
+
+            images
+        }
+    }
+
+    override suspend fun getSimilarTvShows(
+        id: String,
         language: String,
         page: Int,
     ): TvShowPaginationModel {
         return tvShowsService.getSimilarTvShows(
-            seriesId = seriesId,
+            id = id,
+            language = language,
+            page = page,
+        ).awaitResult { it }
+    }
+
+    override suspend fun getRecommendationsTvShows(
+        id: String,
+        language: String,
+        page: Int,
+    ): TvShowPaginationModel {
+        return tvShowsService.getRecommendationsByTvShows(
+            id = id,
             language = language,
             page = page,
         ).awaitResult { it }
@@ -147,6 +201,40 @@ class TvShowsSourceImpl @Inject constructor(
             language = language,
             page = page,
         ).awaitResult { it }
+    }
+
+    override suspend fun getVideosByEpisodeId(
+        language: String,
+        seriesId: String,
+        seasonNumber: String,
+        episodeNumber: Int
+    ): List<VideoModel> {
+        return tvShowsService.getVideosByEpisodeId(
+            language = language,
+            seriesId = seriesId,
+            seasonNumber = seasonNumber,
+            episodeNumber = episodeNumber.toString(),
+        ).awaitResult { it.results }
+    }
+
+    override suspend fun getImagesByEpisodeId(
+        seriesId: String,
+        seasonNumber: String,
+        episodeNumber: Int
+    ): List<String>? {
+
+        return tvShowsService.getImagesByEpisodeId(
+            seriesId = seriesId,
+            seasonNumber = seasonNumber,
+            episodeNumber = episodeNumber.toString(),
+        ).awaitResult { result ->
+            val stills = result.stills
+            val filePaths = stills?.map { item -> item.filePath }
+            val images = filePaths?.mapNotNull { it }
+
+            images
+        }
+
     }
 
 }

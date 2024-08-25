@@ -12,7 +12,7 @@ interface AccountsDataRepository {
 
     suspend fun signIn(username: String, password: String): String
 
-    suspend fun logout()
+    fun logout()
 
     fun reload()
 

@@ -1,5 +1,6 @@
 package com.ru.movieshows.app.glue.persons.repositories
 
+import com.ru.movieshows.app.formatters.ImageUrlFormatter
 import com.ru.movieshows.app.glue.persons.mappers.PersonMapper
 import com.ru.movieshows.data.PeopleDataRepository
 import com.ru.movieshows.season.domain.entities.Person
@@ -10,6 +11,7 @@ import javax.inject.Inject
 class AdapterPeopleRepository @Inject constructor(
     private val peopleDataRepository: PeopleDataRepository,
     private val personMapper: PersonMapper,
+    private val imageUrlFormatter: ImageUrlFormatter,
 ) : PeopleRepository {
 
     override suspend fun getPersonDetails(personId: String, language: String): Person {
@@ -18,6 +20,14 @@ class AdapterPeopleRepository @Inject constructor(
             language = language,
         )
         return personMapper.toPerson(result)
+    }
+
+    override suspend fun getPersonImages(
+        personId: String,
+    ): List<String>? {
+        val result = peopleDataRepository.getPersonImages(personId)
+
+        return result?.map { imageUrlFormatter.toImageUrl(it) ?: "" }
     }
 
 }

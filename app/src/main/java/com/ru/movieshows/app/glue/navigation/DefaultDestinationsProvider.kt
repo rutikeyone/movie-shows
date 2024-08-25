@@ -32,16 +32,19 @@ class DefaultDestinationsProvider @Inject constructor(
             NavTab(
                 destinationId = R.id.movies_tab,
                 title = R.string.movies,
+                fragmentId = R.id.moviesFragment,
                 iconRes = R.drawable.ic_movie,
             ),
             NavTab(
                 destinationId = R.id.tv_show_tab,
                 title = R.string.tvs,
+                fragmentId = R.id.tvShowsFragment,
                 iconRes = R.drawable.ic_tv,
             ),
             NavTab(
                 destinationId = R.id.profile_tab,
                 title = R.string.profile,
+                fragmentId = R.id.profileFragment,
                 iconRes = R.drawable.ic_profile,
             ),
         )

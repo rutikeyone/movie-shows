@@ -1,20 +1,21 @@
 package com.ru.movieshows.tv_shows.domain
 
-import com.ru.movieshows.tv_shows.domain.entities.Video
 import com.ru.movieshows.tv_shows.domain.repositories.TvShowsRepository
 import javax.inject.Inject
 
-class GetVideosByIdUseCase @Inject constructor(
+class GetImagesBySeasonNumberUseCase @Inject constructor(
     private val tvShowsRepository: TvShowsRepository,
 ) {
 
     suspend fun execute(
         language: String = "en_US",
-        id: String,
-    ): List<Video> {
-        return tvShowsRepository.getVideosByTvShowId(
+        seriesId: String,
+        seasonNumber: String,
+    ): List<String>? {
+        return tvShowsRepository.getImagesBySeasonNumber(
             language = language,
-            id = id,
+            seriesId = seriesId,
+            seasonNumber = seasonNumber,
         )
     }
 
