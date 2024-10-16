@@ -1,7 +1,7 @@
 package com.ru.movieshows.app.glue.navigation.di
 
-import com.ru.movieshows.app.glue.navigation.repositories.AdapterMainFirstLaunchRepository
-import com.ru.movieshows.navigation.domain.repositories.MainFirstLaunchRepository
+import com.ru.movieshows.app.glue.navigation.repositories.AdapterFirstLaunchRepository
+import com.ru.movieshows.navigation.domain.repositories.FirstLaunchRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -13,7 +13,7 @@ interface MainRepositoriesModule {
 
     @Binds
     fun bindMainFirstLaunchRepository(
-        mainFirstLaunchRepository: AdapterMainFirstLaunchRepository,
-    ): MainFirstLaunchRepository
+        mainFirstLaunchRepository: AdapterFirstLaunchRepository,
+    ): FirstLaunchRepository
 
 }

@@ -1,6 +1,6 @@
 package com.ru.movieshows.navigation.domain.repositories
 
-interface MainFirstLaunchRepository {
+interface FirstLaunchRepository {
 
     fun getFirstLaunch(): Boolean
 

@@ -1,5 +1,9 @@
 package com.ru.movieshows.app.glue.navigation
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -11,11 +15,14 @@ import com.ru.movieshows.navigation.DestinationsProvider
 import com.ru.movieshows.navigation.presentation.NavComponentRouter
 import com.ru.movieshows.navigation.presentation.RouterHolder
 import com.ru.movieshows.app.*
+import com.ru.movieshows.core.presentation.LocaleObserver
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.Flow
+import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), RouterHolder, LoaderOverlay {
+class MainActivity() : AppCompatActivity(), RouterHolder, LoaderOverlay, LocaleObserver {
 
     @Inject
     lateinit var navComponentRouterFactory: NavComponentRouter.Factory
@@ -26,14 +33,23 @@ class MainActivity : AppCompatActivity(), RouterHolder, LoaderOverlay {
     @Inject
     lateinit var activityRequiredSet: Set<@JvmSuppressWildcards ActivityRequired>
 
-    private val viewModel by viewModels<MainViewModel>()
-
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
     private val navComponentRouter by lazy(LazyThreadSafetyMode.NONE) {
         navComponentRouterFactory.create(R.id.fragmentContainer)
+    }
+
+    private val viewModel by viewModels<MainViewModel>()
+
+    private val languageChangedBroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent != null && intent.action == Intent.ACTION_LOCALE_CHANGED) {
+                val locale = Locale.getDefault()
+                viewModel.notifyLocaleChanges(locale)
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,8 +66,13 @@ class MainActivity : AppCompatActivity(), RouterHolder, LoaderOverlay {
             it.onCreated(this)
         }
         onBackPressedDispatcher.addCallback(navComponentRouter.onBackPressedCallback)
-        lifecycle.addObserver(viewModel)
 
+        val intentFilter = IntentFilter(Intent.ACTION_LOCALE_CHANGED)
+        registerReceiver(languageChangedBroadcastReceiver, intentFilter)
+    }
+
+    override fun subscribe(): Flow<Locale> {
+        return viewModel.localeFlow
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -74,10 +95,12 @@ class MainActivity : AppCompatActivity(), RouterHolder, LoaderOverlay {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         navComponentRouter.onDestroy()
         activityRequiredSet.forEach { it.onDestroyed() }
-        lifecycle.removeObserver(viewModel)
+
+        unregisterReceiver(languageChangedBroadcastReceiver)
+
+        super.onDestroy()
     }
 
     override fun requireRouter(): NavComponentRouter {
@@ -95,5 +118,6 @@ class MainActivity : AppCompatActivity(), RouterHolder, LoaderOverlay {
             loaderOverlay.progressOverlay.isVisible = false
         }
     }
+
 
 }

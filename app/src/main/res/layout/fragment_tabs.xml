@@ -20,11 +20,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:name="androidx.navigation.fragment.NavHostFragment"
+        app:navGraph="@navigation/tabs_graph"
         app:layout_constraintTop_toBottomOf="@id/tabsToolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
-        app:graph="@navigation/tabs_graph"
         tools:layout="@layout/core_presentation_part_result"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

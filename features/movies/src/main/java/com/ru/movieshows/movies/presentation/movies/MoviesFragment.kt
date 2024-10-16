@@ -165,29 +165,33 @@ class MoviesFragment : BaseFragment() {
     private fun setupGenresTabsView(
         state: MoviesViewModel.State,
         index: Int?,
-    ) = with(binding) {
-        val genres = state.genres
+    ) {
+        with(binding) {
+            val genres = state.genres
 
-        if (genres.isNotEmpty()) {
+            genresTabLayout.removeAllTabs()
 
-            genres.forEach { genre ->
-                val tab = genresTabLayout.newTab().also { tab ->
-                    tab.contentDescription = genre.name
-                    tab.text = genre.name?.uppercase(Locale.ROOT)
+            if (genres.isNotEmpty()) {
+
+                genres.forEach { genre ->
+                    val tab = genresTabLayout.newTab().also { tab ->
+                        tab.contentDescription = genre.name
+                        tab.text = genre.name?.uppercase(Locale.ROOT)
+                    }
+                    genresTabLayout.addTab(tab)
                 }
-                genresTabLayout.addTab(tab)
+
+                genresTabLayout.removeOnTabSelectedListener(onTabSelectedListener)
+                genresTabLayout.addOnTabSelectedListener(onTabSelectedListener)
+
+                index?.let {
+                    genresTabLayout.getTabAt(it)?.select()
+                }
+
+            } else {
+                genresTabLayout.visibility = View.GONE
+                discoverMoviesConstraintLayout.visibility = View.GONE
             }
-
-            genresTabLayout.removeOnTabSelectedListener(onTabSelectedListener)
-            genresTabLayout.addOnTabSelectedListener(onTabSelectedListener)
-
-            index?.let {
-                genresTabLayout.getTabAt(it)?.select()
-            }
-
-        } else {
-            genresTabLayout.visibility = View.GONE
-            discoverMoviesConstraintLayout.visibility = View.GONE
         }
     }
 

@@ -3,40 +3,31 @@ package com.ru.movieshows.core.presentation
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.DimenRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import java.util.Locale
 
-open class BaseFragment: Fragment() {
+open class BaseFragment : Fragment() {
 
     protected val handler = Handler(Looper.getMainLooper())
 
     protected open val viewModel by viewModels<BaseViewModel>()
 
-    private val languageChangedBroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            if(intent != null && intent.action == Intent.ACTION_LOCALE_CHANGED) {
-                val locale = Locale.getDefault()
-                viewModel.updateLocale(locale)
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            localeObserver().subscribe().collect(viewModel)
         }
-    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        val intentFilter = IntentFilter(Intent.ACTION_LOCALE_CHANGED)
-        requireActivity().registerReceiver(languageChangedBroadcastReceiver, intentFilter)
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onDestroy() {
-        requireActivity().unregisterReceiver(languageChangedBroadcastReceiver)
-        super.onDestroy()
+        super.onViewCreated(view, savedInstanceState)
     }
 
     fun validateUsername(value: UsernameField): String? {
@@ -48,14 +39,15 @@ open class BaseFragment: Fragment() {
         return result
     }
 
-    fun validatePassword(value: PasswordField): String? = when(value.status) {
+    fun validatePassword(value: PasswordField): String? = when (value.status) {
         PasswordValidationStatus.EMPTY -> getString(R.string.core_presentation_empty_text_field)
         PasswordValidationStatus.INVALID -> getString(R.string.core_presentation_the_password_must_contain_more_than_second_characters)
         else -> null
     }
 
     fun hideKeyboard() {
-        val inputMethodService = view?.context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputMethodService =
+            view?.context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodService.hideSoftInputFromWindow(requireView().windowToken, 0)
     }
 

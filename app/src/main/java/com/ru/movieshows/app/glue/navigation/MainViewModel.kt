@@ -1,24 +1,18 @@
 package com.ru.movieshows.app.glue.navigation
 
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
-import com.ru.movieshows.core.presentation.BaseViewModel
-import com.ru.movieshows.navigation.domain.SetFirstLaunchUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
+import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import java.util.Locale
 import javax.inject.Inject
 
-@HiltViewModel
-class MainViewModel @Inject constructor(
-    private val setFirstLaunchUseCase: SetFirstLaunchUseCase,
-) : BaseViewModel(), DefaultLifecycleObserver {
+class MainViewModel @Inject constructor() : ViewModel() {
 
-    override fun onCreate(owner: LifecycleOwner) {
-        super.onCreate(owner)
-        setupFirstLaunch()
-    }
+    private val _localeFlow: MutableStateFlow<Locale> = MutableStateFlow(Locale.getDefault())
+    val localeFlow: StateFlow<Locale> = _localeFlow
 
-    private fun setupFirstLaunch() {
-        setFirstLaunchUseCase.setupLaunch()
+    fun notifyLocaleChanges(locale: Locale) {
+        _localeFlow.value = locale
     }
 
 }

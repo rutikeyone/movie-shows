@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -96,14 +97,6 @@ class TabsFragment : Fragment(R.layout.fragment_tabs), TreeNavigationFragment {
         }
 
         super.onPause()
-    }
-
-    override fun onDestroyView() {
-        with(binding.bottomNavigationView) {
-            setOnItemReselectedListener(null)
-        }
-
-        super.onDestroyView()
     }
 
     override fun tabsToolbar(): Toolbar {

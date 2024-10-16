@@ -20,7 +20,6 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
@@ -28,12 +27,13 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import androidx.lifecycle.asLiveData
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import java.util.Locale
 
-open class BaseViewModel : ViewModel() {
+open class BaseViewModel : ViewModel(), FlowCollector<Locale> {
 
     protected val viewModelScope: CoroutineScope by lazy {
         val errorHandler = CoroutineExceptionHandler { _, exception ->
@@ -157,13 +157,13 @@ open class BaseViewModel : ViewModel() {
         }
     }
 
-    fun updateLocale(locale: Locale) {
-        _languageTagFlow.value = locale.toLanguageTag()
-    }
-
     override fun onCleared() {
         super.onCleared()
         viewModelScope.cancel()
+    }
+
+    override suspend fun emit(value: Locale) {
+        _languageTagFlow.value = value.toLanguageTag()
     }
 
 }

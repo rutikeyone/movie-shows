@@ -35,8 +35,8 @@ interface TvShowsService {
     @GET("tv/{series_id}/season/{season_number}/videos")
     fun getVideosBySeasonNumber(
         @Path("series_id") seriesId: String,
-        @Query("language") language: String,
         @Path("season_number") seasonNumber: String,
+        @Query("language") language: String,
     ): Call<VideosModel>
 
     @GET("tv/{series_id}/season/{season_number}/images")
