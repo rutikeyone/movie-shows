@@ -3,7 +3,7 @@ package com.ru.movieshows.app.glue.navigation
 import android.content.Context
 import com.ru.movieshows.app.R
 import com.ru.movieshows.navigation.DestinationsProvider
-import com.ru.movieshows.navigation.presentation.navigation.NavTab
+import com.ru.movieshows.navigation.presentation.NavTab
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 

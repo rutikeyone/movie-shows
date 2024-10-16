@@ -1,29 +1,29 @@
-package com.ru.movieshows.navigation.presentation
+package com.ru.movieshows.app.glue.navigation
 
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 import com.ru.movieshows.core.presentation.viewBinding
 import com.ru.movieshows.navigation.DestinationsProvider
-import com.ru.movieshows.navigation.R
-import com.ru.movieshows.navigation.databinding.FragmentTabsBinding
-import com.ru.movieshows.navigation.presentation.navigation.NavigationMode
-import com.ru.movieshows.navigation.presentation.navigation.NavigationModeHolder
+import com.ru.movieshows.navigation.TreeNavigationFragment
+import com.ru.movieshows.navigation.presentation.NavigationMode
+import com.ru.movieshows.navigation.presentation.NavigationModeHolder
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import com.ru.movieshows.app.*
+import com.ru.movieshows.app.databinding.FragmentTabsBinding
 
 @AndroidEntryPoint
-class TabsFragment : Fragment(R.layout.fragment_tabs) {
+class TabsFragment : Fragment(R.layout.fragment_tabs), TreeNavigationFragment {
 
     @Inject
     lateinit var destinationsProvider: DestinationsProvider
@@ -41,8 +41,6 @@ class TabsFragment : Fragment(R.layout.fragment_tabs) {
     private val navController: NavController
         get() = navHost.navController
 
-    private val viewModel by viewModels<TabsViewModel>()
-
     private val itemReselectedListener = NavigationBarView.OnItemReselectedListener { item ->
         val navTab = destinationsProvider.provideMainTabs().firstOrNull { tab ->
             item.itemId == tab.destinationId
@@ -59,36 +57,15 @@ class TabsFragment : Fragment(R.layout.fragment_tabs) {
         super.onViewCreated(view, savedInstanceState)
 
         val tabsDestinations =
-            destinationsProvider.provideMainTabs().map { it.destinationId }.toSet()
+            destinationsProvider.provideMainTabs().map { it.fragmentId }.toSet()
         val appConfiguration = AppBarConfiguration(tabsDestinations)
         val navigationMode = navigationModeHolder.navigationMode
 
         if (navigationMode is NavigationMode.Tabs) {
-            val menu = binding.bottomNavigationView.menu
-
-            navigationMode.tabs.forEach { tab ->
-                val menuItem = menu.add(0, tab.destinationId, Menu.NONE, tab.title)
-                menuItem.setIcon(tab.iconRes)
-            }
-
-            val graph =
-                navController.navInflater.inflate(destinationsProvider.provideTabNavigationGraphId())
-
-            val startDestinationId =
-                navigationMode.startTabsDestinationId ?: navigationMode.tabs.first().destinationId
-
-            graph.setStartDestination(startDestinationId)
-
-            navController.graph = graph
 
             with(binding.bottomNavigationView) {
                 setupWithNavController(navController)
                 setOnItemReselectedListener(itemReselectedListener)
-
-                viewModel.selectedItemId?.let {
-                    selectedItemId = it
-                }
-
             }
 
 
@@ -96,11 +73,6 @@ class TabsFragment : Fragment(R.layout.fragment_tabs) {
                 setupWithNavController(navController, appConfiguration)
                 isTitleCentered = true
             }
-
-            viewModel.navState?.let {
-                navController.restoreState(it)
-            }
-
         }
     }
 
@@ -108,8 +80,6 @@ class TabsFragment : Fragment(R.layout.fragment_tabs) {
 
         with(binding.bottomNavigationView) {
             setOnItemSelectedListener { item ->
-                viewModel.selectedItemId = item.itemId
-
                 onNavDestinationSelected(
                     item, navController
                 )
@@ -129,13 +99,19 @@ class TabsFragment : Fragment(R.layout.fragment_tabs) {
     }
 
     override fun onDestroyView() {
-        viewModel.navState = navController.saveState()
-
         with(binding.bottomNavigationView) {
             setOnItemReselectedListener(null)
         }
 
         super.onDestroyView()
+    }
+
+    override fun tabsToolbar(): Toolbar {
+        return binding.tabsToolbar
+    }
+
+    override fun bottomNavigationView(): BottomNavigationView {
+        return binding.bottomNavigationView
     }
 
 }

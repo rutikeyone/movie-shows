@@ -1,22 +1,17 @@
-package com.ru.movieshows.navigation.presentation
+package com.ru.movieshows.app.glue.navigation
 
-import android.content.Intent
-import android.content.ServiceConnection
-import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import com.ru.movieshows.app.databinding.ActivityMainBinding
 import com.ru.movieshows.core.LoaderOverlay
-import com.ru.movieshows.core.presentation.observeStateOn
 import com.ru.movieshows.impl.ActivityRequired
 import com.ru.movieshows.navigation.DestinationsProvider
-import com.ru.movieshows.navigation.R
-import com.ru.movieshows.navigation.databinding.ActivityMainBinding
-import com.ru.movieshows.navigation.presentation.navigation.NavComponentRouter
-import com.ru.movieshows.navigation.presentation.navigation.RouterHolder
+import com.ru.movieshows.navigation.presentation.NavComponentRouter
+import com.ru.movieshows.navigation.presentation.RouterHolder
+import com.ru.movieshows.app.*
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.concurrent.Executor
 import javax.inject.Inject
 
 @AndroidEntryPoint

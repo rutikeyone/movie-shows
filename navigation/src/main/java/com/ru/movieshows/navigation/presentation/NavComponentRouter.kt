@@ -1,4 +1,4 @@
-package com.ru.movieshows.navigation.presentation.navigation
+package com.ru.movieshows.navigation.presentation
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -19,8 +19,7 @@ import androidx.navigation.navOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ru.movieshows.core.presentation.ARG_SCREEN
 import com.ru.movieshows.navigation.DestinationsProvider
-import com.ru.movieshows.navigation.databinding.FragmentTabsBinding
-import com.ru.movieshows.navigation.presentation.TabsFragment
+import com.ru.movieshows.navigation.TreeNavigationFragment
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -54,7 +53,7 @@ class NavComponentRouter @AssistedInject constructor(
         override fun onFragmentStarted(fm: FragmentManager, f: Fragment) {
             super.onFragmentStarted(fm, f)
             if (f is DialogFragment) fragmentDialogs++
-            if (f is NavHostFragment || f is TabsFragment) return
+            if (f is NavHostFragment || f is TreeNavigationFragment) return
             val currentNavController = f.findNavController()
 
             onNavControllerActivated(currentNavController)
@@ -164,7 +163,7 @@ class NavComponentRouter @AssistedInject constructor(
         args: java.io.Serializable? = null,
         root: Boolean,
         options: NavOptions?,
-        ) {
+    ) {
         val navController = if (root) getRootNavController() else currentNavController
         if (args == null) {
             navController.navigate(
@@ -275,17 +274,15 @@ class NavComponentRouter @AssistedInject constructor(
     }
 
     fun getToolbar(): Toolbar? {
-        val tabsFragment = currentFragment as? TabsFragment
-        val view = tabsFragment?.view ?: return null
-        val binding = FragmentTabsBinding.bind(view)
-        return binding.tabsToolbar
+        val tabsFragment = currentFragment as? TreeNavigationFragment
+        val view = tabsFragment?.tabsToolbar() ?: return null
+        return view
     }
 
     fun getBottomNavigationView(): BottomNavigationView? {
-        val tabsFragment = currentFragment as? TabsFragment
-        val view = tabsFragment?.view ?: return null
-        val binding = FragmentTabsBinding.bind(view)
-        return binding.bottomNavigationView
+        val tabsFragment = currentFragment as? TreeNavigationFragment
+        val view = tabsFragment?.bottomNavigationView() ?: return null
+        return view
     }
 
     @AssistedFactory

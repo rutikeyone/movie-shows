@@ -1,11 +1,10 @@
-package com.ru.movieshows.navigation.presentation
+package com.ru.movieshows.app.glue.navigation
 
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.ru.movieshows.core.presentation.BaseViewModel
 import com.ru.movieshows.navigation.domain.SetFirstLaunchUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel

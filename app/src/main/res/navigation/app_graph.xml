@@ -19,16 +19,10 @@
 
     <fragment
         android:id="@+id/tabsFragment"
-        android:name="com.ru.movieshows.navigation.presentation.TabsFragment"
+        android:name="com.ru.movieshows.app.glue.navigation.TabsFragment"
         android:label="fragment_tabs"
         tools:layout="@layout/fragment_tabs" />
 
-
-    <include app:graph="@navigation/movies_tab" />
-
-    <include app:graph="@navigation/tv_shows_tab" />
-
-    <include app:graph="@navigation/profile_tab" />
 
     <activity
         android:id="@+id/videoPlayerActivity"

@@ -4,7 +4,7 @@
     <application android:theme="@style/Base.Theme.MovieShows">
 
         <activity
-            android:name=".presentation.MainActivity"
+            android:name="com.ru.movieshows.app.glue.navigation.MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>

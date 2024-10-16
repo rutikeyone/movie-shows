@@ -1,4 +1,4 @@
-package com.ru.movieshows.navigation.presentation.navigation
+package com.ru.movieshows.navigation.presentation
 
 sealed class NavigationMode: java.io.Serializable {
 

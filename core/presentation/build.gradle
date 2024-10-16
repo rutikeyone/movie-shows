@@ -46,4 +46,6 @@ dependencies {
 
     implementation project(Modules.Core.Common)
     implementation project(Modules.Core.Theme)
+
+    implementation Libs.Stuff.MaterialishProgress
 }

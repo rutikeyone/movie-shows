@@ -8,9 +8,9 @@ import androidx.navigation.NavOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ru.movieshows.core.ActivityNotCreatedException
 import com.ru.movieshows.impl.ActivityRequired
-import com.ru.movieshows.navigation.presentation.navigation.NavComponentRouter
-import com.ru.movieshows.navigation.presentation.navigation.NavigationMode
-import com.ru.movieshows.navigation.presentation.navigation.RouterHolder
+import com.ru.movieshows.navigation.presentation.NavComponentRouter
+import com.ru.movieshows.navigation.presentation.NavigationMode
+import com.ru.movieshows.navigation.presentation.RouterHolder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine

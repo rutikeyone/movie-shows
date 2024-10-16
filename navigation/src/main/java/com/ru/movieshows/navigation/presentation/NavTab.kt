@@ -1,8 +1,7 @@
-package com.ru.movieshows.navigation.presentation.navigation
+package com.ru.movieshows.navigation.presentation
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
-import androidx.annotation.NavigationRes
 
 class NavTab(
     @IdRes val destinationId: Int,

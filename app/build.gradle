@@ -25,12 +25,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
+
     kotlinOptions {
         jvmTarget = '17'
+    }
+
+    buildFeatures {
+        viewBinding true
     }
 }
 
@@ -47,6 +53,8 @@ dependencies {
     implementation Libs.Android.AppCompat
     implementation Libs.Android.ConstraintLayout
     implementation Libs.Android.NavigationFragments
+    implementation Libs.Android.NavigationUI
+    implementation Libs.Android.NavigationRuntimeKtx
     implementation Libs.Android.PaginationRuntime
 
     implementation Libs.Google.Material

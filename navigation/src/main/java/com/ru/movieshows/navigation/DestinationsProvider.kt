@@ -2,7 +2,7 @@ package com.ru.movieshows.navigation
 
 import androidx.annotation.IdRes
 import androidx.annotation.NavigationRes
-import com.ru.movieshows.navigation.presentation.navigation.NavTab
+import com.ru.movieshows.navigation.presentation.NavTab
 
 interface DestinationsProvider {
 
