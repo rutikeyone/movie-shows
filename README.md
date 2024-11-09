@@ -17,8 +17,7 @@
 * `Glide`;
 * `Retrofit`.
 
-##
-Features
+## Features
 
 ## Screenshots
 
