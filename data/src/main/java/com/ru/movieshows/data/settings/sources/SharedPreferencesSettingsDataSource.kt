@@ -4,13 +4,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import androidx.core.content.edit
-import androidx.fragment.app.FragmentActivity
-import com.ru.movieshows.core.AppException
-import com.ru.movieshows.impl.ActivityRequired
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import java.lang.Exception
 import javax.inject.Inject
 
 class SharedPreferencesSettingsDataSource @Inject constructor(

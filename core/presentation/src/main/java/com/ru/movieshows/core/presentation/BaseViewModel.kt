@@ -30,10 +30,11 @@ import androidx.lifecycle.asLiveData
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.supervisorScope
 import java.lang.Exception
 import java.util.Locale
 
-open class BaseViewModel : ViewModel(), FlowCollector<Locale> {
+open class  BaseViewModel : ViewModel(), FlowCollector<Locale> {
 
     protected val viewModelScope: CoroutineScope by lazy {
         val errorHandler = CoroutineExceptionHandler { _, exception ->

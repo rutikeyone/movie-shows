@@ -11,6 +11,7 @@ import androidx.core.view.MenuProvider
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.tabs.TabLayout
 import com.ru.movieshows.core.Container
 import com.ru.movieshows.core.Core
@@ -26,6 +27,7 @@ import com.ru.movieshows.movies.presentation.adapters.MoviesAdapter
 import com.ru.movieshows.movies.presentation.adapters.MoviesViewPagerAdapter
 import com.ru.movieshows.navigation.GlobalNavComponentRouter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.util.Locale
 import javax.inject.Inject
 

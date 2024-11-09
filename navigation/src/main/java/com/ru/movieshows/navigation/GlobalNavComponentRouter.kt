@@ -5,15 +5,11 @@ import androidx.annotation.IdRes
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.NavOptions
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ru.movieshows.core.ActivityNotCreatedException
 import com.ru.movieshows.impl.ActivityRequired
 import com.ru.movieshows.navigation.presentation.NavComponentRouter
 import com.ru.movieshows.navigation.presentation.NavigationMode
 import com.ru.movieshows.navigation.presentation.RouterHolder
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -60,29 +56,9 @@ class GlobalNavComponentRouter @Inject constructor(
         }
     }
 
-    fun registerBackHandler(scope: CoroutineScope, handler: () -> Boolean) {
-        scope.launch {
-            suspendCancellableCoroutine { continuation ->
-                onBackPressHandlers.add(handler)
-                continuation.invokeOnCancellation {
-                    onBackPressHandlers.remove(handler)
-                }
-            }
-        }
-    }
-
-    fun pop(tabsFragment: Int) = invoke {
-        requireRealRouter().pop()
-    }
-
     fun getToolbar(): Toolbar? {
         val routerHolder = activity as? RouterHolder
         return routerHolder?.requireRouter()?.getToolbar()
-    }
-
-    fun getBottomNavigationView(): BottomNavigationView? {
-        val routerHolder = activity as? RouterHolder
-        return routerHolder?.requireRouter()?.getBottomNavigationView()
     }
 
     fun restart() = invoke {
@@ -100,14 +76,6 @@ class GlobalNavComponentRouter @Inject constructor(
         options: NavOptions? = null,
     ) = invoke {
         requireRealRouter().launch(destinationId, args, root, options)
-    }
-
-    fun pop(
-        @IdRes destinationId: Int,
-        inclusive: Boolean,
-        root: Boolean = false,
-    ) = invoke {
-        requireRealRouter().pop(destinationId, inclusive, root)
     }
 
     fun startAuth() = invoke {

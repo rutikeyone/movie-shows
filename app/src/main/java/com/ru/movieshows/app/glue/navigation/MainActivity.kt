@@ -8,6 +8,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import com.ru.movieshows.app.databinding.ActivityMainBinding
 import com.ru.movieshows.core.LoaderOverlay
 import com.ru.movieshows.impl.ActivityRequired
@@ -17,7 +18,9 @@ import com.ru.movieshows.navigation.presentation.RouterHolder
 import com.ru.movieshows.app.*
 import com.ru.movieshows.core.presentation.LocaleObserver
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import java.util.Locale
 import javax.inject.Inject
 
