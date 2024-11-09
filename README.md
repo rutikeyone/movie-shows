@@ -21,6 +21,14 @@
 
 ## Screenshots
 
+<p align="start">
+  <img src="https://github.com/rutikeyone/movie-shows/blob/multimodule/metadata/screenshots/1.png" width="225"/>
+  <img src="https://github.com/rutikeyone/movie-shows/blob/multimodule/metadata/screenshots/2.png" width="225"/>
+  <img src="https://github.com/rutikeyone/movie-shows/blob/multimodule/metadata/screenshots/3.png" width="225"/>
+  <img src="https://github.com/rutikeyone/movie-shows/blob/multimodule/metadata/screenshots/5.png" width="225"/>
+  <img src="https://github.com/rutikeyone/movie-shows/blob/multimodule/metadata/screenshots/6.png" width="225"/>
+</p>
+
 ## Video with an example of the work
 
 ## Building the Code
