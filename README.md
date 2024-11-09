@@ -7,11 +7,11 @@
 * `Kotlin`;
 * `Views`;
 * `Coroutines`;
-* `Clean-architectures`;
-* `Multi-modularity`;
-* `Navigation-component`;
-* `Jetpack-pagination`;
-* `Live-data`
+* `Clean-Architectures`;
+* `Multi-Modularity`;
+* `Navigation-Component`;
+* `Jetpack-Pagination`;
+* `Live-Data`
 * `Room`;
 * `Hilt`;
 * `Glide`;
