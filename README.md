@@ -7,10 +7,18 @@
 * `Kotlin`;
 * `Views`;
 * `Coroutines`;
-* `Clean-Architectures`;
+* `Clean-architectures`;
 * `Multi-modularity`;
+* `Navigation-component`;
+* `Jetpack-pagination`;
+* `Live-data`
+* `Room`;
+* `Hilt`;
+* `Glide`;
+* `Retrofit`.
 
-## Features
+##
+Features
 
 ## Screenshots
 
