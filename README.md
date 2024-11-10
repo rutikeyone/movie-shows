@@ -33,7 +33,8 @@
 * `Search tv shows`;
 * `Get tv show details`;
 * `Watch video by tv show`;
-* `Get list reviews by movie`; 
+* `Get list reviews by tv show`;
+*  ``
 
 ## Screenshots
 
