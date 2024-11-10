@@ -34,7 +34,11 @@
 * `Get tv show details`;
 * `Watch video by tv show`;
 * `Get list reviews by tv show`;
-*  ``
+* `Get season details by tv show `;
+* `Viewing episodes by season of the TV show`;
+* `Get episode details`;
+* `Get information about creators`;
+* `Get profile data`.
 
 ## Screenshots
 
