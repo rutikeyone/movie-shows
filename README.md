@@ -3,6 +3,10 @@
 
 ## Description 
 
+An Android client for The Movie DB
+
+This project is an Android app which displays data from [The Movie Database](https://www.themoviedb.org/) The Movie Database API.
+
 ## Technologies used
 * `Kotlin`;
 * `Views`;
