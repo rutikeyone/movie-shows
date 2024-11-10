@@ -27,6 +27,13 @@
 * `Search movies`;
 * `Get list reviews by movie`;
 * `Watch video by movie`;
+* `Get a list of TV shows that air in the next 7 days`;
+* `Get a list of TV shows ordered by rating`;
+* `Get a list of TV shows ordered by popularity`;
+* `Search tv shows`;
+* `Get tv show details`;
+* `Watch video by tv show`;
+* `Get list reviews by movie`; 
 
 ## Screenshots
 
