@@ -18,6 +18,15 @@
 * `Retrofit`.
 
 ## Features
+* `Authorization`;
+* `Get movies list by category`;
+* `Get list upcoming movies`;
+* `Get list popular movies`;
+* `Get list top rated movies`;
+* `Get movie details`;
+* `Search movies`;
+* `Get list reviews by movie`;
+* `Watch video by movie`;
 
 ## Screenshots
 
