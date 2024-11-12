@@ -11,7 +11,7 @@ This project is an Android app which displays data from [The Movie Database](htt
 * `Kotlin`;
 * `Android view`;
 * `Coroutines`;
-* `Clean architectures`;
+* `Clean architecture`;
 * `Multi modularity`;
 * `Navigation component`;
 * `Jetpack pagination`;
