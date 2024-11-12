@@ -9,13 +9,13 @@ This project is an Android app which displays data from [The Movie Database](htt
 
 ## Technologies used
 * `Kotlin`;
-* `Views`;
+* `Android view`;
 * `Coroutines`;
-* `Clean-Architectures`;
-* `Multi-Modularity`;
-* `Navigation-Component`;
-* `Jetpack-Pagination`;
-* `Live-Data`
+* `Clean architectures`;
+* `Multi modularity`;
+* `Navigation component`;
+* `Jetpack pagination`;
+* `Live data`
 * `Room`;
 * `Hilt`;
 * `Glide`;
